@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dagoma_XML_Config>
+  <Bloc_Initiliastion />
+
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des filaments
+;_______________________________________________________________________________________________________________________________________________________
+  <Bloc_Filaments>
+	<Filament name="PLA Filo3d">
+      <print_temperature>200</print_temperature>
+      <filament_diameter>1.75</filament_diameter>
+      <filament_flow>98</filament_flow>
+    </Filament>
+    <Filament name="PLA Cromatik">
+      <print_temperature>190</print_temperature>
+      <filament_diameter>1.74</filament_diameter>
+      <filament_flow>99</filament_flow>
+    </Filament>
+    <Filament name="PLA OctoFiber">
+      <print_temperature>200</print_temperature>
+      <filament_diameter>1.74</filament_diameter>
+      <filament_flow>100</filament_flow>
+    </Filament>
+    <Filament name="PLA PolyPlus">
+      <print_temperature>205</print_temperature>
+      <filament_diameter>1.75</filament_diameter>
+      <filament_flow>100</filament_flow>
+    </Filament>
+    <Filament name="PLA PolyMax">
+      <print_temperature>210</print_temperature>
+      <filament_diameter>1.75</filament_diameter>
+      <filament_flow>95</filament_flow>
+    </Filament>
+    <Filament name="PLA PolyFex">
+      <print_temperature>230</print_temperature>
+      <filament_diameter>1.75</filament_diameter>
+      <filament_flow>115</filament_flow>
+    </Filament>
+    <Filament name="Autre PLA">
+      <print_temperature>205</print_temperature>
+      <filament_diameter>1.75</filament_diameter>
+      <filament_flow>100</filament_flow>
+    </Filament>
+  </Bloc_Filaments>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des remplissages
+;_______________________________________________________________________________________________________________________________________________________
+  <Bloc_Remplissage label="Remplissage :">
+    <Remplissage name="Creux (Coque)">
+      <fill_density>0</fill_density>
+    </Remplissage>
+    <Remplissage name="Rempli">
+      <fill_density>17</fill_density>
+    </Remplissage>
+    <Remplissage name="Renforce">
+      <fill_density>33</fill_density>
+    </Remplissage>
+  </Bloc_Remplissage>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des vitesses
+;_______________________________________________________________________________________________________________________________________________________
+  <Bloc_Precision label="Qualité (épaisseur de couche) :">
+    <Precision name="Rapide (0.20 mm)">
+      <layer_height>0.2</layer_height>
+      <solid_layer_thickness>1</solid_layer_thickness>
+      <wall_thickness>0.8</wall_thickness>
+      <print_speed>80</print_speed> 
+      <temp_preci>0</temp_preci>
+      <travel_speed>150</travel_speed>
+      <bottom_layer_speed>17</bottom_layer_speed>
+      <infill_speed>80</infill_speed>
+      <inset0_speed>70</inset0_speed>
+      <insetx_speed>80</insetx_speed>
+    </Precision>
+    <Precision name="Standard (0.15 mm)">
+      <layer_height>0.15</layer_height>
+      <solid_layer_thickness>1.05</solid_layer_thickness>
+      <wall_thickness>1.2</wall_thickness>
+      <print_speed>45</print_speed>
+      <temp_preci>0</temp_preci>
+      <travel_speed>60</travel_speed>
+      <bottom_layer_speed>17</bottom_layer_speed>
+      <infill_speed>50</infill_speed>
+      <inset0_speed>40</inset0_speed>
+      <insetx_speed>45</insetx_speed>
+    </Precision>
+    <Precision name="Fin (0.10 mm)">
+      <layer_height>0.1</layer_height>
+      <solid_layer_thickness>1</solid_layer_thickness>
+      <wall_thickness>1.2</wall_thickness>
+      <print_speed>35</print_speed>
+      <temp_preci>0</temp_preci>
+      <travel_speed>50</travel_speed>
+      <bottom_layer_speed>15</bottom_layer_speed>
+      <infill_speed>40</infill_speed>
+      <inset0_speed>25</inset0_speed>
+      <insetx_speed>35</insetx_speed>
+    </Precision>
+    <Precision name="Filament Flexible">
+      <layer_height>0.1</layer_height>
+      <solid_layer_thickness>0.6</solid_layer_thickness>
+      <wall_thickness>1.2</wall_thickness>
+      <print_speed>20</print_speed>
+      <temp_preci>0</temp_preci>
+      <travel_speed>50</travel_speed>
+      <bottom_layer_speed>12</bottom_layer_speed>
+      <infill_speed>12</infill_speed>
+      <inset0_speed>16</inset0_speed>
+      <insetx_speed>20</insetx_speed>
+    </Precision>
+  </Bloc_Precision>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition du type de support et d'accroche
+;_______________________________________________________________________________________________________________________________________________________
+  <!--Bloc_Support label="Support pour impression">
+    <Support name="Aucun">
+      <support>None</support>
+    </Support>
+    <Support name="Touche le plateau">
+      <support>Touching buildplate</support>
+    </Support>
+    <Support name="Partout">
+      <support>Everywhere</support>
+    </Support>
+  </Bloc_Support-->
+
+  <Bloc_Support label="Support pour impression">
+    <Support name="Aucun">
+      <support>None</support>
+    </Support>
+    <Support name="Touche le plateau">
+      <support>Touching buildplate</support>
+    </Support>
+    <Support name="Partout">
+      <support>Everywhere</support>
+    </Support>
+  </Bloc_Support>
+  
+  <Bloc_Brim label="Amélioration de la surface d'adhésion">
+    <Brim_Enable>
+      <platform_adhesion>Brim</platform_adhesion>
+    </Brim_Enable>
+    <Brim_Disable>
+      <platform_adhesion>None</platform_adhesion>
+    </Brim_Disable>
+  </Bloc_Brim>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition de l'offset machine
+;_______________________________________________________________________________________________________________________________________________________
+  <Bloc_Offset label="Offset en mm : (réglage de la 1ère couche)">
+  </Bloc_Offset>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des surface d'impression
+;_______________________________________________________________________________________________________________________________________________________
+  <!--Bloc_Printing_surface label="Surface d'Impression :">
+    <Printing_surface name="Scotch 3M bleu">
+      <printing_surface_height>0.75</printing_surface_height>
+    </Printing_surface>
+    <Printing_surface name="Buildtak">
+      <printing_surface_height>0.5</printing_surface_height>
+    </Printing_surface>
+    <Printing_surface name="Autre">
+      <printing_surface_height>0.0</printing_surface_height>
+    </Printing_surface>
+  </Bloc_Printing_surface-->
+;_______________________________________________________________________________________________________________________________________________________
+;Definition de l'utilisation du palpeur
+;_______________________________________________________________________________________________________________________________________________________
+  <Bloc_Palpeur label="Utilisation du Palpeur">
+    <Palpeur_Enable>
+      <palpeur>Palpeur</palpeur>
+    </Palpeur_Enable>
+    <Palpeur_Disable>
+      <palpeur>None</palpeur>
+    </Palpeur_Disable>
+  </Bloc_Palpeur>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des caracteristiques mecaniques
+;_______________________________________________________________________________________________________________________________________________________
+  <Discovery200>
+    <machine_name>Discovery</machine_name>
+    <machine_type>Discovery</machine_type>
+    <machine_width>203</machine_width>
+    <machine_depth>211</machine_depth>
+    <machine_height>211</machine_height>
+    <extruder_amount>1</extruder_amount>
+    <has_heated_bed>False</has_heated_bed>
+    <machine_center_is_zero>False</machine_center_is_zero>
+    <machine_shape>Square</machine_shape>
+    <nozzle_size>0.4</nozzle_size>
+    <extruder_head_size_min_x>15</extruder_head_size_min_x>
+    <extruder_head_size_min_y>40</extruder_head_size_min_y>
+    <extruder_head_size_max_x>15</extruder_head_size_max_x>
+    <extruder_head_size_max_y>115</extruder_head_size_max_y>
+    <extruder_head_size_height>35</extruder_head_size_height>
+    <gcode_flavor>DiscoGCode</gcode_flavor>
+    <retraction_enable>True</retraction_enable>
+  </Discovery200>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition de la retraction et de la premiere couche
+;_______________________________________________________________________________________________________________________________________________________
+  <Config_Adv>
+    <retraction_speed>50</retraction_speed>
+    <retraction_amount>3.5</retraction_amount>
+    <bottom_thickness>0.26</bottom_thickness>
+    <layer0_width_factor>100</layer0_width_factor>
+    <object_sink>0</object_sink>
+    <cool_min_layer_time>10</cool_min_layer_time>
+    <fan_enabled>True</fan_enabled>
+  </Config_Adv>
+
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des caracteristiques du support
+;_______________________________________________________________________________________________________________________________________________________
+  <Config_Expert>
+    <retraction_min_travel>1.5</retraction_min_travel>
+    <retraction_combing>True</retraction_combing>
+    <retraction_minimal_extrusion>0.02</retraction_minimal_extrusion>
+    <retraction_hop>0</retraction_hop>
+    <skirt_line_count>2</skirt_line_count>
+    <skirt_gap>3</skirt_gap>
+    <skirt_minimal_length>150</skirt_minimal_length>
+    <fan_full_height>0.5</fan_full_height>
+    <fan_speed>50</fan_speed>
+    <fan_speed_max>100</fan_speed_max>
+    <cool_min_feedrate>20</cool_min_feedrate>
+    <cool_head_lift>False</cool_head_lift>
+    <solid_top>True</solid_top>
+    <solid_bottom>True</solid_bottom>
+    <fill_overlap>25</fill_overlap>
+    <support_type>Lines</support_type>
+    <support_angle>50</support_angle>
+    <support_fill_rate>20</support_fill_rate>
+    <support_xy_distance>0.7</support_xy_distance>
+    <support_z_distance>0.15</support_z_distance>
+    <spiralize>False</spiralize>
+    <simple_mode>False</simple_mode>
+    <brim_line_count>10</brim_line_count>
+    <raft_margin>5</raft_margin>
+    <raft_line_spacing>3</raft_line_spacing>
+    <raft_base_thickness>0.3</raft_base_thickness>
+    <raft_base_linewidth>1</raft_base_linewidth>
+    <raft_interface_thickness>0.27</raft_interface_thickness>
+    <raft_interface_linewidth>0.4</raft_interface_linewidth>
+    <raft_airgap>0.22</raft_airgap>
+    <raft_surface_layers>2</raft_surface_layers>
+    <fix_horrible_union_all_type_a>True</fix_horrible_union_all_type_a>
+    <fix_horrible_union_all_type_b>False</fix_horrible_union_all_type_b>
+    <fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
+    <fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
+  </Config_Expert>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition de l'interface graphique
+;_______________________________________________________________________________________________________________________________________________________
+  <Config_Preferences>
+    <model_colour>#FF9B00</model_colour>
+    <filament_physical_density>1270</filament_physical_density>
+    <filament_cost_kg>46</filament_cost_kg>
+    <filament_cost_meter>0.175</filament_cost_meter>
+    <auto_detect_sd>True</auto_detect_sd>
+    <check_for_updates>False</check_for_updates>
+    <submit_slice_information>False</submit_slice_information>
+  </Config_Preferences>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des G-codes de demarrage et de fin
+;_______________________________________________________________________________________________________________________________________________________
+  <GCODE>
+    <Gstart>
+;xml_config.xml du 10/07/2016 - PC avec choix Palpeur et Surfaces
+;Genere par Cura-by-Dagoma pour Discovery200 avec Buse S1 ou E3Dv6
+;Basic settings: Layer height: {layer_height} Walls: {wall_thickness} Fill: {fill_density}
+;Print time: {print_time}
+;Filament used: {filament_amount}m {filament_weight}g
+;Filament cost: {filament_cost}
+;M190 S{print_bed_temperature} ;Uncomment to add your own bed temperature line
+;M109 S{print_temperature} ;Uncomment to add your own temperature line
+G91		;relative positioning
+G1 Z7
+G90		;absolute positioning
+G28 X
+M106 S255
+M109 S180			; wait Hotend temperature
+M104 S{print_temperature}	; set Hotend temperature
+;M190 S60 			; wait Bed temperature
+G28 X
+G28 Y
+G01 X20 Y100
+G28 Z
+;bloc palpeur
+;{palpeur}
+;bloc Offset
+G92 Z10
+G91		;relative positioning  
+G1 Z{z_offset}
+G90 
+G92 Z0
+G1 Z3
+G1 X100 Y200 F3000
+G1 Z2
+M104 S{print_temperature}
+M82 ;set extruder to absolute mode
+M107 ;start with the fan off
+G92 E0 ;zero the extruded length
+G1 F200 E3 ;extrude 10mm of feed stock
+G92 E0 ;zero the extruded length again
+G1 F{travel_speed}
+    </Gstart>
+    <Gend>
+M104 S0		;extruder heater off
+M106 S255		;start fan full power
+M140 S0		;heated bed heater off (if you have it)
+G91		;relative positioning
+G1 E-1 F300	;retract the filament a bit before lifting the nozzle, to release some of the pressure
+G1 Z+3 E-2 F{travel_speed}	;move Z up a bit and retract filament even more
+G28 X0 Y0	;move X/Y to min endstops, so the head is out of the way;
+G4 P360000
+M908		;stop fan
+M84		;shut down motors
+;Genere par Cura-by-Dagoma pour Discovery200 avec Buse S1 ou E3Dv6
+;{profile_string}
+    </Gend>
+  </GCODE>
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des textes d'installation
+;_______________________________________________________________________________________________________________________________________________________
+  <Text>
+    <FirstInfoPage title="Première Utilisation">
+      <Line1>Bienvenue, merci d'avoir choisi Cura By dagoma !</Line1>
+      <Line2>Nous allons maintenant vous accompagner tout au long de la configuration ainsi que la première utilisation de votre imprimante 3D.</Line2>
+    </FirstInfoPage>
+    <MachineSelectPage title="Votre Machine">
+      <Line1>Quel modèle d'imprimantes 3D possédez-vous ?</Line1>
+    </MachineSelectPage>
+    <DiscoveryPage title="Configuration de votre Discovery 200">
+      <Line1>Encore une fois, toute l’équipe dagoma vous remercie de votre confiance.</Line1>
+      <Line2>Votre logiciel Cura By Dagoma est maintenant prêt à être utilisé avec votre Discovery 200.</Line2>
+      <Line3>Si vous avez des questions, des remarques ou des suggestions, nous sommes à votre écoute : www.dagoma.fr</Line3>
+      <Line4>À très bientôt sur notre site : www.dagoma.fr</Line4>
+      <Line5>Et d'ici là, nous vous souhaitons de très bonnes impressions !</Line5>
+    </DiscoveryPage>
+  </Text>
+</Dagoma_XML_Config>
