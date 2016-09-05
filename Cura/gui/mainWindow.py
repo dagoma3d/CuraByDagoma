@@ -1218,12 +1218,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	#
 	def Init_Palpeur_chbx(self):
-		if profile.getProfileSetting('palpeur_enable') == 'Palpeur':
-			self.palpeur_chbx.SetValue(True)
+		#if profile.getProfileSetting('palpeur_enable') == 'Palpeur':
+		#	self.palpeur_chbx.SetValue(True)
 
-		else :
-			self.palpeur_chbx.SetValue(False)
-			
+		#else :
+		#	self.palpeur_chbx.SetValue(False)
+		self.palpeur_chbx.SetValue(True)	
 		self.palpeur_chbx.Refresh()
 
 
