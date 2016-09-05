@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+mkvirtualenv Cura
+
 # This script is to package the Cura package for Windows/Linux and Mac OS X
 # This script should run under Linux and Mac OS X, as well as Windows with Cygwin.
 
