@@ -1306,7 +1306,7 @@ class SceneView(openglGui.glGuiPanel):
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
-					self._platformMesh[machine]._drawOffset = numpy.array([17.5,272,52], numpy.float32)
+					self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
 				else:
 					self._platformMesh[machine]._drawOffset = numpy.array([0,0,2.5], numpy.float32)
 			glColor4f(1,1,1,0.5)

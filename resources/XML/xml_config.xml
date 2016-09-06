@@ -200,9 +200,9 @@
   <Discovery200>
     <machine_name>Discovery</machine_name>
     <machine_type>Discovery</machine_type>
-    <machine_width>203</machine_width>
+    <machine_width>211</machine_width>
     <machine_depth>211</machine_depth>
-    <machine_height>211</machine_height>
+    <machine_height>205</machine_height>
     <extruder_amount>1</extruder_amount>
     <has_heated_bed>False</has_heated_bed>
     <machine_center_is_zero>False</machine_center_is_zero>

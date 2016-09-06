@@ -139,20 +139,21 @@ if [ "$BUILD_TARGET" = "darwin" ]; then
 	cd ..
 
 	# Create sparse image for distribution
-	hdiutil detach /Volumes/Cura\ -\ Ultimaker/
-	rm -rf Cura.dmg.sparseimage
+	hdiutil detach /Volumes/Cura-By-Dagoma/
+	rm -rf Cura-By-Dagoma.dmg.sparseimage
 	echo 'convert'
-	hdiutil convert DmgTemplateCompressed.dmg -format UDSP -o Cura.dmg
+	hdiutil convert DmgTemplateCompressed.dmg -format UDSP -o Cura-By-Dagoma.dmg
 	echo 'resize'
-	hdiutil resize -size 500m Cura.dmg.sparseimage
+	hdiutil resize -size 500m Cura-By-Dagoma.dmg.sparseimage
 	echo 'attach'
-	hdiutil attach Cura.dmg.sparseimage
+	hdiutil attach Cura-By-Dagoma.dmg.sparseimage
 	echo 'cp'
-	cp -a dist/Cura.app /Volumes/Cura\ -\ Ultimaker/Cura/
+	mv dist/Cura.app dist/Cura-By-Dagoma.app
+	cp -a dist/Cura-By-Dagoma.app /Volumes/Cura-By-Dagoma/
 	echo 'detach'
-	hdiutil detach /Volumes/Cura\ -\ Ultimaker
+	hdiutil detach /Volumes/Cura-By-Dagoma
 	echo 'convert'
-	hdiutil convert Cura.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${TARGET_DIR}.dmg
+	hdiutil convert Cura-By-Dagoma.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${TARGET_DIR}.dmg
 	exit
 fi
 
