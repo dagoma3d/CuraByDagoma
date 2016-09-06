@@ -20,7 +20,8 @@ BUILD_TARGET=${1:-none}
 ##Do we need to create the final archive
 ARCHIVE_FOR_DISTRIBUTION=1
 ##Which version name are we appending to the final archive
-export BUILD_NAME=Cura-by-Dagoma
+export BUILD_NAME="Cura-by-Dagoma-Easy200"
+export BUILD_NAME_INSTALL="Cura_by_Dagoma_Easy200"
 TARGET_DIR=${BUILD_NAME}
 
 ##Which versions of external programs to use
@@ -139,21 +140,21 @@ if [ "$BUILD_TARGET" = "darwin" ]; then
 	cd ..
 
 	# Create sparse image for distribution
-	hdiutil detach /Volumes/Cura-By-Dagoma/
-	rm -rf Cura-By-Dagoma.dmg.sparseimage
+	hdiutil detach /Volumes/${BUILD_NAME}/
+	rm -rf ${BUILD_NAME}.dmg.sparseimage
 	echo 'convert'
-	hdiutil convert DmgTemplateCompressed.dmg -format UDSP -o Cura-By-Dagoma.dmg
+	hdiutil convert DmgTemplateCompressed.dmg -format UDSP -o ${BUILD_NAME}.dmg
 	echo 'resize'
-	hdiutil resize -size 500m Cura-By-Dagoma.dmg.sparseimage
+	hdiutil resize -size 500m ${BUILD_NAME}.dmg.sparseimage
 	echo 'attach'
-	hdiutil attach Cura-By-Dagoma.dmg.sparseimage
+	hdiutil attach ${BUILD_NAME}.dmg.sparseimage
 	echo 'cp'
-	mv dist/Cura.app dist/Cura-By-Dagoma.app
-	cp -a dist/Cura-By-Dagoma.app /Volumes/Cura-By-Dagoma/
+	mv dist/Cura.app dist/${BUILD_NAME}.app
+	cp -a dist/${BUILD_NAME}.app /Volumes/${BUILD_NAME}/
 	echo 'detach'
-	hdiutil detach /Volumes/Cura-By-Dagoma
+	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
-	hdiutil convert Cura-By-Dagoma.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${TARGET_DIR}.dmg
+	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${TARGET_DIR}.dmg
 	exit
 fi
 
@@ -410,8 +411,8 @@ if (( ${ARCHIVE_FOR_DISTRIBUTION} )); then
             if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
 			mv scripts/win32/${BUILD_NAME}.exe ./
 	        if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
-			mv ./${BUILD_NAME}.exe ./Instal_Cura_By_Dagoma.exe
-	        if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./Instal_Cura_By_Dagoma.exe"; exit 1; fi
+			mv ./${BUILD_NAME}.exe ./Instal_${BUILD_NAME_INSTALL}.exe
+	        if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./Instal_${BUILD_NAME_INSTALL}.exe"; exit 1; fi
 	        echo 'Good Job, All Works Well !!! :)'
 		fi
 	else
