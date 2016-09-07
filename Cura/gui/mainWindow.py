@@ -38,7 +38,7 @@ doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 # 
 class mainWindow(wx.Frame):
 	def __init__(self):
-		super(mainWindow, self).__init__(None, title='Cura by dagoma')# version.getVersion()
+		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200')# version.getVersion()
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
@@ -61,7 +61,7 @@ class mainWindow(wx.Frame):
 		self.normalModeOnlyItems = []
 
 		mruFile = os.path.join(profile.getBasePath(), 'mru_filelist.ini')
-		self.config = wx.FileConfig(appName="Cura by Dagoma",
+		self.config = wx.FileConfig(appName="Cura by Dagoma Easy200",
 						localFilename=mruFile,
 						style=wx.CONFIG_USE_LOCAL_FILE)
 

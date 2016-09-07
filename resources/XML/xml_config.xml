@@ -1,3 +1,4 @@
+;XML for DiscoEASY200 - le 6 sept 2016
 <?xml version="1.0" encoding="utf-8"?>
 <Dagoma_XML_Config>
   <Bloc_Initiliastion />
@@ -46,6 +47,11 @@
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>115</filament_flow>
     </Filament>
+    <Filament name="PLA PolyWood">
+      <print_temperature>210</print_temperature>
+      <filament_diameter>1.75</filament_diameter>
+          <filament_flow>100</filament_flow>
+    </Filament>
  <!--   <Filament name="PLA InnoFil">
       <print_temperature>200</print_temperature>
       <filament_diameter>1.74</filament_diameter>
@@ -55,7 +61,7 @@
       <print_temperature>195</print_temperature>
       <filament_diameter>1.70</filament_diameter>
       <filament_flow>99</filament_flow>
-    </Filament> -->
+    </Filament> -->≤
     <Filament name="Autre PLA">
       <print_temperature>205</print_temperature>
       <filament_diameter>1.75</filament_diameter>
@@ -116,7 +122,7 @@
       <inset0_speed>25</inset0_speed>
       <insetx_speed>35</insetx_speed>
     </Precision>
-    <Precision name="Filament Flexible">
+    <Precision name="Filaments Spéciaux flexible,bois">
       <layer_height>0.1</layer_height>
       <solid_layer_thickness>0.6</solid_layer_thickness>
       <wall_thickness>1.2</wall_thickness>
@@ -124,10 +130,11 @@
       <temp_preci>0</temp_preci>
       <travel_speed>50</travel_speed>
       <bottom_layer_speed>12</bottom_layer_speed>
-      <infill_speed>12</infill_speed>
-      <inset0_speed>16</inset0_speed>
-      <insetx_speed>20</insetx_speed>
+      <infill_speed>30</infill_speed>
+      <inset0_speed>20</inset0_speed>
+      <insetx_speed>25</insetx_speed>
     </Precision>
+  
   </Bloc_Precision>
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition du type de support et d'accroche
@@ -197,9 +204,9 @@
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition des caracteristiques mecaniques
 ;_______________________________________________________________________________________________________________________________________________________
-  <Discovery200>
-    <machine_name>Discovery</machine_name>
-    <machine_type>Discovery</machine_type>
+  <DiscoEasy200>
+    <machine_name>DiscoEasy200</machine_name>
+    <machine_type>DiscoEasy200</machine_type>
     <machine_width>211</machine_width>
     <machine_depth>211</machine_depth>
     <machine_height>205</machine_height>
@@ -215,7 +222,7 @@
     <extruder_head_size_height>35</extruder_head_size_height>
     <gcode_flavor>DiscoGCode</gcode_flavor>
     <retraction_enable>True</retraction_enable>
-  </Discovery200>
+  </DiscoEasy200>
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition de la retraction et de la premiere couche
 ;_______________________________________________________________________________________________________________________________________________________
@@ -288,6 +295,7 @@
 ;_______________________________________________________________________________________________________________________________________________________
   <GCODE>
     <Gstart>
+;Gcode by Cura-by-dagoma for DiscoEASY200 
 G90   ;absolute positioning
 G28 X Y
 G1 X50
@@ -337,9 +345,9 @@ M84   ;shut down motors
     <MachineSelectPage title="Votre Machine">
       <Line1>Quel modèle d'imprimantes 3D possédez-vous ?</Line1>
     </MachineSelectPage>
-    <DiscoveryPage title="Configuration de votre Discovery 200">
+    <DiscoveryPage title="Configuration de votre DiscoEASY200">
       <Line1>Encore une fois, toute l’équipe dagoma vous remercie de votre confiance.</Line1>
-      <Line2>Votre logiciel Cura By Dagoma est maintenant prêt à être utilisé avec votre Discovery 200.</Line2>
+      <Line2>Votre logiciel Cura By Dagoma for DiscoEASY200 est maintenant prêt à être utilisé avec votre nouvelle imprimante 3D.</Line2>
       <Line3>Si vous avez des questions, des remarques ou des suggestions, nous sommes à votre écoute : www.dagoma.fr</Line3>
       <Line4>À très bientôt sur notre site : www.dagoma.fr</Line4>
       <Line5>Et d'ici là, nous vous souhaitons de très bonnes impressions !</Line5>
