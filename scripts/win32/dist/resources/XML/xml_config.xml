@@ -31,7 +31,7 @@
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>95</filament_flow>
     </Filament>
-    <Filament name="PLA PolyFex">
+    <Filament name="PLA PolyFlex">
       <print_temperature>230</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>115</filament_flow>
@@ -52,7 +52,7 @@
     <Remplissage name="Rempli">
       <fill_density>17</fill_density>
     </Remplissage>
-    <Remplissage name="Renforce">
+    <Remplissage name="Renforcé">
       <fill_density>33</fill_density>
     </Remplissage>
   </Bloc_Remplissage>
@@ -300,7 +300,7 @@ G28 X0 Y0	;move X/Y to min endstops, so the head is out of the way;
 G4 P360000
 M908		;stop fan
 M84		;shut down motors
-;Genere par Cura-by-Dagoma pour Discovery200 avec Buse S1 ou E3Dv6
+;Genere par Cura-by-Dagoma pour DiscoEasy200 avec Buse S1 ou E3Dv6
 ;{profile_string}
     </Gend>
   </GCODE>
