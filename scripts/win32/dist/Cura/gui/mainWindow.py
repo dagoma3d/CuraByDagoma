@@ -38,7 +38,7 @@ doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 # 
 class mainWindow(wx.Frame):
 	def __init__(self):
-		super(mainWindow, self).__init__(None, title='Cura by dagoma')# version.getVersion()
+		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200')# version.getVersion()
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
@@ -61,7 +61,7 @@ class mainWindow(wx.Frame):
 		self.normalModeOnlyItems = []
 
 		mruFile = os.path.join(profile.getBasePath(), 'mru_filelist.ini')
-		self.config = wx.FileConfig(appName="Cura by Dagoma",
+		self.config = wx.FileConfig(appName="Cura by Dagoma Easy200",
 						localFilename=mruFile,
 						style=wx.CONFIG_USE_LOCAL_FILE)
 
@@ -890,7 +890,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.printsupp, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.palpeur_chbx, pos = (7, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.printbrim, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.button_1, pos = (10, 0), span = (3, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.button_1, pos = (10, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.AddGrowableCol(1)
 		sizer_1.AddGrowableRow(12)
 		self.SetSizerAndFit(sizer_1)

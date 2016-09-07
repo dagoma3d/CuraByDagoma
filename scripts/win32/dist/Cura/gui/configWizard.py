@@ -387,7 +387,7 @@ class MachineSelectPage(InfoPage):
 		super(MachineSelectPage, self).__init__(parent, page.getAttribute("title"))
 		self.AddText(getNodeText(page.getElementsByTagName("Line1")[0]))
 
-		self.DiscoveryRadio = self.AddRadioButton("Discovery 200", style=wx.RB_GROUP)
+		self.DiscoveryRadio = self.AddRadioButton("DiscoEasy200", style=wx.RB_GROUP)
 		self.DiscoveryRadio.Bind(wx.EVT_RADIOBUTTON, self.OnDiscoverySelect)
 		self.DiscoveryRadio.SetValue(True)
 		# self.Ultimaker2Radio = self.AddRadioButton("Ultimaker2")
@@ -469,7 +469,7 @@ class MachineSelectPage(InfoPage):
 				return ''.join(result)
 			
 			def getxml_disco(doc, two):
-				return getNodeText(doc.getElementsByTagName("Discovery200")[0].getElementsByTagName(two)[0])
+				return getNodeText(doc.getElementsByTagName("DiscoEasy200")[0].getElementsByTagName(two)[0])
 				
 			def setvalue_from_xml(varibale, doc = doc):
 				try:

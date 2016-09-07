@@ -6660,19 +6660,19 @@ File: "__init__.py" 0 bytes
 File: "__init__.pyc" 148 bytes
 File: "aboutWindow.py" 2946 bytes
 File: "aboutWindow.pyc" 3558 bytes
-File: "alterationPanel.py" 2443 bytes
+File: "alterationPanel.py" 2446 bytes
 File: "alterationPanel.pyc" 3398 bytes
 File: "app.py" 6702 bytes
 File: "app.pyc" 7544 bytes
 File: "configBase.py" 9512 bytes
 File: "configBase.pyc" 11382 bytes
-File: "configWizard.py" 64759 bytes
+File: "configWizard.py" 64758 bytes
 File: "configWizard.pyc" 68252 bytes
 File: "expertConfig.py" 1365 bytes
 File: "expertConfig.pyc" 2431 bytes
 File: "firmwareInstall.py" 4505 bytes
 File: "firmwareInstall.pyc" 5803 bytes
-File: "mainWindow.py" 57525 bytes
+File: "mainWindow.py" 57541 bytes
 File: "mainWindow.py.bak" 55569 bytes
 File: "mainWindow.pyc" 48833 bytes
 File: "newVersionDialog.py" 4541 bytes
@@ -6683,7 +6683,7 @@ File: "preferencesDialog.py" 6959 bytes
 File: "preferencesDialog.pyc" 8205 bytes
 File: "printWindow.py" 22470 bytes
 File: "printWindow.pyc" 23915 bytes
-File: "sceneView.py" 54574 bytes
+File: "sceneView.py" 54579 bytes
 File: "sceneView.pyc" 52045 bytes
 File: "simpleMode.py" 4780 bytes
 File: "simpleMode.pyc" 5249 bytes
@@ -6740,7 +6740,7 @@ File: "polygon.py" 5722 bytes
 File: "polygon.pyc" 6397 bytes
 File: "printableObject.py" 15333 bytes
 File: "printableObject.pyc" 17065 bytes
-File: "profile.py" 80430 bytes
+File: "profile.py" 80382 bytes
 File: "profile.pyc" 74635 bytes
 File: "removableStorage.py" 5303 bytes
 File: "removableStorage.pyc" 5597 bytes
@@ -9249,6 +9249,14 @@ File: "test_utils.py" 15336 bytes
 File: Descending to: "dist\python\Lib\numpy\tests\"
 File: "test_ctypeslib.py" 3879 bytes
 File: "test_matlib.py" 1510 bytes
+File: Descending to: "dist\python\Lib\power\"
+File: "__init__.py" 1573 bytes
+File: "common.py" 6036 bytes
+File: "darwin.py" 16475 bytes
+File: "freebsd.py" 6466 bytes
+File: "linux.py" 8363 bytes
+File: "tests.py" 1609 bytes
+File: "win32.py" 3522 bytes
 File: Descending to: "dist\python\Lib\pydoc_data\"
 File: "topics.py" 432014 bytes
 File: Descending to: "dist\python\Lib\serial\"
@@ -10187,13 +10195,13 @@ File: "unicodedata.lib" 1782 bytes
 File: "winsound.lib" 1732 bytes
 File: Descending to: "dist\resources\"
 File: "Attribution.txt" 181 bytes
-File: "cura.icns" 33979 bytes
-File: "cura.ico" 67646 bytes
+File: "cura.icns" 198615 bytes
+File: "cura.ico" 370070 bytes
 File: "dagoma.icns" 39874 bytes
 File: "dagoma.ico" 26622 bytes
 File: "stl.ico" 1150 bytes
 File: Descending to: "dist\resources\XML\"
-File: "xml_config.xml" 16300 bytes
+File: "xml_config.xml" 16640 bytes
 File: Descending to: "dist\resources\example\"
 File: "Attribution.txt" 754 bytes
 File: "UltimakerHandle.stl" 449484 bytes
@@ -10380,21 +10388,21 @@ Generating language tables... Done!
 Generating uninstaller... Done!
 
 Output: "c:\Users\gauthier\Desktop\git\curabydagoma\Cura\scripts\win32\Cura-by-Dagoma-Easy200.exe"
-Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4086 instructions (114408 bytes), 2935 strings (49341 bytes), 1 language table (322 bytes).
+Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4094 instructions (114632 bytes), 2938 strings (49382 bytes), 1 language table (322 bytes).
 Uninstall: 4 pages (256 bytes), 
 1 section (1048 bytes), 287 instructions (8036 bytes), 163 strings (2975 bytes), 1 language table (282 bytes).
 Datablock optimizer saved 132136 bytes (~0.1%).
 
 Using lzma (compress whole) compression.
 
-EXE header size:              113152 / 34816 bytes
-Install code:                          (170007 bytes)
-Install data:                          (90647590 bytes)
+EXE header size:              406016 / 34816 bytes
+Install code:                          (170272 bytes)
+Install data:                          (91159037 bytes)
 Uninstall code+data:                   (96161 bytes)
-Compressed data:            18682675 / 90913758 bytes
-CRC (0xC646FD64):                  4 / 4 bytes
+Compressed data:            18805388 / 91425470 bytes
+CRC (0x0B81A89E):                  4 / 4 bytes
 
-Total size:                 18795831 / 90948578 bytes (20.6%)
+Total size:                 19211408 / 91460290 bytes (21.0%)
 
 1 warning:
   install function "StrContains" not referenced - zeroing code (0-23) out
