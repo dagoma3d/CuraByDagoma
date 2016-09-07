@@ -890,7 +890,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.printsupp, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.palpeur_chbx, pos = (7, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.printbrim, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.button_1, pos = (10, 0), span = (3, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT|wx.TOP|wx.BOTTOM, border = 5)
+		sizer_1.Add(self.button_1, pos = (10, 0), span = (3, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.AddGrowableCol(1)
 		sizer_1.AddGrowableRow(12)
 		self.SetSizerAndFit(sizer_1)

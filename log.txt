@@ -6459,7 +6459,7 @@ MakeNSIS v2.46 - Copyright 1995-2009 Contributors
 See the file COPYING for license details.
 Credits can be found in the Users Manual.
 
-Command line defined: "VERSION=Cura-by-Dagoma"
+Command line defined: "VERSION=Cura-by-Dagoma-Easy200"
 Processing config: 
 Processing plugin dlls: "c:\Program Files (x86)\NSIS\Plugins\*.dll"
  - AdvSplash::show
@@ -6527,7 +6527,7 @@ Processing plugin dlls: "c:\Program Files (x86)\NSIS\Plugins\*.dll"
 
 !define: "MUI_INSERT_NSISCONF"=""
 
-Changing directory to: "C:\Users\gauthier\Documents\GitHub\curadagoplap_v2\Cura_by_dagoma\scripts\win32"
+Changing directory to: "c:\Users\gauthier\Desktop\git\curabydagoma\Cura\scripts\win32"
 
 Processing script file: "scripts/win32/installer.nsi"
 PluginDir: "nsisPlugins"
@@ -6556,10 +6556,10 @@ PluginDir: "nsisPlugins"
  - AccessControl::SetRegKeyGroup
  - AccessControl::SetRegKeyOwner
  - AccessControl::SidToName
-Name: "Cura-by-Dagoma"
-OutFile: "Cura-by-Dagoma.exe"
-InstallDir: "$PROGRAMFILES\Cura-by-Dagoma"
-InstallRegKey: "HKLM\Software\Cura-by-Dagoma\Install_Dir"
+Name: "Cura-by-Dagoma-Easy200"
+OutFile: "Cura-by-Dagoma-Easy200.exe"
+InstallDir: "$PROGRAMFILES\Cura-by-Dagoma-Easy200"
+InstallRegKey: "HKLM\Software\Cura-by-Dagoma-Easy200\Install_Dir"
 SetCompressor: /SOLID lzma
 !include: "c:\Program Files (x86)\NSIS\Include\MUI2.nsh"
 !include: "c:\Program Files (x86)\NSIS\Contrib\Modern UI 2\MUI2.nsh"
@@ -6608,7 +6608,7 @@ FunctionEnd
 !define: "MUI_FINISHPAGE_NOAUTOCLOSE"=""
 !define: "MUI_UNFINISHPAGE_NOAUTOCLOSE"=""
 !define: "MUI_FINISHPAGE_RUN"=""
-!define: "MUI_FINISHPAGE_RUN_TEXT"="Start Cura-by-Dagoma"
+!define: "MUI_FINISHPAGE_RUN_TEXT"="Start Cura-by-Dagoma-Easy200"
 !define: "MUI_FINISHPAGE_RUN_FUNCTION"="LaunchLink"
 !insertmacro: MUI_PAGE_DIRECTORY
 !insertmacro: end of MUI_PAGE_DIRECTORY
@@ -6630,7 +6630,7 @@ FunctionEnd
 !insertmacro: end of MUI_RESERVEFILE_LANGDLL
 ReserveFile: "InstallOptions.dll" 14848 bytes
 ReserveFile: "header.bmp" 0/21722 bytes
-Section: "Cura-by-Dagoma"
+Section: "Cura-by-Dagoma-Easy200"
 SectionIn: [RO] 
 SetOutPath: "$INSTDIR"
 File: "CuraEngine.exe" 1445932 bytes
@@ -6643,7 +6643,7 @@ File: "__init__.pyc" 144 bytes
 File: "cura.py" 3083 bytes
 File: "doctest.py" 3163 bytes
 File: "serialCommunication.py" 2440 bytes
-File: "version" 15 bytes
+File: "version" 23 bytes
 File: Descending to: "dist\Cura\avr_isp\"
 File: "__init__.py" 0 bytes
 File: "__init__.pyc" 152 bytes
@@ -6672,7 +6672,7 @@ File: "expertConfig.py" 1365 bytes
 File: "expertConfig.pyc" 2431 bytes
 File: "firmwareInstall.py" 4505 bytes
 File: "firmwareInstall.pyc" 5803 bytes
-File: "mainWindow.py" 56573 bytes
+File: "mainWindow.py" 57525 bytes
 File: "mainWindow.py.bak" 55569 bytes
 File: "mainWindow.pyc" 48833 bytes
 File: "newVersionDialog.py" 4541 bytes
@@ -9249,14 +9249,6 @@ File: "test_utils.py" 15336 bytes
 File: Descending to: "dist\python\Lib\numpy\tests\"
 File: "test_ctypeslib.py" 3879 bytes
 File: "test_matlib.py" 1510 bytes
-File: Descending to: "dist\python\Lib\power\"
-File: "__init__.py" 1573 bytes
-File: "common.py" 6036 bytes
-File: "darwin.py" 16475 bytes
-File: "freebsd.py" 6466 bytes
-File: "linux.py" 8363 bytes
-File: "tests.py" 1609 bytes
-File: "win32.py" 3522 bytes
 File: Descending to: "dist\python\Lib\pydoc_data\"
 File: "topics.py" 432014 bytes
 File: Descending to: "dist\python\Lib\serial\"
@@ -10201,7 +10193,7 @@ File: "dagoma.icns" 39874 bytes
 File: "dagoma.ico" 26622 bytes
 File: "stl.ico" 1150 bytes
 File: Descending to: "dist\resources\XML\"
-File: "xml_config.xml" 15481 bytes
+File: "xml_config.xml" 16300 bytes
 File: Descending to: "dist\resources\example\"
 File: "Attribution.txt" 754 bytes
 File: "UltimakerHandle.stl" 449484 bytes
@@ -10311,26 +10303,26 @@ File: "RigidBotBig.ini" 386 bytes
 File: "punchtec Connect XL.ini" 777 bytes
 File: Descending to: "dist\resources\meshes\"
 File: "Attribution.txt" 379 bytes
-File: "Discovery_platform.stl" 21926190 bytes
+File: "Discovery_platform.stl" 1751784 bytes
 File: "ultimaker2_platform.stl" 14484 bytes
 File: "ultimaker_platform.stl" 611418 bytes
 File: Returning to: "dist"
-WriteRegStr: HKLM\SOFTWARE\Cura-by-Dagoma\Install_Dir=$INSTDIR
-WriteRegStr: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma\DisplayName=Cura-by-Dagoma
-WriteRegStr: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma\UninstallString="$INSTDIR\uninstall.exe"
-WriteRegDWORD: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma\NoModify=1
-WriteRegDWORD: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma\NoRepair=1
+WriteRegStr: HKLM\SOFTWARE\Cura-by-Dagoma-Easy200\Install_Dir=$INSTDIR
+WriteRegStr: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma-Easy200\DisplayName=Cura-by-Dagoma-Easy200
+WriteRegStr: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma-Easy200\UninstallString="$INSTDIR\uninstall.exe"
+WriteRegDWORD: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma-Easy200\NoModify=1
+WriteRegDWORD: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma-Easy200\NoRepair=1
 WriteUninstaller: "uninstall.exe"
 SetShellVarContext: all
-CreateDirectory: "$SMPROGRAMS\Cura-by-Dagoma"
-CreateShortCut: "$SMPROGRAMS\Cura-by-Dagoma\Uninstall Cura-by-Dagoma.lnk"->"$INSTDIR\uninstall.exe"  icon:$INSTDIR\uninstall.exe,0, showmode=0x0, hotkey=0x0, comment=
-CreateShortCut: "$SMPROGRAMS\Cura-by-Dagoma\Cura-by-Dagoma.lnk"->"$INSTDIR\python\pythonw.exe" -m "Cura.cura" icon:$INSTDIR\resources\cura.ico,0, showmode=0x0, hotkey=0x0, comment=
+CreateDirectory: "$SMPROGRAMS\Cura-by-Dagoma-Easy200"
+CreateShortCut: "$SMPROGRAMS\Cura-by-Dagoma-Easy200\Uninstall Cura-by-Dagoma-Easy200.lnk"->"$INSTDIR\uninstall.exe"  icon:$INSTDIR\uninstall.exe,0, showmode=0x0, hotkey=0x0, comment=
+CreateShortCut: "$SMPROGRAMS\Cura-by-Dagoma-Easy200\Cura-by-Dagoma-Easy200.lnk"->"$INSTDIR\python\pythonw.exe" -m "Cura.cura" icon:$INSTDIR\resources\cura.ico,0, showmode=0x0, hotkey=0x0, comment=
 File: "AccessControl.dll"->"$PLUGINSDIR\AccessControl.dll" 8704 bytes
 Plugin Command: GrantOnFile $INSTDIR (S-1-5-32-545) FullAccess
 SectionEnd
 Function: "LaunchLink"
 SetShellVarContext: all
-ExecShell: : "$SMPROGRAMS\Cura-by-Dagoma\Cura-by-Dagoma.lnk" "" 
+ExecShell: : "$SMPROGRAMS\Cura-by-Dagoma-Easy200\Cura-by-Dagoma-Easy200.lnk" "" 
 FunctionEnd
 Section: "Install Arduino Drivers"
 SetOutPath: "$INSTDIR\drivers\"
@@ -10370,12 +10362,12 @@ WriteRegStr: HKCR\Cura AMF model file\shell\=open
 WriteRegStr: HKCR\Cura AMF model file\shell\open\command\="$INSTDIR\python\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"
 SectionEnd
 Section: "Uninstall"
-DeleteRegKey: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma
-DeleteRegKey: HKLM\SOFTWARE\Cura-by-Dagoma
+DeleteRegKey: HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Cura-by-Dagoma-Easy200
+DeleteRegKey: HKLM\SOFTWARE\Cura-by-Dagoma-Easy200
 SetShellVarContext: all
-RMDir: /r "$SMPROGRAMS\Cura-by-Dagoma"
+RMDir: /r "$SMPROGRAMS\Cura-by-Dagoma-Easy200"
 RMDir: /r "$INSTDIR"
-RMDir: /r "$PROFILE\.cura\Cura-by-Dagoma"
+RMDir: /r "$PROFILE\.cura\Cura-by-Dagoma-Easy200"
 SectionEnd
 
 Processed 1 file, writing output:
@@ -10387,22 +10379,22 @@ Removing unused resources... Done!
 Generating language tables... Done!
 Generating uninstaller... Done!
 
-Output: "C:\Users\gauthier\Documents\GitHub\curadagoplap_v2\Cura_by_dagoma\scripts\win32\Cura-by-Dagoma.exe"
-Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4094 instructions (114632 bytes), 2939 strings (49288 bytes), 1 language table (322 bytes).
+Output: "c:\Users\gauthier\Desktop\git\curabydagoma\Cura\scripts\win32\Cura-by-Dagoma-Easy200.exe"
+Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4086 instructions (114408 bytes), 2935 strings (49341 bytes), 1 language table (322 bytes).
 Uninstall: 4 pages (256 bytes), 
-1 section (1048 bytes), 287 instructions (8036 bytes), 163 strings (2943 bytes), 1 language table (282 bytes).
+1 section (1048 bytes), 287 instructions (8036 bytes), 163 strings (2975 bytes), 1 language table (282 bytes).
 Datablock optimizer saved 132136 bytes (~0.1%).
 
 Using lzma (compress whole) compression.
 
 EXE header size:              113152 / 34816 bytes
-Install code:                          (170178 bytes)
-Install data:                          (110864289 bytes)
-Uninstall code+data:                   (96129 bytes)
-Compressed data:            19431455 / 111130596 bytes
-CRC (0x1B73F558):                  4 / 4 bytes
+Install code:                          (170007 bytes)
+Install data:                          (90647590 bytes)
+Uninstall code+data:                   (96161 bytes)
+Compressed data:            18682675 / 90913758 bytes
+CRC (0xC646FD64):                  4 / 4 bytes
 
-Total size:                 19544611 / 111165416 bytes (17.5%)
+Total size:                 18795831 / 90948578 bytes (20.6%)
 
 1 warning:
   install function "StrContains" not referenced - zeroing code (0-23) out
