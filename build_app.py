@@ -10,10 +10,10 @@ if sys.platform.startswith('darwin'):
     APP = ['Cura/cura.py']
     DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/firmware', 'resources/locale', 'resources/machine_profiles','resources/XML', 'plugins']
     PLIST = {
-        u'CFBundleName': u'Cura',
+        u'CFBundleName': u'Cura-By-Dagoma-Easy200',
         u'CFBundleShortVersionString': version,
         u'CFBundleVersion': version,
-        u'CFBundleIdentifier': u'com.ultimaker.Cura-'+version,
+        u'CFBundleIdentifier': u'com.dagomma.Cura-By-Dagoma-Easy200-'+version,
         u'LSMinimumSystemVersion': u'10.6',
         u'LSApplicationCategoryType': u'public.app-category.graphics-design',
         u'CFBundleDocumentTypes': [
@@ -77,7 +77,7 @@ if sys.platform.startswith('darwin'):
     }
 
     setup(
-        name="Cura",
+        name="Cura-By-Dagoma-Easy200",
         app=APP,
         data_files=DATA_FILES,
         options={'py2app': OPTIONS},

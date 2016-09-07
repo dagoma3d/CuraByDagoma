@@ -41,7 +41,7 @@
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>95</filament_flow>
     </Filament>
-    <Filament name="PLA PolyFex">
+    <Filament name="PLA PolyFlex">
       <print_temperature>230</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>115</filament_flow>
@@ -72,7 +72,7 @@
     <Remplissage name="Rempli">
       <fill_density>17</fill_density>
     </Remplissage>
-    <Remplissage name="Renforce">
+    <Remplissage name="Renforcé">
       <fill_density>33</fill_density>
     </Remplissage>
   </Bloc_Remplissage>
@@ -310,6 +310,7 @@ G1 Z3
 G1 F{travel_speed}
     </Gstart>
     <Gend>
+<<<<<<< HEAD
 M104 S0
 M106 S255   ;start fan full power
 M140 S0   ;heated bed heater off (if you have it)
@@ -324,6 +325,20 @@ M109 R85 ; attendre une temperature basse
 M107    ;stop fan
 ;Shut down motor
 M84   ;shut down motors
+=======
+M104 S0		;extruder heater off
+M106 S255		;start fan full power
+M140 S0		;heated bed heater off (if you have it)
+G91		;relative positioning
+G1 E-1 F300	;retract the filament a bit before lifting the nozzle, to release some of the pressure
+G1 Z+3 E-2 F{travel_speed}	;move Z up a bit and retract filament even more
+G28 X0 Y0	;move X/Y to min endstops, so the head is out of the way;
+G4 P360000
+M908		;stop fan
+M84		;shut down motors
+;Genere par Cura-by-Dagoma pour DiscoEasy200 avec Buse S1 ou E3Dv6
+;{profile_string}
+>>>>>>> e706389641be02a78ab92b62ba3ba8a1f3d53489
     </Gend>
   </GCODE>
 ;_______________________________________________________________________________________________________________________________________________________
