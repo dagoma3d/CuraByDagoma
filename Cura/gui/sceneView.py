@@ -1295,7 +1295,7 @@ class SceneView(openglGui.glGuiPanel):
 				glDisable(GL_TEXTURE_2D)
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 				glPopMatrix()
-		elif machine.startswith('Disco'):
+		elif machine.startswith('DiscoEasy200'):
 			if machine not in self._platformMesh:
 				meshes = meshLoader.loadMeshes(resources.getPathForMesh('Discovery_platform.stl'))
 				if len(meshes) > 0:
