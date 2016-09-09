@@ -876,8 +876,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.combo_box_1, pos = (1, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.label_4, pos = (2, 0), flag = wx.LEFT|wx.TOP,  border = 5)
 		sizer_1.Add(self.spin_ctrl_1, pos = (3, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.radio_box_2, pos = (4, 0) , span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.radio_box_1, pos = (5, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.radio_box_2, pos = (4, 0) , span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT|wx.ALIGN_LEFT, border = 5)
+		sizer_1.Add(self.radio_box_1, pos = (5, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT|wx.ALIGN_LEFT, border = 5)
 		"""ERIC"""
 		# Positionnementdu du bloc palpeur en position 6
 		# Positionnementdu titre Offset en position 7
@@ -887,7 +887,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# Positionnementdu du bloc Printing Surface en position 9
 		#sizer_1.Add(self.radio_box_3, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		"""FIN ERIC"""
-		sizer_1.Add(self.printsupp, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.printsupp, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT|wx.ALIGN_LEFT, border = 5)
 		sizer_1.Add(self.palpeur_chbx, pos = (7, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.printbrim, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.button_1, pos = (10, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
