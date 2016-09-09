@@ -38,7 +38,7 @@ doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 # 
 class mainWindow(wx.Frame):
 	def __init__(self):
-		super(mainWindow, self).__init__(None, title='Cura by dagoma')# version.getVersion()
+		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200')# version.getVersion()
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
@@ -61,7 +61,7 @@ class mainWindow(wx.Frame):
 		self.normalModeOnlyItems = []
 
 		mruFile = os.path.join(profile.getBasePath(), 'mru_filelist.ini')
-		self.config = wx.FileConfig(appName="Cura by Dagoma",
+		self.config = wx.FileConfig(appName="Cura by Dagoma Easy200",
 						localFilename=mruFile,
 						style=wx.CONFIG_USE_LOCAL_FILE)
 
@@ -757,9 +757,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		
 		"""ERIC"""
 		#Rajout d'un label pour le titre "Offset"
-		self.offset_label = wx.StaticText(self, wx.ID_ANY, _(self.offset_title))
+		#self.offset_label = wx.StaticText(self, wx.ID_ANY, _(self.offset_title))
 		#Rajout d'un champ pour recuperer un float pour l'"Offset"
-		self.offset_ctrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
+		#self.offset_ctrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
 		"""FIN ERIC"""
 
 
@@ -774,20 +774,21 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# 
 		# 
 		self.Init_Palpeur_chbx()
-		self.Init_Printing_surface()
+		#self.Init_Printing_surface()
 		"""FIN ERIC"""
 		
 
 		#Refresh ALL Value
+		self.Refresh_Supp()
 		self.Refresh_Preci()
 		self.Refresh_Fila()
 		self.Refresh_Rempli()
 		"""ERIC"""
-		self.Refresh_Printing_surface()
+		#self.Refresh_Printing_surface()
 		self.Refresh_Palpeur_chbx()
-		self.Refresh_Offset()
+		#self.Refresh_Offset()
 		"""FIN ERIC"""
-		self.Refresh_Checkboxsupp()
+		#self.Refresh_Checkboxsupp()
 		self.Refresh_Checkboxbrim()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -831,6 +832,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		#Evt Select Précision
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Preci, self.radio_box_1)
 
+		self.Bind(wx.EVT_RADIOBOX, self.EVT_Supp, self.printsupp)
+
 		#Evt Select Remplissage
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Rempl, self.radio_box_2)
 
@@ -839,19 +842,19 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 		#Evt Select printing surface
-		self.Bind(wx.EVT_RADIOBOX, self.EVT_PrtSurf, self.radio_box_3)
+		#self.Bind(wx.EVT_RADIOBOX, self.EVT_PrtSurf, self.radio_box_3)
 
 		#Evt Select palpeur
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxpalpeur,self.palpeur_chbx)
 
 		# evt input Text
-		self.Bind(wx.EVT_TEXT, self.EVT_Offset, self.offset_ctrl)
+		#self.Bind(wx.EVT_TEXT, self.EVT_Offset, self.offset_ctrl)
 		"""FIN ERIC"""
 
 		#Evt CheckboxSupport
-		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxsupp,self.printsupp)
+		self.Bind(wx.EVT_CHECKBOX, self.EVT_Supp ,self.printsupp)
 		#Evt CheckboxBrim
-		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxbrim,self.printbrim)
+		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxbrim, self.printbrim)
 
 		#Evt Print Button
 		self.Bind(wx.EVT_BUTTON, self.Click_Button, self.button_1)
@@ -864,7 +867,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.spin_ctrl_1.Enable(False)
 		self.radio_box_2.SetSelection(1)
 		self.radio_box_1.SetSelection(0)
-		self.printsupp.Enable(True)
+		self.printsupp.SetSelection(0)
+
 
 	def __do_layout(self):
 		sizer_1 = wx.GridBagSizer(10, 2)
@@ -876,17 +880,17 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.radio_box_1, pos = (5, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		"""ERIC"""
 		# Positionnementdu du bloc palpeur en position 6
-		sizer_1.Add(self.palpeur_chbx, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		# Positionnementdu titre Offset en position 7
-		sizer_1.Add(self.offset_label, pos = (7, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+		#sizer_1.Add(self.offset_label, pos = (7, 0), flag = wx.LEFT|wx.TOP,  border = 5)
 		# Positionnementdu de l'imput Offset en position 8
-		sizer_1.Add(self.offset_ctrl, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		#sizer_1.Add(self.offset_ctrl, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		# Positionnementdu du bloc Printing Surface en position 9
-		sizer_1.Add(self.radio_box_3, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		#sizer_1.Add(self.radio_box_3, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		"""FIN ERIC"""
-		sizer_1.Add(self.printsupp, pos = (10, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.printbrim, pos = (11, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.button_1, pos = (13, 0), span = (3, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT|wx.TOP|wx.BOTTOM, border = 5)
+		sizer_1.Add(self.printsupp, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.palpeur_chbx, pos = (7, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.printbrim, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.button_1, pos = (10, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.AddGrowableCol(1)
 		sizer_1.AddGrowableRow(12)
 		self.SetSizerAndFit(sizer_1)
@@ -906,8 +910,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.get_support()
 		self.get_brim()
 		"""ERIC"""
-		self.get_Offset()
-		self.get_printing_surface()
+		#self.get_Offset()
+		#self.get_printing_surface()
 		self.get_palpeur()
 		"""FIN ERIC"""
 		self.init_Config_Preferences()
@@ -1070,16 +1074,35 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_support(self):
 		bloc_name = doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label")
-		self.printsupp = wx.CheckBox(self, wx.ID_ANY, bloc_name)
-		support_enable = doc.getElementsByTagName("Support_Enable")
-		support_disable = doc.getElementsByTagName("Support_Disable")
+		supports = doc.getElementsByTagName("Support")
+		choices = []
 		self.supports = []
-		self.supports.append(self.Support())
-		self.supports[0].support = self.getNodeText(support_enable[0].getElementsByTagName("support")[0])
-		# self.supports[0].platform_adhesion = self.getNodeText(support_enable[0].getElementsByTagName("platform_adhesion")[0])
-		self.supports.append(self.Support())
-		self.supports[1].support = self.getNodeText(support_disable[0].getElementsByTagName("support")[0])
-		# self.supports[1].platform_adhesion = self.getNodeText(support_disable[0].getElementsByTagName("platform_adhesion")[0])
+		for support in supports:
+			if support.hasAttributes():
+				supp = self.Support()
+				choices.append(support.getAttribute("name"))
+				supp.type = support.getAttribute("name")
+				try :
+					supp.support = self.getNodeText(support.getElementsByTagName("support")[0])
+					self.supports.append(supp)
+				except :
+					print 'Some Error in Supports Bloc'
+					pass
+		self.printsupp = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+	
+
+	#def get_support(self):
+	#	bloc_name = doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label")
+	#	self.printsupp = wx.CheckBox(self, wx.ID_ANY, bloc_name)
+	#	support_enable = doc.getElementsByTagName("Support_Enable")
+	#	support_disable = doc.getElementsByTagName("Support_Disable")
+	#	self.supports = []
+	#	self.supports.append(self.Support())
+	#	self.supports[0].support = self.getNodeText(support_enable[0].getElementsByTagName("support")[0])
+	#	# self.supports[0].platform_adhesion = self.getNodeText(support_enable[0].getElementsByTagName("platform_adhesion")[0])
+	#	self.supports.append(self.Support())
+	#	self.supports[1].support = self.getNodeText(support_disable[0].getElementsByTagName("support")[0])
+	#	# self.supports[1].platform_adhesion = self.getNodeText(support_disable[0].getElementsByTagName("platform_adhesion")[0])
 
 	def get_brim(self):
 		bloc_name = doc.getElementsByTagName("Bloc_Brim")[0].getAttribute("label")
@@ -1112,8 +1135,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#Fonction qui recupere dans le xml les differentes lignes pour le bloc Offset
 	#
 	#
-	def get_Offset(self):
-		self.offset_title = doc.getElementsByTagName("Bloc_Offset")[0].getAttribute("label")
+	#def get_Offset(self):
+	#	self.offset_title = doc.getElementsByTagName("Bloc_Offset")[0].getAttribute("label")
 
 
 	#Fonction qui recupere dans le xml les differentes lignes pour le bloc Pritning Surface
@@ -1172,13 +1195,15 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('inset0_speed', preci.inset0_speed)
 		profile.putProfileSetting('insetx_speed', preci.insetx_speed)
 
-
+	def Refresh_Supp(self):
+		supp = self.supports[self.printsupp.GetSelection()]
+		profile.putProfileSetting('support', supp.support)
 		
-	def Refresh_Checkboxsupp(self):
-		if self.printsupp.GetValue():
-			profile.putProfileSetting('support', self.supports[0].support)
-		else:
-			profile.putProfileSetting('support', self.supports[1].support)
+	#def Refresh_Checkboxsupp(self):
+	#	if self.printsupp.GetValue():
+	#		profile.putProfileSetting('support', self.supports[0].support)
+	#	else:
+	#		profile.putProfileSetting('support', self.supports[1].support)
 
 	def Refresh_Checkboxbrim(self):
 		if self.printbrim.GetValue():
@@ -1193,12 +1218,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	#
 	def Init_Palpeur_chbx(self):
-		if profile.getProfileSetting('palpeur_enable') == 'Palpeur':
-			self.palpeur_chbx.SetValue(True)
+		#if profile.getProfileSetting('palpeur_enable') == 'Palpeur':
+		#	self.palpeur_chbx.SetValue(True)
 
-		else :
-			self.palpeur_chbx.SetValue(False)
-			
+		#else :
+		#	self.palpeur_chbx.SetValue(False)
+		self.palpeur_chbx.SetValue(True)	
 		self.palpeur_chbx.Refresh()
 
 
@@ -1234,11 +1259,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#fonction pour enregistrer les données relative à la surface d'impresion dans le profil
 	#
 	#
-	def Refresh_Printing_surface(self):
-		prtsurf = self.printing_surfaces[self.radio_box_3.GetSelection()]
-		profile.putProfileSetting('printing_surface_name', prtsurf.name)
-		profile.putProfileSetting('printing_surface_height', prtsurf.height)
-		self.calculateZOffset()
+	#def Refresh_Printing_surface(self):
+	#	prtsurf = self.printing_surfaces[self.radio_box_3.GetSelection()]
+	#	profile.putProfileSetting('printing_surface_name', prtsurf.name)
+	#	profile.putProfileSetting('printing_surface_height', prtsurf.height)
+	#	self.calculateZOffset()
 		
 	
 	#fonction pour enregistrer les données relative à l'offset dans le profil
@@ -1267,8 +1292,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 	"""FIN ERIC"""
 
 
-	def EVT_Checkboxsupp(self, event):
-		self.Refresh_Checkboxsupp()
+	def EVT_Supp(self, event):
+		self.Refresh_Supp()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()

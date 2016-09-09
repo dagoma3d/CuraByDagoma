@@ -1295,18 +1295,18 @@ class SceneView(openglGui.glGuiPanel):
 				glDisable(GL_TEXTURE_2D)
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 				glPopMatrix()
-		elif machine.startswith('Discovery'):
+		elif machine.startswith('DiscoEasy200'):
 			if machine not in self._platformMesh:
-				meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine + '_platform.stl'))
+				meshes = meshLoader.loadMeshes(resources.getPathForMesh('Discovery_platform.stl'))
 				if len(meshes) > 0:
 					self._platformMesh[machine] = meshes[0]
 				else:
 					self._platformMesh[machine] = None
-				if machine == 'Discovery':
+				if machine == 'DiscoEasy200':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
-					self._platformMesh[machine]._drawOffset = numpy.array([17.5,272,52], numpy.float32)
+					self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
 				else:
 					self._platformMesh[machine]._drawOffset = numpy.array([0,0,2.5], numpy.float32)
 			glColor4f(1,1,1,0.5)

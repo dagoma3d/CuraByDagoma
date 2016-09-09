@@ -18,7 +18,7 @@ class alterationPanel(wx.Panel):
 			self.alterationFileList += ['start3.gcode', 'end3.gcode']
 		if int(profile.getMachineSetting('extruder_amount')) > 3:
 			self.alterationFileList += ['start4.gcode', 'end4.gcode']
-		if (profile.getMachineSetting('machine_name') == 'Discovery'):
+		if (profile.getMachineSetting('machine_name') == 'DiscoEasy200'):
 			self.alterationFileList = ['start5.gcode', 'end5.gcode']
 			print self.alterationFileList
 		self.currentFile = None
