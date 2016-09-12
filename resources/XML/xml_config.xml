@@ -78,7 +78,7 @@
     <Remplissage name="Rempli (17%)">
       <fill_density>17</fill_density>
     </Remplissage>
-    <Remplissage name="Renforcé (33%)">
+    <Remplissage name="Renforce (33%)">
       <fill_density>33</fill_density>
     </Remplissage>
   </Bloc_Remplissage>
