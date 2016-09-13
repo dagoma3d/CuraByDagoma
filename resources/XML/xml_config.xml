@@ -318,8 +318,8 @@ M104 S{print_temperature}
 ;Activation palpeur
 ;bloc palpeur
 ;{palpeur}
+G1 X100 Y20 F3000
 G1 Z0.5
-G1 X100 Y0 F3000
 M107 ;start with the fan off
 M109 S{print_temperature}
 M82 ;set extruder to absolute mode
@@ -360,7 +360,7 @@ M84   ;shut down motors
     <DiscoveryPage title="Configuration de votre Cura By Dagoma Easy200">
       <Line1>Encore une fois, toute l’équipe Dagoma vous remercie de votre confiance.</Line1>
       <Line2>Votre logiciel Cura By Dagoma Easy200 est maintenant prêt à être utilisé avec votre imprimante 3D.</Line2>
-      <Line3>Nous sommes à votre écoute sur dagoma.fr ou par mail : contact@dagoma.fr “</Line3>
+      <Line3>Nous sommes à votre écoute sur dagoma.fr ou par mail : contact@dagoma.fr</Line3>
       <Line4>Bonne découverte à tous !</Line4>
       <Line5> </Line5>
     </DiscoveryPage>
