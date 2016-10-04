@@ -6631,6 +6631,7 @@ FunctionEnd
 ReserveFile: "InstallOptions.dll" 14848 bytes
 ReserveFile: "header.bmp" 0/21722 bytes
 Section: "Cura-by-Dagoma-Easy200"
+RMDir: /r "$PROFILE\.curaByDagomaEasy200"
 SectionIn: [RO] 
 SetOutPath: "$INSTDIR"
 File: "CuraEngine.exe" 1445932 bytes
@@ -10201,7 +10202,7 @@ File: "dagoma.icns" 39874 bytes
 File: "dagoma.ico" 26622 bytes
 File: "stl.ico" 1150 bytes
 File: Descending to: "dist\resources\XML\"
-File: "xml_config.xml" 17050 bytes
+File: "xml_config.xml" 16970 bytes
 File: Descending to: "dist\resources\example\"
 File: "Attribution.txt" 754 bytes
 File: "UltimakerHandle.stl" 449484 bytes
@@ -10375,7 +10376,7 @@ DeleteRegKey: HKLM\SOFTWARE\Cura-by-Dagoma-Easy200
 SetShellVarContext: all
 RMDir: /r "$SMPROGRAMS\Cura-by-Dagoma-Easy200"
 RMDir: /r "$INSTDIR"
-RMDir: /r "$PROFILE\.cura\Cura-by-Dagoma-Easy200"
+RMDir: /r "$PROFILE\.curaByDagomaEasy200"
 SectionEnd
 
 Processed 1 file, writing output:
@@ -10388,21 +10389,21 @@ Generating language tables... Done!
 Generating uninstaller... Done!
 
 Output: "c:\Users\gauthier\Desktop\git\curabydagoma\Cura\scripts\win32\Cura-by-Dagoma-Easy200.exe"
-Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4094 instructions (114632 bytes), 2938 strings (49382 bytes), 1 language table (322 bytes).
+Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4095 instructions (114660 bytes), 2939 strings (49407 bytes), 1 language table (322 bytes).
 Uninstall: 4 pages (256 bytes), 
-1 section (1048 bytes), 287 instructions (8036 bytes), 163 strings (2975 bytes), 1 language table (282 bytes).
+1 section (1048 bytes), 287 instructions (8036 bytes), 163 strings (2967 bytes), 1 language table (282 bytes).
 Datablock optimizer saved 132136 bytes (~0.1%).
 
 Using lzma (compress whole) compression.
 
 EXE header size:              406016 / 34816 bytes
-Install code:                          (170272 bytes)
-Install data:                          (91157247 bytes)
-Uninstall code+data:                   (96161 bytes)
-Compressed data:            18808346 / 91423680 bytes
-CRC (0x4E144B0D):                  4 / 4 bytes
+Install code:                          (170325 bytes)
+Install data:                          (91157167 bytes)
+Uninstall code+data:                   (96153 bytes)
+Compressed data:            18806536 / 91423645 bytes
+CRC (0x91A4D9E6):                  4 / 4 bytes
 
-Total size:                 19214366 / 91458500 bytes (21.0%)
+Total size:                 19212556 / 91458465 bytes (21.0%)
 
 1 warning:
   install function "StrContains" not referenced - zeroing code (0-23) out

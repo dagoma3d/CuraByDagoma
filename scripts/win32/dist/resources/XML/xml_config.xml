@@ -2,13 +2,13 @@
 <Dagoma_XML_Config>
   <Bloc_Initiliastion />
 
-;XML for DiscoEASY200 - le 6 sept 2016
+;XML for DiscoEASY200 - le 30 sept 2016
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition des filaments
 ;_______________________________________________________________________________________________________________________________________________________
   <Bloc_Filaments>
     <Filament name="PLA Chromatik">
-      <print_temperature>190</print_temperature>
+      <print_temperature>205</print_temperature>
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
@@ -17,18 +17,18 @@
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
-    <Filament name="PLA Filo3d-VERT">
+	<Filament name="PLA Filo3D">
+      <print_temperature>205</print_temperature>
+      <filament_diameter>1.75</filament_diameter>
+      <filament_flow>100</filament_flow>
+    </Filament>
+    <Filament name="PLA Filo3D-VERT">
       <print_temperature>200</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
-    <Filament name="PLA Filo3d-ROUGE">
+    <Filament name="PLA Filo3D-ROUGE">
       <print_temperature>220</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>100</filament_flow>
-    </Filament>
-    <Filament name="PLA Filo3d-autre couleur">
-      <print_temperature>205</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
@@ -90,20 +90,20 @@
       <layer_height>0.2</layer_height>
       <solid_layer_thickness>1</solid_layer_thickness>
       <wall_thickness>0.8</wall_thickness>
-      <print_speed>80</print_speed> 
-      <temp_preci>0</temp_preci>
-      <travel_speed>150</travel_speed>
+      <print_speed>60</print_speed> 
+      <temp_preci>10</temp_preci>
+      <travel_speed>100</travel_speed>
       <bottom_layer_speed>17</bottom_layer_speed>
-      <infill_speed>80</infill_speed>
-      <inset0_speed>70</inset0_speed>
-      <insetx_speed>80</insetx_speed>
+      <infill_speed>60</infill_speed>
+      <inset0_speed>50</inset0_speed>
+      <insetx_speed>60</insetx_speed>
     </Precision>
     <Precision name="Standard (0.15 mm)">
       <layer_height>0.15</layer_height>
       <solid_layer_thickness>1.05</solid_layer_thickness>
       <wall_thickness>1.2</wall_thickness>
       <print_speed>50</print_speed>
-      <temp_preci>0</temp_preci>
+      <temp_preci>5</temp_preci>
       <travel_speed>60</travel_speed>
       <bottom_layer_speed>17</bottom_layer_speed>
       <infill_speed>50</infill_speed>
@@ -227,11 +227,11 @@
     <machine_center_is_zero>False</machine_center_is_zero>
     <machine_shape>Square</machine_shape>
     <nozzle_size>0.4</nozzle_size>
-    <extruder_head_size_min_x>15</extruder_head_size_min_x>
+    <extruder_head_size_min_x>17</extruder_head_size_min_x>
     <extruder_head_size_min_y>40</extruder_head_size_min_y>
-    <extruder_head_size_max_x>15</extruder_head_size_max_x>
-    <extruder_head_size_max_y>115</extruder_head_size_max_y>
-    <extruder_head_size_height>35</extruder_head_size_height>
+    <extruder_head_size_max_x>17</extruder_head_size_max_x>
+    <extruder_head_size_max_y>70</extruder_head_size_max_y>
+    <extruder_head_size_height>10</extruder_head_size_height>
     <gcode_flavor>DiscoGCode</gcode_flavor>
     <retraction_enable>True</retraction_enable>
   </DiscoEasy200>
@@ -311,7 +311,6 @@
 G90   ;absolute positioning
 G28 X Y
 G1 X50
-M106 S130 ; ventilation forcee
 M109 S180
 G28
 M104 S{print_temperature}
@@ -340,7 +339,7 @@ G1 Z+3 F{travel_speed}  ;move Z up a bit and retract filament even more
 G90
 G28 X Y
 ;Ventilation forcee
-M109 R85 ; attendre une temperature basse 
+G4 P300000
 M107    ;stop fan
 ;Shut down motor
 M84   ;shut down motors
