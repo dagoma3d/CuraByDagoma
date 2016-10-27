@@ -2,13 +2,13 @@
 <Dagoma_XML_Config>
   <Bloc_Initiliastion />
 
-;XML for DiscoEASY200 - le 6 sept 2016
+;XML for DiscoEASY200 - le 30 sept 2016
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition des filaments
 ;_______________________________________________________________________________________________________________________________________________________
   <Bloc_Filaments>
     <Filament name="PLA Chromatik">
-      <print_temperature>190</print_temperature>
+      <print_temperature>205</print_temperature>
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
@@ -17,18 +17,18 @@
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
-    <Filament name="PLA Filo3d-VERT">
+	<Filament name="PLA Filo3D">
+      <print_temperature>205</print_temperature>
+      <filament_diameter>1.75</filament_diameter>
+      <filament_flow>100</filament_flow>
+    </Filament>
+    <Filament name="PLA Filo3D-VERT">
       <print_temperature>200</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
-    <Filament name="PLA Filo3d-ROUGE">
+    <Filament name="PLA Filo3D-ROUGE">
       <print_temperature>220</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>100</filament_flow>
-    </Filament>
-    <Filament name="PLA Filo3d-autre couleur">
-      <print_temperature>205</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
@@ -50,7 +50,7 @@
     <Filament name="PLA PolyWood">
       <print_temperature>210</print_temperature>
       <filament_diameter>1.75</filament_diameter>
-          <filament_flow>100</filament_flow>
+      <filament_flow>100</filament_flow>
     </Filament>
  <!--   <Filament name="PLA InnoFil">
       <print_temperature>200</print_temperature>
@@ -71,14 +71,14 @@
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition des remplissages
 ;_______________________________________________________________________________________________________________________________________________________
-  <Bloc_Remplissage label="Remplissage :">
-    <Remplissage name="Creux (Coque)">
+  <Bloc_Remplissage label="Remplissage de la pièce :">
+    <Remplissage name="Creux (coque)">
       <fill_density>0</fill_density>
     </Remplissage>
-    <Remplissage name="Rempli">
+    <Remplissage name="Rempli (17%)">
       <fill_density>17</fill_density>
     </Remplissage>
-    <Remplissage name="Renforcé">
+    <Remplissage name="Renforce (33%)">
       <fill_density>33</fill_density>
     </Remplissage>
   </Bloc_Remplissage>
@@ -90,20 +90,20 @@
       <layer_height>0.2</layer_height>
       <solid_layer_thickness>1</solid_layer_thickness>
       <wall_thickness>0.8</wall_thickness>
-      <print_speed>80</print_speed> 
-      <temp_preci>0</temp_preci>
-      <travel_speed>150</travel_speed>
+      <print_speed>60</print_speed> 
+      <temp_preci>10</temp_preci>
+      <travel_speed>100</travel_speed>
       <bottom_layer_speed>17</bottom_layer_speed>
-      <infill_speed>80</infill_speed>
-      <inset0_speed>70</inset0_speed>
-      <insetx_speed>80</insetx_speed>
+      <infill_speed>60</infill_speed>
+      <inset0_speed>50</inset0_speed>
+      <insetx_speed>60</insetx_speed>
     </Precision>
     <Precision name="Standard (0.15 mm)">
       <layer_height>0.15</layer_height>
       <solid_layer_thickness>1.05</solid_layer_thickness>
       <wall_thickness>1.2</wall_thickness>
-      <print_speed>45</print_speed>
-      <temp_preci>0</temp_preci>
+      <print_speed>50</print_speed>
+      <temp_preci>5</temp_preci>
       <travel_speed>60</travel_speed>
       <bottom_layer_speed>17</bottom_layer_speed>
       <infill_speed>50</infill_speed>
@@ -122,7 +122,7 @@
       <inset0_speed>25</inset0_speed>
       <insetx_speed>35</insetx_speed>
     </Precision>
-    <Precision name="Filaments Spéciaux flexible,bois">
+    <Precision name="Filaments flexible">
       <layer_height>0.1</layer_height>
       <solid_layer_thickness>0.6</solid_layer_thickness>
       <wall_thickness>1.2</wall_thickness>
@@ -130,9 +130,21 @@
       <temp_preci>0</temp_preci>
       <travel_speed>50</travel_speed>
       <bottom_layer_speed>12</bottom_layer_speed>
-      <infill_speed>30</infill_speed>
+      <infill_speed>25</infill_speed>
       <inset0_speed>20</inset0_speed>
       <insetx_speed>25</insetx_speed>
+    </Precision>
+    <Precision name="Filaments bois">
+      <layer_height>0.15</layer_height>
+      <solid_layer_thickness>1.05</solid_layer_thickness>
+      <wall_thickness>1.2</wall_thickness>
+      <print_speed>50</print_speed>
+      <temp_preci>0</temp_preci>
+      <travel_speed>60</travel_speed>
+      <bottom_layer_speed>17</bottom_layer_speed>
+      <infill_speed>50</infill_speed>
+      <inset0_speed>40</inset0_speed>
+      <insetx_speed>45</insetx_speed>
     </Precision>
   
   </Bloc_Precision>
@@ -151,14 +163,14 @@
     </Support>
   </Bloc_Support-->
 
-  <Bloc_Support label="Support pour impression">
+  <Bloc_Support label="Supports pour impression : ">
     <Support name="Aucun">
       <support>None</support>
     </Support>
-    <Support name="Touche le plateau">
+    <Support name="Parties touchant le plateau">
       <support>Touching buildplate</support>
     </Support>
-    <Support name="Partout">
+    <Support name="Partout (intérieurs pièce inclus)">
       <support>Everywhere</support>
     </Support>
   </Bloc_Support>
@@ -193,7 +205,7 @@
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition de l'utilisation du palpeur
 ;_______________________________________________________________________________________________________________________________________________________
-  <Bloc_Palpeur label="Utilisation du Palpeur">
+  <Bloc_Palpeur label="Utilisation du palpeur">
     <Palpeur_Enable>
       <palpeur>Palpeur</palpeur>
     </Palpeur_Enable>
@@ -215,11 +227,11 @@
     <machine_center_is_zero>False</machine_center_is_zero>
     <machine_shape>Square</machine_shape>
     <nozzle_size>0.4</nozzle_size>
-    <extruder_head_size_min_x>15</extruder_head_size_min_x>
+    <extruder_head_size_min_x>17</extruder_head_size_min_x>
     <extruder_head_size_min_y>40</extruder_head_size_min_y>
-    <extruder_head_size_max_x>15</extruder_head_size_max_x>
-    <extruder_head_size_max_y>115</extruder_head_size_max_y>
-    <extruder_head_size_height>35</extruder_head_size_height>
+    <extruder_head_size_max_x>17</extruder_head_size_max_x>
+    <extruder_head_size_max_y>70</extruder_head_size_max_y>
+    <extruder_head_size_height>10</extruder_head_size_height>
     <gcode_flavor>DiscoGCode</gcode_flavor>
     <retraction_enable>True</retraction_enable>
   </DiscoEasy200>
@@ -299,15 +311,14 @@
 G90   ;absolute positioning
 G28 X Y
 G1 X50
-M106 S130 ; ventilation forcee
 M109 S180
 G28
 M104 S{print_temperature}
 ;Activation palpeur
 ;bloc palpeur
 ;{palpeur}
+G1 X100 Y20 F3000
 G1 Z0.5
-G1 X100 Y0 F3000
 M107 ;start with the fan off
 M109 S{print_temperature}
 M82 ;set extruder to absolute mode
@@ -328,7 +339,7 @@ G1 Z+3 F{travel_speed}  ;move Z up a bit and retract filament even more
 G90
 G28 X Y
 ;Ventilation forcee
-M109 R85 ; attendre une temperature basse 
+G4 P300000
 M107    ;stop fan
 ;Shut down motor
 M84   ;shut down motors
@@ -339,18 +350,18 @@ M84   ;shut down motors
 ;_______________________________________________________________________________________________________________________________________________________
   <Text>
     <FirstInfoPage title="Première Utilisation">
-      <Line1>Bienvenue, merci d'avoir choisi Cura By dagoma !</Line1>
+      <Line1>Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !</Line1>
       <Line2>Nous allons maintenant vous accompagner tout au long de la configuration ainsi que la première utilisation de votre imprimante 3D.</Line2>
     </FirstInfoPage>
     <MachineSelectPage title="Votre Machine">
-      <Line1>Quel modèle d'imprimantes 3D possédez-vous ?</Line1>
+      <Line1>Quel modèle d'imprimante 3D possédez-vous ?</Line1>
     </MachineSelectPage>
-    <DiscoveryPage title="Configuration de votre DiscoEASY200">
-      <Line1>Encore une fois, toute l’équipe dagoma vous remercie de votre confiance.</Line1>
-      <Line2>Votre logiciel Cura By Dagoma for DiscoEASY200 est maintenant prêt à être utilisé avec votre nouvelle imprimante 3D.</Line2>
-      <Line3>Si vous avez des questions, des remarques ou des suggestions, nous sommes à votre écoute : www.dagoma.fr</Line3>
-      <Line4>À très bientôt sur notre site : www.dagoma.fr</Line4>
-      <Line5>Et d'ici là, nous vous souhaitons de très bonnes impressions !</Line5>
+    <DiscoveryPage title="Configuration de votre Cura By Dagoma Easy200">
+      <Line1>Encore une fois, toute l’équipe Dagoma vous remercie de votre confiance.</Line1>
+      <Line2>Votre logiciel Cura By Dagoma Easy200 est maintenant prêt à être utilisé avec votre imprimante 3D.</Line2>
+      <Line3>Nous sommes à votre écoute sur dagoma.fr ou par mail : contact@dagoma.fr</Line3>
+      <Line4>Bonne découverte à tous !</Line4>
+      <Line5> </Line5>
     </DiscoveryPage>
   </Text>
 </Dagoma_XML_Config>

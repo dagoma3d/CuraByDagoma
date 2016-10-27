@@ -123,11 +123,15 @@ ReserveFile "header.bmp"
 
 ; The stuff to install
 Section "${VERSION}"
-
+  ;Try to delete Profile
+  RMDir /r "$PROFILE\.curaByDagomaEasy200"
+  
   SectionIn RO
   
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
+  
+  
   
   ; Put file there
   File /r "dist\"
@@ -211,5 +215,6 @@ Section "Uninstall"
   ; Remove directories used
   RMDir /r "$SMPROGRAMS\${VERSION}"
   RMDir /r "$INSTDIR"
-  RMDir /r "$PROFILE\.cura\${VERSION}"
+  ;Try to delete Profile
+  RMDir /r "$PROFILE\.curaByDagomaEasy200"
 SectionEnd
