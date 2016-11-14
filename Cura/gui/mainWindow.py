@@ -30,15 +30,16 @@ from Cura.util import meshLoader
 
 from Cura.util import resources
 from xml.dom import minidom
- 
+
 doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 
-# 
+#
 # MAINTENANT
-# 
+#
 class mainWindow(wx.Frame):
 	def __init__(self):
-		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200')# version.getVersion()
+		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200 '+doc.getElementsByTagName("Version")[0])# version.getVersion()
+    self.CBDVersion = doc.getElementsByTagName("Version")[0]
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
