@@ -117,7 +117,7 @@ class Scene(object):
 		self._leftToRight = False
 		self._frontToBack = True
 		self._gantryHeight = 60
-		self._oneAtATime = True
+		self._oneAtATime = False
 
 	# update the physical machine dimensions
 	def updateMachineDimensions(self):
@@ -157,10 +157,10 @@ class Scene(object):
 		self._headSizeOffsets[0] = min(xMin, xMax)
 		self._headSizeOffsets[1] = min(yMin, yMax)
 		self._gantryHeight = gantryHeight
-		self._oneAtATime = self._gantryHeight > 0 and profile.getPreference('oneAtATime') == 'True'
-		for obj in self._objectList:
-			if obj.getSize()[2] > self._gantryHeight:
-				self._oneAtATime = False
+		self._oneAtATime = False;#self._gantryHeight > 0 and profile.getPreference('oneAtATime') == 'True'
+		#for obj in self._objectList:
+		#	if obj.getSize()[2] > self._gantryHeight:
+		#		self._oneAtATime = False
 
 		headArea = numpy.array([[-xMin,-yMin],[ xMax,-yMin],[ xMax, yMax],[-xMin, yMax]], numpy.float32)
 

@@ -95,37 +95,37 @@ class mainWindow(wx.Frame):
 		# i = self.fileMenu.Append(-1, _("Show slice engine log..."))
 		# self.Bind(wx.EVT_MENU, lambda e: self.scene._showEngineLog(), i)
 		# self.fileMenu.AppendSeparator()
-		
+
 		# i = self.fileMenu.Append(-1, _("Open Profile..."))
 		# self.normalModeOnlyItems.append(i)
 		# self.Bind(wx.EVT_MENU, self.OnLoadProfile, i)
-		
+
 		# i = self.fileMenu.Append(-1, _("Save Profile..."))
 		# self.normalModeOnlyItems.append(i)
 		# self.Bind(wx.EVT_MENU, self.OnSaveProfile, i)
-		
+
 		# i = self.fileMenu.Append(-1, _("Load Profile from GCode..."))
 		# self.normalModeOnlyItems.append(i)
 		# self.Bind(wx.EVT_MENU, self.OnLoadProfileFromGcode, i)
 		# self.fileMenu.AppendSeparator()
-		
+
 		# i = self.fileMenu.Append(-1, _("Reset Profile to default"))
 		# self.normalModeOnlyItems.append(i)
 		# self.Bind(wx.EVT_MENU, self.OnResetProfile, i)
 
 		# self.fileMenu.AppendSeparator()
-		
+
 		# i = self.fileMenu.Append(-1, _("Preferences...\tCTRL+P"))
 		# self.Bind(wx.EVT_MENU, self.OnPreferences, i)
-		 
+
 		# i = self.fileMenu.Append(-1, _("Machine settings...\tCTRL+M"))
 		# self.Bind(wx.EVT_MENU, self.OnMachineSettings, i)
-		 
+
 		# i = self.fileMenu.Append(-1, _("Expert settings...\tCTRL+E"))
 		# self.Bind(wx.EVT_MENU, self.OnExpertOpen, i)
-		
+
 		# self.fileMenu.AppendSeparator()
-		
+
 		# Model MRU list
 		modelHistoryMenu = wx.Menu()
 		self.fileMenu.AppendMenu(wx.NewId(), '&' + _("Objets Récemment Ouverts".decode('utf-8')), modelHistoryMenu)
@@ -216,19 +216,19 @@ class mainWindow(wx.Frame):
 		helpMenu = wx.Menu()
 		# i = helpMenu.Append(-1, _("Online documentation..."))
 		# self.Bind(wx.EVT_MENU, lambda e: webbrowser.open('http://daid.github.com/Cura'), i)
-		 
+
 		# i = helpMenu.Append(-1, _("Report a problem..."))
 		# self.Bind(wx.EVT_MENU, lambda e: webbrowser.open('https://github.com/daid/Cura/issues'), i)
-		 
+
 		# i = helpMenu.Append(-1, _("Check for update..."))
 		# self.Bind(wx.EVT_MENU, self.OnCheckForUpdate, i)
-		 
+
 		# i = helpMenu.Append(-1, _("Open YouMagine website..."))
 		# self.Bind(wx.EVT_MENU, lambda e: webbrowser.open('https://www.youmagine.com/'), i)
-		 
+
 		# i = helpMenu.Append(-1, _("About Cura..."))
 		# self.Bind(wx.EVT_MENU, self.OnAbout, i)
-		
+
 		# self.menubar.Append(helpMenu, _("Help"))
 		# self.SetMenuBar(self.menubar)
 		# self.menubar.Hide() # Dagoma
@@ -507,7 +507,7 @@ class mainWindow(wx.Frame):
 			self.addToProfileMRU(profileFile)
 
 		dlg.Destroy()
-		
+
 
 
 
@@ -625,7 +625,7 @@ class mainWindow(wx.Frame):
 			wx.MessageBox(_("You are running the latest version of Cura!"), _("Awesome!"), wx.ICON_INFORMATION)
 
 	def OnAbout(self, e):
-		# aboutBox = aboutWindow.aboutWindow() # MOI ENLEVE LA WINDOWS ABOUT 
+		# aboutBox = aboutWindow.aboutWindow() # MOI ENLEVE LA WINDOWS ABOUT
 		aboutBox.Centre()
 		aboutBox.Show()
 
@@ -686,12 +686,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.print_temperature = '185'
 			self.filament_diameter = '1.74'
 			self.filament_flow = '80'
-			
+
 	class Remplissage:
 		def __init__(self):
 			self.type = ''
 			self.fill_density = ''
-			
+
 	class Precision:
 		def __init__(self):
 			self.type = ''
@@ -706,7 +706,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.inset0_speed = ''
 			self.insetx_speed = ''
 
-                
+
 	class Support:
 		def __init__(self):
 			self.support = None
@@ -755,7 +755,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.parent = parent
 		self.loadxml()
 		self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Filament :"))
-		
+
 		"""ERIC"""
 		#Rajout d'un label pour le titre "Offset"
 		#self.offset_label = wx.StaticText(self, wx.ID_ANY, _(self.offset_title))
@@ -772,12 +772,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		"""ERIC"""
 		# Initialisation des valeurs à partir du profile
-		# 
-		# 
+		#
+		#
 		self.Init_Palpeur_chbx()
 		#self.Init_Printing_surface()
 		"""FIN ERIC"""
-		
+
 
 		#Refresh ALL Value
 		self.Refresh_Supp()
@@ -861,7 +861,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_BUTTON, self.Click_Button, self.button_1)
 
  		self.Bind(wx.EVT_SIZE, self.OnSize)
-		
+
 
 	def __set_properties(self):
 		self.combo_box_1.SetSelection(0)
@@ -918,7 +918,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.init_Config_Preferences()
 		self.init_Config_Adv()
 		self.init_Config_Expert()
-		
+
 	def setvalue_from_xml(self, sub, var):
 		profile.putProfileSetting(var, self.getNodeText(sub.getElementsByTagName(var)[0]))
 
@@ -1003,7 +1003,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setvalue_from_xml_pref(config_pref, 'check_for_updates')
 		self.setvalue_from_xml_pref(config_pref, 'submit_slice_information')
 
-		
+
 	def get_filaments(self):
 		filaments = doc.getElementsByTagName("Filament")
 		self.filaments = []
@@ -1023,7 +1023,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print 'Some Error in Filament Bloc'
 				pass
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.combo_box_1 = wx.Choice(self, wx.ID_ANY, choices = choices) 
+			self.combo_box_1 = wx.Choice(self, wx.ID_ANY, choices = choices)
 		else:
 			self.combo_box_1 = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_SIMPLE | wx.CB_READONLY)
 
@@ -1038,7 +1038,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				rempli = self.Remplissage()
 				choices.append(remplissage.getAttribute("name"))
 				rempli.type = remplissage.getAttribute("name")
-				try : 
+				try :
 					rempli.fill_density = self.getNodeText(remplissage.getElementsByTagName("fill_density")[0])
 					self.remplissages.append(rempli)
 				except:
@@ -1090,7 +1090,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					print 'Some Error in Supports Bloc'
 					pass
 		self.printsupp = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
-	
+
 
 	#def get_support(self):
 	#	bloc_name = doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label")
@@ -1132,7 +1132,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.palpeurs.append(self.Palpeur())
 		self.palpeurs[1].palpeur = self.getNodeText(palpeur_disable[0].getElementsByTagName("palpeur")[0])
 
-	
+
 	#Fonction qui recupere dans le xml les differentes lignes pour le bloc Offset
 	#
 	#
@@ -1146,7 +1146,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def get_printing_surface(self):
 		bloc_name = doc.getElementsByTagName("Bloc_Printing_surface")[0].getAttribute("label")
 
-		
+
 		printing_surfaces = doc.getElementsByTagName("Printing_surface")
 		choices = []
 		self.printing_surfaces = []
@@ -1172,11 +1172,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.spin_ctrl_1.Enable(True)
 		else:
 			self.spin_ctrl_1.Enable(False)
-		self.spin_ctrl_1.SetValue(float(fila.print_temperature))            
+		self.spin_ctrl_1.SetValue(float(fila.print_temperature))
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
-				
+
 	def Refresh_Rempli(self):
 		rempli = self.remplissages[self.radio_box_2.GetSelection()]
 		profile.putProfileSetting('fill_density', rempli.fill_density)
@@ -1199,7 +1199,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def Refresh_Supp(self):
 		supp = self.supports[self.printsupp.GetSelection()]
 		profile.putProfileSetting('support', supp.support)
-		
+
 	#def Refresh_Checkboxsupp(self):
 	#	if self.printsupp.GetValue():
 	#		profile.putProfileSetting('support', self.supports[0].support)
@@ -1224,7 +1224,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		#else :
 		#	self.palpeur_chbx.SetValue(False)
-		self.palpeur_chbx.SetValue(True)	
+		self.palpeur_chbx.SetValue(True)
 		self.palpeur_chbx.Refresh()
 
 
@@ -1247,15 +1247,15 @@ class normalSettingsPanel(configBase.configPanelBase):
 			return False
 
 
-	#fonction pour calcul l'offset en fonction 
+	#fonction pour calcul l'offset en fonction
 	#
 	#
 	def calculateZOffset(self):
-		printing_surface_height = float(profile.getProfileSetting('printing_surface_height')) 
-		offset_input = float(profile.getProfileSetting('offset_input')) 
+		printing_surface_height = float(profile.getProfileSetting('printing_surface_height'))
+		offset_input = float(profile.getProfileSetting('offset_input'))
 		offset_value = offset_input - printing_surface_height
 		profile.putProfileSetting('offset_value', offset_value)
-		
+
 
 	#fonction pour enregistrer les données relative à la surface d'impresion dans le profil
 	#
@@ -1265,8 +1265,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#	profile.putProfileSetting('printing_surface_name', prtsurf.name)
 	#	profile.putProfileSetting('printing_surface_height', prtsurf.height)
 	#	self.calculateZOffset()
-		
-	
+
+
 	#fonction pour enregistrer les données relative à l'offset dans le profil
 	#
 	#
@@ -1278,7 +1278,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else :
 			self.offset_ctrl.SetValue(profile.getProfileSetting('offset_input'))
 			self.offset_ctrl.Refresh()
-		
+
 	#fonction pour enregistrer les données relative au palpeur dans le profil
 	#
 	#
@@ -1287,7 +1287,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('palpeur_enable', self.palpeurs[0].palpeur)
 		else:
 			profile.putProfileSetting('palpeur_enable', self.palpeurs[1].palpeur)
-			
+
 
 
 	"""FIN ERIC"""
@@ -1330,8 +1330,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	"""ERIC"""
 	# evenement sur le bloc Printing Surface
-	# 
-	# 
+	#
+	#
 	def EVT_PrtSurf(self, event):
 		self.Refresh_Printing_surface()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -1341,8 +1341,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	# evenement sur le l'input pour l'Offset
-	# 
-	# 
+	#
+	#
 	def EVT_Offset(self, event):
 		self.Refresh_Offset()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -1352,8 +1352,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	# evenement sur le bloc palpeur
-	# 
-	# 
+	#
+	#
 	def EVT_Checkboxpalpeur(self, event):
 		self.Refresh_Palpeur_chbx()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -1420,9 +1420,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 		self.Print_All()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.OnPrintButton(1)		
+		self.GetParent().GetParent().GetParent().scene.OnPrintButton(1)
 		event.Skip()
-		
+
 	def _addSettingsToPanels(self, category, left, right):
 		count = len(profile.getSubCategoriesFor(category)) + len(profile.getSettingsForCategory(category))
 

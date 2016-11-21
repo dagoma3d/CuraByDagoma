@@ -46,7 +46,7 @@ def getNodeText(node):
 # 	gend = doc.getElementsByTagName("GCODE")[0].getAttribute("Gend")
 # 	print str(gstart)
 # 	print str(gend)
-# 
+#
 
 #The settings dictionary contains a key/value reference to all possible settings. With the setting name as key.
 settingsDictionary = {}
@@ -489,7 +489,7 @@ setting('postSwitchExtruder.gcode', """;Switch between the current extruder and 
 """, str, 'alteration', 'alteration')
 
 setting('startMode', 'Normal', ['Simple', 'Normal'], 'preference', 'hidden')
-setting('oneAtATime', 'True', bool, 'preference', 'hidden')
+setting('oneAtATime', 'False', bool, 'preference', 'hidden')
 setting('lastFile', os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'resources', 'example', 'UltimakerRobot_support.stl')), str, 'preference', 'hidden')
 setting('save_profile', 'False', bool, 'preference', 'hidden').setLabel(_("Save profile on slice"), _("When slicing save the profile as [stl_file]_profile.ini next to the model."))
 setting('filament_cost_kg', '0', float, 'preference', 'hidden').setLabel(_("Cost (price/kg)"), _("Cost of your filament per kg, to estimate the cost of the final print."))
@@ -1197,7 +1197,7 @@ def getGCodeExtension():
 """ERIC"""
 #Genere le Gcode pour le palpeur
 #
-#	
+#
 def getPalpeurGCode():
 	if getProfileSetting('palpeur_enable') == 'None' :
 		return ';No Palpeur'
