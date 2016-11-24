@@ -2,7 +2,7 @@
 <Dagoma_XML_Config>
   <Bloc_Initiliastion />
 
-;XML for DiscoEASY200 - le 30 sept 2016
+;XML for DiscoEASY200 - le 14 nov 2016
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition des filaments
 ;_______________________________________________________________________________________________________________________________________________________
@@ -90,7 +90,7 @@
       <layer_height>0.2</layer_height>
       <solid_layer_thickness>1</solid_layer_thickness>
       <wall_thickness>0.8</wall_thickness>
-      <print_speed>60</print_speed> 
+      <print_speed>60</print_speed>
       <temp_preci>10</temp_preci>
       <travel_speed>100</travel_speed>
       <bottom_layer_speed>17</bottom_layer_speed>
@@ -146,7 +146,7 @@
       <inset0_speed>40</inset0_speed>
       <insetx_speed>45</insetx_speed>
     </Precision>
-  
+
   </Bloc_Precision>
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition du type de support et d'accroche
@@ -174,7 +174,7 @@
       <support>Everywhere</support>
     </Support>
   </Bloc_Support>
-  
+
   <Bloc_Brim label="Amélioration de la surface d'adhésion">
     <Brim_Enable>
       <platform_adhesion>Brim</platform_adhesion>
@@ -307,8 +307,9 @@
 ;_______________________________________________________________________________________________________________________________________________________
   <GCODE>
     <Gstart>
-;Gcode by Cura-by-dagoma for DiscoEASY200 
+;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.2
 G90   ;absolute positioning
+M106 S250 ;fan on for the palpeur
 G28 X Y
 G1 X50
 M109 S180
@@ -317,9 +318,9 @@ M104 S{print_temperature}
 ;Activation palpeur
 ;bloc palpeur
 ;{palpeur}
+M107 ;start with the fan off
 G1 X100 Y20 F3000
 G1 Z0.5
-M107 ;start with the fan off
 M109 S{print_temperature}
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
@@ -339,7 +340,6 @@ G1 Z+3 F{travel_speed}  ;move Z up a bit and retract filament even more
 G90
 G28 X Y
 ;Ventilation forcee
-G4 P300000
 M107    ;stop fan
 ;Shut down motor
 M84   ;shut down motors
@@ -349,6 +349,7 @@ M84   ;shut down motors
 ;Definition des textes d'installation
 ;_______________________________________________________________________________________________________________________________________________________
   <Text>
+    <Version>V1.0.2</Version>
     <FirstInfoPage title="Première Utilisation">
       <Line1>Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !</Line1>
       <Line2>Nous allons maintenant vous accompagner tout au long de la configuration ainsi que la première utilisation de votre imprimante 3D.</Line2>
