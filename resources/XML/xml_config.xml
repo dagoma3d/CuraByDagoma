@@ -307,9 +307,9 @@
 ;_______________________________________________________________________________________________________________________________________________________
   <GCODE>
     <Gstart>
-;Gcode by Cura-by-dagoma for DiscoEASY200 {CBDVersion}
+;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.2
 G90   ;absolute positioning
-M106 S160 ;fan on for the palpeur
+M106 S250 ;fan on for the palpeur
 G28 X Y
 G1 X50
 M109 S180
@@ -340,7 +340,6 @@ G1 Z+3 F{travel_speed}  ;move Z up a bit and retract filament even more
 G90
 G28 X Y
 ;Ventilation forcee
-G4 P300000
 M107    ;stop fan
 ;Shut down motor
 M84   ;shut down motors

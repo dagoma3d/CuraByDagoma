@@ -330,6 +330,7 @@ if [ $BUILD_TARGET = "win32" ]; then
 	#extract ffmpeg-20120927-git-13f0cd6-win32-static.7z ffmpeg-20120927-git-13f0cd6-win32-static/licenses
 	extract comtypes-0.6.2.win32.exe
 	extract ejectmedia.zip Win32
+	echo "extract Finished"
 
 	mkdir -p ${TARGET_DIR}/python
 	mkdir -p ${TARGET_DIR}/Cura/
@@ -344,6 +345,7 @@ if [ $BUILD_TARGET = "win32" ]; then
 	#mv ffmpeg-20120927-git-13f0cd6-win32-static/bin/ffmpeg.exe ${TARGET_DIR}/Cura/
 	#mv ffmpeg-20120927-git-13f0cd6-win32-static/licenses ${TARGET_DIR}/Cura/ffmpeg-licenses/
 	mv Win32/EjectMedia.exe ${TARGET_DIR}/Cura/
+	echo "mv Finished"
 	
 	rm -rf Power/
 	rm -rf \$_OUTDIR
@@ -352,7 +354,8 @@ if [ $BUILD_TARGET = "win32" ]; then
 	rm -rf VideoCapture-0.9-5
 	rm -rf numpy-1.6.2-sse2.exe
 	#rm -rf ffmpeg-20120927-git-13f0cd6-win32-static
-
+	echo "rm Finished"
+	
 	#Clean up portable python a bit, to keep the package size down.
 	rm -rf ${TARGET_DIR}/python/PyScripter.*
 	rm -rf ${TARGET_DIR}/python/Doc
@@ -364,7 +367,8 @@ if [ $BUILD_TARGET = "win32" ]; then
 	rm -rf ${TARGET_DIR}/python/Lib/site-packages/wx-2.8-msw-unicode/wx/locale
 	#Remove the gle files because they require MSVCR71.dll, which is not included. We also don't need gle, so it's safe to remove it.
 	rm -rf ${TARGET_DIR}/python/Lib/OpenGL/DLLS/gle*
-
+	echo "clean Finished"
+	
     #Build the C++ engine
 	# mingw32-make -C CuraEngine VERSION=${BUILD_NAME}
  #    if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
@@ -377,18 +381,24 @@ cp -a resources/* ${TARGET_DIR}/resources
 cp -a plugins/* ${TARGET_DIR}/plugins
 #Add cura version file
 echo $BUILD_NAME > ${TARGET_DIR}/Cura/version
+echo "add cura Finished"
+	
 
 #add script files
 if [ $BUILD_TARGET = "win32" ]; then
     cp -a scripts/${BUILD_TARGET}/*.bat $TARGET_DIR/
    cp Win32CuraEngine/CuraEngine.exe $TARGET_DIR #Add by dagoma
     # cp CuraEngine/build/CuraEngine.exe $TARGET_DIR
+   echo "add script Finished"
+
 else
     cp -a scripts/${BUILD_TARGET}/*.sh $TARGET_DIR/
 fi
 
 #package the result
 if (( ${ARCHIVE_FOR_DISTRIBUTION} )); then
+	echo "ARCHIVE_FOR_DISTRIBUTION"
+   
 	if [ $BUILD_TARGET = "win32" ]; then
 		#rm ${TARGET_DIR}.zip
 		#cd ${TARGET_DIR}
@@ -414,6 +424,8 @@ if (( ${ARCHIVE_FOR_DISTRIBUTION} )); then
 			mv ./${BUILD_NAME}.exe ./Instal_${BUILD_NAME_INSTALL}.exe
 	        if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./Instal_${BUILD_NAME_INSTALL}.exe"; exit 1; fi
 	        echo 'Good Job, All Works Well !!! :)'
+		else
+			echo "no makensis"
 		fi
 	else
 		echo "Archiving to ${TARGET_DIR}.tar.gz"

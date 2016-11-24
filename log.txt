@@ -6461,7 +6461,7 @@ Credits can be found in the Users Manual.
 
 Command line defined: "VERSION=Cura-by-Dagoma-Easy200"
 Processing config: 
-Processing plugin dlls: "c:\Program Files (x86)\NSIS\Plugins\*.dll"
+Processing plugin dlls: "C:\Program Files (x86)\NSIS\Plugins\*.dll"
  - AdvSplash::show
  - Banner::destroy
  - Banner::getWindow
@@ -6527,7 +6527,7 @@ Processing plugin dlls: "c:\Program Files (x86)\NSIS\Plugins\*.dll"
 
 !define: "MUI_INSERT_NSISCONF"=""
 
-Changing directory to: "c:\Users\gauthier\Desktop\git\curabydagoma\Cura\scripts\win32"
+Changing directory to: "C:\hg\dagoma\Cura\scripts\win32"
 
 Processing script file: "scripts/win32/installer.nsi"
 PluginDir: "nsisPlugins"
@@ -6561,16 +6561,16 @@ OutFile: "Cura-by-Dagoma-Easy200.exe"
 InstallDir: "$PROGRAMFILES\Cura-by-Dagoma-Easy200"
 InstallRegKey: "HKLM\Software\Cura-by-Dagoma-Easy200\Install_Dir"
 SetCompressor: /SOLID lzma
-!include: "c:\Program Files (x86)\NSIS\Include\MUI2.nsh"
-!include: "c:\Program Files (x86)\NSIS\Contrib\Modern UI 2\MUI2.nsh"
-NSIS Modern User Interface version 2.0 - Copyright 2002-2009 Joost Verburg (c:\Program Files (x86)\NSIS\Contrib\Modern UI 2\MUI2.nsh:8)
+!include: "C:\Program Files (x86)\NSIS\Include\MUI2.nsh"
+!include: "C:\Program Files (x86)\NSIS\Contrib\Modern UI 2\MUI2.nsh"
+NSIS Modern User Interface version 2.0 - Copyright 2002-2009 Joost Verburg (C:\Program Files (x86)\NSIS\Contrib\Modern UI 2\MUI2.nsh:8)
 !define: "MUI_INCLUDED"=""
 !define: "MUI_SYSVERSION"="2.0"
 !define: "MUI_VERBOSE"="3"
-!include: closed: "c:\Program Files (x86)\NSIS\Contrib\Modern UI 2\MUI2.nsh"
-!include: closed: "c:\Program Files (x86)\NSIS\Include\MUI2.nsh"
-!include: "c:\Program Files (x86)\NSIS\Include\Library.nsh"
-!include: closed: "c:\Program Files (x86)\NSIS\Include\Library.nsh"
+!include: closed: "C:\Program Files (x86)\NSIS\Contrib\Modern UI 2\MUI2.nsh"
+!include: closed: "C:\Program Files (x86)\NSIS\Include\MUI2.nsh"
+!include: "C:\Program Files (x86)\NSIS\Include\Library.nsh"
+!include: closed: "C:\Program Files (x86)\NSIS\Include\Library.nsh"
 Var: "STR_HAYSTACK"
 Var: "STR_NEEDLE"
 Var: "STR_CONTAINS_VAR_1"
@@ -6673,7 +6673,7 @@ File: "expertConfig.py" 1365 bytes
 File: "expertConfig.pyc" 2431 bytes
 File: "firmwareInstall.py" 4505 bytes
 File: "firmwareInstall.pyc" 5803 bytes
-File: "mainWindow.py" 57541 bytes
+File: "mainWindow.py" 57599 bytes
 File: "mainWindow.py.bak" 55569 bytes
 File: "mainWindow.pyc" 48833 bytes
 File: "newVersionDialog.py" 4541 bytes
@@ -9251,13 +9251,13 @@ File: Descending to: "dist\python\Lib\numpy\tests\"
 File: "test_ctypeslib.py" 3879 bytes
 File: "test_matlib.py" 1510 bytes
 File: Descending to: "dist\python\Lib\power\"
-File: "__init__.py" 1573 bytes
-File: "common.py" 6036 bytes
-File: "darwin.py" 16475 bytes
-File: "freebsd.py" 6466 bytes
-File: "linux.py" 8363 bytes
-File: "tests.py" 1609 bytes
-File: "win32.py" 3522 bytes
+File: "__init__.py" 1532 bytes
+File: "common.py" 5829 bytes
+File: "darwin.py" 16135 bytes
+File: "freebsd.py" 6292 bytes
+File: "linux.py" 8180 bytes
+File: "tests.py" 1563 bytes
+File: "win32.py" 3423 bytes
 File: Descending to: "dist\python\Lib\pydoc_data\"
 File: "topics.py" 432014 bytes
 File: Descending to: "dist\python\Lib\serial\"
@@ -10202,7 +10202,7 @@ File: "dagoma.icns" 39874 bytes
 File: "dagoma.ico" 26622 bytes
 File: "stl.ico" 1150 bytes
 File: Descending to: "dist\resources\XML\"
-File: "xml_config.xml" 16970 bytes
+File: "xml_config.xml" 17026 bytes
 File: Descending to: "dist\resources\example\"
 File: "Attribution.txt" 754 bytes
 File: "UltimakerHandle.stl" 449484 bytes
@@ -10388,7 +10388,7 @@ Removing unused resources... Done!
 Generating language tables... Done!
 Generating uninstaller... Done!
 
-Output: "c:\Users\gauthier\Desktop\git\curabydagoma\Cura\scripts\win32\Cura-by-Dagoma-Easy200.exe"
+Output: "C:\hg\dagoma\Cura\scripts\win32\Cura-by-Dagoma-Easy200.exe"
 Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4095 instructions (114660 bytes), 2939 strings (49407 bytes), 1 language table (322 bytes).
 Uninstall: 4 pages (256 bytes), 
 1 section (1048 bytes), 287 instructions (8036 bytes), 163 strings (2967 bytes), 1 language table (282 bytes).
@@ -10398,12 +10398,12 @@ Using lzma (compress whole) compression.
 
 EXE header size:              406016 / 34816 bytes
 Install code:                          (170325 bytes)
-Install data:                          (91157167 bytes)
+Install data:                          (91156191 bytes)
 Uninstall code+data:                   (96153 bytes)
-Compressed data:            18806536 / 91423645 bytes
-CRC (0x91A4D9E6):                  4 / 4 bytes
+Compressed data:            18806601 / 91422669 bytes
+CRC (0x55B22DB9):                  4 / 4 bytes
 
-Total size:                 19212556 / 91458465 bytes (21.0%)
+Total size:                 19212621 / 91457489 bytes (21.0%)
 
 1 warning:
   install function "StrContains" not referenced - zeroing code (0-23) out
