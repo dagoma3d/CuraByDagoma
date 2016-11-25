@@ -157,7 +157,7 @@ class Scene(object):
 		self._headSizeOffsets[0] = min(xMin, xMax)
 		self._headSizeOffsets[1] = min(yMin, yMax)
 		self._gantryHeight = gantryHeight
-		self._oneAtATime = False #self._gantryHeight > 0 and profile.getPreference('oneAtATime') == 'True'
+		self._oneAtATime = False;#self._gantryHeight > 0 and profile.getPreference('oneAtATime') == 'True'
 		#for obj in self._objectList:
 		#	if obj.getSize()[2] > self._gantryHeight:
 		#		self._oneAtATime = False

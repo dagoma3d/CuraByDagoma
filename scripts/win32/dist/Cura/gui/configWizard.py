@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
@@ -22,7 +22,7 @@ from Cura.util import resources
 
 from Cura.util import resources
 from xml.dom import minidom
- 
+
 doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 
 def getNodeText(node):
@@ -404,7 +404,7 @@ class MachineSelectPage(InfoPage):
 		# self.SubmitUserStats = self.AddCheckbox(_("Submit anonymous usage information:"))
 		# self.AddText(_("For full details see: http://wiki.ultimaker.com/Cura:stats"))
 		# self.SubmitUserStats.SetValue(False)
-	
+
 	def OnDiscoverySelect(self, e):
 		wx.wizard.WizardPageSimple.Chain(self, self.GetParent().DiscoveryReadyPage)
 
@@ -459,7 +459,7 @@ class MachineSelectPage(InfoPage):
 			# profile.putMachineSetting('extruder_head_size_max_y', '35.0')
 			# profile.putMachineSetting('extruder_head_size_height', '55.0')
 		if self.DiscoveryRadio.GetValue():
-			
+
 			def getNodeText(node):
 				nodelist = node.childNodes
 				result = []
@@ -467,10 +467,10 @@ class MachineSelectPage(InfoPage):
 					if node.nodeType == node.TEXT_NODE:
 						result.append(node.data)
 				return ''.join(result)
-			
+
 			def getxml_disco(doc, two):
 				return getNodeText(doc.getElementsByTagName("DiscoEasy200")[0].getElementsByTagName(two)[0])
-				
+
 			def setvalue_from_xml(varibale, doc = doc):
 				try:
 					profile.putMachineSetting(varibale, getxml_disco(doc, varibale))
@@ -834,7 +834,7 @@ class UltimakerCalibrateStepsPerEPage(InfoPage):
 		self.AddText(_("We'll push the filament 100mm"))
 		self.extrudeButton = self.AddButton(_("Extrude 100mm filament"))
 		self.AddText(_("Now measure the amount of extruded filament:\n(this can be more or less then 100mm)"))
-		self.lengthInput, self.saveLengthButton = self.AddTextCtrlButton("100", _("Save"))
+		self.lengthInput, self.saveLengthButton = self.AddTextCtrlButton("100", _("Sauvegarder"))
 		self.AddText(_("This results in the following steps per E:"))
 		self.stepsPerEInput = self.AddTextCtrl(profile.getMachineSetting('steps_per_e'))
 		self.AddText(_("You can repeat these steps to get better calibration."))
