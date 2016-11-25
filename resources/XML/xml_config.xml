@@ -27,6 +27,11 @@
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
     </Filament>
+    <Filament name="PLA Fiberlogy HD">
+      <print_temperature>210</print_temperature>
+      <filament_diameter>1.74</filament_diameter>
+      <filament_flow>100</filament_flow>
+    </Filament>  
     <Filament name="PLA Filo3D-ROUGE">
       <print_temperature>220</print_temperature>
       <filament_diameter>1.75</filament_diameter>
