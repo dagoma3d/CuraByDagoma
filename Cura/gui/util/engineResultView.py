@@ -165,7 +165,7 @@ class engineResultView(object):
 			glLoadIdentity()
 			glTranslate(0,-0.8,-2)
 			glColor4ub(60,60,60,255)
-			openglHelpers.glDrawStringCenter(_("Chargement des instruction d'impression pour visualisation (%d%%)") % (self._gcodeLoadProgress * 100))
+			openglHelpers.glDrawStringCenter(_("Chargement des instruction d\'impression pour visualisation (%d%%)") % (self._gcodeLoadProgress * 100))
 			glPopMatrix()
 		self._resultLock.release()
 
