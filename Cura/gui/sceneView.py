@@ -350,7 +350,7 @@ class SceneView(openglGui.glGuiPanel):
 		if removableStorage.ejectDrive(drive):
 			self.notification.message('Vous pouvez maintenant retirer la carte mémoire.')
 		else:
-			self.notification.message('Safe remove failed...')
+			self.notification.message('Le retrait sûr a échoué...')
 
 	def _showEngineLog(self):
 		dlg = wx.TextEntryDialog(self, _("The slicing engine reported the following"), _("Engine log..."), '\n'.join(self._engine.getResult().getLog()), wx.TE_MULTILINE | wx.OK | wx.CENTRE)
