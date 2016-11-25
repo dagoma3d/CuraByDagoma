@@ -6667,13 +6667,13 @@ File: "app.py" 6702 bytes
 File: "app.pyc" 7544 bytes
 File: "configBase.py" 9512 bytes
 File: "configBase.pyc" 11382 bytes
-File: "configWizard.py" 64758 bytes
+File: "configWizard.py" 64745 bytes
 File: "configWizard.pyc" 68252 bytes
 File: "expertConfig.py" 1365 bytes
 File: "expertConfig.pyc" 2431 bytes
 File: "firmwareInstall.py" 4505 bytes
 File: "firmwareInstall.pyc" 5803 bytes
-File: "mainWindow.py" 57599 bytes
+File: "mainWindow.py" 57429 bytes
 File: "mainWindow.py.bak" 55569 bytes
 File: "mainWindow.pyc" 48833 bytes
 File: "newVersionDialog.py" 4541 bytes
@@ -6684,7 +6684,7 @@ File: "preferencesDialog.py" 6959 bytes
 File: "preferencesDialog.pyc" 8205 bytes
 File: "printWindow.py" 22470 bytes
 File: "printWindow.pyc" 23915 bytes
-File: "sceneView.py" 54579 bytes
+File: "sceneView.py" 54641 bytes
 File: "sceneView.pyc" 52045 bytes
 File: "simpleMode.py" 4780 bytes
 File: "simpleMode.pyc" 5249 bytes
@@ -6706,7 +6706,7 @@ File: "__init__.py" 16 bytes
 File: "__init__.pyc" 153 bytes
 File: "dropTarget.py" 687 bytes
 File: "dropTarget.pyc" 1089 bytes
-File: "engineResultView.py" 12125 bytes
+File: "engineResultView.py" 12148 bytes
 File: "engineResultView.pyc" 11425 bytes
 File: "gcodeTextArea.py" 4399 bytes
 File: "gcodeTextArea.pyc" 5478 bytes
@@ -6733,7 +6733,7 @@ File: "machineCom.py" 22417 bytes
 File: "machineCom.pyc" 22512 bytes
 File: "meshLoader.py" 1864 bytes
 File: "meshLoader.pyc" 2392 bytes
-File: "objectScene.py" 11162 bytes
+File: "objectScene.py" 11168 bytes
 File: "objectScene.pyc" 12022 bytes
 File: "pluginInfo.py" 4913 bytes
 File: "pluginInfo.pyc" 6769 bytes
@@ -6741,7 +6741,7 @@ File: "polygon.py" 5722 bytes
 File: "polygon.pyc" 6397 bytes
 File: "printableObject.py" 15333 bytes
 File: "printableObject.pyc" 17065 bytes
-File: "profile.py" 80382 bytes
+File: "profile.py" 80378 bytes
 File: "profile.pyc" 74635 bytes
 File: "removableStorage.py" 5303 bytes
 File: "removableStorage.pyc" 5597 bytes
@@ -10335,6 +10335,7 @@ ExecShell: : "$SMPROGRAMS\Cura-by-Dagoma-Easy200\Cura-by-Dagoma-Easy200.lnk" ""
 FunctionEnd
 Section: "Install Arduino Drivers"
 SetOutPath: "$INSTDIR\drivers\"
+File: "CDM21224_Setup.exe" 2138248 bytes
 File: "arduino.cat" 9911 bytes
 File: "arduino.inf" 6460 bytes
 File: "dpinst32.exe" 552528 bytes
@@ -10342,10 +10343,10 @@ File: "dpinst64.exe" 677952 bytes
 File: Returning to: "drivers"
 !insertmacro: _If
 !insertmacro: end of _If
-ExecWait: ""$INSTDIR\drivers\dpinst64.exe" /lm" (->)
+ExecWait: ""$INSTDIR\drivers\CDM21224_Setup.exe" /lm" (->)
 !insertmacro: _Else
 !insertmacro: end of _Else
-ExecWait: ""$INSTDIR\drivers\dpinst32.exe" /lm" (->)
+ExecWait: ""$INSTDIR\drivers\CDM21224_Setup.exe" /lm" (->)
 !insertmacro: _EndIf
 !insertmacro: end of _EndIf
 SectionEnd
@@ -10389,7 +10390,7 @@ Generating language tables... Done!
 Generating uninstaller... Done!
 
 Output: "C:\hg\dagoma\Cura\scripts\win32\Cura-by-Dagoma-Easy200.exe"
-Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4095 instructions (114660 bytes), 2939 strings (49407 bytes), 1 language table (322 bytes).
+Install: 5 pages (320 bytes), 5 sections (5240 bytes), 4096 instructions (114688 bytes), 2939 strings (49401 bytes), 1 language table (322 bytes).
 Uninstall: 4 pages (256 bytes), 
 1 section (1048 bytes), 287 instructions (8036 bytes), 163 strings (2967 bytes), 1 language table (282 bytes).
 Datablock optimizer saved 132136 bytes (~0.1%).
@@ -10397,13 +10398,13 @@ Datablock optimizer saved 132136 bytes (~0.1%).
 Using lzma (compress whole) compression.
 
 EXE header size:              406016 / 34816 bytes
-Install code:                          (170325 bytes)
-Install data:                          (91156191 bytes)
+Install code:                          (170347 bytes)
+Install data:                          (93294347 bytes)
 Uninstall code+data:                   (96153 bytes)
-Compressed data:            18806601 / 91422669 bytes
-CRC (0x55B22DB9):                  4 / 4 bytes
+Compressed data:            20898758 / 93560847 bytes
+CRC (0xE6254612):                  4 / 4 bytes
 
-Total size:                 19212621 / 91457489 bytes (21.0%)
+Total size:                 21304778 / 93595667 bytes (22.7%)
 
 1 warning:
   install function "StrContains" not referenced - zeroing code (0-23) out

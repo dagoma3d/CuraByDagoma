@@ -170,9 +170,9 @@ Section "Install Arduino Drivers"
   File /r "drivers\"
   
   ${If} ${RunningX64}
-    ExecWait '"$INSTDIR\drivers\dpinst64.exe" /lm'
+    ExecWait '"$INSTDIR\drivers\CDM21224_Setup.exe" /lm'
   ${Else}
-    ExecWait '"$INSTDIR\drivers\dpinst32.exe" /lm'
+    ExecWait '"$INSTDIR\drivers\CDM21224_Setup.exe" /lm'
   ${EndIf}
 SectionEnd
 
