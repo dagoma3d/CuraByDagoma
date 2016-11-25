@@ -203,7 +203,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def showLoadModel(self, button = 1):
 		if button == 1:
-			dlg=wx.FileDialog(self, _("Open 3D model"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
+			dlg=wx.FileDialog(self, _("Ouvrir un modèle 3D"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
 
 			wildcardList = ';'.join(map(lambda s: '*' + s, meshLoader.loadSupportedExtensions() + imageToMesh.supportedExtensions() + ['.g', '.gcode']))
 			wildcardFilter = "All (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
@@ -305,7 +305,7 @@ class SceneView(openglGui.glGuiPanel):
 	def showSaveGCode(self):
 		if len(self._scene._objectList) < 1:
 			return
-		dlg=wx.FileDialog(self, _("Save toolpath"), os.path.dirname(profile.getPreference('lastFile')), style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
+		dlg=wx.FileDialog(self, _("Sauvegarder les instructions d'impression"), os.path.dirname(profile.getPreference('lastFile')), style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
 		filename = "dagoma0" + profile.getGCodeExtension()
 		# filename = self._scene._objectList[0].getName() + profile.getGCodeExtension()
 		dlg.SetFilename(filename)
@@ -338,7 +338,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.notification.message("Impossible d\'enregistrer")
 		else:
 			if ejectDrive:
-				self.notification.message("Sauvegarde dans %s" % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, 'Eject')
+				self.notification.message("Sauvegarde dans %s" % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, 'Ejecter')
 			elif explorer.hasExplorer():
 				self.notification.message("Sauvegarde dans %s" % (targetFilename), lambda : explorer.openExplorer(targetFilename), 4, 'Ouvrire Dossier')
 			else:
@@ -348,7 +348,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def _doEjectSD(self, drive):
 		if removableStorage.ejectDrive(drive):
-			self.notification.message('You can now eject the card.')
+			self.notification.message('Vous pouvez maintenant retirer la carte mémoire.')
 		else:
 			self.notification.message('Safe remove failed...')
 
