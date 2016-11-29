@@ -194,12 +194,16 @@ class SceneView(openglGui.glGuiPanel):
 				self._animZoom = openglGui.animation(self, self._zoom, newZoom, 0.5)
 
 	def reloadScene(self, e):
+		mainWindow = self.GetParent().GetParent().GetParent()
+
 		# Copy the list before DeleteAll clears it
+        mainWindow.button_1.Disable();
 		fileList = []
 		for obj in self._scene.objects():
 			fileList.append(obj.getOriginFilename())
 		self.OnDeleteAll(None)
 		self.loadScene(fileList)
+        mainWindow.button_1.Enable();
 
 	def showLoadModel(self, button = 1):
 		if button == 1:
