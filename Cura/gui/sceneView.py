@@ -197,13 +197,15 @@ class SceneView(openglGui.glGuiPanel):
 		mainWindow = self.GetParent().GetParent().GetParent()
 
 		# Copy the list before DeleteAll clears it
-        mainWindow.button_1.Disable();
+        if mainWindow && mainWindow.button_1:
+            mainWindow.button_1.Disable();
 		fileList = []
 		for obj in self._scene.objects():
 			fileList.append(obj.getOriginFilename())
 		self.OnDeleteAll(None)
 		self.loadScene(fileList)
-        mainWindow.button_1.Enable();
+        if mainWindow && mainWindow.button_1:
+            mainWindow.button_1.Enable();
 
 	def showLoadModel(self, button = 1):
 		if button == 1:
