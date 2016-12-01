@@ -582,7 +582,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._engineResultView.setResult(result)
 		if finished:
 			mainWindow.button_1.Enable();
-			mainWindow.fileMenu.Enable(1, false);
+			mainWindow.fileMenu.Enable(1, true);
 			self.printButton.setProgressBar(None)
 			text = '%s' % (result.getPrintTime())
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
