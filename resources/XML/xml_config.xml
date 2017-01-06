@@ -31,7 +31,7 @@
       <print_temperature>210</print_temperature>
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
-    </Filament>  
+    </Filament>
     <Filament name="PLA Filo3D-ROUGE">
       <print_temperature>220</print_temperature>
       <filament_diameter>1.75</filament_diameter>
@@ -312,7 +312,7 @@
 ;_______________________________________________________________________________________________________________________________________________________
   <GCODE>
     <Gstart>
-;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.2
+;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.3
 G90   ;absolute positioning
 M106 S250 ;fan on for the palpeur
 G28 X Y
@@ -354,7 +354,7 @@ M84   ;shut down motors
 ;Definition des textes d'installation
 ;_______________________________________________________________________________________________________________________________________________________
   <Text>
-    <Version>V1.0.2</Version>
+    <Version>V1.0.3</Version>
     <FirstInfoPage title="Première Utilisation">
       <Line1>Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !</Line1>
       <Line2>Nous allons maintenant vous accompagner tout au long de la configuration ainsi que la première utilisation de votre imprimante 3D.</Line2>
