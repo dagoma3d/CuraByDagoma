@@ -354,7 +354,7 @@ M84   ;shut down motors
 ;Definition des textes d'installation
 ;_______________________________________________________________________________________________________________________________________________________
   <Text>
-    <Version>V1.0.2</Version>
+    <Version>V1.0.3</Version>
     <FirstInfoPage title="Première Utilisation">
       <Line1>Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !</Line1>
       <Line2>Nous allons maintenant vous accompagner tout au long de la configuration ainsi que la première utilisation de votre imprimante 3D.</Line2>
