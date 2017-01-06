@@ -576,7 +576,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setProgressBar(None)
 		self._engineResultView.setResult(result)
 		if finished:
-      mainWindow.normalSettingsPanel.button_1.Disable()
+      mainWindow.normalSettingsPanel.button_1.Enable()
 			#mainWindow.button_1.Enable()
 			#mainWindow.fileMenu.Enable(1, true)
 			self.printButton.setProgressBar(None)
