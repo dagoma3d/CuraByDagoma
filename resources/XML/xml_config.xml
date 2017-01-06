@@ -31,7 +31,7 @@
       <print_temperature>210</print_temperature>
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
-    </Filament>  
+    </Filament>
     <Filament name="PLA Filo3D-ROUGE">
       <print_temperature>220</print_temperature>
       <filament_diameter>1.75</filament_diameter>
@@ -312,7 +312,7 @@
 ;_______________________________________________________________________________________________________________________________________________________
   <GCODE>
     <Gstart>
-;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.2
+;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.3
 G90   ;absolute positioning
 M106 S250 ;fan on for the palpeur
 G28 X Y

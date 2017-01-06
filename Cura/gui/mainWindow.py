@@ -38,14 +38,14 @@ doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 #
 class mainWindow(wx.Frame):
 	def __init__(self):
-		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200 V1.0.2')#+doc.getElementsByTagName("Version")[0])# version.getVersion()
-    	
+		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200 V1.0.3')#+doc.getElementsByTagName("Version")[0])# version.getVersion()
+
 		wx.EVT_CLOSE(self, self.OnClose)
 
 		# allow dropping any file, restrict later
-		
+
 		self.SetDropTarget(dropTarget.FileDropTarget(self.OnDropFiles))
-		
+
 		# frameicone = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO) #MOI Ajoute Icone dagoma.ico
 		# self.SetIcon(frameicone)
 
