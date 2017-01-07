@@ -195,10 +195,10 @@ class SceneView(openglGui.glGuiPanel):
 
 	def reloadScene(self, e):
 		# Copy the list before DeleteAll clears it
-    fileList = []
+		fileList = []
 		for obj in self._scene.objects():
 			fileList.append(obj.getOriginFilename())
-		self.OnDeleteAll(None)
+		self.loadScene(fileList)
 		self.loadScene(fileList)
 
 	def showLoadModel(self, button = 1):
@@ -576,7 +576,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setProgressBar(None)
 		self._engineResultView.setResult(result)
 		if finished:
-      mainWindow.normalSettingsPanel.button_1.Enable()
+			mainWindow.normalSettingsPanel.button_1.Enable()
 			#mainWindow.button_1.Enable()
 			#mainWindow.fileMenu.Enable(1, true)
 			self.printButton.setProgressBar(None)
