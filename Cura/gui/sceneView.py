@@ -198,7 +198,7 @@ class SceneView(openglGui.glGuiPanel):
 		fileList = []
 		for obj in self._scene.objects():
 			fileList.append(obj.getOriginFilename())
-		self.loadScene(fileList)
+		self.OnDeleteAll(None)
 		self.loadScene(fileList)
 
 	def showLoadModel(self, button = 1):
