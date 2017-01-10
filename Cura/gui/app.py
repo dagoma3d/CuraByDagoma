@@ -106,7 +106,7 @@ class CuraApp(wx.App):
 		resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install _
 
 		#If we do not have preferences yet, try to load it from a previous Cura install
-		if profile.getMachineSetting('machine_type') == 'unknown':
+		#if profile.getMachineSetting('machine_type') == 'unknown':
 			#try:
 			#	otherCuraInstalls = profile.getAlternativeBasePaths()
 			#	otherCuraInstalls.sort()
