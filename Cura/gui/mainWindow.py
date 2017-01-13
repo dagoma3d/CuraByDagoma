@@ -828,8 +828,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.Bind(wx.EVT_CHOICE, self.EVT_Fila, self.combo_box_1)
 		else:
 			self.Bind(wx.EVT_COMBOBOX, self.EVT_Fila, self.combo_box_1)
-			self.Bind(wx.EVT_TEXT, self.EVT_Fila, self.combo_box_1)
-			self.Bind(wx.EVT_TEXT_ENTER, self.EVT_Fila, self.combo_box_1)
+			#self.Bind(wx.EVT_TEXT, self.EVT_Fila, self.combo_box_1)
+			#self.Bind(wx.EVT_TEXT_ENTER, self.EVT_Fila, self.combo_box_1)
+
+		self.Bind(wx.EVT_TEXT, self.EVT_Fila, self.spin_ctrl_1)
+		self.Bind(wx.EVT_TEXT_ENTER, self.EVT_Fila, self.spin_ctrl_1)
 
 		#Evt Select Précision
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Preci, self.radio_box_1)
