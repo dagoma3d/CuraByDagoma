@@ -1176,7 +1176,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.spin_ctrl_1.Enable(True)
 		else:
 			self.spin_ctrl_1.Enable(False)
-		self.spin_ctrl_1.SetValue(float(fila.print_temperature))
+			self.spin_ctrl_1.SetValue(float(fila.print_temperature))
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
