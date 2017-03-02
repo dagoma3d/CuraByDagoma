@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-03-02 17:38+0100\n"
+"PO-Revision-Date: 2017-03-02 18:29+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2470,4 +2470,28 @@ msgid "hours"
 msgstr ""
 
 msgid "meters"
+msgstr ""
+
+msgid "Impossible d'enregistrer"
+msgstr "Unable to save"
+
+msgid "Sauvegarde dans %s"
+msgstr "Save in %s"
+
+msgid "Ejecter"
+msgstr "Eject"
+
+msgid "Ouvrir Dossier"
+msgstr "Open Folder"
+
+msgid "Vous pouvez maintenant retirer la carte memoire."
+msgstr "You can now remove the SD card."
+
+msgid "Le retrait sur a échoué..."
+msgstr "Failed to remove the SD card..."
+
+msgid "Cannot start print, because other print still running."
+msgstr ""
+
+msgid "Failed to start print..."
 msgstr ""

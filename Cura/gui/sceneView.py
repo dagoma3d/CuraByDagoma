@@ -298,14 +298,14 @@ class SceneView(openglGui.glGuiPanel):
 		connection.window.Raise()
 		if not connection.loadGCodeData(StringIO.StringIO(self._engine.getResult().getGCode())):
 			if connection.isPrinting():
-				self.notification.message("Cannot start print, because other print still running.")
+				self.notification.message(_("Cannot start print, because other print still running."))
 			else:
-				self.notification.message("Failed to start print...")
+				self.notification.message(_("Failed to start print..."))
 
 	def showSaveGCode(self):
 		if len(self._scene._objectList) < 1:
 			return
-		dlg=wx.FileDialog(self, _("Sauvegarder les instructions d\'impression"), os.path.dirname(profile.getPreference('lastFile')), style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
+		dlg=wx.FileDialog(self, _("Save toolpath"), os.path.dirname(profile.getPreference('lastFile')), style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
 		filename = "dagoma0" + profile.getGCodeExtension()
 		# filename = self._scene._objectList[0].getName() + profile.getGCodeExtension()
 		dlg.SetFilename(filename)
@@ -335,22 +335,22 @@ class SceneView(openglGui.glGuiPanel):
 		except:
 			import sys, traceback
 			traceback.print_exc()
-			self.notification.message("Impossible d\'enregistrer")
+			self.notification.message(_("Impossible d'enregistrer"))
 		else:
 			if ejectDrive:
-				self.notification.message("Sauvegarde dans %s" % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, 'Ejecter')
+				self.notification.message(_("Sauvegarde dans %s") % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Ejecter'))
 			elif explorer.hasExplorer():
-				self.notification.message("Sauvegarde dans %s" % (targetFilename), lambda : explorer.openExplorer(targetFilename), 4, 'Ouvrire Dossier')
+				self.notification.message(_("Sauvegarde dans %s") % (targetFilename), lambda : explorer.openExplorer(targetFilename), 4, _('Ouvrir Dossier'))
 			else:
-				self.notification.message("Sauvegarde dans %s" % (targetFilename))
+				self.notification.message(_("Sauvegarde dans %s") % (targetFilename))
 		self.printButton.setProgressBar(None)
 		self._engine.getResult().submitInfoOnline()
 
 	def _doEjectSD(self, drive):
 		if removableStorage.ejectDrive(drive):
-			self.notification.message('Vous pouvez maintenant retirer la carte memoire.')
+			self.notification.message(_('Vous pouvez maintenant retirer la carte memoire.'))
 		else:
-			self.notification.message('Le retrait sur a echoue...')
+			self.notification.message(_('Le retrait sur a echoue...'))
 
 	def _showEngineLog(self):
 		dlg = wx.TextEntryDialog(self, _("The slicing engine reported the following"), _("Engine log..."), '\n'.join(self._engine.getResult().getLog()), wx.TE_MULTILINE | wx.OK | wx.CENTRE)

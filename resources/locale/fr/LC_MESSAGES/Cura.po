@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-03-02 17:39+0100\n"
+"PO-Revision-Date: 2017-03-02 18:29+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team:  <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2807,6 +2807,30 @@ msgstr "heures"
 
 msgid "meters"
 msgstr "mètres"
+
+msgid "Impossible d'enregistrer"
+msgstr ""
+
+msgid "Sauvegarde dans %s"
+msgstr ""
+
+msgid "Ejecter"
+msgstr ""
+
+msgid "Ouvrir Dossier"
+msgstr ""
+
+msgid "Vous pouvez maintenant retirer la carte memoire."
+msgstr ""
+
+msgid "Le retrait sur a échoué..."
+msgstr ""
+
+msgid "Cannot start print, because other print still running."
+msgstr "Impossible de démarrer l'impression car une autre est en cours."
+
+msgid "Failed to start print..."
+msgstr "Le démarrage de l'impression a échoué"
 
 #~ msgid "* Configure Cura for your machine"
 #~ msgstr "* Configurer Cura pour votre machine"
