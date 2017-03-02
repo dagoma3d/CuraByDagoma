@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dagoma_XML_Config>
-  <Bloc_Initiliastion />
+  <Bloc_Initialisation />
 
 ;XML for DiscoEASY200 - le 14 nov 2016
 ;_______________________________________________________________________________________________________________________________________________________
@@ -11,66 +11,125 @@
       <print_temperature>205</print_temperature>
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>33.20</filament_cost_kg>
+      <filament_cost_meter>0.110</filament_cost_meter>
     </Filament>
   <Filament name="PLA OctoFiber">
       <print_temperature>210</print_temperature>
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>39.98</filament_cost_kg>
+      <filament_cost_meter>0.133</filament_cost_meter>
     </Filament>
 	<Filament name="PLA Filo3D">
       <print_temperature>205</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>59.6</filament_cost_kg>
+      <filament_cost_meter>0.198</filament_cost_meter>
     </Filament>
     <Filament name="PLA Filo3D-VERT">
       <print_temperature>200</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>59.6</filament_cost_kg>
+      <filament_cost_meter>0.198</filament_cost_meter>
     </Filament>
     <Filament name="PLA Fiberlogy HD">
       <print_temperature>210</print_temperature>
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
-    </Filament>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>41.05</filament_cost_kg>
+      <filament_cost_meter>0.136</filament_cost_meter>
+    </Filament>  
     <Filament name="PLA Filo3D-ROUGE">
       <print_temperature>220</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>59.6</filament_cost_kg>
+      <filament_cost_meter>0.198</filament_cost_meter>
     </Filament>
   <Filament name="PLA PolyPlus">
       <print_temperature>210</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>46.53</filament_cost_kg>
+      <filament_cost_meter>0.155</filament_cost_meter>
     </Filament>
     <Filament name="PLA PolyMax">
       <print_temperature>210</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>95</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>59.86</filament_cost_kg>
+      <filament_cost_meter>0.199</filament_cost_meter>
     </Filament>
     <Filament name="PLA PolyFlex">
       <print_temperature>230</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>115</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>66.53</filament_cost_kg>
+      <filament_cost_meter>0.221</filament_cost_meter>
     </Filament>
     <Filament name="PLA PolyWood">
       <print_temperature>210</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>46.53</filament_cost_kg>
+      <filament_cost_meter>0.155</filament_cost_meter>
     </Filament>
- <!--   <Filament name="PLA InnoFil">
+    <!--
+    <Filament name="PLA InnoFil">
       <print_temperature>200</print_temperature>
       <filament_diameter>1.74</filament_diameter>
       <filament_flow>100</filament_flow>
-    </Filament> -->
- <!--   <Filament name="PLA ColorFabb">
+    </Filament>
+    -->
+    <!--
+    <Filament name="PLA ColorFabb">
       <print_temperature>195</print_temperature>
       <filament_diameter>1.70</filament_diameter>
       <filament_flow>99</filament_flow>
-    </Filament> -->≤
+    </Filament>
+    -->
     <Filament name="Autre PLA">
       <print_temperature>205</print_temperature>
       <filament_diameter>1.75</filament_diameter>
       <filament_flow>100</filament_flow>
+      <retraction_speed>50</retraction_speed>
+      <retraction_amount>3.5</retraction_amount>
+      <filament_physical_density>1270</filament_physical_density>
+      <filament_cost_kg>46</filament_cost_kg>
+      <filament_cost_meter>0.153</filament_cost_meter>
     </Filament>
   </Bloc_Filaments>
 ;_______________________________________________________________________________________________________________________________________________________
@@ -83,7 +142,7 @@
     <Remplissage name="Rempli (17%)">
       <fill_density>17</fill_density>
     </Remplissage>
-    <Remplissage name="Renforce (33%)">
+    <Remplissage name="Renforcé (33%)">
       <fill_density>33</fill_density>
     </Remplissage>
   </Bloc_Remplissage>
@@ -127,7 +186,7 @@
       <inset0_speed>25</inset0_speed>
       <insetx_speed>35</insetx_speed>
     </Precision>
-    <Precision name="Filaments flexible">
+    <Precision name="Filaments flexibles">
       <layer_height>0.1</layer_height>
       <solid_layer_thickness>0.6</solid_layer_thickness>
       <wall_thickness>1.2</wall_thickness>
@@ -175,7 +234,7 @@
     <Support name="Parties touchant le plateau">
       <support>Touching buildplate</support>
     </Support>
-    <Support name="Partout (intérieurs pièce inclus)">
+    <Support name="Partout (intérieur pièce inclus)">
       <support>Everywhere</support>
     </Support>
   </Bloc_Support>
@@ -218,6 +277,21 @@
       <palpeur>None</palpeur>
     </Palpeur_Disable>
   </Bloc_Palpeur>
+
+;_______________________________________________________________________________________________________________________________________________________
+;Definition des types de têtes
+;_______________________________________________________________________________________________________________________________________________________
+  <Bloc_Tete label="Version de la tête :">
+    <Tete name="Tête standard (v2)">
+      <fan_speed>50</fan_speed>
+      <cool_min_layer_time>10</cool_min_layer_time>
+    </Tete>
+    <Tete name="Nouvelle tête (v3)">
+      <fan_speed>65</fan_speed>
+      <cool_min_layer_time>15</cool_min_layer_time>
+    </Tete>
+  </Bloc_Tete>
+
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition des caracteristiques mecaniques
 ;_______________________________________________________________________________________________________________________________________________________
@@ -244,12 +318,9 @@
 ;Definition de la retraction et de la premiere couche
 ;_______________________________________________________________________________________________________________________________________________________
   <Config_Adv>
-    <retraction_speed>50</retraction_speed>
-    <retraction_amount>3.5</retraction_amount>
     <bottom_thickness>0.26</bottom_thickness>
     <layer0_width_factor>100</layer0_width_factor>
     <object_sink>0</object_sink>
-    <cool_min_layer_time>15</cool_min_layer_time>
     <fan_enabled>True</fan_enabled>
   </Config_Adv>
 
@@ -265,7 +336,6 @@
     <skirt_gap>3</skirt_gap>
     <skirt_minimal_length>150</skirt_minimal_length>
     <fan_full_height>0.5</fan_full_height>
-    <fan_speed>65</fan_speed>
     <fan_speed_max>100</fan_speed_max>
     <cool_min_feedrate>20</cool_min_feedrate>
     <cool_head_lift>False</cool_head_lift>
@@ -298,9 +368,6 @@
 ;_______________________________________________________________________________________________________________________________________________________
   <Config_Preferences>
     <model_colour>#FF9B00</model_colour>
-    <filament_physical_density>1270</filament_physical_density>
-    <filament_cost_kg>46</filament_cost_kg>
-    <filament_cost_meter>0.175</filament_cost_meter>
     <auto_detect_sd>True</auto_detect_sd>
     <check_for_updates>False</check_for_updates>
     <submit_slice_information>False</submit_slice_information>

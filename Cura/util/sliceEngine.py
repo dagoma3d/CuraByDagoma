@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Slice engine communication.
 This module handles all communication with the slicing engine.
@@ -68,19 +71,19 @@ class EngineResult(object):
 
 	def getFilamentWeight(self, e=0):
 		#Calculates the weight of the filament in kg
-		radius = float(profile.getProfileSetting('filament_diameter')) / 2
+		radius = profile.getProfileSettingFloat('filament_diameter') / 2
 		volumeM3 = (self._filamentMM[e] * (math.pi * radius * radius)) / (1000*1000*1000)
-		return volumeM3 * profile.getPreferenceFloat('filament_physical_density')
+		return volumeM3 * profile.getProfileSettingFloat('filament_physical_density')
 
 	def getFilamentCost(self, e=0):
-		cost_kg = profile.getPreferenceFloat('filament_cost_kg')
-		cost_meter = profile.getPreferenceFloat('filament_cost_meter')
+		cost_kg = profile.getProfileSettingFloat('filament_cost_kg')
+		cost_meter = profile.getProfileSettingFloat('filament_cost_meter')
 		if cost_kg > 0.0 and cost_meter > 0.0:
-			return "%.2f / %.2f" % (self.getFilamentWeight(e) * cost_kg, self._filamentMM[e] / 1000.0 * cost_meter)
+			return "%.2f euros / %.2f euros" % (self.getFilamentWeight(e) * cost_kg, self._filamentMM[e] / 1000.0 * cost_meter)
 		elif cost_kg > 0.0:
-			return "%.2f" % (self.getFilamentWeight(e) * cost_kg)
+			return "%.2f euros" % (self.getFilamentWeight(e) * cost_kg)
 		elif cost_meter > 0.0:
-			return "%.2f" % (self._filamentMM[e] / 1000.0 * cost_meter)
+			return "%.2f euros" % (self._filamentMM[e] / 1000.0 * cost_meter)
 		return None
 
 	def getPrintTime(self):
@@ -89,13 +92,13 @@ class EngineResult(object):
 		if int(self._printTimeSeconds / 60 / 60) < 1:
 			return '%d minutes' % (int(self._printTimeSeconds / 60) % 60)
 		if int(self._printTimeSeconds / 60 / 60) == 1:
-			return '%d heures %d minutes' % (int(self._printTimeSeconds / 60 / 60), int(self._printTimeSeconds / 60) % 60)
-		return '%d heures %d minutes' % (int(self._printTimeSeconds / 60 / 60), int(self._printTimeSeconds / 60) % 60)
+			return '%d %s %d minutes' % (int(self._printTimeSeconds / 60 / 60), _("hours"), int(self._printTimeSeconds / 60) % 60)
+		return '%d %s %d minutes' % (int(self._printTimeSeconds / 60 / 60), _("hours"), int(self._printTimeSeconds / 60) % 60)
 
 	def getFilamentAmount(self, e=0):
 		if self._filamentMM[e] == 0.0:
 			return None
-		return '%0.2f m %0.0f grammes'.encode('utf-8') % (float(self._filamentMM[e]) / 1000.0, self.getFilamentWeight(e) * 1000.0)
+		return '%0.2f %s / %0.0f grammes' % (float(self._filamentMM[e]) / 1000.0, _("meters"), self.getFilamentWeight(e) * 1000.0)
 
 	def getLog(self):
 		return self._engineLog

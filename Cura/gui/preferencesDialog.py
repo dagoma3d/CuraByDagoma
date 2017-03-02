@@ -37,10 +37,10 @@ class preferencesDialog(wx.Dialog):
 			configBase.TitleRow(left, _("Language"))
 			configBase.SettingRow(left, 'language', map(lambda n: n[1], resources.getLanguageOptions()))
 
-		configBase.TitleRow(right, _("Filament settings"))
-		configBase.SettingRow(right, 'filament_physical_density')
-		configBase.SettingRow(right, 'filament_cost_kg')
-		configBase.SettingRow(right, 'filament_cost_meter')
+		#configBase.TitleRow(right, _("Filament settings"))
+		#configBase.SettingRow(right, 'filament_physical_density')
+		#configBase.SettingRow(right, 'filament_cost_kg')
+		#configBase.SettingRow(right, 'filament_cost_meter')
 
 		#configBase.TitleRow(right, 'Slicer settings')
 		#configBase.SettingRow(right, 'save_profile')

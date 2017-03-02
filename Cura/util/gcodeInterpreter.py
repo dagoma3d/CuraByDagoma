@@ -61,19 +61,19 @@ class gcode(object):
 
 	def calculateWeight(self):
 		#Calculates the weight of the filament in kg
-		radius = float(profile.getProfileSetting('filament_diameter')) / 2
+		radius = getProfileSettingFloat('filament_diameter') / 2
 		volumeM3 = (self.extrusionAmount * (math.pi * radius * radius)) / (1000*1000*1000)
-		return volumeM3 * profile.getPreferenceFloat('filament_physical_density')
+		return volumeM3 * profile.getProfileSettingFloat('filament_physical_density')
 	
 	def calculateCost(self):
-		cost_kg = profile.getPreferenceFloat('filament_cost_kg')
-		cost_meter = profile.getPreferenceFloat('filament_cost_meter')
+		cost_kg = profile.getProfileSettingFloat('filament_cost_kg')
+		cost_meter = profile.getProfileSettingFloat('filament_cost_meter')
 		if cost_kg > 0.0 and cost_meter > 0.0:
-			return "%.2f / %.2f" % (self.calculateWeight() * cost_kg, self.extrusionAmount / 1000 * cost_meter)
+			return "%.2f euros / %.2f euros" % (self.calculateWeight() * cost_kg, self.extrusionAmount / 1000 * cost_meter)
 		elif cost_kg > 0.0:
-			return "%.2f" % (self.calculateWeight() * cost_kg)
+			return "%.2f euros" % (self.calculateWeight() * cost_kg)
 		elif cost_meter > 0.0:
-			return "%.2f" % (self.extrusionAmount / 1000 * cost_meter)
+			return "%.2f euros" % (self.extrusionAmount / 1000 * cost_meter)
 		return None
 	
 	def _load(self, gcodeFile):

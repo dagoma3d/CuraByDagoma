@@ -240,10 +240,10 @@ class FirstInfoPage(InfoPage):
 		# 	super(FirstInfoPage, self).__init__(parent, _("Add new machine wizard"))
 		# else:
 		firstpage = doc.getElementsByTagName("FirstInfoPage")[0]
-		super(FirstInfoPage, self).__init__(parent, firstpage.getAttribute("title"))
-		self.AddText(getNodeText(firstpage.getElementsByTagName("Line1")[0]))
+		super(FirstInfoPage, self).__init__(parent, _(firstpage.getAttribute("title")))
+		self.AddText(_(getNodeText(firstpage.getElementsByTagName("Line1")[0])))
 		self.AddSeperator()
-		self.AddText(getNodeText(firstpage.getElementsByTagName("Line2")[0]))
+		self.AddText(_(getNodeText(firstpage.getElementsByTagName("Line2")[0])))
 		# self.AddText(_("This wizard will help you with the following steps:"))
 		# self.AddText(_("* Configure Cura for your machine"))
 		# self.AddText(_("* Optionally upgrade your firmware"))
@@ -384,8 +384,8 @@ class MachineSelectPage(InfoPage):
 	def __init__(self, parent):
 		page = doc.getElementsByTagName("MachineSelectPage")[0]
 
-		super(MachineSelectPage, self).__init__(parent, page.getAttribute("title"))
-		self.AddText(getNodeText(page.getElementsByTagName("Line1")[0]))
+		super(MachineSelectPage, self).__init__(parent, _(page.getAttribute("title")))
+		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
 
 		self.DiscoveryRadio = self.AddRadioButton("DiscoEasy200", style=wx.RB_GROUP)
 		self.DiscoveryRadio.Bind(wx.EVT_RADIOBUTTON, self.OnDiscoverySelect)
@@ -948,13 +948,13 @@ class Ultimaker2ReadyPage(InfoPage):
 class DiscoveryReadyPage(InfoPage):
 	def __init__(self, parent):
 		page = doc.getElementsByTagName("DiscoveryPage")[0]
-		super(DiscoveryReadyPage, self).__init__(parent, page.getAttribute("title"))
-		self.AddText(getNodeText(page.getElementsByTagName("Line1")[0]))
-		self.AddText(getNodeText(page.getElementsByTagName("Line2")[0]))
-		self.AddText(getNodeText(page.getElementsByTagName("Line3")[0]))
+		super(DiscoveryReadyPage, self).__init__(parent, _(page.getAttribute("title")))
+		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
+		self.AddText(_(getNodeText(page.getElementsByTagName("Line2")[0])))
+		self.AddText(_(getNodeText(page.getElementsByTagName("Line3")[0])))
 		self.AddSeperator()
-		self.AddText(getNodeText(page.getElementsByTagName("Line4")[0]))
-		self.AddText(getNodeText(page.getElementsByTagName("Line5")[0]))
+		self.AddText(_(getNodeText(page.getElementsByTagName("Line4")[0])))
+		self.AddText(_(getNodeText(page.getElementsByTagName("Line5")[0])))
 		# self.AddText('A très bientôt sur'.decode('utf-8'))
 		# self.AddText('Et d\'ici la, nous vous souhaitons de très bonnes impressions !'.decode('utf-8'))
 		# self.linkweb = hl.HyperLinkCtrl(self, wx.ID_ANY, 'contact@dagoma.fr﻿'.decode('utf-8'), URL="http://www.dagoma.fr/contact/", pos=(545,88))

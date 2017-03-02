@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2014-07-28 13:47+0100\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2017-03-02 17:39+0100\n"
+"Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team:  <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"X-Generator: Poedit 1.6.7\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: Cura/gui/app.py:144 Cura/gui/mainWindow.py:566
 msgid "A new version of Cura is available, would you like to download?"
@@ -1071,7 +1071,7 @@ msgstr "Rectangle"
 #: Cura/gui/tools/projector.py:44
 #, fuzzy
 msgid "Circle"
-msgstr "Fichier"
+msgstr "Cercle"
 
 #: Cura/gui/tools/projector.py:45
 msgid "Draw curves"
@@ -2090,8 +2090,8 @@ msgid ""
 "weaker support which is easier to remove. 15% seems to be a good average."
 msgstr ""
 "Le taux de remplissage des supports, une moins grande quantité de matière "
-"permet d'avoir des suppots plus fragiles donc plus facile à retirer. 15% "
-"semble être un bon compromis."
+"permet d'avoir des suppots plus fragiles donc plus facile à retirer. "
+"15% semble être un bon compromis."
 
 #: Cura/util/profile.py:227
 msgid "Distance X/Y (mm)"
@@ -2687,6 +2687,126 @@ msgid ""
 msgstr ""
 "Une première couche plus épaisses que  %.2fmm (3/4 du diamètre de la buse) "
 "donne généralement de mauvais résultats et n'est pas recommandée."
+
+#: Cura/gui/configWizard.py
+msgid "Première Utilisation"
+msgstr ""
+
+msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !"
+msgstr ""
+
+msgid ""
+"Nous allons maintenant vous accompagner tout au long de la configuration "
+"ainsi que la première utilisation de votre imprimante 3D."
+msgstr ""
+
+msgid "Votre Machine"
+msgstr ""
+
+msgid "Quel modèle d'imprimante 3D possédez-vous ?"
+msgstr ""
+
+msgid "Configuration de votre Cura By Dagoma Easy200"
+msgstr ""
+
+msgid ""
+"Encore une fois, toute l’équipe Dagoma vous remercie de votre confiance."
+msgstr ""
+
+msgid ""
+"Votre logiciel Cura By Dagoma Easy200 est maintenant prêt à être utilisé "
+"avec votre imprimante 3D."
+msgstr ""
+
+msgid ""
+"Nous sommes à votre écoute sur dagoma.fr ou par mail : contact@dagoma.fr"
+msgstr ""
+
+msgid "Bonne découverte à tous !"
+msgstr ""
+
+#: Cura/gui/mainWindow.py
+msgid "Autre PLA"
+msgstr ""
+
+msgid "Remplissage de la pièce :"
+msgstr ""
+
+msgid "Creux (coque)"
+msgstr ""
+
+msgid "Rempli (17%)"
+msgstr ""
+
+msgid "Renforcé (33%)"
+msgstr ""
+
+msgid "Qualité (épaisseur de couche) :"
+msgstr ""
+
+msgid "Rapide (0.20 mm)"
+msgstr ""
+
+msgid "Standard (0.15 mm)"
+msgstr ""
+
+msgid "Fin (0.10 mm)"
+msgstr ""
+
+msgid "Filaments flexibles"
+msgstr ""
+
+msgid "Filaments bois"
+msgstr ""
+
+msgid "Supports pour impression : "
+msgstr ""
+
+msgid "Aucun"
+msgstr ""
+
+msgid "Parties touchant le plateau"
+msgstr ""
+
+msgid "Partout (intérieur pièce inclus)"
+msgstr ""
+
+msgid "Amélioration de la surface d'adhésion"
+msgstr ""
+
+msgid "Offset en mm : (réglage de la 1ère couche)"
+msgstr ""
+
+msgid "Utilisation du palpeur"
+msgstr ""
+
+msgid "Version de la tête :"
+msgstr ""
+
+msgid "Tête standard (v2)"
+msgstr ""
+
+msgid "Nouvelle tête (v3)"
+msgstr ""
+
+# Menu, bouton(s), autres,...
+msgid "Température (°C) :"
+msgstr ""
+
+msgid "Ouvrir un Objet"
+msgstr ""
+
+msgid "Préparer l'Impression"
+msgstr ""
+
+msgid "Objets Récemment Ouverts"
+msgstr ""
+
+msgid "hours"
+msgstr "heures"
+
+msgid "meters"
+msgstr "mètres"
 
 #~ msgid "* Configure Cura for your machine"
 #~ msgstr "* Configurer Cura pour votre machine"

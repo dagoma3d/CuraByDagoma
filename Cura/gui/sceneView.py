@@ -67,19 +67,19 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton.setHidden(True)
 
 		group = []
-		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotation"), (0,-1), group, self.OnToolSelect)
-		self.scaleToolButton  = openglGui.glRadioButton(self, 9, _("Echelle"), (1,-1), group, self.OnToolSelect)
-		self.mirrorToolButton  = openglGui.glRadioButton(self, 10, _("Miroir"), (2,-1), group, self.OnToolSelect)
+		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotate"), (0,-1), group, self.OnToolSelect)
+		self.scaleToolButton  = openglGui.glRadioButton(self, 9, _("Scale"), (1,-1), group, self.OnToolSelect)
+		self.mirrorToolButton  = openglGui.glRadioButton(self, 10, _("Mirror"), (2,-1), group, self.OnToolSelect)
 
 		self.resetRotationButton = openglGui.glButton(self, 12, _("Reset"), (0,-2), self.OnRotateReset)
-		self.layFlatButton       = openglGui.glButton(self, 16, _("Mettre a plat"), (0,-3), self.OnLayFlat)
+		self.layFlatButton       = openglGui.glButton(self, 16, _("Lay flat"), (0,-3), self.OnLayFlat)
 
 		self.resetScaleButton    = openglGui.glButton(self, 13, _("Reset"), (1,-2), self.OnScaleReset)
-		self.scaleMaxButton      = openglGui.glButton(self, 17, _("Max"), (1,-3), self.OnScaleMax)
+		self.scaleMaxButton      = openglGui.glButton(self, 17, _("To max"), (1,-3), self.OnScaleMax)
 
-		self.mirrorXButton       = openglGui.glButton(self, 14, _("Miroir X"), (2,-2), lambda button: self.OnMirror(0))
-		self.mirrorYButton       = openglGui.glButton(self, 18, _("Miroir Y"), (2,-3), lambda button: self.OnMirror(1))
-		self.mirrorZButton       = openglGui.glButton(self, 22, _("Miroir Z"), (2,-4), lambda button: self.OnMirror(2))
+		self.mirrorXButton       = openglGui.glButton(self, 14, _("Mirror X"), (2,-2), lambda button: self.OnMirror(0))
+		self.mirrorYButton       = openglGui.glButton(self, 18, _("Mirror Y"), (2,-3), lambda button: self.OnMirror(1))
+		self.mirrorZButton       = openglGui.glButton(self, 22, _("Mirror Z"), (2,-4), lambda button: self.OnMirror(2))
 
 		self.rotateToolButton.setExpandArrow(True)
 		self.scaleToolButton.setExpandArrow(True)
@@ -87,23 +87,23 @@ class SceneView(openglGui.glGuiPanel):
 
 		self.scaleForm = openglGui.glFrame(self, (2, -2))
 		openglGui.glGuiLayoutGrid(self.scaleForm)
-		openglGui.glLabel(self.scaleForm, _("Echelle X"), (0,0))
+		openglGui.glLabel(self.scaleForm, _("Scale X"), (0,0))
 		self.scaleXctrl = openglGui.glNumberCtrl(self.scaleForm, '1.0', (1,0), lambda value: self.OnScaleEntry(value, 0))
-		openglGui.glLabel(self.scaleForm, _("Echelle Y"), (0,1))
+		openglGui.glLabel(self.scaleForm, _("Scale Y"), (0,1))
 		self.scaleYctrl = openglGui.glNumberCtrl(self.scaleForm, '1.0', (1,1), lambda value: self.OnScaleEntry(value, 1))
-		openglGui.glLabel(self.scaleForm, _("Echelle Z"), (0,2))
+		openglGui.glLabel(self.scaleForm, _("Scale Z"), (0,2))
 		self.scaleZctrl = openglGui.glNumberCtrl(self.scaleForm, '1.0', (1,2), lambda value: self.OnScaleEntry(value, 2))
-		openglGui.glLabel(self.scaleForm, _("Taille X (mm)"), (0,4))
+		openglGui.glLabel(self.scaleForm, _("Size X (mm)"), (0,4))
 		self.scaleXmmctrl = openglGui.glNumberCtrl(self.scaleForm, '0.0', (1,4), lambda value: self.OnScaleEntryMM(value, 0))
-		openglGui.glLabel(self.scaleForm, _("Taille Y (mm)"), (0,5))
+		openglGui.glLabel(self.scaleForm, _("Size Y (mm)"), (0,5))
 		self.scaleYmmctrl = openglGui.glNumberCtrl(self.scaleForm, '0.0', (1,5), lambda value: self.OnScaleEntryMM(value, 1))
-		openglGui.glLabel(self.scaleForm, _("Taille Z (mm)"), (0,6))
+		openglGui.glLabel(self.scaleForm, _("Size Z (mm)"), (0,6))
 		self.scaleZmmctrl = openglGui.glNumberCtrl(self.scaleForm, '0.0', (1,6), lambda value: self.OnScaleEntryMM(value, 2))
-		openglGui.glLabel(self.scaleForm, _("Echelle uniforme"), (0,8))
+		openglGui.glLabel(self.scaleForm, _("Uniform scale"), (0,8))
 		self.scaleUniform = openglGui.glCheckbox(self.scaleForm, True, (1,8), None)
 
-		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Couches")], (-1,0), self.OnViewChange)
-		self.viewSelection = openglGui.glComboButton(self, _(" "), [7,23], [_("Normal"), _("Couches")], (-1,0), self.OnViewChange)
+		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Layers")], (-1,0), self.OnViewChange)
+		self.viewSelection = openglGui.glComboButton(self, _(" "), [7,23], [_("Normal"), _("Layers")], (-1,0), self.OnViewChange)
 
 		# self.youMagineButton = openglGui.glButton(self, 26, _("Share on YouMagine"), (2,0), lambda button: youmagineGui.youmagineManager(self.GetTopLevelParent(), self._scene))
 		# self.youMagineButton.setDisabled(True) Dagoma

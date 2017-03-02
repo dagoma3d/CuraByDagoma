@@ -39,13 +39,13 @@ doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 class mainWindow(wx.Frame):
 	def __init__(self):
 		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200 V1.0.3')#+doc.getElementsByTagName("Version")[0])# version.getVersion()
-
+    	
 		wx.EVT_CLOSE(self, self.OnClose)
 
 		# allow dropping any file, restrict later
-
+		
 		self.SetDropTarget(dropTarget.FileDropTarget(self.OnDropFiles))
-
+		
 		# frameicone = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO) #MOI Ajoute Icone dagoma.ico
 		# self.SetIcon(frameicone)
 
@@ -78,7 +78,7 @@ class mainWindow(wx.Frame):
 
 		# self.menubar = wx.MenuBar()
 		self.fileMenu = wx.Menu()
-		i = self.fileMenu.Append(-1, _("Ouvrir un Objet\tCTRL+L".decode('utf-8')))
+		i = self.fileMenu.Append(-1, _("Ouvrir un Objet") + "\tCTRL+L")
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showLoadModel(), i)
 		# i = self.fileMenu.Append(-1, _("Save model...\tCTRL+S"))
 		# self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveModel(), i)
@@ -90,7 +90,7 @@ class mainWindow(wx.Frame):
 		# self.fileMenu.AppendSeparator()
 		# i = self.fileMenu.Append(-1, _("Print...\tCTRL+P"))
 		# # self.Bind(wx.EVT_MENU, lambda e: self.scene.OnPrintButton(1), i)
-		i = self.fileMenu.Append(1, 'Préparer l\'Impression\tCTRL+S'.decode('utf-8'))
+		i = self.fileMenu.Append(1, _(("Préparer l'Impression").decode("utf-8")) + "\tCTRL+S")
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveGCode(), i)
 		# i = self.fileMenu.Append(-1, _("Show slice engine log..."))
 		# self.Bind(wx.EVT_MENU, lambda e: self.scene._showEngineLog(), i)
@@ -128,7 +128,7 @@ class mainWindow(wx.Frame):
 
 		# Model MRU list
 		modelHistoryMenu = wx.Menu()
-		self.fileMenu.AppendMenu(wx.NewId(), '&' + _("Objets Récemment Ouverts".decode('utf-8')), modelHistoryMenu)
+		self.fileMenu.AppendMenu(wx.NewId(), '&' + _(("Objets Récemment Ouverts").decode("utf-8")), modelHistoryMenu)
 		self.modelFileHistory.UseMenu(modelHistoryMenu)
 		self.modelFileHistory.AddFilesToMenu()
 		self.Bind(wx.EVT_MENU_RANGE, self.OnModelMRU, id=self.ID_MRU_MODEL1, id2=self.ID_MRU_MODEL10)
@@ -141,7 +141,7 @@ class mainWindow(wx.Frame):
 		# self.Bind(wx.EVT_MENU_RANGE, self.OnProfileMRU, id=self.ID_MRU_PROFILE1, id2=self.ID_MRU_PROFILE10)
 
 		self.fileMenu.AppendSeparator()
-		i = self.fileMenu.Append(wx.ID_EXIT, _("Quitter"))
+		i = self.fileMenu.Append(wx.ID_EXIT, _("Quit"))
 		self.Bind(wx.EVT_MENU, self.OnQuit, i)
 		# self.menubar.Append(self.fileMenu, '&' + _("File"))
 
@@ -153,7 +153,7 @@ class mainWindow(wx.Frame):
 
 		# Dagoma Menu //Hiden on Linux
 		menuBar = wx.MenuBar()
-		menuBar.Append(self.fileMenu, 'Fichier')
+		menuBar.Append(self.fileMenu, _("File"))
 		self.SetMenuBar(menuBar)
 		menuBar.Hide()
 		menuBar.Show(False)
@@ -687,6 +687,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.print_temperature = '185'
 			self.filament_diameter = '1.74'
 			self.filament_flow = '80'
+			self.retraction_speed = '50'
+			self.retraction_amount = '3.5'
+			self.filament_physical_density = '1270'
+			self.filament_cost_kg = '46'
+			self.filament_cost_meter = '0.153'
 
 	class Remplissage:
 		def __init__(self):
@@ -707,6 +712,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.inset0_speed = ''
 			self.insetx_speed = ''
 
+	class Tete:
+		def __init__(self):
+			self.type = ''
+			self.fan_speed = ''
+			self.cool_min_layer_time = ''
 
 	class Support:
 		def __init__(self):
@@ -765,9 +775,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		"""FIN ERIC"""
 
 
-		self.label_4 = wx.StaticText(self, wx.ID_ANY, _("Température (°C) :".decode('utf-8')))
+		self.label_4 = wx.StaticText(self, wx.ID_ANY, _(("Température (°C) :").decode("utf-8")))
 		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, "190", min=175, max=235, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
-		self.button_1 = wx.Button(self, wx.ID_ANY, _('Préparer l\'Impression'.decode('utf-8')))
+		self.button_1 = wx.Button(self, wx.ID_ANY, _(("Préparer l'Impression").decode("utf-8")))
 		self.__set_properties()
 		self.__do_layout()
 
@@ -783,6 +793,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		#Refresh ALL Value
 		self.Refresh_Supp()
 		self.Refresh_Preci()
+		self.Refresh_Tet()
 		self.Refresh_Fila()
 		self.Refresh_Rempli()
 		"""ERIC"""
@@ -837,6 +848,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		#Evt Select Précision
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Preci, self.radio_box_1)
 
+		#Evt Select Tete
+		self.Bind(wx.EVT_RADIOBOX, self.EVT_Tet, self.tetes_box)
+
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Supp, self.printsupp)
 
 		#Evt Select Remplissage
@@ -872,6 +886,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.spin_ctrl_1.Enable(False)
 		self.radio_box_2.SetSelection(1)
 		self.radio_box_1.SetSelection(0)
+		self.tetes_box.SetSelection(0)
 		self.printsupp.SetSelection(0)
 
 
@@ -883,6 +898,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.spin_ctrl_1, pos = (3, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.radio_box_2, pos = (4, 0) , span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.radio_box_1, pos = (5, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.tetes_box, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		"""ERIC"""
 		# Positionnementdu du bloc palpeur en position 6
 		# Positionnementdu titre Offset en position 7
@@ -892,9 +908,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# Positionnementdu du bloc Printing Surface en position 9
 		#sizer_1.Add(self.radio_box_3, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		"""FIN ERIC"""
-		sizer_1.Add(self.printsupp, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.palpeur_chbx, pos = (7, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.printbrim, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.printsupp, pos = (7, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.palpeur_chbx, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.printbrim, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.button_1, pos = (10, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.AddGrowableCol(1)
 		sizer_1.AddGrowableRow(12)
@@ -912,6 +928,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.get_filaments()
 		self.get_remplissage()
 		self.get_Precision()
+		self.get_Tete()
 		self.get_support()
 		self.get_brim()
 		"""ERIC"""
@@ -932,8 +949,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def init_Config_Adv(self):
 		config_adv = doc.getElementsByTagName("Config_Adv")[0]
 		# Retraction Adv
-		self.setvalue_from_xml(config_adv, 'retraction_speed')
-		self.setvalue_from_xml(config_adv, 'retraction_amount')
+		#self.setvalue_from_xml(config_adv, 'retraction_speed')
+		#self.setvalue_from_xml(config_adv, 'retraction_amount')
 		# Quality
 		self.setvalue_from_xml(config_adv, 'bottom_thickness')
 		self.setvalue_from_xml(config_adv, 'layer0_width_factor')
@@ -943,7 +960,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# self.setvalue_from_xml(config_adv, 'inset0_speed')
 		# self.setvalue_from_xml(config_adv, 'insetx_speed')
 		# Cool
-		self.setvalue_from_xml(config_adv, 'cool_min_layer_time')
+		#self.setvalue_from_xml(config_adv, 'cool_min_layer_time')
 		self.setvalue_from_xml(config_adv, 'fan_enabled')
 		print 'Config_Adv Reload from XML file'
 
@@ -960,7 +977,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setvalue_from_xml(config_expert, 'skirt_minimal_length')
 		# Cool
 		self.setvalue_from_xml(config_expert, 'fan_full_height')
-		self.setvalue_from_xml(config_expert, 'fan_speed')
+		#self.setvalue_from_xml(config_expert, 'fan_speed')
 		self.setvalue_from_xml(config_expert, 'fan_speed_max')
 		self.setvalue_from_xml(config_expert, 'cool_min_feedrate')
 		self.setvalue_from_xml(config_expert, 'cool_head_lift')
@@ -999,9 +1016,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# Colours
 		self.setvalue_from_xml_pref(config_pref, 'model_colour')
 		# Filament Settings
-		self.setvalue_from_xml_pref(config_pref, 'filament_physical_density')
-		self.setvalue_from_xml_pref(config_pref, 'filament_cost_kg')
-		self.setvalue_from_xml_pref(config_pref, 'filament_cost_meter')
+		#self.setvalue_from_xml_pref(config_pref, 'filament_physical_density')
+		#self.setvalue_from_xml_pref(config_pref, 'filament_cost_kg')
+		#self.setvalue_from_xml_pref(config_pref, 'filament_cost_meter')
 		#Cura Settings
 		self.setvalue_from_xml_pref(config_pref, 'auto_detect_sd')
 		self.setvalue_from_xml_pref(config_pref, 'check_for_updates')
@@ -1015,13 +1032,18 @@ class normalSettingsPanel(configBase.configPanelBase):
 		for filament in filaments:
 			if filament.hasAttributes():
 				fila = self.Filament()
-				name = (filament.getAttribute("name"))
+				name = _(filament.getAttribute("name"))
 				choices.append(name)
 				fila.type = name
 			try :
 				fila.print_temperature = self.getNodeText(filament.getElementsByTagName("print_temperature")[0])
 				fila.filament_diameter = self.getNodeText(filament.getElementsByTagName("filament_diameter")[0])
 				fila.filament_flow = self.getNodeText(filament.getElementsByTagName("filament_flow")[0])
+				fila.retraction_speed = self.getNodeText(filament.getElementsByTagName("retraction_speed")[0])
+				fila.retraction_amount = self.getNodeText(filament.getElementsByTagName("retraction_amount")[0])
+				fila.filament_physical_density = self.getNodeText(filament.getElementsByTagName("filament_physical_density")[0])
+				fila.filament_cost_kg = self.getNodeText(filament.getElementsByTagName("filament_cost_kg")[0])
+				fila.filament_cost_meter = self.getNodeText(filament.getElementsByTagName("filament_cost_meter")[0])
 				self.filaments.append(fila)
 			except:
 				print 'Some Error in Filament Bloc'
@@ -1033,15 +1055,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def get_remplissage(self):
-		bloc_name = doc.getElementsByTagName("Bloc_Remplissage")[0].getAttribute("label")
+		bloc_name = _(doc.getElementsByTagName("Bloc_Remplissage")[0].getAttribute("label"))
 		remplissages = doc.getElementsByTagName("Remplissage")
 		choices = []
 		self.remplissages = []
 		for remplissage in remplissages:
 			if remplissage.hasAttributes():
 				rempli = self.Remplissage()
-				choices.append(remplissage.getAttribute("name"))
-				rempli.type = remplissage.getAttribute("name")
+				name = _(remplissage.getAttribute("name"))
+				choices.append(name)
+				rempli.type = name
 				try :
 					rempli.fill_density = self.getNodeText(remplissage.getElementsByTagName("fill_density")[0])
 					self.remplissages.append(rempli)
@@ -1051,15 +1074,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.radio_box_2 = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
 	def get_Precision(self):
-		bloc_name = doc.getElementsByTagName("Bloc_Precision")[0].getAttribute("label")
+		bloc_name = _(doc.getElementsByTagName("Bloc_Precision")[0].getAttribute("label"))
 		precisions = doc.getElementsByTagName("Precision")
 		choices = []
 		self.precisions = []
 		for precision in precisions:
 			if precision.hasAttributes():
 				preci = self.Precision()
-				choices.append(precision.getAttribute("name"))
-				preci.type = precision.getAttribute("name")
+				name = _(precision.getAttribute("name"))
+				choices.append(name)
+				preci.type = name
 				try :
 					preci.layer_height = self.getNodeText(precision.getElementsByTagName("layer_height")[0])
 					preci.solid_layer_thickness = self.getNodeText(precision.getElementsByTagName("solid_layer_thickness")[0])
@@ -1077,16 +1101,37 @@ class normalSettingsPanel(configBase.configPanelBase):
 					pass
 		self.radio_box_1 = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
+	def get_Tete(self):
+		bloc_name = _(doc.getElementsByTagName("Bloc_Tete")[0].getAttribute("label"))
+		tetes = doc.getElementsByTagName("Tete")
+		choices = []
+		self.tetes = []
+		for tete in tetes:
+			if tete.hasAttributes():
+				tet = self.Tete()
+				name = _(tete.getAttribute("name"))
+				choices.append(name)
+				tet.type = name
+				try :
+					tet.fan_speed = self.getNodeText(tete.getElementsByTagName("fan_speed")[0])
+					tet.cool_min_layer_time = self.getNodeText(tete.getElementsByTagName("cool_min_layer_time")[0])
+					self.tetes.append(tet)
+				except :
+					print 'Some Error in Tete Bloc'
+					pass
+		self.tetes_box = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+
 	def get_support(self):
-		bloc_name = doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label")
+		bloc_name = _(doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label"))
 		supports = doc.getElementsByTagName("Support")
 		choices = []
 		self.supports = []
 		for support in supports:
 			if support.hasAttributes():
 				supp = self.Support()
-				choices.append(support.getAttribute("name"))
-				supp.type = support.getAttribute("name")
+				name = _(support.getAttribute("name"))
+				choices.append(name)
+				supp.type = name
 				try :
 					supp.support = self.getNodeText(support.getElementsByTagName("support")[0])
 					self.supports.append(supp)
@@ -1110,7 +1155,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#	# self.supports[1].platform_adhesion = self.getNodeText(support_disable[0].getElementsByTagName("platform_adhesion")[0])
 
 	def get_brim(self):
-		bloc_name = doc.getElementsByTagName("Bloc_Brim")[0].getAttribute("label")
+		bloc_name = _(doc.getElementsByTagName("Bloc_Brim")[0].getAttribute("label"))
 		self.printbrim = wx.CheckBox(self, wx.ID_ANY, bloc_name)
 		brim_enable = doc.getElementsByTagName("Brim_Enable")
 		brim_disable = doc.getElementsByTagName("Brim_Disable")
@@ -1126,7 +1171,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	#
 	def get_palpeur(self):
-		bloc_name = doc.getElementsByTagName("Bloc_Palpeur")[0].getAttribute("label")
+		bloc_name = _(doc.getElementsByTagName("Bloc_Palpeur")[0].getAttribute("label"))
 		self.palpeur_chbx = wx.CheckBox(self, wx.ID_ANY, bloc_name)
 		palpeur_enable = doc.getElementsByTagName("Palpeur_Enable")
 		palpeur_disable = doc.getElementsByTagName("Palpeur_Disable")
@@ -1148,7 +1193,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	#
 	def get_printing_surface(self):
-		bloc_name = doc.getElementsByTagName("Bloc_Printing_surface")[0].getAttribute("label")
+		bloc_name = _(doc.getElementsByTagName("Bloc_Printing_surface")[0].getAttribute("label"))
 
 
 		printing_surfaces = doc.getElementsByTagName("Printing_surface")
@@ -1158,8 +1203,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		for printing_surface in printing_surfaces:
 			if printing_surface.hasAttributes():
 				prtsurf = self.PrintingSurface()
-				choices.append(printing_surface.getAttribute("name"))
-				prtsurf.name = printing_surface.getAttribute("name")
+				name = _(printing_surface.getAttribute("name"))
+				choices.append(name)
+				prtsurf.name = name
 				try :
 					prtsurf.height = self.getNodeText(printing_surface.getElementsByTagName("printing_surface_height")[0])
 					self.printing_surfaces.append(prtsurf)
@@ -1176,9 +1222,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.spin_ctrl_1.Enable(True)
 		else:
 			self.spin_ctrl_1.Enable(False)
-			self.spin_ctrl_1.SetValue(float(fila.print_temperature))
+		self.spin_ctrl_1.SetValue(float(fila.print_temperature))
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
+		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
+		profile.putProfileSetting('retraction_amount', fila.retraction_amount)
+		profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
+		profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
+		profile.putProfileSetting('filament_cost_meter', fila.filament_cost_meter)
 		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 
 	def Refresh_Rempli(self):
@@ -1199,6 +1250,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('infill_speed', preci.infill_speed)
 		profile.putProfileSetting('inset0_speed', preci.inset0_speed)
 		profile.putProfileSetting('insetx_speed', preci.insetx_speed)
+	
+	def Refresh_Tet(self):
+		tet = self.tetes[self.tetes_box.GetSelection()]
+		profile.putProfileSetting('fan_speed', tet.fan_speed)
+		profile.putProfileSetting('cool_min_layer_time', tet.cool_min_layer_time)
 
 	def Refresh_Supp(self):
 		supp = self.supports[self.printsupp.GetSelection()]
@@ -1318,6 +1374,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
+	def EVT_Tet(self, event):
+		self.Refresh_Tet()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
 	def EVT_Rempl(self, event):
 		self.Refresh_Rempli()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -1367,12 +1430,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	"""FIN ERIC"""
 
-
-
-
  	def Print_All(self):
 		print '*******************************************'
-		print 'Initialiastion'
+		print 'Initialisation'
 		print "nozzle_size : ", profile.getProfileSetting('nozzle_size')
 		print "rectration_enable : ", profile.getProfileSetting('retraction_enable')
 		print "fan_full_height : ", profile.getProfileSetting('fan_full_height')
@@ -1380,15 +1440,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 		print "fan_speed_max : ", profile.getProfileSetting('fan_speed_max')
 		print "coll_min_feedrate : ", profile.getProfileSetting('cool_min_feedrate')
 		print '*******************************************'
-		print "Filament : ", self.combo_box_1.GetStringSelection()
+		print "Filament : ", u''.join(self.combo_box_1.GetStringSelection()).encode('utf-8').strip()
 		print "filament_diameter : ", profile.getProfileSetting('filament_diameter')
 		print "filament_flow : ", profile.getProfileSetting('filament_flow')
+		print "retraction_speed : ", profile.getProfileSetting('retraction_speed')
+		print "retraction_amount : ", profile.getProfileSetting('retraction_amount')
+		print "filament_physical_density : ", profile.getProfileSetting('filament_physical_density')
+		print "filament_cost_kg : ", profile.getProfileSetting('filament_cost_kg')
+		print "filament_cost_meter : ", profile.getProfileSetting('filament_cost_meter')
 		print "Température de base : ", self.spin_ctrl_1.GetValue()
 		print '*******************************************'
-		print "Remplissage : ", self.radio_box_2.GetStringSelection()
+		print "Remplissage : ", u''.join(self.radio_box_2.GetStringSelection()).encode('utf-8').strip()
 		print "fill_density", profile.getProfileSetting('fill_density')
 		print '*******************************************'
-		print "Précision : ", self.radio_box_1.GetStringSelection()
+		print "Précision : ", u''.join(self.radio_box_1.GetStringSelection()).encode('utf-8').strip()
 		print "layer_height ", profile.getProfileSetting('layer_height')
 		print "bottom_thickness / solid_layer_thickness : ", profile.getProfileSetting('solid_layer_thickness')
 		print "shell_thickness / wall_thickness : ", profile.getProfileSetting('wall_thickness')
@@ -1400,7 +1465,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		print "inset0_speed : ", profile.getProfileSetting('inset0_speed')
 		print "insetx_speed : ", profile.getProfileSetting('insetx_speed')
 		print '*******************************************'
-		print "Support Label : ", doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label")
+		print "Tête : ", u''.join(self.tetes_box.GetStringSelection()).encode('utf-8').strip()
+		print "fan_speed ", profile.getProfileSetting('fan_speed')
+		print "cool_min_layer_time : ", profile.getProfileSetting('cool_min_layer_time')
+		print '*******************************************'
+		print "Support Label : ", u''.join(self.printsupp.GetStringSelection()).encode('utf-8').strip()
 		print "support : ", profile.getProfileSetting('support')
 		print "platform_adhesion : ", profile.getProfileSetting('platform_adhesion')
 		print '*******************************************'
