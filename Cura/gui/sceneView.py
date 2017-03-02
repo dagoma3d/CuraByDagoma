@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+ 
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import wx
@@ -350,7 +353,7 @@ class SceneView(openglGui.glGuiPanel):
 		if removableStorage.ejectDrive(drive):
 			self.notification.message(_('Vous pouvez maintenant retirer la carte memoire.'))
 		else:
-			self.notification.message(_('Le retrait sur a echoue...'))
+			self.notification.message(_('Le retrait sur a échoué...'))
 
 	def _showEngineLog(self):
 		dlg = wx.TextEntryDialog(self, _("The slicing engine reported the following"), _("Engine log..."), '\n'.join(self._engine.getResult().getLog()), wx.TE_MULTILINE | wx.OK | wx.CENTRE)
