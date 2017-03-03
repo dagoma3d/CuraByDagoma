@@ -18,7 +18,7 @@ BUILD_TARGET=${1:-none}
 #BUILD_TARGET=freebsd
 
 ##Do we need to create the final archive
-ARCHIVE_FOR_DISTRIBUTION=1
+ARCHIVE_FOR_DISTRIBUTION=${2:0}
 ##Which version name are we appending to the final archive
 export BUILD_NAME="Cura-by-Dagoma-Easy200"
 export BUILD_NAME_INSTALL="Cura_by_Dagoma_Easy200"
