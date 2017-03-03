@@ -396,7 +396,7 @@ class MachineSelectPage(InfoPage):
 		# self.UltimakerRadio.Bind(wx.EVT_RADIOBUTTON, self.OnUltimakerSelect)
 		# self.PrintrbotRadio = self.AddRadioButton("Printrbot")
 		# self.PrintrbotRadio.Bind(wx.EVT_RADIOBUTTON, self.OnPrintrbotSelect)
-		self.OtherRadio = self.AddRadioButton(_("Autre (Ex: RepRap, MakerBot)"))
+		self.OtherRadio = self.AddRadioButton(_("Other (Ex: RepRap, MakerBot)"))
 		self.OtherRadio.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
 		# self.AddSeperator()
 		# self.AddText(_("The collection of anonymous usage information helps with the continued improvement of Cura."))
@@ -962,7 +962,7 @@ class DiscoveryReadyPage(InfoPage):
 
 class configWizard(wx.wizard.Wizard):
 	def __init__(self, addNew = False):
-		super(configWizard, self).__init__(None, -1, "Assistant de configuration")
+		super(configWizard, self).__init__(None, -1, _("Assistant de configuration"))
 
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGING, self.OnPageChanging)

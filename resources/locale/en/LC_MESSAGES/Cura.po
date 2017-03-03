@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-03-02 18:29+0100\n"
+"PO-Revision-Date: 2017-03-03 14:32+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.8.11\n"
+"Language-Team: \n"
+"Language: en\n"
 
 #: Cura/gui/app.py:144 Cura/gui/mainWindow.py:566
 msgid "A new version of Cura is available, would you like to download?"
@@ -2352,8 +2353,17 @@ msgstr ""
 msgid "Première Utilisation"
 msgstr "First Use"
 
+msgid "Assistant de configuration"
+msgstr "Configuration wizard"
+
 msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !"
 msgstr "Welcome! Thank you for using Cury by Dagoma Easy200!"
+
+msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Neva !"
+msgstr "Welcome! Thank you for using Cury by Dagoma Neva!"
+
+msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Explorer350 !"
+msgstr "Welcome! Thank you for using Cury by Dagoma Explorer350!"
 
 msgid ""
 "Nous allons maintenant vous accompagner tout au long de la configuration "
@@ -2371,6 +2381,12 @@ msgstr "What type of 3D printer have you got?"
 msgid "Configuration de votre Cura By Dagoma Easy200"
 msgstr "Configurate your Cura by Dagoma Easy200"
 
+msgid "Configuration de votre Cura By Dagoma Neva"
+msgstr "Configurate your Cura by Dagoma Neva"
+
+msgid "Configuration de votre Cura By Dagoma Explorer350"
+msgstr "Configurate your Cura by Dagoma Explorer350"
+
 msgid ""
 "Encore une fois, toute l’équipe Dagoma vous remercie de votre confiance."
 msgstr "Dagoma would like to thank you again for your trust."
@@ -2380,6 +2396,19 @@ msgid ""
 "avec votre imprimante 3D."
 msgstr ""
 "Your Cura by Dagoma Easy200 freeware is now ready to use with your 3D "
+"printer."
+
+msgid ""
+"Votre logiciel Cura By Dagoma Neva est maintenant prêt à être utilisé avec "
+"votre imprimante 3D."
+msgstr ""
+"Your Cura by Dagoma Neva freeware is now ready to use with your 3D printer."
+
+msgid ""
+"Votre logiciel Cura By Dagoma Explorer350 est maintenant prêt à être utilisé "
+"avec votre imprimante 3D."
+msgstr ""
+"Your Cura by Dagoma Explorer350 freeware is now ready to use with your 3D "
 "printer."
 
 msgid ""
