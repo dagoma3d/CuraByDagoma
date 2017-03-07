@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-03-02 18:29+0100\n"
+"PO-Revision-Date: 2017-03-03 14:31+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
-"Language-Team:  <LL@li.org>\n"
+"Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: Cura/gui/app.py:144 Cura/gui/mainWindow.py:566
 msgid "A new version of Cura is available, would you like to download?"
@@ -2695,6 +2695,12 @@ msgstr ""
 msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !"
 msgstr ""
 
+msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Neva !"
+msgstr ""
+
+msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Explorer350 !"
+msgstr ""
+
 msgid ""
 "Nous allons maintenant vous accompagner tout au long de la configuration "
 "ainsi que la première utilisation de votre imprimante 3D."
@@ -2709,12 +2715,28 @@ msgstr ""
 msgid "Configuration de votre Cura By Dagoma Easy200"
 msgstr ""
 
+msgid "Configuration de votre Cura By Dagoma Neva"
+msgstr ""
+
+msgid "Configuration de votre Cura By Dagoma Explorer350"
+msgstr ""
+
 msgid ""
 "Encore une fois, toute l’équipe Dagoma vous remercie de votre confiance."
 msgstr ""
 
 msgid ""
 "Votre logiciel Cura By Dagoma Easy200 est maintenant prêt à être utilisé "
+"avec votre imprimante 3D."
+msgstr ""
+
+msgid ""
+"Votre logiciel Cura By Dagoma Neva est maintenant prêt à être utilisé avec "
+"votre imprimante 3D."
+msgstr ""
+
+msgid ""
+"Votre logiciel Cura By Dagoma Explorer350 est maintenant prêt à être utilisé "
 "avec votre imprimante 3D."
 msgstr ""
 
