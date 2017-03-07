@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mkvirtualenv Cura
+#mkvirtualenv Cura
 
 # This script is to package the Cura package for Windows/Linux and Mac OS X
 # This script should run under Linux and Mac OS X, as well as Windows with Cygwin.
@@ -26,6 +26,14 @@ TARGET_DIR=${BUILD_NAME}
 
 ##Which versions of external programs to use
 WIN_PORTABLE_PY_VERSION=2.7.2.1
+
+## CuraEngine version to build
+## Info : The version of binary used to build Cura for windows and Mac is 14.09
+## Latest 14.x version is 14.12.1
+## Latest 15.04.x version is 15.04.6
+CURAENGINE_VERSION=14.12.1
+
+CURA_DIR=${PWD}
 
 ##Which CuraEngine to use
 if [ -z ${CURA_ENGINE_REPO} ] ; then
@@ -225,11 +233,14 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
 		git pull
 		cd ..
 	fi
-	rm -rf CuraEngine
-	git clone ${CURA_ENGINE_REPO}
+  #rm -rf CuraEngine
+  if [ ! -d "CuraEngine" ]; then
+  	git clone ${CURA_ENGINE_REPO}
     if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-	make -C CuraEngine VERSION=${BUILD_NAME}
+    git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
+    make -C CuraEngine VERSION=${BUILD_NAME}
     if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+  fi
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/cura
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/cura
 	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/cura/
@@ -239,12 +250,14 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
 	cp scripts/linux/cura.py scripts/linux/${BUILD_TARGET}/usr/share/cura/
 	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/cura/
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/cura/Cura/version
-	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
-	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
-	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
-	cd scripts/linux
-	dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/cura_${BUILD_NAME}-${BUILD_TARGET}.deb
-	sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
+	#sudo chown root:root scripts/linux/${BUILD_TARGET} -R
+	#sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
+	#sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
+  #chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
+	#chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
+	#cd scripts/linux
+	#dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/cura_${BUILD_NAME}-${BUILD_TARGET}.deb
+	#sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
 	exit
 fi
 
@@ -253,7 +266,8 @@ fi
 #############################
 
 if [ "$BUILD_TARGET" = "debian_amd64" ]; then
-    export CXX="g++ -m64"
+  CURABYDAGO_APPDIR=scripts/linux/build/CuraByDago
+  export CXX="g++ -m64"
 	if [ ! -d "Power" ]; then
 		git clone https://github.com/GreatFruitOmsk/Power
 	else
@@ -261,26 +275,150 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
 		git pull
 		cd ..
 	fi
-	rm -rf CuraEngine
-	git clone ${CURA_ENGINE_REPO}
+  #rm -rf CuraEngine
+  if [ ! -d "CuraEngine" ]; then
+  	git clone ${CURA_ENGINE_REPO}
     if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-	make -C CuraEngine
+    git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
+    make -C CuraEngine VERSION=${BUILD_NAME}
     if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
-	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/cura
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/cura
-	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp scripts/linux/cura.py scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/cura/Cura/version
-	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
-	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
-	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
-	cd scripts/linux
-	dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/${BUILD_NAME}.deb
-	sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
+  fi
+  if [ -d "${CURABYDAGO_APPDIR}" ]; then
+    rm -rf ${CURABYDAGO_APPDIR}
+    mkdir -p ${CURABYDAGO_APPDIR}
+  fi
+  # Python and its needed dependencies
+  virtualenv --python=python2.7 ${CURABYDAGO_APPDIR}/usr
+  cp -r /usr/lib/wx ${CURABYDAGO_APPDIR}/usr/lib/
+  rm ${CURABYDAGO_APPDIR}/usr/lib/wx/python/wx.pth
+  cp /usr/lib/python2.7/dist-packages/wxversion* ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
+  cp -r /usr/lib/python2.7/dist-packages/wx-3.0-gtk2 ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
+  cp -r /usr/lib/python2.7/dist-packages/OpenGL ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
+  cp -r /usr/lib/python2.7/dist-packages/serial ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
+  cp -r /usr/lib/python2.7/dist-packages/numpy ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
+
+  #cp -r /usr/lib/python2.7/dist-packages/* ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
+  #rm ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/wx.pth
+
+  ln -s ../../wx/python/wx3.0.pth ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/wx.pth
+
+  #cp -r /usr/lib/x86_64-linux-gnu ${CURABYDAGO_APPDIR}/usr/lib/
+  #cp -r /usr/lib/openblas-base ${CURABYDAGO_APPDIR}/usr/lib/
+  #cp /usr/lib/* ${CURABYDAGO_APPDIR}/usr/lib/
+
+  # Cura
+  mkdir -p ${CURABYDAGO_APPDIR}/usr/share/cura
+	cp -a Cura ${CURABYDAGO_APPDIR}/usr/share/cura/
+	cp -a resources ${CURABYDAGO_APPDIR}/usr/share/cura/
+	cp -a plugins ${CURABYDAGO_APPDIR}/usr/share/cura/
+	cp -a CuraEngine/build/CuraEngine ${CURABYDAGO_APPDIR}/usr/share/cura/
+	cp -a Power/power ${CURABYDAGO_APPDIR}/usr/share/cura/
+  cp scripts/linux/utils/cura.py ${CURABYDAGO_APPDIR}/usr/share/cura/
+	echo $BUILD_NAME > ${CURABYDAGO_APPDIR}/usr/share/cura/Cura/version
+
+  # Stuff to create AppImage
+  cp scripts/linux/utils/curabydago ${CURABYDAGO_APPDIR}/usr/bin/
+  cp scripts/linux/utils/AppRun ${CURABYDAGO_APPDIR}/
+  cp scripts/linux/utils/curabydago.desktop ${CURABYDAGO_APPDIR}/
+	cp scripts/linux/utils/curabydago.png ${CURABYDAGO_APPDIR}/
+
+  # Create the AppImage
+  if [ -f "./scripts/linux/build/Cura-by-dagoma-Easy200-x86_64.AppImage" ]; then
+    rm "./scripts/linux/build/Cura-by-dagoma-Easy200-x86_64.AppImage"
+  fi
+  ./scripts/linux/utils/appimagetool-x86_64.AppImage -v ${CURABYDAGO_APPDIR} ./scripts/linux/build/Cura-by-dagoma-Easy200-x86_64.AppImage
+	exit
+fi
+
+if [ "$BUILD_TARGET" = "mytest" ]; then
+  echo ${CURA_DIR}
+  CURABYDAGO_BUILDDIR=scripts/linux/build
+  CURABYDAGO_APPDIRNAME=MyTest
+  CURABYDAGO_APPDIR=${CURABYDAGO_BUILDDIR}/${CURABYDAGO_APPDIRNAME}
+
+  #if [ -d "${CURABYDAGO_APPDIR}/usr" ]; then
+    rm -rf ${CURABYDAGO_APPDIR}/usr
+    mkdir -p ${CURABYDAGO_APPDIR}/usr
+  #fi
+
+  # Python and its needed dependencies
+  #if [ ! -d "debs" ]; then
+    mkdir -p ${CURABYDAGO_BUILDDIR}/debs
+    cd ${CURABYDAGO_BUILDDIR}/debs
+    # python-setuptools
+    #apt-get download python-pkg-resources python-setuptools
+    # python-gtk2
+    apt-get download libatk1.0-0 libc6 libcairo2 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk2.0-0 libpango-1.0-0 libpangocairo-1.0-0 python-cairo python-gobject-2 python-gtk2
+    # python-wxversion
+    apt-get download python-wxversion
+    # python-wxgtk3.0
+    apt-get download libgcc1 libstdc++6 libwxbase3.0-0v5 libwxgtk3.0-0v5 python-wxgtk3.0
+    # python-serial
+    apt-get download python-serial
+    # python-numpy
+    apt-get download libatlas3-base libblas3 libopenblas-base liblapack3 python-numpy
+    # python-opengl
+    apt-get download python-ctypeslib libgl1-mesa-dev  libgl1-mesa-dri  libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev  python-opengl
+    # freeglut3
+    apt-get download libx11-6 libxi6 libxxf86vm1 freeglut3
+    # freeglut3-dev
+    apt-get download libxext6 libxext-dev libxt6 libxt-dev freeglut3-dev
+    # ...?
+    apt-get download libglapi-mesa libgfortran3
+    cd ../${CURABYDAGO_APPDIRNAME}
+  #fi
+
+  virtualenv --python=python2.7 usr
+  source ./usr/bin/activate
+  find ../debs/ -name *deb -exec dpkg -x {} . \;
+  #pip install numpy pyserial PyOpenGL PyOpenGL_accelerate
+  deactivate
+
+  rm ./usr/lib/python2.7/dist-packages/wx.pth
+  ln -s ../../wx/python/wx3.0.pth ./usr/lib/python2.7/dist-packages/wx.pth
+
+  #cp -r /usr/lib/python2.7/dist-packages/OpenGL ./usr/lib/python2.7/dist-packages/
+  #cp /usr/lib/x86_64-linux-gnu/libglut.so.3.9.0 ./usr/lib/x86_64-linux-gnu/
+  #flags 'freeglut_ext.xml -l ./usr/lib/x86_64-linux-gnu/libglut.so.3 -o freeglut_ext.py -v -kf'
+
+  # Cura
+  mkdir -p ./usr/share/cura
+	cp -a ${CURA_DIR}/Cura ./usr/share/cura/
+	cp -a ${CURA_DIR}/resources ./usr/share/cura/
+	cp -a ${CURA_DIR}/plugins ./usr/share/cura/
+	cp -a ${CURA_DIR}/CuraEngine/build/CuraEngine ./usr/share/cura/
+	cp -a ${CURA_DIR}/Power/power ./usr/share/cura/
+	echo $BUILD_NAME > ./usr/share/cura/Cura/version
+
+  # Stuff to create AppImage
+  CURABYDAGO_UTILSDIR="${CURA_DIR}/scripts/linux/utils"
+  cp ${CURABYDAGO_UTILSDIR}/cura.py ./usr/share/cura/
+  cp ${CURABYDAGO_UTILSDIR}/curabydago ./usr/bin/
+  cp ${CURABYDAGO_UTILSDIR}/AppRun .
+  cp ${CURABYDAGO_UTILSDIR}/curabydago.desktop .
+  cp ${CURABYDAGO_UTILSDIR}/curabydago.png .
+	cp ${CURABYDAGO_UTILSDIR}/test.py .
+
+  # Create the AppImage
+  if [ -f "Cura-by-dagoma-Easy200-x86_64.AppImage" ]; then
+    rm "Cura-by-dagoma-Easy200-x86_64.AppImage"
+  fi
+
+  cd ${CURA_DIR}
+  ${CURABYDAGO_UTILSDIR}/appimagetool-x86_64.AppImage -v ${CURABYDAGO_APPDIR} ./scripts/linux/build/Cura-by-dagoma-Easy200-x86_64.AppImage
+
+  #source ${CURABYDAGO_APPDIR}/usr/bin/activate
+  #which python
+  #wget "http://downloads.sourceforge.net/wxpython/wxPython-src-3.0.2.0.tar.bz2"
+  #pip install wx
+  #easy_install wx
+  #pip install PyOpenGL PyOpenGL_accelerate
+  #python -m pip install pyserial
+  #python -m pip install numpy
+  #deactivate
+
+
+
 	exit
 fi
 
@@ -346,7 +484,7 @@ if [ $BUILD_TARGET = "win32" ]; then
 	#mv ffmpeg-20120927-git-13f0cd6-win32-static/licenses ${TARGET_DIR}/Cura/ffmpeg-licenses/
 	mv Win32/EjectMedia.exe ${TARGET_DIR}/Cura/
 	echo "mv Finished"
-	
+
 	rm -rf Power/
 	rm -rf \$_OUTDIR
 	rm -rf PURELIB
@@ -355,7 +493,7 @@ if [ $BUILD_TARGET = "win32" ]; then
 	rm -rf numpy-1.6.2-sse2.exe
 	#rm -rf ffmpeg-20120927-git-13f0cd6-win32-static
 	echo "rm Finished"
-	
+
 	#Clean up portable python a bit, to keep the package size down.
 	rm -rf ${TARGET_DIR}/python/PyScripter.*
 	rm -rf ${TARGET_DIR}/python/Doc
@@ -368,7 +506,7 @@ if [ $BUILD_TARGET = "win32" ]; then
 	#Remove the gle files because they require MSVCR71.dll, which is not included. We also don't need gle, so it's safe to remove it.
 	rm -rf ${TARGET_DIR}/python/Lib/OpenGL/DLLS/gle*
 	echo "clean Finished"
-	
+
     #Build the C++ engine
 	# mingw32-make -C CuraEngine VERSION=${BUILD_NAME}
  #    if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
@@ -382,7 +520,7 @@ cp -a plugins/* ${TARGET_DIR}/plugins
 #Add cura version file
 echo $BUILD_NAME > ${TARGET_DIR}/Cura/version
 echo "add cura Finished"
-	
+
 
 #add script files
 if [ $BUILD_TARGET = "win32" ]; then
@@ -398,7 +536,7 @@ fi
 #package the result
 if (( ${ARCHIVE_FOR_DISTRIBUTION} )); then
 	echo "ARCHIVE_FOR_DISTRIBUTION"
-   
+
 	if [ $BUILD_TARGET = "win32" ]; then
 		#rm ${TARGET_DIR}.zip
 		#cd ${TARGET_DIR}
