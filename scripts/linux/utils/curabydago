@@ -1,1 +1,1 @@
-python "$APPDIR"/usr/share/cura/cura.py
+python "$APPDIR"/usr/share/curabydago/cura.py

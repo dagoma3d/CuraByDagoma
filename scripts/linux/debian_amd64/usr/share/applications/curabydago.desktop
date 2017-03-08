@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=CuraByDagoma
+Comment=CuraByDagoma
+Icon=/usr/share/curabydago/resources/images/c.png
+Exec=/usr/bin/python2.7 /usr/share/curabydago/cura.py
+Path=/usr/share/curabydago/
+StartupNotify=true
+Terminal=false
+Categories=GNOME;GTK;Utility;

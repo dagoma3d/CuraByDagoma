@@ -155,8 +155,8 @@ class mainWindow(wx.Frame):
 		menuBar = wx.MenuBar()
 		menuBar.Append(self.fileMenu, _("File"))
 		self.SetMenuBar(menuBar)
-		menuBar.Hide()
-		menuBar.Show(False)
+		#menuBar.Hide()
+		#menuBar.Show(False)
 
 		if minecraftImport.hasMinecraft():
 			i = toolsMenu.Append(-1, _("Minecraft map import..."))
@@ -913,7 +913,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.printbrim, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.button_1, pos = (10, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.AddGrowableCol(1)
-		sizer_1.AddGrowableRow(12)
+		#sizer_1.AddGrowableRow(10)
 		self.SetSizerAndFit(sizer_1)
 
 	def getNodeText(self, node):

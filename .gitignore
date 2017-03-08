@@ -1,4 +1,7 @@
-scripts/linux/build
+scripts/linux/AppImage
+scripts/linux/debian_amd64/usr/share/curabydago
+scripts/linux/debian_i386/usr/share/curabydago
+scripts/linux/*.deb
 Power
 CuraEngine
 *.pyc

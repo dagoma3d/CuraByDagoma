@@ -225,7 +225,7 @@ fi
 #############################
 
 if [ "$BUILD_TARGET" = "debian_i386" ]; then
-    export CXX="g++ -m32"
+  export CXX="g++ -m32"
 	if [ ! -d "Power" ]; then
 		git clone https://github.com/GreatFruitOmsk/Power
 	else
@@ -236,8 +236,8 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
   #rm -rf CuraEngine
   if [ ! -d "CuraEngine" ]; then
   	git clone ${CURA_ENGINE_REPO}
-    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
     git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
+    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
     make -C CuraEngine VERSION=${BUILD_NAME}
     if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
   fi
@@ -247,17 +247,15 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
 	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/cura/
 	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/cura/
 	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp scripts/linux/cura.py scripts/linux/${BUILD_TARGET}/usr/share/cura/
+	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/cura/
 	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/cura/
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/cura/Cura/version
-	#sudo chown root:root scripts/linux/${BUILD_TARGET} -R
-	#sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
-	#sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
-  #chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
-	#chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
-	#cd scripts/linux
-	#dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/cura_${BUILD_NAME}-${BUILD_TARGET}.deb
-	#sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
+	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
+	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
+	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
+	cd scripts/linux
+	dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/cura_${BUILD_NAME}-${BUILD_TARGET}.deb
+	sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
 	exit
 fi
 
@@ -278,62 +276,33 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
   #rm -rf CuraEngine
   if [ ! -d "CuraEngine" ]; then
   	git clone ${CURA_ENGINE_REPO}
-    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
     git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
+    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
     make -C CuraEngine VERSION=${BUILD_NAME}
     if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
   fi
-  if [ -d "${CURABYDAGO_APPDIR}" ]; then
-    rm -rf ${CURABYDAGO_APPDIR}
-    mkdir -p ${CURABYDAGO_APPDIR}
-  fi
-  # Python and its needed dependencies
-  virtualenv --python=python2.7 ${CURABYDAGO_APPDIR}/usr
-  cp -r /usr/lib/wx ${CURABYDAGO_APPDIR}/usr/lib/
-  rm ${CURABYDAGO_APPDIR}/usr/lib/wx/python/wx.pth
-  cp /usr/lib/python2.7/dist-packages/wxversion* ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
-  cp -r /usr/lib/python2.7/dist-packages/wx-3.0-gtk2 ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
-  cp -r /usr/lib/python2.7/dist-packages/OpenGL ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
-  cp -r /usr/lib/python2.7/dist-packages/serial ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
-  cp -r /usr/lib/python2.7/dist-packages/numpy ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
-
-  #cp -r /usr/lib/python2.7/dist-packages/* ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/
-  #rm ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/wx.pth
-
-  ln -s ../../wx/python/wx3.0.pth ${CURABYDAGO_APPDIR}/usr/lib/python2.7/site-packages/wx.pth
-
-  #cp -r /usr/lib/x86_64-linux-gnu ${CURABYDAGO_APPDIR}/usr/lib/
-  #cp -r /usr/lib/openblas-base ${CURABYDAGO_APPDIR}/usr/lib/
-  #cp /usr/lib/* ${CURABYDAGO_APPDIR}/usr/lib/
-
-  # Cura
-  mkdir -p ${CURABYDAGO_APPDIR}/usr/share/cura
-	cp -a Cura ${CURABYDAGO_APPDIR}/usr/share/cura/
-	cp -a resources ${CURABYDAGO_APPDIR}/usr/share/cura/
-	cp -a plugins ${CURABYDAGO_APPDIR}/usr/share/cura/
-	cp -a CuraEngine/build/CuraEngine ${CURABYDAGO_APPDIR}/usr/share/cura/
-	cp -a Power/power ${CURABYDAGO_APPDIR}/usr/share/cura/
-  cp scripts/linux/utils/cura.py ${CURABYDAGO_APPDIR}/usr/share/cura/
-	echo $BUILD_NAME > ${CURABYDAGO_APPDIR}/usr/share/cura/Cura/version
-
-  # Stuff to create AppImage
-  cp scripts/linux/utils/curabydago ${CURABYDAGO_APPDIR}/usr/bin/
-  cp scripts/linux/utils/AppRun ${CURABYDAGO_APPDIR}/
-  cp scripts/linux/utils/curabydago.desktop ${CURABYDAGO_APPDIR}/
-	cp scripts/linux/utils/curabydago.png ${CURABYDAGO_APPDIR}/
-
-  # Create the AppImage
-  if [ -f "./scripts/linux/build/Cura-by-dagoma-Easy200-x86_64.AppImage" ]; then
-    rm "./scripts/linux/build/Cura-by-dagoma-Easy200-x86_64.AppImage"
-  fi
-  ./scripts/linux/utils/appimagetool-x86_64.AppImage -v ${CURABYDAGO_APPDIR} ./scripts/linux/build/Cura-by-dagoma-Easy200-x86_64.AppImage
+  rm -rf scripts/linux/${BUILD_TARGET}/usr/share/curabydago
+	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/curabydago
+	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
+	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
+	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
+	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
+	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
+	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
+	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/curabydago/Cura/version
+	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
+	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
+	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
+	cd scripts/linux
+	dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/${BUILD_NAME}-${BUILD_TARGET}.deb
+	sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
 	exit
 fi
 
-if [ "$BUILD_TARGET" = "mytest" ]; then
+if [ "$BUILD_TARGET" = "appimage" ]; then
   echo ${CURA_DIR}
-  CURABYDAGO_BUILDDIR=scripts/linux/build
-  CURABYDAGO_APPDIRNAME=MyTest
+  CURABYDAGO_BUILDDIR=scripts/linux/AppImage
+  CURABYDAGO_APPDIRNAME=CuraByDagoma
   CURABYDAGO_APPDIR=${CURABYDAGO_BUILDDIR}/${CURABYDAGO_APPDIRNAME}
 
   #if [ -d "${CURABYDAGO_APPDIR}/usr" ]; then
@@ -382,17 +351,17 @@ if [ "$BUILD_TARGET" = "mytest" ]; then
   #flags 'freeglut_ext.xml -l ./usr/lib/x86_64-linux-gnu/libglut.so.3 -o freeglut_ext.py -v -kf'
 
   # Cura
-  mkdir -p ./usr/share/cura
-	cp -a ${CURA_DIR}/Cura ./usr/share/cura/
-	cp -a ${CURA_DIR}/resources ./usr/share/cura/
-	cp -a ${CURA_DIR}/plugins ./usr/share/cura/
-	cp -a ${CURA_DIR}/CuraEngine/build/CuraEngine ./usr/share/cura/
-	cp -a ${CURA_DIR}/Power/power ./usr/share/cura/
-	echo $BUILD_NAME > ./usr/share/cura/Cura/version
+  mkdir -p ./usr/share/curabydago
+	cp -a ${CURA_DIR}/Cura ./usr/share/curabydago/
+	cp -a ${CURA_DIR}/resources ./usr/share/curabydago/
+	cp -a ${CURA_DIR}/plugins ./usr/share/curabydago/
+	cp -a ${CURA_DIR}/CuraEngine/build/CuraEngine ./usr/share/curabydago/
+	cp -a ${CURA_DIR}/Power/power ./usr/share/curabydago/
+	echo $BUILD_NAME > ./usr/share/curabydago/Cura/version
 
   # Stuff to create AppImage
   CURABYDAGO_UTILSDIR="${CURA_DIR}/scripts/linux/utils"
-  cp ${CURABYDAGO_UTILSDIR}/cura.py ./usr/share/cura/
+  cp ${CURABYDAGO_UTILSDIR}/cura.py ./usr/share/curabydago/
   cp ${CURABYDAGO_UTILSDIR}/curabydago ./usr/bin/
   cp ${CURABYDAGO_UTILSDIR}/AppRun .
   cp ${CURABYDAGO_UTILSDIR}/curabydago.desktop .
@@ -405,7 +374,7 @@ if [ "$BUILD_TARGET" = "mytest" ]; then
   fi
 
   cd ${CURA_DIR}
-  ${CURABYDAGO_UTILSDIR}/appimagetool-x86_64.AppImage -v ${CURABYDAGO_APPDIR} ./scripts/linux/build/Cura-by-dagoma-Easy200-x86_64.AppImage
+  ${CURABYDAGO_UTILSDIR}/appimagetool-x86_64.AppImage -v ${CURABYDAGO_APPDIR} ./scripts/linux/AppImage/Cura-by-dagoma-Easy200-x86_64.AppImage
 
   #source ${CURABYDAGO_APPDIR}/usr/bin/activate
   #which python
