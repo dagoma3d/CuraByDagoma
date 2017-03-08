@@ -255,6 +255,13 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
 	dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/cura_${BUILD_NAME}-${BUILD_TARGET}.deb
+  # Two ways to install it :
+  # - Using apt-get :
+  # -- Copy the .deb file in /var/cache/apt/archives/
+  # -- Install it using sudo apt-get install [package_name]
+  # - Using dpkg :
+  # -- sudo dpkg -i [deb_file]
+  # -- sudo apt-get install -f
 	sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
 	exit
 fi
@@ -295,6 +302,13 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
 	dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/${BUILD_NAME}-${BUILD_TARGET}.deb
+  # Two ways to install it :
+  # - Using apt-get :
+  # -- Copy the .deb file in /var/cache/apt/archives/
+  # -- Install it using sudo apt-get install [package_name]
+  # - Using dpkg :
+  # -- sudo dpkg -i [deb_file]
+  # -- sudo apt-get install -f
 	sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
 	exit
 fi

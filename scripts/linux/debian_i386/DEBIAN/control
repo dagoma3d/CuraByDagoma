@@ -4,7 +4,7 @@ Section: misc
 Priority: optional
 Architecture: i386
 Essential: no
-Depends: python2.7, python-wxgtk2.8, python-opengl, python-serial, python-numpy
+Depends: python2.7, python-wxgtk3.0, python-opengl, python-serial, python-numpy
 Maintainer: Orel <orel@dagoma.com>
 Provides: curabydago
 Installed-Size: 10000
