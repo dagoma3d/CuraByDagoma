@@ -337,15 +337,15 @@ if [ "$BUILD_TARGET" = "appimage" ]; then
     # python-wxgtk3.0
     apt-get download libgcc1 libstdc++6 libwxbase3.0-0v5 libwxgtk3.0-0v5 python-wxgtk3.0
     # python-serial
-    apt-get download python-serial
+    #apt-get download python-serial
     # python-numpy
-    apt-get download libatlas3-base libblas3 libopenblas-base liblapack3 python-numpy
+    #apt-get download libatlas3-base libblas3 libopenblas-base liblapack3 python-numpy
     # python-opengl
-    apt-get download python-ctypeslib libgl1-mesa-dev  libgl1-mesa-dri  libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev  python-opengl
+    #apt-get download python-ctypeslib libgl1-mesa-dev  libgl1-mesa-dri libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev python-opengl
     # freeglut3
-    apt-get download libx11-6 libxi6 libxxf86vm1 freeglut3
+    apt-get download libgl1-mesa-glx libx11-6 libxi6 libxxf86vm1 freeglut3
     # freeglut3-dev
-    apt-get download libxext6 libxext-dev libxt6 libxt-dev freeglut3-dev
+    #apt-get download libxext6 libxext-dev libxt6 libxt-dev freeglut3-dev
     # ...?
     apt-get download libglapi-mesa libgfortran3
     cd ../${CURABYDAGO_APPDIRNAME}
@@ -353,12 +353,13 @@ if [ "$BUILD_TARGET" = "appimage" ]; then
 
   virtualenv --python=python2.7 usr
   source ./usr/bin/activate
+  pip install PyOpenGL PyOpenGL_accelerate numpy pyserial
   find ../debs/ -name *deb -exec dpkg -x {} . \;
-  #pip install numpy pyserial PyOpenGL PyOpenGL_accelerate
   deactivate
 
   rm ./usr/lib/python2.7/dist-packages/wx.pth
   ln -s ../../wx/python/wx3.0.pth ./usr/lib/python2.7/dist-packages/wx.pth
+  #cp /usr/lib/x86_64-linux-gnu/libglut.so.3 ./usr/lib/x86_64-linux-gnu/
 
   #cp -r /usr/lib/python2.7/dist-packages/OpenGL ./usr/lib/python2.7/dist-packages/
   #cp /usr/lib/x86_64-linux-gnu/libglut.so.3.9.0 ./usr/lib/x86_64-linux-gnu/
@@ -389,19 +390,6 @@ if [ "$BUILD_TARGET" = "appimage" ]; then
 
   cd ${CURA_DIR}
   ${CURABYDAGO_UTILSDIR}/appimagetool-x86_64.AppImage -v ${CURABYDAGO_APPDIR} ./scripts/linux/AppImage/Cura-by-dagoma-Easy200-x86_64.AppImage
-
-  #source ${CURABYDAGO_APPDIR}/usr/bin/activate
-  #which python
-  #wget "http://downloads.sourceforge.net/wxpython/wxPython-src-3.0.2.0.tar.bz2"
-  #pip install wx
-  #easy_install wx
-  #pip install PyOpenGL PyOpenGL_accelerate
-  #python -m pip install pyserial
-  #python -m pip install numpy
-  #deactivate
-
-
-
 	exit
 fi
 
