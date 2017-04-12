@@ -1220,9 +1220,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		fila = self.filaments[self.combo_box_1.GetSelection()]
 		if fila.type == 'Autre PLA':
 			self.spin_ctrl_1.Enable(True)
+			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
 		else:
 			self.spin_ctrl_1.Enable(False)
-		self.spin_ctrl_1.SetValue(float(fila.print_temperature))
+			self.spin_ctrl_1.SetValue(float(fila.print_temperature))
+			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1230,7 +1232,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
 		profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
 		profile.putProfileSetting('filament_cost_meter', fila.filament_cost_meter)
-		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 
 	def Refresh_Rempli(self):
 		rempli = self.remplissages[self.radio_box_2.GetSelection()]
