@@ -1494,7 +1494,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def Click_Button(self, event):
-		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
+		if self.spin_ctrl_1.IsEnabled():
+			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
+		else:
+			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 		self.Print_All()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.OnPrintButton(1)
