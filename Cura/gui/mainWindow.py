@@ -1244,7 +1244,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('wall_thickness', preci.wall_thickness)
 		profile.putProfileSetting('print_speed', preci.print_speed)
 		self.temp_preci = float(preci.temp_preci)
-		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
+		if self.spin_ctrl_1.IsEnabled():
+			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
+		else:
+			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 		profile.putProfileSetting('travel_speed', preci.travel_speed)
 		profile.putProfileSetting('bottom_layer_speed', preci.bottom_layer_speed)
 		# Speed
