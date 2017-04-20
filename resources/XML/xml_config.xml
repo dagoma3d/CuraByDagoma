@@ -421,7 +421,7 @@ M84   ;shut down motors
 ;Definition des textes d'installation
 ;_______________________________________________________________________________________________________________________________________________________
   <Text>
-    <Version>V1.0.3</Version>
+    <Version>V1.0.5</Version>
     <FirstInfoPage title="Première Utilisation">
       <Line1>Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !</Line1>
       <Line2>Nous allons maintenant vous accompagner tout au long de la configuration ainsi que la première utilisation de votre imprimante 3D.</Line2>
@@ -432,7 +432,7 @@ M84   ;shut down motors
     <DiscoveryPage title="Configuration de votre Cura By Dagoma Easy200">
       <Line1>Encore une fois, toute l’équipe Dagoma vous remercie de votre confiance.</Line1>
       <Line2>Votre logiciel Cura By Dagoma Easy200 est maintenant prêt à être utilisé avec votre imprimante 3D.</Line2>
-      <Line3>Nous sommes à votre écoute sur dagoma.fr ou par mail : contact@dagoma.fr</Line3>
+      <Line3>Nous sommes à votre écoute sur www.dagoma.fr/nous-contacter.html</Line3>
       <Line4>Bonne découverte à tous !</Line4>
       <Line5> </Line5>
     </DiscoveryPage>
