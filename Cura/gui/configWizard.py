@@ -388,17 +388,27 @@ class MachineSelectPage(InfoPage):
 		super(MachineSelectPage, self).__init__(parent, _(page.getAttribute("title")))
 		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
 
-		self.DiscoveryRadio = self.AddRadioButton("DiscoEasy200", style=wx.RB_GROUP)
-		self.DiscoveryRadio.Bind(wx.EVT_RADIOBUTTON, self.OnDiscoverySelect)
-		self.DiscoveryRadio.SetValue(True)
+		try:
+			printerinfo = doc.getElementsByTagName("Printer")[0];
+			printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
+			self.DiscoveryRadio = self.AddRadioButton(printername, style=wx.RB_GROUP)
+			self.DiscoveryRadio.Bind(wx.EVT_RADIOBUTTON, self.OnDiscoverySelect)
+			self.DiscoveryRadio.SetValue(True)
+
+			self.OtherRadio = self.AddRadioButton(_("Other (Ex: RepRap, MakerBot)"))
+			self.OtherRadio.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
+		except:
+			self.OtherRadio = self.AddRadioButton(_("Other (Ex: RepRap, MakerBot)"))
+			self.OtherRadio.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
+			self.OtherRadio.SetValue(True)
 		# self.Ultimaker2Radio = self.AddRadioButton("Ultimaker2")
 		# self.Ultimaker2Radio.Bind(wx.EVT_RADIOBUTTON, self.OnUltimaker2Select)
 		# self.UltimakerRadio = self.AddRadioButton("Ultimaker Original")
 		# self.UltimakerRadio.Bind(wx.EVT_RADIOBUTTON, self.OnUltimakerSelect)
 		# self.PrintrbotRadio = self.AddRadioButton("Printrbot")
 		# self.PrintrbotRadio.Bind(wx.EVT_RADIOBUTTON, self.OnPrintrbotSelect)
-		self.OtherRadio = self.AddRadioButton(_("Other (Ex: RepRap, MakerBot)"))
-		self.OtherRadio.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
+		# self.OtherRadio = self.AddRadioButton(_("Other (Ex: RepRap, MakerBot)"))
+		# self.OtherRadio.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
 		# self.AddSeperator()
 		# self.AddText(_("The collection of anonymous usage information helps with the continued improvement of Cura."))
 		# self.AddText(_("This does NOT submit your models online nor gathers any privacy related information."))
