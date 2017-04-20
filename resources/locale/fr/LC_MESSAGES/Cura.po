@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-03-03 14:31+0100\n"
+"PO-Revision-Date: 2017-04-20 14:43+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: Cura/gui/app.py:144 Cura/gui/mainWindow.py:566
 msgid "A new version of Cura is available, would you like to download?"
@@ -2854,126 +2854,5 @@ msgstr "Impossible de démarrer l'impression car une autre est en cours."
 msgid "Failed to start print..."
 msgstr "Le démarrage de l'impression a échoué"
 
-#~ msgid "* Configure Cura for your machine"
-#~ msgstr "* Configurer Cura pour votre machine"
-
-#~ msgid "* Optionally upgrade your firmware"
-#~ msgstr ""
-#~ "* Optionnellement mettre à jour le logiciel embarqué (micrologiciel)"
-
-#~ msgid "* Optionally check if your machine is working safely"
-#~ msgstr "* Optionnellement vérifier si votre machine fonctionne correctement"
-
-#~ msgid "* Optionally level your printer bed"
-#~ msgstr "* Optionnellement mettre votre lit à niveau "
-
-#~ msgid "Add new machine..."
-#~ msgstr "Ajouter une nouvelle machine..."
-
-#~ msgid "Statistics"
-#~ msgstr "Statistiques"
-
-#~ msgid ""
-#~ "Filament: ####.##m #.##g\n"
-#~ "Estimated print time: #####:##\n"
-#~ "Machine state:\n"
-#~ "Detecting baudrateXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-#~ msgstr ""
-#~ "Filament: ####.##m #.##g\n"
-#~ "Temps d'impression estimé: #####:##\n"
-#~ "Etat de la machine:\n"
-#~ "Détectio du baudrateXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-
-#~ msgid "BedTemp:"
-#~ msgstr "TempLit:"
-
-#~ msgid "Temp:"
-#~ msgstr "Temp:"
-
-#~ msgid "Jog"
-#~ msgstr "Mouvement"
-
-#~ msgid "Outer wall:"
-#~ msgstr "Parois externes:"
-
-#~ msgid "Inner wall:"
-#~ msgstr "Parois internes:"
-
-#~ msgid "Fill:"
-#~ msgstr "Remplissage:"
-
-#~ msgid "Support:"
-#~ msgstr "SUpport:"
-
-#~ msgid "Enable timelapse movie recording"
-#~ msgstr "Activer l'enregistrement de film image par image"
-
-#~ msgid "Show preview"
-#~ msgstr "Prévisualiser"
-
-#~ msgid "Camera"
-#~ msgstr "Caméra"
-
-#~ msgid "Resume"
-#~ msgstr "Reprendre"
-
-#~ msgid "Loading gcode...\n"
-#~ msgstr "Chargement du GCode...\n"
-
-#~ msgid "Filament: %(amount).2fm %(weight).2fg\n"
-#~ msgstr "Filament: %(amount).2fm %(weight).2fg\n"
-
-#~ msgid "Filament cost: %s\n"
-#~ msgstr "Coût de filament: %s\n"
-
-#~ msgid "Cura - Batch run"
-#~ msgstr "Cura - Lot groupé"
-
-#~ msgid "Add"
-#~ msgstr "Ajouter"
-
-#~ msgid "Remove"
-#~ msgstr "Retirer"
-
-#~ msgid "Prepare all"
-#~ msgstr "Préparer l'ensemble"
-
-#~ msgid "Open file to batch prepare"
-#~ msgstr "Ouvrir un fichier à péparer en lot"
-
-#~ msgid "Building: %d                           "
-#~ msgstr "Construction: %d"
-
-#~ msgid "Done: 0/%d                           "
-#~ msgstr "Effectué: 0/%d"
-
-#~ msgid "Abort"
-#~ msgstr "Interrompre"
-
-#~ msgid "Close"
-#~ msgstr "Fermer"
-
-#~ msgid "Build: %d models"
-#~ msgstr "Construction: %d modèles"
-
-#~ msgid ""
-#~ "\n"
-#~ "Slicing took: %(hours)02d:%(minutes)02d"
-#~ msgstr ""
-#~ "\n"
-#~ "Le trancheur a pris: %(hours)02d:%(minutes)02d"
-
-#~ msgid "Building: [%(index)d/%(size)d]"
-#~ msgstr "Construction: [%(index)d/%(size)d]"
-
-#~ msgid "Aborted by user."
-#~ msgstr "Interrompu par l'utilisateur."
-
-#~ msgid "Done %(index)d/%(size)d"
-#~ msgstr "Effectués %(index)d/%(size)d"
-
-#~ msgid "To SDCard"
-#~ msgstr "Vers carte SD"
-
-#~ msgid "Fan on layer number"
-#~ msgstr "Ventilateur retardé"
+msgid "Brouillon (0.30 mm)"
+msgstr ""
