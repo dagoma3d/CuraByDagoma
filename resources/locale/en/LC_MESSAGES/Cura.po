@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-04-20 17:18+0100\n"
+"PO-Revision-Date: 2017-04-20 18:12+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2538,3 +2538,59 @@ msgstr "Black Chromatik"
 
 msgid "Chromatik autres"
 msgstr "Chromatik - other colors"
+
+msgid "Autre machine"
+msgstr "Other printer"
+
+msgid "Les profils machines prédéfinis suivants sont disponibles"
+msgstr "The following predefined printer profiles are available"
+
+msgid ""
+"Notez que ces profils peuvent ne pas donner de bons résultats ou ne pas "
+"fonctionner correctement."
+msgstr ""
+"Please note these profiles could nor give good results nor work as expected."
+
+msgid "Des réglages supplémentaires peuvent être nécessaires."
+msgstr "Additional settings can be needed."
+
+msgid "Personnaliser..."
+msgstr "Customize..."
+
+msgid "Configuration Terminée!"
+msgstr "Configuration Complete!"
+
+msgid "Cura par Dagoma est maintenant prêt à être utilisé!"
+msgstr "Cura by Dagoma is now ready to be used!"
+
+msgid "Configuration Personnalisée"
+msgstr "Custom configuration"
+
+msgid "Ici vous pouvez configurer Cura pour votre propre machine."
+msgstr "Here, you can configure Cura for your own printer."
+
+msgid ""
+"Assurez-vous d'examiner le profil par défaut avant de l'exécuter sur votre "
+"machine."
+msgstr "Please check the default profile before execute it on your printer."
+
+msgid "Nom de la Machine"
+msgstr "Machine name"
+
+msgid "Largeur de la Machine (mm)"
+msgstr "Machine width (mm)"
+
+msgid "Profondeur de la Machine (mm)"
+msgstr "Machine depth (mm)"
+
+msgid "Hauteur de la Machine (mm)"
+msgstr "Machine height (mm)"
+
+msgid "Taille de la buse (mm)"
+msgstr "Noozle size (mm)"
+
+msgid "Plateau chauffant"
+msgstr "Heating bed"
+
+msgid "Centre du Plateau en 0,0,0 (RoStock)"
+msgstr "Bed center at 0,0,0 (RoStock)"

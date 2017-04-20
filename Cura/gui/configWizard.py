@@ -313,9 +313,10 @@ class PrintrbotPage(InfoPage):
 
 class OtherMachineSelectPage(InfoPage):
 	def __init__(self, parent):
-		super(OtherMachineSelectPage, self).__init__(parent, "Autre machine")
+		super(OtherMachineSelectPage, self).__init__(parent, _("Autre machine"))
 		self.AddText(_("Les profils machines prédéfinis suivants sont disponibles".decode('utf-8')))
-		self.AddText(_("Notez que ces profils ne sont pas garantis à donner de bons résultats,\nou à fonctioner correctement.\nDes réglages supplémentaires peuvent être nécessaires.".decode('utf-8')))
+		self.AddText(_("Notez que ces profils peuvent ne pas donner de bons résultats ou ne pas fonctionner correctement.".decode('utf-8')))
+		self.AddText(_("Des réglages supplémentaires peuvent être nécessaires.".decode('utf-8')))
 		self.options = []
 		machines = resources.getDefaultMachineProfiles()
 		machines.sort()
@@ -326,7 +327,7 @@ class OtherMachineSelectPage(InfoPage):
 			item.Bind(wx.EVT_RADIOBUTTON, self.OnProfileSelect)
 			self.options.append(item)
 		self.AddSeperator()
-		item = self.AddRadioButton('Personnaliser...')
+		item = self.AddRadioButton(_('Personnaliser...'))
 		item.SetValue(True)
 		item.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
 
@@ -344,12 +345,12 @@ class OtherMachineSelectPage(InfoPage):
 
 class OtherMachineInfoPage(InfoPage):
 	def __init__(self, parent):
-		super(OtherMachineInfoPage, self).__init__(parent, "Configuration Terminée!".decode('utf-8'))
+		super(OtherMachineInfoPage, self).__init__(parent, _("Configuration Terminée!".decode('utf-8')))
 		self.AddText(_("Cura par Dagoma est maintenant prêt à être utilisé!".decode('utf-8')))
 
 class CustomRepRapInfoPage(InfoPage):
 	def __init__(self, parent):
-		super(CustomRepRapInfoPage, self).__init__(parent, "Configuration Personalisée".decode('utf-8'))
+		super(CustomRepRapInfoPage, self).__init__(parent, _("Configuration Personnalisée".decode('utf-8')))
 		self.AddText(_("Ici vous pouvez configurer Cura pour votre propre machine."))
 		self.AddText(_("Assurez-vous d'examiner le profil par défaut avant de l'exécuter sur votre machine.".decode('utf-8')))
 		# self.AddText(_("If you like a default profile for your machine added,\nthen make an issue on github."))

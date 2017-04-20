@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-04-20 15:51+0100\n"
+"PO-Revision-Date: 2017-04-20 18:12+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -2866,4 +2866,59 @@ msgid "Chromatik noir"
 msgstr ""
 
 msgid "Chromatik autres"
+msgstr ""
+
+msgid "Autre machine"
+msgstr ""
+
+msgid "Les profils machines prédéfinis suivants sont disponibles"
+msgstr ""
+
+msgid ""
+"Notez que ces profils peuvent ne pas donner de bons résultats ou ne pas "
+"fonctionner correctement."
+msgstr ""
+
+msgid "Des réglages supplémentaires peuvent être nécessaires."
+msgstr ""
+
+msgid "Personnaliser..."
+msgstr ""
+
+msgid "Configuration Terminée!"
+msgstr ""
+
+msgid "Cura par Dagoma est maintenant prêt à être utilisé!"
+msgstr ""
+
+msgid "Configuration Personnalisée"
+msgstr ""
+
+msgid "Ici vous pouvez configurer Cura pour votre propre machine."
+msgstr ""
+
+msgid ""
+"Assurez-vous d'examiner le profil par défaut avant de l'exécuter sur votre "
+"machine."
+msgstr ""
+
+msgid "Nom de la Machine"
+msgstr ""
+
+msgid "Largeur de la Machine (mm)"
+msgstr ""
+
+msgid "Profondeur de la Machine (mm)"
+msgstr ""
+
+msgid "Hauteur de la Machine (mm)"
+msgstr ""
+
+msgid "Taille de la buse (mm)"
+msgstr ""
+
+msgid "Plateau chauffant"
+msgstr ""
+
+msgid "Centre du Plateau en 0,0,0 (RoStock)"
 msgstr ""
