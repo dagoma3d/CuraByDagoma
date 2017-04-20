@@ -469,7 +469,7 @@ class MachineSelectPage(InfoPage):
 				return ''.join(result)
 
 			def getxml_disco(doc, two):
-				return getNodeText(doc.getElementsByTagName("DiscoEasy200")[0].getElementsByTagName(two)[0])
+				return getNodeText(doc.getElementsByTagName("Printer")[0].getElementsByTagName(two)[0])
 
 			def setvalue_from_xml(varibale, doc = doc):
 				try:

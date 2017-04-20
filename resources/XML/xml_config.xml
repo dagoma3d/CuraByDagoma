@@ -295,7 +295,7 @@
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition des caracteristiques mecaniques
 ;_______________________________________________________________________________________________________________________________________________________
-  <DiscoEasy200>
+  <Printer>
     <machine_name>DiscoEasy200</machine_name>
     <machine_type>DiscoEasy200</machine_type>
     <machine_width>211</machine_width>
@@ -313,7 +313,7 @@
     <extruder_head_size_height>10</extruder_head_size_height>
     <gcode_flavor>DiscoGCode</gcode_flavor>
     <retraction_enable>True</retraction_enable>
-  </DiscoEasy200>
+  </Printer>
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition de la retraction et de la premiere couche
 ;_______________________________________________________________________________________________________________________________________________________

@@ -38,7 +38,21 @@ doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 #
 class mainWindow(wx.Frame):
 	def __init__(self):
-		super(mainWindow, self).__init__(None, title='Cura by dagoma Easy200 V1.0.4')#+doc.getElementsByTagName("Version")[0])# version.getVersion()
+		windowtitle = 'Cura by dagoma'
+		try:
+			printerinfo = doc.getElementsByTagName("Printer")[0];
+			printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
+			windowtitle = windowtitle + ' ' + printername
+		except:
+			pass
+
+		try:
+			appinfo = doc.getElementsByTagName("Text")[0];
+			appversion = appinfo.getElementsByTagName("Version")[0].childNodes[0].data
+			windowtitle = windowtitle + ' ' + appversion
+		except:
+			pass
+		super(mainWindow, self).__init__(None, title=windowtitle)#+doc.getElementsByTagName("Version")[0])# version.getVersion()
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
@@ -62,7 +76,10 @@ class mainWindow(wx.Frame):
 		self.normalModeOnlyItems = []
 
 		mruFile = os.path.join(profile.getBasePath(), 'mru_filelist.ini')
-		self.config = wx.FileConfig(appName="Cura by Dagoma Easy200",
+		appname = 'Cura by Dagoma'
+		if 'printername' in locals():
+			appname = appname + ' ' + printername
+		self.config = wx.FileConfig(appName=appname,
 						localFilename=mruFile,
 						style=wx.CONFIG_USE_LOCAL_FILE)
 
