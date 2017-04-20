@@ -1218,7 +1218,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def Refresh_Fila(self):
 		fila = self.filaments[self.combo_box_1.GetSelection()]
-		if fila.type == 'Autre PLA':
+		if fila.type == _('Autre PLA'):
 			self.spin_ctrl_1.Enable(True)
 			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
 		else:
