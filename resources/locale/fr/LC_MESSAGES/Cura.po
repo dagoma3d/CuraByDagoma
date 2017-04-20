@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-04-20 14:43+0100\n"
+"PO-Revision-Date: 2017-04-20 15:51+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -2740,8 +2740,7 @@ msgid ""
 "avec votre imprimante 3D."
 msgstr ""
 
-msgid ""
-"Nous sommes à votre écoute sur dagoma.fr ou par mail : contact@dagoma.fr"
+msgid "Nous sommes à votre écoute sur www.dagoma.fr/nous-contacter.html"
 msgstr ""
 
 msgid "Bonne découverte à tous !"
@@ -2855,4 +2854,16 @@ msgid "Failed to start print..."
 msgstr "Le démarrage de l'impression a échoué"
 
 msgid "Brouillon (0.30 mm)"
+msgstr ""
+
+msgid "PLA Filo3D-VERT"
+msgstr ""
+
+msgid "PLA Filo3D-ROUGE"
+msgstr ""
+
+msgid "Chromatik noir"
+msgstr ""
+
+msgid "Chromatik autres"
 msgstr ""
