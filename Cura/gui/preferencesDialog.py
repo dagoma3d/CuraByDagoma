@@ -63,6 +63,33 @@ class preferencesDialog(wx.Dialog):
 		#self.parent.reloadSettingPanels()
 		self.Destroy()
 
+class languagePreferencesDialog(wx.Dialog):
+	def __init__(self, parent):
+		super(languagePreferencesDialog, self).__init__(None, title=_("Preferences"))
+
+		wx.EVT_CLOSE(self, self.OnClose)
+
+		self.parent = parent
+
+		self.panel = configBase.configPanelBase(self)
+
+		left, right, main = self.panel.CreateConfigPanel(self)
+
+		if len(resources.getLanguageOptions()) > 1:
+			#configBase.TitleRow(left, _("Language"))
+			configBase.SettingRow(left, 'language', map(lambda n: n[1], resources.getLanguageOptions()))
+
+		self.okButton = wx.Button(right, -1, 'Ok')
+		right.GetSizer().Add(self.okButton, (right.GetSizer().GetRows(), 0), flag=wx.BOTTOM, border=5)
+		self.okButton.Bind(wx.EVT_BUTTON, lambda e: self.Close())
+
+		main.Fit()
+		self.Fit()
+
+	def OnClose(self, e):
+		#self.parent.reloadSettingPanels()
+		self.Destroy()
+
 class machineSettingsDialog(wx.Dialog):
 	def __init__(self, parent):
 		super(machineSettingsDialog, self).__init__(None, title="Machine settings")

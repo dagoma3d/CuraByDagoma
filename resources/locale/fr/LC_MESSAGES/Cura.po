@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-04-20 18:12+0100\n"
+"PO-Revision-Date: 2017-04-24 17:49+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -737,7 +737,7 @@ msgstr "Couleurs"
 
 #: Cura/gui/preferencesDialog.py:37 Cura/util/profile.py:478
 msgid "Language"
-msgstr "Language"
+msgstr "Langue"
 
 #: Cura/gui/preferencesDialog.py:40
 msgid "Filament settings"
@@ -2922,3 +2922,18 @@ msgstr ""
 
 msgid "Centre du Plateau en 0,0,0 (RoStock)"
 msgstr ""
+
+msgid "What's your favorite language ?"
+msgstr "Quel est votre langue préférée ?"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "French"
+msgstr "Français"
+
+msgid "Preferences"
+msgstr "Préférences"
+
+msgid "Preferences...\tCTRL+P"
+msgstr "Préférences...\tCTRL+P"

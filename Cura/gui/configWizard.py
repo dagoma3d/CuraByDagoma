@@ -123,7 +123,6 @@ class InfoBox(wx.Panel):
 		self.busyState = None
 		self.bitmap.SetBitmap(self.attentionBitmap)
 
-
 class InfoPage(wx.wizard.WizardPageSimple):
 	def __init__(self, parent, title):
 		wx.wizard.WizardPageSimple.__init__(self, parent)
@@ -233,7 +232,6 @@ class InfoPage(wx.wizard.WizardPageSimple):
 	def StoreData(self):
 		pass
 
-
 class FirstInfoPage(InfoPage):
 	def __init__(self, parent, addNew):
 		# if addNew:
@@ -255,6 +253,45 @@ class FirstInfoPage(InfoPage):
 
 	def AllowBack(self):
 		return False
+
+class LanguageSelectPage(InfoPage):
+	def __init__(self, parent):
+		page = doc.getElementsByTagName("LanguageSelectPage")[0]
+
+		super(LanguageSelectPage, self).__init__(parent, _(page.getAttribute("title")))
+		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
+
+		self.FrRadio = self.AddRadioButton(_("French"))
+		self.FrRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectFr)
+
+		self.EnRadio = self.AddRadioButton(_("English"))
+		self.EnRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectEn)
+
+		import locale
+		if not locale.getdefaultlocale()[0].find('fr') == -1:
+			self.FrRadio.SetValue(True)
+		else:
+			self.EnRadio.SetValue(True)
+
+	def StoreData(self):
+		if self.FrRadio.GetValue():
+			profile.putPreference('language', 'French')
+
+		if self.EnRadio.GetValue():
+			profile.putPreference('language', 'English')
+
+		from Cura.util import resources
+		resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install _
+
+	def OnSelectFr(self, e):
+		wx.wizard.WizardPageSimple.Chain(self, self.GetParent().MachineSelectPage)
+
+	def OnSelectEn(self, e):
+		wx.wizard.WizardPageSimple.Chain(self, self.GetParent().MachineSelectPage)
+
+	def AllowNext(self):
+		wx.wizard.WizardPageSimple.Chain(self, self.GetParent().MachineSelectPage)
+		return True
 
 class PrintrbotPage(InfoPage):
 	def __init__(self, parent):
@@ -521,7 +558,6 @@ class MachineSelectPage(InfoPage):
 		# else:
 		profile.putPreference('submit_slice_information', 'False')
 
-
 class SelectParts(InfoPage):
 	def __init__(self, parent):
 		super(SelectParts, self).__init__(parent, _("Select upgraded parts you have"))
@@ -551,7 +587,6 @@ class SelectParts(InfoPage):
 			profile.putProfileSetting('retraction_enable', 'True')
 		else:
 			profile.putProfileSetting('retraction_enable', 'False')
-
 
 class UltimakerFirmwareUpgradePage(InfoPage):
 	def __init__(self, parent):
@@ -808,7 +843,6 @@ class UltimakerCheckupPage(InfoPage):
 	def mcZChange(self, newZ):
 		pass
 
-
 class UltimakerCalibrationPage(InfoPage):
 	def __init__(self, parent):
 		super(UltimakerCalibrationPage, self).__init__(parent, "Ultimaker Calibration")
@@ -830,7 +864,6 @@ class UltimakerCalibrationPage(InfoPage):
 
 	def StoreData(self):
 		profile.putProfileSetting('filament_diameter', self.filamentDiameter.GetValue())
-
 
 class UltimakerCalibrateStepsPerEPage(InfoPage):
 	def __init__(self, parent):
@@ -979,6 +1012,7 @@ class configWizard(wx.wizard.Wizard):
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGING, self.OnPageChanging)
 
 		self.firstInfoPage = FirstInfoPage(self, addNew)
+		self.languageSelectPage = LanguageSelectPage(self)
 		self.machineSelectPage = MachineSelectPage(self)
 		self.ultimakerSelectParts = SelectParts(self)
 		self.ultimakerFirmwareUpgradePage = UltimakerFirmwareUpgradePage(self)
@@ -995,7 +1029,9 @@ class configWizard(wx.wizard.Wizard):
 		self.DiscoveryReadyPage = DiscoveryReadyPage(self)
 		self.ultimaker2ReadyPage = Ultimaker2ReadyPage(self)
 
-		wx.wizard.WizardPageSimple.Chain(self.firstInfoPage, self.machineSelectPage)
+		#wx.wizard.WizardPageSimple.Chain(self.firstInfoPage, self.machineSelectPage)
+		wx.wizard.WizardPageSimple.Chain(self.firstInfoPage, self.languageSelectPage)
+		wx.wizard.WizardPageSimple.Chain(self.languageSelectPage, self.machineSelectPage)
 		wx.wizard.WizardPageSimple.Chain(self.machineSelectPage, self.ultimakerSelectParts)
 		wx.wizard.WizardPageSimple.Chain(self.ultimakerSelectParts, self.ultimakerFirmwareUpgradePage)
 		wx.wizard.WizardPageSimple.Chain(self.ultimakerFirmwareUpgradePage, self.ultimakerCheckupPage)

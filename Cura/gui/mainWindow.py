@@ -132,8 +132,8 @@ class mainWindow(wx.Frame):
 
 		# self.fileMenu.AppendSeparator()
 
-		# i = self.fileMenu.Append(-1, _("Preferences...\tCTRL+P"))
-		# self.Bind(wx.EVT_MENU, self.OnPreferences, i)
+		i = self.fileMenu.Append(-1, _("Preferences...\tCTRL+P"))
+		self.Bind(wx.EVT_MENU, self.OnLanguagePreferences, i)
 
 		# i = self.fileMenu.Append(-1, _("Machine settings...\tCTRL+M"))
 		# self.Bind(wx.EVT_MENU, self.OnMachineSettings, i)
@@ -417,6 +417,13 @@ class mainWindow(wx.Frame):
 
 	def OnPreferences(self, e):
 		prefDialog = preferencesDialog.preferencesDialog(self)
+		prefDialog.Centre()
+		prefDialog.Show()
+		prefDialog.Raise()
+		wx.CallAfter(prefDialog.Show)
+
+	def OnLanguagePreferences(self, e):
+		prefDialog = preferencesDialog.languagePreferencesDialog(self)
 		prefDialog.Centre()
 		prefDialog.Show()
 		prefDialog.Raise()

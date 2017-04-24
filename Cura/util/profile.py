@@ -20,6 +20,7 @@ import stat
 import types
 import cPickle as pickle
 import numpy
+import locale
 if sys.version_info[0] < 3:
 	import ConfigParser
 else:
@@ -499,7 +500,10 @@ setting('check_for_updates', 'True', bool, 'preference', 'hidden').setLabel(_("C
 setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLabel(_("Send usage statistics"), _("Submit anonymous usage information to improve future versions of Cura"))
 setting('youmagine_token', '', str, 'preference', 'hidden')
 setting('filament_physical_density', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
-setting('language', 'French', str, 'preference', 'hidden').setLabel(_('Language'), _('Change the language in which Cura runs. Switching language requires a restart of Cura'))
+default_language = 'French'
+if not locale.getdefaultlocale()[0].find('en') == -1:
+	default_language = 'English'
+setting('language', default_language, str, 'preference', 'hidden').setLabel(_('Language'), _('Change the language in which Cura runs. Switching language requires a restart of Cura'))
 setting('active_machine', '0', int, 'preference', 'hidden')
 
 setting('model_colour', '#FFC924', str, 'preference', 'hidden').setLabel(_('Model colour'), _('Display color for first extruder'))

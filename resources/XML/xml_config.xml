@@ -426,6 +426,9 @@ M84   ;shut down motors
       <Line1>Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !</Line1>
       <Line2>Nous allons maintenant vous accompagner tout au long de la configuration ainsi que la première utilisation de votre imprimante 3D.</Line2>
     </FirstInfoPage>
+    <LanguageSelectPage title="Language">
+      <Line1>What's your favorite language ?</Line1>
+    </LanguageSelectPage>
     <MachineSelectPage title="Votre Machine">
       <Line1>Quel modèle d'imprimante 3D possédez-vous ?</Line1>
     </MachineSelectPage>
