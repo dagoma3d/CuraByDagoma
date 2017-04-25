@@ -1041,13 +1041,6 @@ class configWizard(wx.wizard.Wizard):
 		wx.wizard.WizardPageSimple.Chain(self.printrbotSelectType, self.otherMachineInfoPage)
 		wx.wizard.WizardPageSimple.Chain(self.otherMachineSelectPage, self.customRepRapInfoPage)
 
-		prev_btn = self.FindWindowById(wx.ID_BACKWARD)
-		prev_btn.SetLabel(_('< Back'))
-		next_btn = self.FindWindowById(wx.ID_FORWARD)
-		next_btn.SetLabel(_('Next >'))
-		cancel_btn = self.FindWindowById(wx.ID_CANCEL)
-		cancel_btn.SetLabel(_('Cancel'))
-
 		self.FitToPage(self.firstInfoPage)
 		self.GetPageAreaSizer().Add(self.firstInfoPage)
 		self.RunWizard(self.firstInfoPage)
@@ -1057,8 +1050,14 @@ class configWizard(wx.wizard.Wizard):
 		e.GetPage().StoreData()
 
 	def OnPageChanged(self, e):
-		if not self.HasNextPage(e.GetPage()):
-			next_btn = self.FindWindowById(wx.ID_FORWARD)
+		prev_btn = self.FindWindowById(wx.ID_BACKWARD)
+		next_btn = self.FindWindowById(wx.ID_FORWARD)
+		cancel_btn = self.FindWindowById(wx.ID_CANCEL)
+		prev_btn.SetLabel(_('< Back'))
+		cancel_btn.SetLabel(_('Cancel'))
+		if self.HasNextPage(e.GetPage()):
+			next_btn.SetLabel(_('Next >'))
+		else:
 			next_btn.SetLabel(_('Finish'))
 		if e.GetPage().AllowNext():
 			self.FindWindowById(wx.ID_FORWARD).Enable()
