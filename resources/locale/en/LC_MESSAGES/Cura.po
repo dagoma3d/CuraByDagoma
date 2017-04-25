@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-04-24 17:49+0100\n"
+"PO-Revision-Date: 2017-04-25 12:50+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2608,4 +2608,16 @@ msgid "Preferences"
 msgstr ""
 
 msgid "Preferences...\tCTRL+P"
+msgstr ""
+
+msgid "< Back"
+msgstr ""
+
+msgid "Next >"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Finish"
 msgstr ""

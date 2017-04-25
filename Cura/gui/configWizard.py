@@ -262,10 +262,10 @@ class LanguageSelectPage(InfoPage):
 		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
 
 		self.FrRadio = self.AddRadioButton(_("French"))
-		self.FrRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectFr)
+		#self.FrRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectFr)
 
 		self.EnRadio = self.AddRadioButton(_("English"))
-		self.EnRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectEn)
+		#self.EnRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectEn)
 
 		import locale
 		if not locale.getdefaultlocale()[0].find('fr') == -1:
@@ -283,14 +283,14 @@ class LanguageSelectPage(InfoPage):
 		from Cura.util import resources
 		resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install _
 
-	def OnSelectFr(self, e):
-		wx.wizard.WizardPageSimple.Chain(self, self.GetParent().MachineSelectPage)
+	#def OnSelectFr(self, e):
+	#	wx.wizard.WizardPageSimple.Chain(self, self.GetParent().machineSelectPage)
 
-	def OnSelectEn(self, e):
-		wx.wizard.WizardPageSimple.Chain(self, self.GetParent().MachineSelectPage)
+	#def OnSelectEn(self, e):
+	#	wx.wizard.WizardPageSimple.Chain(self, self.GetParent().machineSelectPage)
 
 	def AllowNext(self):
-		wx.wizard.WizardPageSimple.Chain(self, self.GetParent().MachineSelectPage)
+	#	wx.wizard.WizardPageSimple.Chain(self, self.GetParent().machineSelectPage)
 		return True
 
 class PrintrbotPage(InfoPage):
@@ -993,6 +993,7 @@ class DiscoveryReadyPage(InfoPage):
 	def __init__(self, parent):
 		page = doc.getElementsByTagName("DiscoveryPage")[0]
 		super(DiscoveryReadyPage, self).__init__(parent, _(page.getAttribute("title")))
+
 		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
 		self.AddText(_(getNodeText(page.getElementsByTagName("Line2")[0])))
 		self.AddText(_(getNodeText(page.getElementsByTagName("Line3")[0])))
@@ -1040,6 +1041,13 @@ class configWizard(wx.wizard.Wizard):
 		wx.wizard.WizardPageSimple.Chain(self.printrbotSelectType, self.otherMachineInfoPage)
 		wx.wizard.WizardPageSimple.Chain(self.otherMachineSelectPage, self.customRepRapInfoPage)
 
+		prev_btn = self.FindWindowById(wx.ID_BACKWARD)
+		prev_btn.SetLabel(_('< Back'))
+		next_btn = self.FindWindowById(wx.ID_FORWARD)
+		next_btn.SetLabel(_('Next >'))
+		cancel_btn = self.FindWindowById(wx.ID_CANCEL)
+		cancel_btn.SetLabel(_('Cancel'))
+
 		self.FitToPage(self.firstInfoPage)
 		self.GetPageAreaSizer().Add(self.firstInfoPage)
 		self.RunWizard(self.firstInfoPage)
@@ -1049,6 +1057,9 @@ class configWizard(wx.wizard.Wizard):
 		e.GetPage().StoreData()
 
 	def OnPageChanged(self, e):
+		if not self.HasNextPage(e.GetPage()):
+			next_btn = self.FindWindowById(wx.ID_FORWARD)
+			next_btn.SetLabel(_('Finish'))
 		if e.GetPage().AllowNext():
 			self.FindWindowById(wx.ID_FORWARD).Enable()
 		else:
