@@ -2,9 +2,11 @@ scripts/linux/AppImage
 scripts/linux/debian_amd64/usr/share/curabydago
 scripts/linux/debian_i386/usr/share/curabydago
 scripts/linux/*.deb
+scripts/win32/dist
 Power
 CuraEngine
-*.pyc
 Cura-by-Dagoma-*
+*.pyc
+Install_Cura_by_Dagoma*
 log.txt
 output.txt
