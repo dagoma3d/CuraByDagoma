@@ -531,7 +531,7 @@ if (( ${ARCHIVE_FOR_DISTRIBUTION} )); then
 			mv scripts/win32/${BUILD_NAME}.exe ./
 	        if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
 			mv ./${BUILD_NAME}.exe ./Instal_${BUILD_NAME_INSTALL}.exe
-	        if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./Instal_${BUILD_NAME_INSTALL}.exe"; exit 1; fi
+	        if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./Install_${BUILD_NAME_INSTALL}.exe"; exit 1; fi
 	        echo 'Good Job, All Works Well !!! :)'
 		else
 			echo "no makensis"
