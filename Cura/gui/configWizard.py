@@ -268,7 +268,10 @@ class LanguageSelectPage(InfoPage):
 		#self.EnRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectEn)
 
 		import locale
-		if not locale.getdefaultlocale()[0].find('fr') == -1:
+		default_locale = locale.getdefaultlocale()[0]
+		if default_locale is None:
+			self.FrRadio.SetValue(True)
+		elif not default_locale.find('fr') == -1:
 			self.FrRadio.SetValue(True)
 		else:
 			self.EnRadio.SetValue(True)

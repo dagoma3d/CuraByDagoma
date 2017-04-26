@@ -501,8 +501,10 @@ setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLa
 setting('youmagine_token', '', str, 'preference', 'hidden')
 setting('filament_physical_density', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
 default_language = 'French'
-if not locale.getdefaultlocale()[0].find('en') == -1:
-	default_language = 'English'
+default_locale = locale.getdefaultlocale()[0]
+if not default_locale is None:
+	if not locale.getdefaultlocale()[0].find('en') == -1:
+		default_language = 'English'
 setting('language', default_language, str, 'preference', 'hidden').setLabel(_('Language'), _('Change the language in which Cura runs. Switching language requires a restart of Cura'))
 setting('active_machine', '0', int, 'preference', 'hidden')
 
