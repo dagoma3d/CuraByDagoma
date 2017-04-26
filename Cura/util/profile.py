@@ -503,7 +503,7 @@ setting('filament_physical_density', '1270', float, 'advanced', _('Filament')).s
 default_language = 'French'
 default_locale = locale.getdefaultlocale()[0]
 if not default_locale is None:
-	if not locale.getdefaultlocale()[0].find('en') == -1:
+	if not default_locale.find('en') == -1:
 		default_language = 'English'
 setting('language', default_language, str, 'preference', 'hidden').setLabel(_('Language'), _('Change the language in which Cura runs. Switching language requires a restart of Cura'))
 setting('active_machine', '0', int, 'preference', 'hidden')
