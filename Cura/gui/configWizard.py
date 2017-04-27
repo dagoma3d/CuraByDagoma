@@ -1018,7 +1018,7 @@ class configWizard(wx.wizard.Wizard):
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGING, self.OnPageChanging)
 
 		self.firstInfoPage = FirstInfoPage(self, addNew)
-		self.languageSelectPage = LanguageSelectPage(self)
+		#self.languageSelectPage = LanguageSelectPage(self)
 		self.machineSelectPage = MachineSelectPage(self)
 		self.ultimakerSelectParts = SelectParts(self)
 		self.ultimakerFirmwareUpgradePage = UltimakerFirmwareUpgradePage(self)
@@ -1035,9 +1035,9 @@ class configWizard(wx.wizard.Wizard):
 		self.DiscoveryReadyPage = DiscoveryReadyPage(self)
 		self.ultimaker2ReadyPage = Ultimaker2ReadyPage(self)
 
-		#wx.wizard.WizardPageSimple.Chain(self.firstInfoPage, self.machineSelectPage)
-		wx.wizard.WizardPageSimple.Chain(self.firstInfoPage, self.languageSelectPage)
-		wx.wizard.WizardPageSimple.Chain(self.languageSelectPage, self.machineSelectPage)
+		wx.wizard.WizardPageSimple.Chain(self.firstInfoPage, self.machineSelectPage)
+		#wx.wizard.WizardPageSimple.Chain(self.firstInfoPage, self.languageSelectPage)
+		#wx.wizard.WizardPageSimple.Chain(self.languageSelectPage, self.machineSelectPage)
 		wx.wizard.WizardPageSimple.Chain(self.machineSelectPage, self.ultimakerSelectParts)
 		wx.wizard.WizardPageSimple.Chain(self.ultimakerSelectParts, self.ultimakerFirmwareUpgradePage)
 		wx.wizard.WizardPageSimple.Chain(self.ultimakerFirmwareUpgradePage, self.ultimakerCheckupPage)

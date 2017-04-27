@@ -97,6 +97,7 @@ class CuraApp(wx.App):
 		#These imports take most of the time and thus should be done after showing the splashscreen
 		import webbrowser
 		from Cura.gui import mainWindow
+		from Cura.gui import languageWizard
 		from Cura.gui import configWizard
 		from Cura.gui import newVersionDialog
 		from Cura.util import profile
@@ -130,6 +131,7 @@ class CuraApp(wx.App):
 			self.loadFiles = [exampleFile]
 			if self.splash is not None:
 				self.splash.Show(False)
+			languageWizard.languageWizard()
 			configWizard.configWizard()
 
 		if profile.getPreference('check_for_updates') == 'True':
