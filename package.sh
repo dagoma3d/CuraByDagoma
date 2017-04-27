@@ -159,6 +159,7 @@ if [ "$BUILD_TARGET" = "darwin" ]; then
 	echo 'cp'
 	mv dist/Cura.app dist/${BUILD_NAME}.app
 	cp -a dist/${BUILD_NAME}.app /Volumes/${BUILD_NAME}/
+	cp -a ../../MAC_ressouces/.background.png /Volumes/${BUILD_NAME}/
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
