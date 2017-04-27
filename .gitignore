@@ -17,5 +17,4 @@ DmgTemplateCompressed_*.dmg
 DmgTemplateCompressed-*.dmg
 *.DS_Store
 *.sparseimage
-MAC_ressouces/.background.png
 resources/meshes/badge_dagoma_test.stl
