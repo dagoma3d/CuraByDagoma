@@ -18,4 +18,4 @@ DmgTemplateCompressed-*.dmg
 *.DS_Store
 *.sparseimage
 resources/meshes/badge_dagoma_test.stl
-*.sparsebundle/bands/*
+scripts/darwin/*.sparsebundle
