@@ -427,7 +427,7 @@ class mainWindow(wx.Frame):
 		prefDialog.Centre()
 		prefDialog.Show()
 		prefDialog.Raise()
-		wx.CallAfter(prefDialog.Show)
+		#wx.CallAfter(prefDialog.Show)
 
 	def OnMachineSettings(self, e):
 		prefDialog = preferencesDialog.machineSettingsDialog(self)

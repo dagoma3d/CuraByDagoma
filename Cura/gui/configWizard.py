@@ -261,10 +261,12 @@ class LanguageSelectPage(InfoPage):
 		super(LanguageSelectPage, self).__init__(parent, _(page.getAttribute("title")))
 		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
 
-		self.FrRadio = self.AddRadioButton(_("French"))
+		self.FrRadio = self.AddRadioButton("Français".decode("utf-8"))
+		#self.FrRadio = self.AddRadioButton(_("French"))
 		#self.FrRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectFr)
 
-		self.EnRadio = self.AddRadioButton(_("English"))
+		self.EnRadio = self.AddRadioButton("English")
+		#self.EnRadio = self.AddRadioButton(_("English"))
 		#self.EnRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectEn)
 
 		import locale

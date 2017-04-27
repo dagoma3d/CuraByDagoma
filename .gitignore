@@ -14,7 +14,6 @@ Install_Cura_by_Dagoma*
 log.txt
 output.txt
 *.DS_Store
-*.dmg
 *.sparseimage
 MAC_ressouces/.background.png
 resources/meshes/badge_dagoma_test.stl
