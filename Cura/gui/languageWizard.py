@@ -247,11 +247,21 @@ class LanguageSelectPage(InfoPage):
 		#self.EnRadio = self.AddRadioButton(_("English"))
 		#self.EnRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectEn)
 
-		import locale
-		default_locale = locale.getdefaultlocale()[0]
-		if default_locale is None:
-			self.FrRadio.SetValue(True)
-		elif not default_locale.find('fr') == -1:
+		default_language = 'French'
+		default_locale = "fr_FR"
+		if platform.system() == "Darwin":
+			import commands
+			data = commands.getoutput("locale")
+			data = data.split("\n")
+			for locale in data:
+			  # Find the language locale
+			  if locale.split("=")[0] == "LANG":
+			    default_locale = locale.split("=")[1].split(".")[0]
+		else:
+			import locale
+			default_locale = locale.getdefaultlocale()[0]
+
+		if not default_locale.find('fr') == -1:
 			self.FrRadio.SetValue(True)
 		else:
 			self.EnRadio.SetValue(True)
