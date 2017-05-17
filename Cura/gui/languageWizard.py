@@ -263,6 +263,8 @@ class LanguageSelectPage(InfoPage):
 			import locale
 			default_locale = locale.getdefaultlocale()[0]
 
+		self.AddText(data)
+
 		if not default_locale.find('fr') == -1:
 			self.FrRadio.SetValue(True)
 		else:
