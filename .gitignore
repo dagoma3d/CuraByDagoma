@@ -1,7 +1,7 @@
 scripts/darwin/build
 scripts/linux/AppImage
-scripts/linux/debian_amd64/usr/share/curabydago
-scripts/linux/debian_i386/usr/share/curabydago
+scripts/linux/debian_amd64/usr
+scripts/linux/debian_i386/usr
 scripts/linux/*.deb
 scripts/win32/dist
 Power
