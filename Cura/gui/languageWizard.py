@@ -255,15 +255,20 @@ class LanguageSelectPage(InfoPage):
 			import commands
 			data = commands.getoutput("locale")
 			data = data.split("\n")
-			for locale in data:
-			  # Find the language locale
-			  if locale.split("=")[0] == "LANG":
-			    default_locale = locale.split("=")[1].split(".")[0]
+			for data_item in data:
+				# Find the language locale
+			  	if data_item.split("=")[0] == "LANG":
+				  	self.AddText(data_item.decode("utf-8"))
+			    	default_locale = data_item.split("=")[1].split(".")[0]
+
+					import locale
+					if locale.getdefaultlocale()[0] is None:
+						self.AddText("Default locale = None")
+					else:
+						self.AddText(locale.getdefaultlocale()[0].decode("utf-8"))
 		else:
 			import locale
 			default_locale = locale.getdefaultlocale()[0]
-
-		self.AddText(data)
 
 		if not default_locale.find('fr') == -1:
 			self.FrRadio.SetValue(True)
