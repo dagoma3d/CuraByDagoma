@@ -258,8 +258,8 @@ class LanguageSelectPage(InfoPage):
 			for data_item in data:
 				# Find the language locale
 			  	if data_item.split("=")[0] == "LANG":
-				  	self.AddText(data_item.decode("utf-8"))
-			    	default_locale = data_item.split("=")[1].split(".")[0]
+					self.AddText(data_item.decode("utf-8"))
+					default_locale = data_item.split("=")[1].split(".")[0]
 
 					import locale
 					if locale.getdefaultlocale()[0] is None:
