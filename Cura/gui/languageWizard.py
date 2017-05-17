@@ -266,6 +266,9 @@ class LanguageSelectPage(InfoPage):
 						self.AddText("Default locale = None")
 					else:
 						self.AddText(locale.getdefaultlocale()[0].decode("utf-8"))
+			data = commands.getoutput("defaults read -g AppleLocale")
+			self.AddText(data.decode("utf-8"))
+
 		else:
 			import locale
 			default_locale = locale.getdefaultlocale()[0]
