@@ -9,6 +9,8 @@ import threading
 import time
 import math
 
+import platform
+
 import wx
 import wx.wizard
 import wx.lib.hyperlink as hl
@@ -247,8 +249,8 @@ class LanguageSelectPage(InfoPage):
 		#self.EnRadio = self.AddRadioButton(_("English"))
 		#self.EnRadio.Bind(wx.EVT_RADIOBUTTON, self.OnSelectEn)
 
-		default_language = 'French'
-		default_locale = "fr_FR"
+		default_language = 'English'
+		default_locale = "en_US"
 		if platform.system() == "Darwin":
 			import commands
 			data = commands.getoutput("locale")
