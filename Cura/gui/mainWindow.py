@@ -1106,8 +1106,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		for precision in precisions:
 			if precision.hasAttributes():
 				preci = self.Precision()
-				name = _(precision.getAttribute("name"))
-				choices.append(name)
+				name = precision.getAttribute("name")
+				choices.append(_(name))
 				preci.type = name
 				try :
 					preci.layer_height = self.getNodeText(precision.getElementsByTagName("layer_height")[0])
