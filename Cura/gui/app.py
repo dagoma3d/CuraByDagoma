@@ -130,24 +130,30 @@ class CuraApp(wx.App):
 
 			self.loadFiles = [exampleFile]
 			if self.splash is not None:
-				self.splash.Show(False)
+				try:
+					self.splash.Show(False)
+				except:
+					print 'Show() couldn\'t be called'
 			languageWizard.languageWizard()
 			configWizard.configWizard()
 
 		if profile.getPreference('check_for_updates') == 'True':
 			# newVersion = version.checkForNewerVersion()
-                        newVersion = None # MOI SUPP THE DIALOGUE AND CHECK FOR NEW VERSION OF CURA
+			newVersion = None # MOI SUPP THE DIALOGUE AND CHECK FOR NEW VERSION OF CURA
 			if newVersion is not None:
 				if self.splash is not None:
 					self.splash.Show(False)
 				if wx.MessageBox(_("A new version of Cura is available, would you like to download?"), _("New version available"), wx.YES_NO | wx.ICON_INFORMATION) == wx.YES:
 					webbrowser.open(newVersion)
-                                        return
+					return
 		if profile.getMachineSetting('machine_name') == '':
-                    return
+			return
 		self.mainWindow = mainWindow.mainWindow()
 		if self.splash is not None:
-			self.splash.Show(False)
+			try:
+				self.splash.Show(False)
+			except:
+				print 'Show() couldn\'t be called'
 		self.SetTopWindow(self.mainWindow)
 		self.mainWindow.Show()
 		self.mainWindow.OnDropFiles(self.loadFiles)

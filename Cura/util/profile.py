@@ -498,6 +498,10 @@ setting('auto_detect_sd', 'True', bool, 'preference', 'hidden').setLabel(_("Auto
 setting('check_for_updates', 'True', bool, 'preference', 'hidden').setLabel(_("Check for updates"), _("Check for newer versions of Cura on startup"))
 setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLabel(_("Send usage statistics"), _("Submit anonymous usage information to improve future versions of Cura"))
 setting('youmagine_token', '', str, 'preference', 'hidden')
+setting('filament_index', 0, int, 'preference', 'hidden')
+setting('fill_index', 1, int, 'preference', 'hidden')
+setting('precision_index', 0, int, 'preference', 'hidden')
+setting('printhead_index', 0, int, 'preference', 'hidden')
 setting('filament_physical_density', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
 
 # Get the os default locale
@@ -574,7 +578,7 @@ setting('printing_surface_height', 	0.0, float, 'printing_surface', _('PrintingS
 setting('offset_value', 			0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Valeur de l'offset (mm)"), _("Valeur calculee de l'offset."))
 setting('offset_input', 			0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Entree de l'offset (mm)"), _("Valeur entree de l'offset."))
 
-setting('palpeur_enable',        	False, bool,  'palpeur',    _('Palpeur')).setLabel(_("Activer le palpeur "), _("A cocher si vous utilisez le palpeur."))
+setting('palpeur_enable',        	'Palpeur', string,  'palpeur',    _('Palpeur')).setLabel(_("Activer le palpeur "), _("A cocher si vous utilisez le palpeur."))
 """FIN ERIC"""
 
 

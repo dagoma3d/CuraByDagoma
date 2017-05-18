@@ -798,9 +798,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		#self.offset_ctrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
 		"""FIN ERIC"""
 
-
 		self.label_4 = wx.StaticText(self, wx.ID_ANY, _(("Température (°C) :").decode("utf-8")))
-		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, "190", min=175, max=235, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
+		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=235, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		self.button_1 = wx.Button(self, wx.ID_ANY, _(("Préparer l'Impression").decode("utf-8")))
 		self.__set_properties()
 		self.__do_layout()
@@ -906,11 +905,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def __set_properties(self):
-		self.combo_box_1.SetSelection(0)
+		#self.combo_box_1.SetSelection(0)
 		self.spin_ctrl_1.Enable(False)
-		self.radio_box_2.SetSelection(1)
-		self.radio_box_1.SetSelection(0)
-		self.tetes_box.SetSelection(0)
+		#self.radio_box_2.SetSelection(1)
+		#self.radio_box_1.SetSelection(0)
+		#self.tetes_box.SetSelection(0)
 		self.printsupp.SetSelection(0)
 
 
@@ -1056,8 +1055,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		for filament in filaments:
 			if filament.hasAttributes():
 				fila = self.Filament()
-				name = _(filament.getAttribute("name"))
-				choices.append(name)
+				name = filament.getAttribute("name")
+				choices.append(_(name))
 				fila.type = name
 			try :
 				fila.print_temperature = self.getNodeText(filament.getElementsByTagName("print_temperature")[0])
@@ -1072,11 +1071,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 			except:
 				print 'Some Error in Filament Bloc'
 				pass
+
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.combo_box_1 = wx.Choice(self, wx.ID_ANY, choices = choices)
 		else:
 			self.combo_box_1 = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_SIMPLE | wx.CB_READONLY)
-
+		self.combo_box_1.SetSelection(int(profile.getPreference('filament_index')))
 
 	def get_remplissage(self):
 		bloc_name = _(doc.getElementsByTagName("Bloc_Remplissage")[0].getAttribute("label"))
@@ -1096,6 +1096,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					print 'Some Errors in Remplissage Bloc'
 					pass
 		self.radio_box_2 = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.radio_box_2.SetSelection(int(profile.getPreference('fill_index')))
 
 	def get_Precision(self):
 		bloc_name = _(doc.getElementsByTagName("Bloc_Precision")[0].getAttribute("label"))
@@ -1124,6 +1125,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					print 'Some Error in Precision Bloc'
 					pass
 		self.radio_box_1 = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.radio_box_1.SetSelection(int(profile.getPreference('precision_index')))
 
 	def get_Tete(self):
 		bloc_name = _(doc.getElementsByTagName("Bloc_Tete")[0].getAttribute("label"))
@@ -1133,8 +1135,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		for tete in tetes:
 			if tete.hasAttributes():
 				tet = self.Tete()
-				name = _(tete.getAttribute("name"))
-				choices.append(name)
+				name = tete.getAttribute("name")
+				choices.append(_(name))
 				tet.type = name
 				try :
 					tet.fan_speed = self.getNodeText(tete.getElementsByTagName("fan_speed")[0])
@@ -1144,6 +1146,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					print 'Some Error in Tete Bloc'
 					pass
 		self.tetes_box = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.tetes_box.SetSelection(int(profile.getPreference('printhead_index')))
 
 	def get_support(self):
 		bloc_name = _(doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label"))
@@ -1241,8 +1244,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def Refresh_Fila(self):
-		fila = self.filaments[self.combo_box_1.GetSelection()]
-		if fila.type == _('Autre PLA'):
+		filament_index = self.combo_box_1.GetSelection()
+		fila = self.filaments[filament_index]
+		profile.putPreference('filament_index', filament_index)
+		if fila.type == 'Autre PLA':
 			self.spin_ctrl_1.Enable(True)
 			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
 		else:
@@ -1258,11 +1263,15 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('filament_cost_meter', fila.filament_cost_meter)
 
 	def Refresh_Rempli(self):
-		rempli = self.remplissages[self.radio_box_2.GetSelection()]
+		fill_index = self.radio_box_2.GetSelection()
+		rempli = self.remplissages[fill_index]
+		profile.putPreference('fill_index', fill_index)
 		profile.putProfileSetting('fill_density', rempli.fill_density)
 
 	def Refresh_Preci(self):
-		preci = self.precisions[self.radio_box_1.GetSelection()]
+		precision_index = self.radio_box_1.GetSelection()
+		preci = self.precisions[precision_index]
+		profile.putPreference('precision_index', precision_index)
 		profile.putProfileSetting('layer_height', preci.layer_height)
 		profile.putProfileSetting('solid_layer_thickness', preci.solid_layer_thickness)
 		profile.putProfileSetting('wall_thickness', preci.wall_thickness)
@@ -1280,7 +1289,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('insetx_speed', preci.insetx_speed)
 
 	def Refresh_Tet(self):
-		tet = self.tetes[self.tetes_box.GetSelection()]
+		printhead_index = self.tetes_box.GetSelection()
+		tet = self.tetes[printhead_index]
+		profile.putPreference('printhead_index', printhead_index)
 		profile.putProfileSetting('fan_speed', tet.fan_speed)
 		profile.putProfileSetting('cool_min_layer_time', tet.cool_min_layer_time)
 
@@ -1307,12 +1318,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	#
 	def Init_Palpeur_chbx(self):
-		#if profile.getProfileSetting('palpeur_enable') == 'Palpeur':
-		#	self.palpeur_chbx.SetValue(True)
-
-		#else :
-		#	self.palpeur_chbx.SetValue(False)
-		self.palpeur_chbx.SetValue(True)
+		if profile.getProfileSetting('palpeur_enable') == 'Palpeur':
+			self.palpeur_chbx.SetValue(True)
+		else :
+			self.palpeur_chbx.SetValue(False)
+		#self.palpeur_chbx.SetValue(True)
 		self.palpeur_chbx.Refresh()
 
 
