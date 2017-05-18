@@ -578,7 +578,7 @@ setting('printing_surface_height', 	0.0, float, 'printing_surface', _('PrintingS
 setting('offset_value', 			0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Valeur de l'offset (mm)"), _("Valeur calculee de l'offset."))
 setting('offset_input', 			0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Entree de l'offset (mm)"), _("Valeur entree de l'offset."))
 
-setting('palpeur_enable',        	'Palpeur', string,  'palpeur',    _('Palpeur')).setLabel(_("Activer le palpeur "), _("A cocher si vous utilisez le palpeur."))
+setting('palpeur_enable',        	'Palpeur', str,  'palpeur',    _('Palpeur')).setLabel(_("Activer le palpeur "), _("A cocher si vous utilisez le palpeur."))
 """FIN ERIC"""
 
 
