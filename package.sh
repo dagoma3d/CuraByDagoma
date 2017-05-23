@@ -291,7 +291,7 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
     if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
   fi
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
-  rm -rf scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
+  rm -rf scripts/linux/${BUILD_TARGET}/usr/share
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
 	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
 	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
@@ -302,10 +302,13 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/Cura/version
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/applications
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/applications
-	cp scripts/linux/utils/${LINUX_TARGET_NAME}.desktop scripts/linux/${BUILD_TARGET}/usr/share/applications
+	cp scripts/linux/utils/curabydago.desktop scripts/linux/${BUILD_TARGET}/usr/share/applications/${LINUX_TARGET_NAME}.desktop
+	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/icons
+	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/icons
+	cp scripts/linux/utils/curabydago.png scripts/linux/${BUILD_TARGET}/usr/share/icons/${LINUX_TARGET_NAME}.png
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/bin
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/bin
-	cp scripts/linux/utils/${LINUX_TARGET_NAME} scripts/linux/${BUILD_TARGET}/usr/bin
+	cp scripts/linux/utils/curabydago scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
 	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
