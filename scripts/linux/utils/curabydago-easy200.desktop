@@ -2,9 +2,9 @@
 Type=Application
 Name=Cura-by-dagoma-Easy200
 Comment=Cura-by-dagoma-Easy200
-Icon=curabydago
-Exec=usr/bin/python2.7 usr/share/curabydago/cura.py
-Path=usr/share/curabydago/
+Icon=curabydago-easy200
+Exec=usr/bin/python2.7 usr/share/curabydago-easy200/cura.py
+Path=usr/share/curabydago-easy200/
 StartupNotify=true
 Terminal=false
 Categories=GNOME;GTK;Utility;
