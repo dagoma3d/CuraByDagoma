@@ -2,7 +2,7 @@
 Type=Application
 Name=Cura-by-dagoma-Easy200
 Comment=Cura-by-dagoma-Easy200
-Icon=curabydago-easy200
+Icon=/usr/share/icons/curabydago/curabydago-easy200.ico
 Exec=usr/bin/python2.7 usr/share/curabydago-easy200/cura.py
 Path=usr/share/curabydago-easy200/
 StartupNotify=true

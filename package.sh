@@ -303,8 +303,8 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/applications
 	cp scripts/linux/utils/curabydago.desktop scripts/linux/${BUILD_TARGET}/usr/share/applications/${LINUX_TARGET_NAME}.desktop
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/icons
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/icons
-	cp scripts/linux/utils/curabydago.png scripts/linux/${BUILD_TARGET}/usr/share/icons/${LINUX_TARGET_NAME}.png
+	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/icons/curabydago
+	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/usr/share/icons/curabydago/${LINUX_TARGET_NAME}.ico
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/bin
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/bin
 	cp scripts/linux/utils/curabydago scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
