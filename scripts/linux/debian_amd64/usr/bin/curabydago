@@ -1,3 +1,0 @@
-#!/bin/sh
-export PYTHONPATH=$PYTHONPATH:/usr/share/curabydago/
-/usr/bin/python2.7 /usr/share/curabydago/cura.py "$@"

@@ -22,6 +22,7 @@ ARCHIVE_FOR_DISTRIBUTION=${2:0}
 ##Which version name are we appending to the final archive
 export BUILD_NAME="Cura-by-Dagoma-Easy200"
 export BUILD_NAME_INSTALL="Cura_by_Dagoma_Easy200"
+export LINUX_TARGET_NAME="curabydago-easy200"
 TARGET_DIR=${BUILD_NAME}
 
 ##Which versions of external programs to use
@@ -289,20 +290,20 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
     make -C CuraEngine VERSION=${BUILD_NAME}
     if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
   fi
-  rm -rf scripts/linux/${BUILD_TARGET}/usr/share/curabydago
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/curabydago
-	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
-	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
-	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
-	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
-	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
-	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/curabydago/
-	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/curabydago/Cura/version
+  rm -rf scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
+	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
+	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/Cura/version
 	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
-	dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/${BUILD_NAME}-${BUILD_TARGET}.deb
+	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/${BUILD_NAME}-${BUILD_TARGET}.deb
   # Two ways to install it :
   # - Using apt-get :
   # -- Copy the .deb file in /var/cache/apt/archives/
@@ -310,7 +311,7 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
   # - Using dpkg :
   # -- sudo dpkg -i [deb_file]
   # -- sudo apt-get install -f
-	sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
+	sudo chown $USER:$USER ${BUILD_TARGET} -R
 	exit
 fi
 

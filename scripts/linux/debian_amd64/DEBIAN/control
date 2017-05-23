@@ -1,11 +1,11 @@
-Package: curabydago
-Version: 1.0.4
+Package: curabydago-easy200
+Version: 1.0.5
 Section: misc
 Priority: optional
 Architecture: amd64
 Essential: no
 Depends: python2.7, python-wxgtk3.0, python-opengl, python-serial, python-numpy
 Maintainer: Orel <orel@dagoma.com>
-Provides: curabydago
+Provides: curabydago-easy200
 Installed-Size: 10000
-Description: CuraByDagoma is a fork of Cura made by Dagoma.
+Description: CuraByDagoma Easy200 is a fork of Cura made by Dagoma for the DiscoEasy200 printer.
