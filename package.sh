@@ -273,7 +273,6 @@ fi
 #############################
 
 if [ "$BUILD_TARGET" = "debian_amd64" ]; then
-  CURABYDAGO_APPDIR=scripts/linux/build/CuraByDago
   export CXX="g++ -m64"
 	if [ ! -d "Power" ]; then
 		git clone https://github.com/GreatFruitOmsk/Power
