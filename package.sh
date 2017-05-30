@@ -227,7 +227,10 @@ fi
 #############################
 
 if [ "$BUILD_TARGET" = "debian_i386" ]; then
-  export CXX="g++ -m32"
+	export CXX="g++ -m32"
+	# To build for i386 archs :
+	# - Install lib32stdc++-5-dev
+	# - Make a symlink from /usr/include/asm-generic to /usr/include/asm
 	if [ ! -d "Power" ]; then
 		git clone https://github.com/GreatFruitOmsk/Power
 	else
