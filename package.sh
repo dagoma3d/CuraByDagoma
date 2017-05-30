@@ -240,23 +240,36 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
   	git clone ${CURA_ENGINE_REPO}
     git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
     if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-    make -C CuraEngine VERSION=${BUILD_NAME}
-    if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
   fi
-	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/cura
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/cura
-	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/cura/
-	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/cura/Cura/version
+
+	make -C CuraEngine clean
+	make -C CuraEngine VERSION=${BUILD_NAME}
+	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+
+	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
+  rm -rf scripts/linux/${BUILD_TARGET}/usr/share
+	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
+	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
+	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/Cura/version
+	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/applications
+	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/applications
+	cp scripts/linux/utils/curabydago.desktop scripts/linux/${BUILD_TARGET}/usr/share/applications/${LINUX_TARGET_NAME}.desktop
+	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/icons
+	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/icons/curabydago
+	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/usr/share/icons/curabydago/${LINUX_TARGET_NAME}.ico
+	rm -rf scripts/linux/${BUILD_TARGET}/usr/bin
+	mkdir -p scripts/linux/${BUILD_TARGET}/usr/bin
+	cp scripts/linux/utils/curabydago scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
 	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
-	dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/cura_${BUILD_NAME}-${BUILD_TARGET}.deb
+	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/${BUILD_NAME}-${BUILD_TARGET}.deb
   # Two ways to install it :
   # - Using apt-get :
   # -- Copy the .deb file in /var/cache/apt/archives/
@@ -264,7 +277,7 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
   # - Using dpkg :
   # -- sudo dpkg -i [deb_file]
   # -- sudo apt-get install -f
-	sudo chown `id -un`:`id -gn` ${BUILD_TARGET} -R
+	sudo chown $USER:$USER ${BUILD_TARGET} -R
 	exit
 fi
 
@@ -286,9 +299,12 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
   	git clone ${CURA_ENGINE_REPO}
     git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
     if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-    make -C CuraEngine VERSION=${BUILD_NAME}
-    if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
   fi
+
+	make -C CuraEngine clean
+	make -C CuraEngine VERSION=${BUILD_NAME}
+	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
   rm -rf scripts/linux/${BUILD_TARGET}/usr/share
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
