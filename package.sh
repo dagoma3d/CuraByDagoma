@@ -343,6 +343,93 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
 	exit
 fi
 
+#############################
+# Archive 32bit .tar.gz
+#############################
+
+if [ "$BUILD_TARGET" = "archive_i386" ]; then
+	export CXX="g++ -m32"
+	# To build for i386 archs :
+	# - Install lib32stdc++-5-dev
+	# - Make a symlink from /usr/include/asm-generic to /usr/include/asm
+	if [ ! -d "Power" ]; then
+		git clone https://github.com/GreatFruitOmsk/Power
+	else
+		cd Power
+		git pull
+		cd ..
+	fi
+  #rm -rf CuraEngine
+  if [ ! -d "CuraEngine" ]; then
+  	git clone ${CURA_ENGINE_REPO}
+    git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
+    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
+  fi
+
+	make -C CuraEngine clean
+	make -C CuraEngine VERSION=${BUILD_NAME}
+	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+
+  rm -rf scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}
+	mkdir -p scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}
+	cp -a Cura scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp -a resources scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp -a plugins scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp -a Power/power scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/Cura/version
+	cp scripts/linux/utils/curabydago_generic.desktop scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
+	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.ico
+	cp scripts/linux/${BUILD_TARGET}/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
+	cd scripts/linux/${BUILD_TARGET}
+	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
+	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
+	exit
+fi
+
+#############################
+# Archive 64bit .tar.gz
+#############################
+
+if [ "$BUILD_TARGET" = "archive_amd64" ]; then
+  export CXX="g++ -m64"
+	if [ ! -d "Power" ]; then
+		git clone https://github.com/GreatFruitOmsk/Power
+	else
+		cd Power
+		git pull
+		cd ..
+	fi
+  #rm -rf CuraEngine
+  if [ ! -d "CuraEngine" ]; then
+  	git clone ${CURA_ENGINE_REPO}
+    git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
+    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
+  fi
+
+	make -C CuraEngine clean
+	make -C CuraEngine VERSION=${BUILD_NAME}
+	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+
+	rm -rf scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}
+	mkdir -p scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}
+	cp -a Cura scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp -a resources scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp -a plugins scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	cp -a Power/power scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
+	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/Cura/version
+	cp scripts/linux/utils/curabydago_generic.desktop scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
+	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.ico
+	cp scripts/linux/${BUILD_TARGET}/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
+	cd scripts/linux/${BUILD_TARGET}
+	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
+	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
+	exit
+fi
+
 if [ "$BUILD_TARGET" = "appimage" ]; then
   echo ${CURA_DIR}
   CURABYDAGO_BUILDDIR=scripts/linux/AppImage

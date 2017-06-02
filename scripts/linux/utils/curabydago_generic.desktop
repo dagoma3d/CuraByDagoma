@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Cura-by-dagoma-Easy200
+Comment=Cura-by-dagoma-Easy200
+Icon=./curabydago-easy200.ico
+Exec=python2.7 ./curabydago-easy200/cura.py
+Path=./curabydago-easy200/
+StartupNotify=true
+Terminal=false
+Categories=GNOME;GTK;Utility;
