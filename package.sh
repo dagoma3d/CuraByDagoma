@@ -281,6 +281,7 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
   # -- sudo dpkg -i [deb_file]
   # -- sudo apt-get install -f
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
+	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb ./utils/README.md
 	exit
 fi
 
@@ -340,6 +341,7 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
   # -- sudo dpkg -i [deb_file]
   # -- sudo apt-get install -f
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
+	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb ./utils/README.md
 	exit
 fi
 
@@ -385,6 +387,8 @@ if [ "$BUILD_TARGET" = "archive_i386" ]; then
 	cd scripts/linux/${BUILD_TARGET}
 	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
 	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
+	cd ..
+	zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz
 	exit
 fi
 
@@ -427,6 +431,8 @@ if [ "$BUILD_TARGET" = "archive_amd64" ]; then
 	cd scripts/linux/${BUILD_TARGET}
 	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
 	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
+	cd ..
+	zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz
 	exit
 fi
 
