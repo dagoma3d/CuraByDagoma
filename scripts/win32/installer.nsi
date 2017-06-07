@@ -12,7 +12,7 @@ OutFile "${VERSION}.exe"
 ; The default installation directory
 InstallDir $PROGRAMFILES\${VERSION}
 
-; Registry key to check for directory (so if you install again, it will 
+; Registry key to check for directory (so if you install again, it will
 ; overwrite the old one automatically)
 InstallDirRegKey HKLM "Software\${VERSION}" "Install_Dir"
 
@@ -29,13 +29,13 @@ SetCompressor /SOLID lzma
 ;--------------------------------
 
 ; StrContains
-; This function does a case sensitive searches for an occurrence of a substring in a string. 
-; It returns the substring if it is found. 
-; Otherwise it returns null(""). 
+; This function does a case sensitive searches for an occurrence of a substring in a string.
+; It returns the substring if it is found.
+; Otherwise it returns null("").
 ; Written by kenglish_hi
 ; Adapted from StrReplace written by dandaman32
- 
- 
+
+
 Var STR_HAYSTACK
 Var STR_NEEDLE
 Var STR_CONTAINS_VAR_1
@@ -43,7 +43,7 @@ Var STR_CONTAINS_VAR_2
 Var STR_CONTAINS_VAR_3
 Var STR_CONTAINS_VAR_4
 Var STR_RETURN_VAR
- 
+
 Function StrContains
   Exch $STR_NEEDLE
   Exch 1
@@ -65,16 +65,16 @@ Function StrContains
       Goto done
     done:
    Pop $STR_NEEDLE ;Prevent "invalid opcode" errors and keep the
-   Exch $STR_RETURN_VAR  
+   Exch $STR_RETURN_VAR
 FunctionEnd
- 
+
 !macro _StrContainsConstructor OUT NEEDLE HAYSTACK
   Push `${HAYSTACK}`
   Push `${NEEDLE}`
   Call StrContains
   Pop `${OUT}`
 !macroend
- 
+
 !define StrContains '!insertmacro "_StrContainsConstructor"'
 ;--------------------------------
 
@@ -88,7 +88,7 @@ FunctionEnd
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
 !define MUI_HEADERIMAGE_BITMAP "header.bmp"
-!define MUI_HEADERIMAGE_BITMAP_NOSTRETCH 
+!define MUI_HEADERIMAGE_BITMAP_NOSTRETCH
 ; Don't show the component description box
 !define MUI_COMPONENTSPAGE_NODESC
 
@@ -113,11 +113,26 @@ FunctionEnd
 
 ; Languages
 !insertmacro MUI_LANGUAGE "French"
+!insertmacro MUI_LANGUAGE "English"
+
+; Language strings
+LangString Install_Arduino_Drivers ${LANG_ENGLISH} "Install Arduino Drivers"
+LangString Install_Arduino_Drivers ${LANG_FRENCH} "Installer les pilotes Arduino"
+LangString Open_STL_files_with_Cura ${LANG_ENGLISH} "Open STL files with Cura by Dagoma"
+LangString Open_STL_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers STL avec Cura by Dagoma"
+LangString Open_OBJ_files_with_Cura ${LANG_ENGLISH} "Open OBJ files with Cura by Dagoma"
+LangString Open_OBJ_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers OBJ avec Cura by Dagoma"
+LangString Open_AMF_files_with_Cura ${LANG_ENGLISH} "Open AMF files with Cura by Dagoma"
+LangString Open_AMF_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers AMF avec Cura by Dagoma"
 
 ; Reserve Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
 ReserveFile '${NSISDIR}\Plugins\InstallOptions.dll'
 ReserveFile "header.bmp"
+
+Function .onInit
+  !insertmacro MUI_LANGDLL_DISPLAY
+FunctionEnd
 
 ;--------------------------------
 
@@ -125,20 +140,20 @@ ReserveFile "header.bmp"
 Section "${VERSION}"
   ;Try to delete Profile
   RMDir /r "$PROFILE\.curaByDagomaEasy200"
-  
+
   SectionIn RO
-  
+
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
-  
-  
-  
+
+
+
   ; Put file there
   File /r "dist\"
-  
+
   ; Write the installation path into the registry
   WriteRegStr HKLM "SOFTWARE\${VERSION}" "Install_Dir" "$INSTDIR"
-  
+
   ; Write the uninstall keys for Windows
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${VERSION}" "DisplayName" "${VERSION}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${VERSION}" "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -148,14 +163,14 @@ Section "${VERSION}"
 
   ; Write start menu entries for all users
   SetShellVarContext all
-  
+
   CreateDirectory "$SMPROGRAMS\${VERSION}"
   CreateShortCut "$SMPROGRAMS\${VERSION}\Uninstall ${VERSION}.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\${VERSION}\${VERSION}.lnk" "$INSTDIR\python\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\cura.ico" 0
-  
+
   ; Give all users write permissions in the install directory, so they can read/write profile and preferences files.
   AccessControl::GrantOnFile "$INSTDIR" "(S-1-5-32-545)" "FullAccess"
-  
+
 SectionEnd
 
 Function LaunchLink
@@ -164,11 +179,11 @@ Function LaunchLink
   ExecShell "" "$SMPROGRAMS\${VERSION}\${VERSION}.lnk"
 FunctionEnd
 
-Section "Install Arduino Drivers"
+Section $(Install_Arduino_Drivers)
   ; Set output path to the driver directory.
   SetOutPath "$INSTDIR\drivers\"
   File /r "drivers\"
-  
+
   ${If} ${RunningX64}
     ExecWait '"$INSTDIR\drivers\CDM21224_Setup.exe" /lm'
   ${Else}
@@ -176,7 +191,7 @@ Section "Install Arduino Drivers"
   ${EndIf}
 SectionEnd
 
-Section "Open STL files with Cura"
+Section $(Open_STL_files_with_Cura)
 	WriteRegStr HKCR .stl "" "Cura STL model file"
 	DeleteRegValue HKCR .stl "Content Type"
 	WriteRegStr HKCR "Cura STL model file\DefaultIcon" "" "$INSTDIR\resources\stl.ico,0"
@@ -184,7 +199,7 @@ Section "Open STL files with Cura"
 	WriteRegStr HKCR "Cura STL model file\shell\open\command" "" '"$INSTDIR\python\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
 SectionEnd
 
-Section "Open OBJ files with Cura"
+Section $(Open_OBJ_files_with_Cura)
 	WriteRegStr HKCR .obj "" "Cura OBJ model file"
 	DeleteRegValue HKCR .obj "Content Type"
 	WriteRegStr HKCR "Cura OBJ model file\DefaultIcon" "" "$INSTDIR\resources\stl.ico,0"
@@ -192,7 +207,7 @@ Section "Open OBJ files with Cura"
 	WriteRegStr HKCR "Cura OBJ model file\shell\open\command" "" '"$INSTDIR\python\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
 SectionEnd
 
-Section "Open AMF files with Cura"
+Section $(Open_AMF_files_with_Cura)
 	WriteRegStr HKCR .amf "" "Cura AMF model file"
 	DeleteRegValue HKCR .amf "Content Type"
 	WriteRegStr HKCR "Cura AMF model file\DefaultIcon" "" "$INSTDIR\resources\stl.ico,0"
@@ -205,7 +220,7 @@ SectionEnd
 ; Uninstaller
 
 Section "Uninstall"
-  
+
   ; Remove registry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${VERSION}"
   DeleteRegKey HKLM "SOFTWARE\${VERSION}"
