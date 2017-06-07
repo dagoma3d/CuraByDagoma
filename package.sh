@@ -282,6 +282,17 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
   # -- sudo apt-get install -f
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
 	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb ./utils/README.md
+
+	if [ ! -d "packages" ]; then
+		mkdir packages
+	fi
+	mv ${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
+
+	if [ ! -d "dist" ]; then
+		mkdir dist
+	fi
+	mv ${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
+
 	exit
 fi
 
@@ -342,6 +353,17 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
   # -- sudo apt-get install -f
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
 	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb ./utils/README.md
+
+	if [ ! -d "packages" ]; then
+		mkdir packages
+	fi
+	mv ${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
+
+	if [ ! -d "dist" ]; then
+		mkdir dist
+	fi
+	mv ${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
+
 	exit
 fi
 
@@ -389,6 +411,17 @@ if [ "$BUILD_TARGET" = "archive_i386" ]; then
 	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
 	cd ..
 	zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz
+
+	if [ ! -d "packages" ]; then
+		mkdir packages
+	fi
+	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
+
+	if [ ! -d "dist" ]; then
+		mkdir dist
+	fi
+	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
+
 	exit
 fi
 
@@ -433,6 +466,17 @@ if [ "$BUILD_TARGET" = "archive_amd64" ]; then
 	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
 	cd ..
 	zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz
+
+	if [ ! -d "packages" ]; then
+		mkdir packages
+	fi
+	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
+
+	if [ ! -d "dist" ]; then
+		mkdir dist
+	fi
+	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
+	
 	exit
 fi
 
