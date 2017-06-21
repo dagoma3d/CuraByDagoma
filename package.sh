@@ -281,7 +281,9 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
   # -- sudo dpkg -i [deb_file]
   # -- sudo apt-get install -f
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
-	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb ./utils/README.md
+	cp ./utils/README.md .
+	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb README.md
+	rm README.md
 
 	if [ ! -d "packages" ]; then
 		mkdir packages
@@ -352,7 +354,9 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
   # -- sudo dpkg -i [deb_file]
   # -- sudo apt-get install -f
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
-	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb ./utils/README.md
+	cp ./utils/README.md .
+	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb README.md
+	rm README.md
 
 	if [ ! -d "packages" ]; then
 		mkdir packages
@@ -476,7 +480,7 @@ if [ "$BUILD_TARGET" = "archive_amd64" ]; then
 		mkdir dist
 	fi
 	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
-	
+
 	exit
 fi
 
