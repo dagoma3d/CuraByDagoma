@@ -239,10 +239,13 @@ def glDrawStringCenter(s):
 	"""
 	Draw string on current draw pointer position
 	"""
-	glRasterPos2f(0, 0)
-	glBitmap(0,0,0,0, -glGetStringSize(s)[0]/2, 0, None)
-	for c in s:
-		glutBitmapCharacter(OpenGL.GLUT.GLUT_BITMAP_HELVETICA_18, ord(c))
+	try:
+		glRasterPos2f(0, 0)
+		glBitmap(0,0,0,0, -glGetStringSize(s)[0]/2, 0, None)
+		for c in s:
+			glutBitmapCharacter(OpenGL.GLUT.GLUT_BITMAP_HELVETICA_18, ord(c))
+	except TypeError, e:
+		print str(e)
 
 def glGetStringSize(s):
 	"""
