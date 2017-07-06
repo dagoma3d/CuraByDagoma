@@ -3,7 +3,7 @@ Cura-by-dagoma-Easy200 is a fork of Legacy Cura made by Dagoma for the Dagoma Di
 
 # Specifications
 Package: curabydago-easy200
-Version: 1.0.5
+Version: 1.0.6
 Architecture: amd64
 Maintainer: Orel <orel@dagoma.fr>
 Provides: curabydago-easy200
