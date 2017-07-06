@@ -183,8 +183,8 @@ class mainWindow(wx.Frame):
 			i = toolsMenu.Append(-1, _("PID Debugger..."))
 			self.Bind(wx.EVT_MENU, self.OnPIDDebugger, i)
 
-		i = toolsMenu.Append(-1, _("Copy profile to clipboard"))
-		self.Bind(wx.EVT_MENU, self.onCopyProfileClipboard,i)
+		#i = toolsMenu.Append(-1, _("Copy profile to clipboard"))
+		#self.Bind(wx.EVT_MENU, self.onCopyProfileClipboard,i)
 
 		toolsMenu.AppendSeparator()
 		self.allAtOnceItem = toolsMenu.Append(-1, _("Print all at once"), kind=wx.ITEM_RADIO)
@@ -291,9 +291,9 @@ class mainWindow(wx.Frame):
 		self.Centre()
 
 		#Timer set; used to check if profile is on the clipboard
-		self.timer = wx.Timer(self)
-		self.Bind(wx.EVT_TIMER, self.onTimer)
-		self.timer.Start(1000)
+		#self.timer = wx.Timer(self)
+		#self.Bind(wx.EVT_TIMER, self.onTimer)
+		#self.timer.Start(1000)
 		self.lastTriedClipboard = profile.getProfileString()
 
 		# Restore the window position, size & state from the preferences file
