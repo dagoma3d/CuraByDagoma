@@ -8,10 +8,10 @@ do
 	git pull
 	if [ "$BUILD_OS" = "l" ]
 	then
-		./packages.sh debian_i386
-		./packages.sh debian_amd64
-		./packages.sh archive_i386
-		./packages.sh archive_amd64
+		./package.sh debian_i386
+		./package.sh debian_amd64
+		./package.sh archive_i386
+		./package.sh archive_amd64
 	elif [ "$BUILD_OS" = "w" ]
 	then
 		./package.sh win32 1

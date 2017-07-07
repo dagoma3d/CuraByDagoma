@@ -288,7 +288,7 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv ${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
+	mv -f ${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
@@ -361,7 +361,7 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv ${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
+	mv -f ${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
