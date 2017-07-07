@@ -253,7 +253,7 @@ class mainWindow(wx.Frame):
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3D | wx.SP_LIVE_UPDATE)
 		self.rightPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
 		self.leftPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
-		# self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
+		self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
 
 		##Gui components##
 		self.simpleSettingsPanel = simpleMode.simpleModePanel(self.leftPane, lambda : self.scene.sceneUpdated())
@@ -315,9 +315,9 @@ class mainWindow(wx.Frame):
 			self.normalSashPos = 0
 			self.Maximize(True)
 
-		self.SetMinSize((940,600))
-		self.leftPane.SetMinSize((250, 600))
-		self.rightPane.SetMinSize((640,600))
+		self.SetMinSize((940,750))
+		self.leftPane.SetMinSize((300, 750))
+		self.rightPane.SetMinSize((640,750))
 		# self.splitter.SplitVertically(self.leftPane, self.rightPane, self.normalSashPos)
 		self.splitter.SplitVertically(self.rightPane, self.leftPane, self.normalSashPos) #Left and Right are switched in code
 		self.splitter.SetSashGravity(1.0) # Only the SceneView are resize when the windows size are modifed
@@ -338,7 +338,7 @@ class mainWindow(wx.Frame):
 
 	def mainResize(self, e):
 		x, y = self.GetSize()
-		self.rightPane.SetMinSize((x/2,520))
+		self.rightPane.SetMinSize((x/2,750))
 		e.Skip()
 
 	def onTimer(self, e):
@@ -489,7 +489,7 @@ class mainWindow(wx.Frame):
 		self.leftSizer.Detach(self.normalSettingsPanel)
 		self.simpleSettingsPanel.Destroy()
 		self.normalSettingsPanel.Destroy()
-		self.simpleSettingsPanel = normalSettingsPanel(self.leftPane, lambda : self.scene.sceneUpdated()) #simpleMode.simpleModePanel(self.leftPane, lambda : self.scene.sceneUpdated())
+		self.simpleSettingsPanel = simpleMode.simpleModePanel(self.leftPane, lambda : self.scene.sceneUpdated())
 		self.normalSettingsPanel = normalSettingsPanel(self.leftPane, lambda : self.scene.sceneUpdated())
 		self.leftSizer.Add(self.simpleSettingsPanel, 1)
 		self.leftSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
@@ -940,6 +940,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.AddGrowableCol(1)
 		#sizer_1.AddGrowableRow(10)
 		self.SetSizerAndFit(sizer_1)
+		self.Layout()
 
 	def getNodeText(self, node):
 		nodelist = node.childNodes
