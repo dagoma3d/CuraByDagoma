@@ -372,7 +372,9 @@ class mainWindow(wx.Frame):
 		isSimple = profile.getPreference('startMode') == 'Simple'
 
 		self.normalSettingsPanel.Show(not isSimple)
+		self.normalSettingsPanel.Fit()
 		self.simpleSettingsPanel.Show(isSimple)
+		self.simpleSettingsPanel.Fit()
 		self.leftPane.Layout()
 
 		for i in self.normalModeOnlyItems:

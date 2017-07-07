@@ -107,6 +107,7 @@ class SceneView(openglGui.glGuiPanel):
 
 		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Layers")], (-1,0), self.OnViewChange)
 		self.viewSelection = openglGui.glComboButton(self, _(" "), [7,23], [_("Normal"), _("Layers")], (-1,0), self.OnViewChange)
+		self.viewSelection.SetHidden(True)
 
 		# self.youMagineButton = openglGui.glButton(self, 26, _("Share on YouMagine"), (2,0), lambda button: youmagineGui.youmagineManager(self.GetTopLevelParent(), self._scene))
 		# self.youMagineButton.setDisabled(True) Dagoma
@@ -147,6 +148,9 @@ class SceneView(openglGui.glGuiPanel):
 		self.loadScene(filenames)
 
 	def loadFiles(self, filenames):
+		if len(filenames) == 0:
+			return
+		self.viewSelection.setHidden(False)
 		mainWindow = self.GetParent().GetParent().GetParent()
 		# only one GCODE file can be active
 		# so if single gcode file, process this
@@ -490,6 +494,8 @@ class SceneView(openglGui.glGuiPanel):
 			self._deleteObject(self._scene.objects()[0])
 		self._animView = openglGui.animation(self, self._viewTarget.copy(), numpy.array([0,0,0], numpy.float32), 0.5)
 		self._engineResultView.setResult(None)
+		self.viewSelection.setHidden(True)
+		self.printButton.setBottomText('')
 
 	def OnMultiply(self, e):
 		if self._focusObj is None:
@@ -633,6 +639,8 @@ class SceneView(openglGui.glGuiPanel):
 				self.glReleaseList.append(m.vbo)
 		if len(self._scene.objects()) == 0:
 			self._engineResultView.setResult(None)
+			self.viewSelection.setHidden(True)
+			self.printButton.setBottomText('')
 		import gc
 		gc.collect()
 		self.sceneUpdated()
