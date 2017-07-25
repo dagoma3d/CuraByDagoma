@@ -253,7 +253,10 @@ class mainWindow(wx.Frame):
 
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3D | wx.SP_LIVE_UPDATE)
 		self.rightPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
-		self.leftPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
+		#self.leftPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
+		self.leftPane = wx.ScrolledWindow(self.splitter, style=wx.BORDER_NONE)
+		self.leftPane.SetScrollbars(0, 5, 0, 1)
+		self.leftPane.FitInside()
 		self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
 
 		##Gui components##
@@ -316,20 +319,20 @@ class mainWindow(wx.Frame):
 			self.normalSashPos = 0
 			self.Maximize(True)
 
-		self.SetMinSize((940,750))
-		self.leftPane.SetMinSize((300, 750))
-		self.rightPane.SetMinSize((640,750))
+		self.SetMinSize((800,600))
+		self.leftPane.SetMinSize((380, 600))
+		self.rightPane.SetMinSize((420,600))
 		# self.splitter.SplitVertically(self.leftPane, self.rightPane, self.normalSashPos)
 		self.splitter.SplitVertically(self.rightPane, self.leftPane, self.normalSashPos) #Left and Right are switched in code
 		self.splitter.SetSashGravity(1.0) # Only the SceneView are resize when the windows size are modifed
-		self.splitter.SetMinimumPaneSize(300)
+		self.splitter.SetMinimumPaneSize(380)
 
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.Centre()
 		if wx.Display.GetFromPoint((self.GetPositionTuple()[0] + self.GetSizeTuple()[1], self.GetPositionTuple()[1] + self.GetSizeTuple()[1])) < 0:
 			self.Centre()
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
-			self.SetSize((800,600))
+			self.SetSize((800, 600))
 			self.Centre()
 
 		self.Bind(wx.EVT_SIZE, self.mainResize)
@@ -921,7 +924,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def __do_layout(self):
-		sizer_1 = wx.GridBagSizer(12, 0)
+		sizer_1 = wx.GridBagSizer(13, 0)
 		sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
 		sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.label_4, pos = (2, 0), flag = wx.LEFT|wx.TOP,  border = 5)
@@ -935,6 +938,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.pausePluginButton, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.pausePluginPanel, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add((0, 5), pos = (13, 0))
 
 		self.pausePluginButton.Hide()
 

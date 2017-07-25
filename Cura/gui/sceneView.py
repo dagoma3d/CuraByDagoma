@@ -405,9 +405,6 @@ class SceneView(openglGui.glGuiPanel):
 			self.viewMode = 'gcode'
 			self.tool = previewTools.toolNone(self)
 			normalSettingsPanel.pausePluginPanel.Show()
-			mainWindow.leftPane.SetMinSize((370, 750))
-			mainWindow.rightPane.SetMinSize((570,750))
-			mainWindow.splitter.SetMinimumPaneSize(370)
 		# elif self.viewSelection.getValue() == 1:
 		# 	self.viewMode = 'overhang'
 		# elif self.viewSelection.getValue() == 2:
@@ -418,9 +415,6 @@ class SceneView(openglGui.glGuiPanel):
 			self.viewMode = 'normal'
 			if len(normalSettingsPanel.pausePluginPanel.panelList) == 0:
 				normalSettingsPanel.pausePluginPanel.Hide()
-				mainWindow.leftPane.SetMinSize((300, 750))
-				mainWindow.rightPane.SetMinSize((640,750))
-				mainWindow.splitter.SetMinimumPaneSize(300)
 		normalSettingsPanel.Layout()
 		self._engineResultView.setEnabled(self.viewMode == 'gcode')
 		self.QueueRefresh()
