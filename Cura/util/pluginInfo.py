@@ -76,7 +76,7 @@ def getPostProcessPluginConfig():
 	except:
 		return []
 
-def setPostProcessPluginConfig(config):
+def setPostProcessPluginConfig(config = []):
 	profile.putProfileSetting('plugin_config', pickle.dumps(config))
 
 def getPluginBasePaths():
@@ -111,6 +111,11 @@ def getPluginList(pluginType):
 			ret.append(plugin)
 	return ret
 
+def getPlugin(pluginType, pluginName):
+	for plugin in getPluginList(pluginType):
+		if plugin.getFilename() == pluginName:
+			return plugin
+
 def runPostProcessingPlugins(engineResult):
 	pluginConfigList = getPostProcessPluginConfig()
 	pluginList = getPluginList('postprocess')
@@ -143,6 +148,12 @@ def runPostProcessingPlugins(engineResult):
 					value = float(value)
 				except:
 					value = float(param['default'])
+
+			if param['type'] == 'int':
+				try:
+					value = int(value)
+				except:
+					value = int(param['default'])
 
 			locals[param['name']] = value
 		try:

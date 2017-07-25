@@ -152,6 +152,8 @@ class SceneView(openglGui.glGuiPanel):
 			return
 		self.viewSelection.setHidden(False)
 		mainWindow = self.GetParent().GetParent().GetParent()
+		mainWindow.normalSettingsPanel.pausePluginButton.Show()
+		mainWindow.normalSettingsPanel.Layout()
 		# only one GCODE file can be active
 		# so if single gcode file, process this
 		# otherwise ignore all gcode files
@@ -397,9 +399,15 @@ class SceneView(openglGui.glGuiPanel):
 			self.OnToolSelect(0)
 
 	def OnViewChange(self):
+		mainWindow = self.GetParent().GetParent().GetParent()
+		normalSettingsPanel = mainWindow.normalSettingsPanel
 		if self.viewSelection.getValue() == 1:
 			self.viewMode = 'gcode'
 			self.tool = previewTools.toolNone(self)
+			normalSettingsPanel.pausePluginPanel.Show()
+			mainWindow.leftPane.SetMinSize((370, 750))
+			mainWindow.rightPane.SetMinSize((570,750))
+			mainWindow.splitter.SetMinimumPaneSize(370)
 		# elif self.viewSelection.getValue() == 1:
 		# 	self.viewMode = 'overhang'
 		# elif self.viewSelection.getValue() == 2:
@@ -408,6 +416,12 @@ class SceneView(openglGui.glGuiPanel):
 		# 	self.viewMode = 'xray'
 		else:
 			self.viewMode = 'normal'
+			if len(normalSettingsPanel.pausePluginPanel.panelList) == 0:
+				normalSettingsPanel.pausePluginPanel.Hide()
+				mainWindow.leftPane.SetMinSize((300, 750))
+				mainWindow.rightPane.SetMinSize((640,750))
+				mainWindow.splitter.SetMinimumPaneSize(300)
+		normalSettingsPanel.Layout()
 		self._engineResultView.setEnabled(self.viewMode == 'gcode')
 		self.QueueRefresh()
 
@@ -496,6 +510,9 @@ class SceneView(openglGui.glGuiPanel):
 		self._engineResultView.setResult(None)
 		self.viewSelection.setHidden(True)
 		self.printButton.setBottomText('')
+		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
+		normalSettingsPanel.pausePluginButton.Hide()
+		normalSettingsPanel.Layout()
 
 	def OnMultiply(self, e):
 		if self._focusObj is None:
@@ -641,6 +658,9 @@ class SceneView(openglGui.glGuiPanel):
 			self._engineResultView.setResult(None)
 			self.viewSelection.setHidden(True)
 			self.printButton.setBottomText('')
+			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
+			normalSettingsPanel.pausePluginButton.Hide()
+			normalSettingsPanel.Layout()
 		import gc
 		gc.collect()
 		self.sceneUpdated()

@@ -13,6 +13,7 @@ from Cura.gui import configBase
 from Cura.gui import expertConfig
 from Cura.gui import alterationPanel
 from Cura.gui import pluginPanel
+from Cura.gui import pausePluginPanel
 from Cura.gui import preferencesDialog
 from Cura.gui import configWizard
 from Cura.gui import firmwareInstall
@@ -321,7 +322,7 @@ class mainWindow(wx.Frame):
 		# self.splitter.SplitVertically(self.leftPane, self.rightPane, self.normalSashPos)
 		self.splitter.SplitVertically(self.rightPane, self.leftPane, self.normalSashPos) #Left and Right are switched in code
 		self.splitter.SetSashGravity(1.0) # Only the SceneView are resize when the windows size are modifed
-		# self.splitter.SetMinimumPaneSize(470)
+		self.splitter.SetMinimumPaneSize(300)
 
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.Centre()
@@ -372,9 +373,9 @@ class mainWindow(wx.Frame):
 		isSimple = profile.getPreference('startMode') == 'Simple'
 
 		self.normalSettingsPanel.Show(not isSimple)
-		self.normalSettingsPanel.Fit()
+		#self.normalSettingsPanel.Fit()
 		self.simpleSettingsPanel.Show(isSimple)
-		self.simpleSettingsPanel.Fit()
+		#self.simpleSettingsPanel.Fit()
 		self.leftPane.Layout()
 
 		for i in self.normalModeOnlyItems:
@@ -803,6 +804,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.label_4 = wx.StaticText(self, wx.ID_ANY, _(("Température (°C) :").decode("utf-8")))
 		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=235, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		self.button_1 = wx.Button(self, wx.ID_ANY, _(("Préparer l'Impression").decode("utf-8")))
+		# Pause plugin
+		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
+		self.pausePluginPanel = pausePluginPanel.pausePluginPanel(self, callback)
 		self.__set_properties()
 		self.__do_layout()
 
@@ -903,6 +907,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		#Evt Print Button
 		self.Bind(wx.EVT_BUTTON, self.Click_Button, self.button_1)
 
+		#Evt Print Button
+		self.Bind(wx.EVT_BUTTON, self.ClickPauseButton, self.pausePluginButton)
+
  		self.Bind(wx.EVT_SIZE, self.OnSize)
 
 
@@ -916,14 +923,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def __do_layout(self):
-		sizer_1 = wx.GridBagSizer(10, 2)
+		sizer_1 = wx.GridBagSizer(12, 1)
 		sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
-		sizer_1.Add(self.combo_box_1, pos = (1, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.label_4, pos = (2, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-		sizer_1.Add(self.spin_ctrl_1, pos = (3, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.radio_box_2, pos = (4, 0) , span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.radio_box_1, pos = (5, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.tetes_box, pos = (6, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.spin_ctrl_1, pos = (3, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.radio_box_2, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.radio_box_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.tetes_box, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		"""ERIC"""
 		# Positionnementdu du bloc palpeur en position 6
 		# Positionnementdu titre Offset en position 7
@@ -933,11 +940,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# Positionnementdu du bloc Printing Surface en position 9
 		#sizer_1.Add(self.radio_box_3, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		"""FIN ERIC"""
-		sizer_1.Add(self.printsupp, pos = (7, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.palpeur_chbx, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.printbrim, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.button_1, pos = (10, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.AddGrowableCol(1)
+		sizer_1.Add(self.printsupp, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.palpeur_chbx, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.printbrim, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.pausePluginButton, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.pausePluginPanel, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+
+		self.pausePluginButton.Hide()
+
+		sizer_1.AddGrowableCol(0)
 		#sizer_1.AddGrowableRow(10)
 		self.SetSizerAndFit(sizer_1)
 		self.Layout()
@@ -1291,6 +1303,23 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('inset0_speed', preci.inset0_speed)
 		profile.putProfileSetting('insetx_speed', preci.insetx_speed)
 
+		# Refresh layer heights according to quality...
+		for panel in self.pausePluginPanel.panelList:
+			panelChildren = panel.GetSizer().GetChildren()
+			height_value = None
+			layerWidget = None
+			heightWidget = None
+			for panelChild in panelChildren:
+				panelWidget = panelChild.GetWindow()
+				# The only enabled textctrl by line is the one containing the layer info
+				if isinstance(panelWidget, wx.TextCtrl) and panelWidget.IsEnabled():
+					layerWidget = panelWidget
+				# The only disabled textctrl by line is the one containing the height info
+				if isinstance(panelWidget, wx.TextCtrl) and not panelWidget.IsEnabled():
+					heightWidget = panelWidget
+			heightValue = heightWidget.GetValue().split(' mm')[0]
+			layerWidget.SetValue(str(int(float(heightValue) / float(preci.layer_height))))
+
 	def Refresh_Tet(self):
 		printhead_index = self.tetes_box.GetSelection()
 		tet = self.tetes[printhead_index]
@@ -1540,6 +1569,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.OnPrintButton(1)
 		event.Skip()
 
+	def ClickPauseButton(self, event):
+		scene_viewSelection = self.GetParent().GetParent().GetParent().scene.viewSelection
+		if scene_viewSelection.getValue() == 0:
+			scene_viewSelection.setValue(1)
+		else:
+			scene_viewSelection.setValue(0)
+		event.Skip()
+
 	def _addSettingsToPanels(self, category, left, right):
 		count = len(profile.getSubCategoriesFor(category)) + len(profile.getSettingsForCategory(category))
 
@@ -1612,3 +1649,4 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# if self.alterationPanel is not None:
 		# 	self.alterationPanel.updateProfileToControls()
 		# self.pluginPanel.updateProfileToControls()
+		self.pausePluginPanel.updateProfileToControls()
