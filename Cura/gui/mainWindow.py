@@ -673,7 +673,7 @@ class mainWindow(wx.Frame):
 			isSimple = profile.getPreference('startMode') == 'Simple'
 			if not isSimple:
 				self.normalSashPos = self.splitter.GetSashPosition()
-			profile.putPreference('window_normal_sash', self.normalSashPos)
+			#profile.putPreference('window_normal_sash', self.normalSashPos)
 
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
 		print "Closing down"
