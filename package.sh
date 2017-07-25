@@ -293,7 +293,7 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv ${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
+	mv -f ${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
 
 	exit
 fi
@@ -366,7 +366,7 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv ${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
+	mv -f ${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
 
 	exit
 fi
@@ -419,12 +419,12 @@ if [ "$BUILD_TARGET" = "archive_i386" ]; then
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
+	mv -f ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
+	mv -f ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
 
 	exit
 fi
@@ -474,12 +474,12 @@ if [ "$BUILD_TARGET" = "archive_amd64" ]; then
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
+	mv -f ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
+	mv -f ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
 
 	exit
 fi
