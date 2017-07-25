@@ -373,9 +373,7 @@ class mainWindow(wx.Frame):
 		isSimple = profile.getPreference('startMode') == 'Simple'
 
 		self.normalSettingsPanel.Show(not isSimple)
-		#self.normalSettingsPanel.Fit()
 		self.simpleSettingsPanel.Show(isSimple)
-		#self.simpleSettingsPanel.Fit()
 		self.leftPane.Layout()
 
 		for i in self.normalModeOnlyItems:
@@ -923,7 +921,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def __do_layout(self):
-		sizer_1 = wx.GridBagSizer(12, 1)
+		sizer_1 = wx.GridBagSizer(12, 0)
 		sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
 		sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.label_4, pos = (2, 0), flag = wx.LEFT|wx.TOP,  border = 5)
@@ -931,15 +929,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.radio_box_2, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.radio_box_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.tetes_box, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		"""ERIC"""
-		# Positionnementdu du bloc palpeur en position 6
-		# Positionnementdu titre Offset en position 7
-		#sizer_1.Add(self.offset_label, pos = (7, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-		# Positionnementdu de l'imput Offset en position 8
-		#sizer_1.Add(self.offset_ctrl, pos = (8, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		# Positionnementdu du bloc Printing Surface en position 9
-		#sizer_1.Add(self.radio_box_3, pos = (9, 0), span = (1, 3), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		"""FIN ERIC"""
 		sizer_1.Add(self.printsupp, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.palpeur_chbx, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add(self.printbrim, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
@@ -950,7 +939,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.pausePluginButton.Hide()
 
 		sizer_1.AddGrowableCol(0)
-		#sizer_1.AddGrowableRow(10)
 		self.SetSizerAndFit(sizer_1)
 		self.Layout()
 
