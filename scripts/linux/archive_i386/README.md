@@ -9,10 +9,10 @@ Maintainer: Orel <orel@dagoma.fr>
 Provides: curabydago-easy200
 Dependencies:
 * python2.7
-* python-wxgtk2.8 | python-wxgtk3.0
-* python-opengl
-* python-serial
-* python-numpy
+* python-wxgtk2.8 | python-wxgtk3.0 | wxpython
+* python-opengl | pyopengl
+* python-serial | pyserial
+* python-numpy | numpy
 
 # How to:
 After extracting the archive, and installing the required dependencies, just run the following command:
