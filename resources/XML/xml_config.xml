@@ -379,7 +379,7 @@
 ;_______________________________________________________________________________________________________________________________________________________
   <GCODE>
     <Gstart>
-;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.4
+;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.6
 G90   ;absolute positioning
 M106 S250 ;fan on for the palpeur
 G28 X Y
