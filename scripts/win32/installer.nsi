@@ -176,7 +176,7 @@ SectionEnd
 Function LaunchLink
   ; Write start menu entries for all users
   SetShellVarContext all
-  ExecShell "" "$SMPROGRAMS\${VERSION}\${VERSION}.lnk"
+  Exec '"$WINDIR\explorer.exe" "$SMPROGRAMS\${VERSION}\${VERSION}.lnk"'
 FunctionEnd
 
 Section $(Install_Arduino_Drivers)
