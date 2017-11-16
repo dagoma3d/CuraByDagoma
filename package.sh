@@ -133,7 +133,7 @@ if [ "$BUILD_TARGET" = "darwin" ]; then
 	#rm -rf CuraEngine
 	#git clone ${CURA_ENGINE_REPO}
     #if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-	#make -C CuraEngine VERSION=${BUILD_NAME}
+	#make -C CuraEngine VERSION=${CURAENGINE_VERSION}
     #if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 	cp CuraEngine/build/CuraEngine scripts/darwin/dist/Cura.app/Contents/Resources/CuraEngine
 
@@ -246,7 +246,7 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
   fi
 
 	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${BUILD_NAME}
+	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
@@ -319,7 +319,7 @@ if [ "$BUILD_TARGET" = "debian_amd64" ]; then
   fi
 
 	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${BUILD_NAME}
+	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
@@ -395,7 +395,7 @@ if [ "$BUILD_TARGET" = "archive_i386" ]; then
   fi
 
 	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${BUILD_NAME}
+	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 
   rm -rf scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}
@@ -450,7 +450,7 @@ if [ "$BUILD_TARGET" = "archive_amd64" ]; then
   fi
 
 	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${BUILD_NAME}
+	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 
 	rm -rf scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}
@@ -586,8 +586,11 @@ if [ $BUILD_TARGET = "win32" ]; then
 	rm -rf Power
 	git clone https://github.com/GreatFruitOmsk/Power
 	# rm -rf CuraEngine # By Dagoma ne pas redownload CuraEngine pour win32
-	# git clone ${CURA_ENGINE_REPO}
- #    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
+	if [ ! -d "CuraEngine" ]; then
+		git clone ${CURA_ENGINE_REPO}
+		git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
+		if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
+	fi
 fi
 
 #############################
@@ -649,9 +652,10 @@ if [ $BUILD_TARGET = "win32" ]; then
 	rm -rf ${TARGET_DIR}/python/Lib/OpenGL/DLLS/gle*
 	echo "clean Finished"
 
-    #Build the C++ engine
-	# mingw32-make -C CuraEngine VERSION=${BUILD_NAME}
- #    if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+	#Build the C++ engine
+	make -C CuraEngine clean
+	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
+	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 fi
 
 #add Cura
@@ -666,10 +670,14 @@ echo "add cura Finished"
 
 #add script files
 if [ $BUILD_TARGET = "win32" ]; then
-    cp -a scripts/${BUILD_TARGET}/*.bat $TARGET_DIR/
-   cp Win32CuraEngine/CuraEngine.exe $TARGET_DIR #Add by dagoma
-    # cp CuraEngine/build/CuraEngine.exe $TARGET_DIR
-   echo "add script Finished"
+	cp -a scripts/${BUILD_TARGET}/*.bat $TARGET_DIR/
+	#cp Win32CuraEngine/CuraEngine.exe $TARGET_DIR #Add by dagoma
+	cp CuraEngine/build/CuraEngine.exe $TARGET_DIR
+	# The following lines are used if CuraEngine is not compiled as static executable.
+	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libgcc_s_sjlj-1.dll $TARGET_DIR
+	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libwinpthread-1.dll $TARGET_DIR
+	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libstdc++-6.dll $TARGET_DIR
+	echo "add script Finished"
 
 else
     cp -a scripts/${BUILD_TARGET}/*.sh $TARGET_DIR/
