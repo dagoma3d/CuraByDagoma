@@ -98,7 +98,7 @@ FunctionEnd
 
 ;Run Cura after installing
 !define MUI_FINISHPAGE_RUN
-!define MUI_FINISHPAGE_RUN_TEXT "Start ${VERSION}"
+!define MUI_FINISHPAGE_RUN_TEXT $(Exec_Cura)
 !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchLink"
 
 ; Pages
@@ -124,6 +124,8 @@ LangString Open_OBJ_files_with_Cura ${LANG_ENGLISH} "Open OBJ files with Cura by
 LangString Open_OBJ_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers OBJ avec Cura by Dagoma"
 LangString Open_AMF_files_with_Cura ${LANG_ENGLISH} "Open AMF files with Cura by Dagoma"
 LangString Open_AMF_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers AMF avec Cura by Dagoma"
+LangString Exec_Cura ${LANG_ENGLISH} "Start ${VERSION}"
+LangString Exec_Cura ${LANG_FRENCH} "Lancer ${VERSION}"
 
 ; Reserve Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
