@@ -1,45 +1,73 @@
 #!/usr/bin/env bash
 
-#mkvirtualenv Cura
-
 # This script is to package the Cura package for Windows/Linux and Mac OS X
 # This script should run under Linux and Mac OS X, as well as Windows with Cygwin.
 
 #############################
 # CONFIGURATION
 #############################
+MACHINE_NAME="Easy200"
 
 ##Select the build target
-BUILD_TARGET=${1:-none}
-#BUILD_TARGET=win32
-#BUILD_TARGET=darwin
-#BUILD_TARGET=debian_i386
-#BUILD_TARGET=debian_amd64
-#BUILD_TARGET=freebsd
+##Available options:
+##- win32
+##- darwin
+##- debian
+##- archive
+case "$1" in
+win32|darwin)
+	BUILD_TARGET=$1
+	;;
+archive|debian)
+	LINUX_TARGET_NAME="curabydago-"${MACHINE_NAME,,}
+	case "$2" in
+	32)
+		BUILD_TARGET=$1_i386
+		export CXX="g++ -m$2"
+		;;
+	64)
+		BUILD_TARGET=$1_amd64
+		export CXX="g++ -m$2"
+		;;
+	*)
+		echo "You need to specify a build architexture with:"
+		echo "$0 archive|debian 32|64"
+		exit 0
+		;;
+	esac
+	;;
+*)
+	echo "You need to specify a build target with:"
+	echo "$0 win32"
+	echo "$0 debian"
+	echo "$0 archive"
+	echo "$0 darwin"
+	exit 0
+	;;
+esac
 
-##Do we need to create the final archive
-ARCHIVE_FOR_DISTRIBUTION=${2:0}
+
 ##Which version name are we appending to the final archive
-export BUILD_NAME="Cura-by-Dagoma-Easy200"
-export BUILD_NAME_INSTALL="Cura_by_Dagoma_Easy200"
-export LINUX_TARGET_NAME="curabydago-easy200"
-TARGET_DIR=${BUILD_NAME}
+BUILD_NAME="Cura-by-Dagoma-"${MACHINE_NAME}
+BUILD_NAME_INSTALL="Cura_by_Dagoma_"${MACHINE_NAME}
 
-##Which versions of external programs to use
-WIN_PORTABLE_PY_VERSION=2.7.2.1
+
+##CuraEngine github repository
+CURA_ENGINE_REPO="https://github.com/Ultimaker/CuraEngine"
+
+##Power github repository
+POWER_REPO="https://github.com/GreatFruitOmsk/Power"
 
 ## CuraEngine version to build
 ## Info : The version of binary used to build Cura for windows and Mac is 14.09
 ## Latest 14.x version is 14.12.1
 ## Latest 15.04.x version is 15.04.6
-CURAENGINE_VERSION=14.12.1
+CURA_ENGINE_VERSION=14.12.1
 
-CURA_DIR=${PWD}
-
-##Which CuraEngine to use
-if [ -z ${CURA_ENGINE_REPO} ] ; then
-	CURA_ENGINE_REPO="https://github.com/Ultimaker/CuraEngine"
-fi
+# Change working directory to the directory the script is in
+# http://stackoverflow.com/a/246128
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $SCRIPT_DIR
 
 #############################
 # Support functions
@@ -73,50 +101,42 @@ function extract
 	echo "7z x -y $*" >> log.txt
 	7z x -y $* >> log.txt
 	if [ $? != 0 ]; then
-        echo "Failed to extract $*"
-        exit 1
+		echo "Failed to extract $*"
+		exit 1
 	fi
 }
 
-#############################
-# Actual build script
-#############################
-if [ "$BUILD_TARGET" = "none" ]; then
-	echo "You need to specify a build target with:"
-	echo "$0 win32"
-	echo "$0 debian_i368"
-	echo "$0 debian_amd64"
-	echo "$0 darwin"
-	echo "$0 freebsd"
-	exit 0
-fi
-
-# Change working directory to the directory the script is in
-# http://stackoverflow.com/a/246128
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $SCRIPT_DIR
-
+# Mandatory tools
 checkTool git "git: http://git-scm.com/"
 checkTool curl "curl: http://curl.haxx.se/"
-if [ $BUILD_TARGET = "win32" ]; then
-	#Check if we have 7zip, needed to extract and packup a bunch of packages for windows.
-	checkTool 7z "7zip: http://www.7-zip.org/"
-	checkTool mingw32-make "mingw: http://www.mingw.org/"
-fi
-#For building under MacOS we need gnutar instead of tar
-if [ -z `which gnutar` ]; then
-	TAR=tar
-else
-	TAR=gnutar
+
+# Checkout CuraEngine
+if [ ! -d "CuraEngine" ]; then
+	git clone ${CURA_ENGINE_REPO}
+	if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
+	cd CuraEngine
+	git checkout ${CURA_ENGINE_VERSION}
+	cd ..
 fi
 
+# Build CuraEngine
+if [ ! -d "CuraEngine/build" ]; then
+	make -C CuraEngine clean
+	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION}
+	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+fi
+
+# Checkout Power
+if [ ! -d "Power" ]; then
+	git clone ${POWER_REPO}
+	if [ $? != 0 ]; then echo "Failed to clone Power"; exit 1; fi
+fi
 
 #############################
 # Darwin
 #############################
-
-if [ "$BUILD_TARGET" = "darwin" ]; then
-    TARGET_DIR=${BUILD_NAME_INSTALL}
+if [[ $BUILD_TARGET == darwin ]]; then
+	mkvirtualenv Cura
 
 	rm -rf scripts/darwin/build
 	rm -rf scripts/darwin/dist
@@ -128,13 +148,10 @@ if [ "$BUILD_TARGET" = "darwin" ]; then
 		exit 1
 	fi
 
-    #Add cura version file (should read the version from the bundle with pyobjc, but will figure that out later)
-    echo $BUILD_NAME > scripts/darwin/dist/Cura.app/Contents/Resources/version
-	#rm -rf CuraEngine
-	#git clone ${CURA_ENGINE_REPO}
-    #if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-	#make -C CuraEngine VERSION=${CURAENGINE_VERSION}
-    #if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+	#Add cura version file (should read the version from the bundle with pyobjc, but will figure that out later)
+	echo $BUILD_NAME > scripts/darwin/dist/Cura.app/Contents/Resources/version
+
+	#Copy CuraEngine
 	cp CuraEngine/build/CuraEngine scripts/darwin/dist/Cura.app/Contents/Resources/CuraEngine
 
 	cd scripts/darwin
@@ -145,7 +162,7 @@ if [ "$BUILD_TARGET" = "darwin" ]; then
 
 	# Archive app
 	cd dist
-	$TAR cfp - Cura.app | gzip --best -c > ../../../${TARGET_DIR}.tar.gz
+	gnutar cfp - Cura.app | gzip --best -c > ../../../${BUILD_NAME_INSTALL}.tar.gz
 	cd ..
 
 	# Create sparse image for distribution
@@ -164,93 +181,17 @@ if [ "$BUILD_TARGET" = "darwin" ]; then
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
-	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${TARGET_DIR}.dmg
+	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME_INSTALL}.dmg
+
 	exit
 fi
 
 #############################
-# FreeBSD part by CeDeROM
+# Debian
 #############################
-
-if [ "$BUILD_TARGET" = "freebsd" ]; then
-	export CXX="c++"
-	rm -rf Power
-	if [ ! -d "Power" ]; then
-		git clone https://github.com/GreatFruitOmsk/Power
-	else
-		cd Power
-		git pull
-		cd ..
-	fi
-	rm -rf CuraEngine
-	git clone ${CURA_ENGINE_REPO}
-    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-	gmake -j4 -C CuraEngine VERSION=${BUILD_NAME}
-    if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
-	rm -rf scripts/freebsd/dist
-	mkdir -p scripts/freebsd/dist/share/cura
-	mkdir -p scripts/freebsd/dist/share/applications
-	mkdir -p scripts/freebsd/dist/bin
-	cp -a Cura scripts/freebsd/dist/share/cura/
-	cp -a resources scripts/freebsd/dist/share/cura/
-	cp -a plugins scripts/freebsd/dist/share/cura/
-	cp -a CuraEngine/build/CuraEngine scripts/freebsd/dist/share/cura/
-	cp scripts/freebsd/cura.py scripts/freebsd/dist/share/cura/
-	cp scripts/freebsd/cura.desktop scripts/freebsd/dist/share/applications/
-	cp scripts/freebsd/cura scripts/freebsd/dist/bin/
-	cp -a Power/power scripts/freebsd/dist/share/cura/
-	echo $BUILD_NAME > scripts/freebsd/dist/share/cura/Cura/version
-	#Create file list (pkg-plist)
-	cd scripts/freebsd/dist
-	find * -type f > ../pkg-plist
-	DIRLVL=20; while [ $DIRLVL -ge 0 ]; do
-		DIRS=`find share/cura -type d -depth $DIRLVL`
-		for DIR in $DIRS; do
-			echo "@dirrm $DIR" >> ../pkg-plist
-		done
-		DIRLVL=`expr $DIRLVL - 1`
-	done
-	cd ..
-	# Create archive or package if root
-	if [ `whoami` == "root" ]; then
-	    echo "Are you root? Use the Port Luke! :-)"
-	else
-	    echo "You are not root, building simple package archive..."
-	    pwd
-	    $TAR czf ../../${TARGET_DIR}.tar.gz dist/**
-	fi
-	exit
-fi
-
-#############################
-# Debian 32bit .deb
-#############################
-
-if [ "$BUILD_TARGET" = "debian_i386" ]; then
-	export CXX="g++ -m32"
-	# To build for i386 archs :
-	# - Install lib32stdc++-5-dev
-	# - Make a symlink from /usr/include/asm-generic to /usr/include/asm
-	if [ ! -d "Power" ]; then
-		git clone https://github.com/GreatFruitOmsk/Power
-	else
-		cd Power
-		git pull
-		cd ..
-	fi
-  #rm -rf CuraEngine
-  if [ ! -d "CuraEngine" ]; then
-  	git clone ${CURA_ENGINE_REPO}
-    git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
-    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-  fi
-
-	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
-	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
-
+if [[ $BUILD_TARGET == debian* ]]; then
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
-  rm -rf scripts/linux/${BUILD_TARGET}/usr/share
+	rm -rf scripts/linux/${BUILD_TARGET}/usr/share
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
 	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
 	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
@@ -272,14 +213,7 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
-	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/${BUILD_NAME}-${BUILD_TARGET}.deb
-  # Two ways to install it :
-  # - Using apt-get :
-  # -- Copy the .deb file in /var/cache/apt/archives/
-  # -- Install it using sudo apt-get install [package_name]
-  # - Using dpkg :
-  # -- sudo dpkg -i [deb_file]
-  # -- sudo apt-get install -f
+	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${BUILD_NAME})/${BUILD_NAME}-${BUILD_TARGET}.deb
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
 	cp ./utils/README.md .
 	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb README.md
@@ -299,160 +233,9 @@ if [ "$BUILD_TARGET" = "debian_i386" ]; then
 fi
 
 #############################
-# Debian 64bit .deb
+# Archive .tar.gz
 #############################
-
-if [ "$BUILD_TARGET" = "debian_amd64" ]; then
-  export CXX="g++ -m64"
-	if [ ! -d "Power" ]; then
-		git clone https://github.com/GreatFruitOmsk/Power
-	else
-		cd Power
-		git pull
-		cd ..
-	fi
-  #rm -rf CuraEngine
-  if [ ! -d "CuraEngine" ]; then
-  	git clone ${CURA_ENGINE_REPO}
-    git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
-    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-  fi
-
-	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
-	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
-
-	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
-  rm -rf scripts/linux/${BUILD_TARGET}/usr/share
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
-	cp -a Cura scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
-	cp -a resources scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
-	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
-	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
-	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
-	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
-	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/Cura/version
-	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/applications
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/applications
-	cp scripts/linux/utils/curabydago.desktop scripts/linux/${BUILD_TARGET}/usr/share/applications/${LINUX_TARGET_NAME}.desktop
-	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/icons
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/icons/curabydago
-	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/usr/share/icons/curabydago/${LINUX_TARGET_NAME}.ico
-	rm -rf scripts/linux/${BUILD_TARGET}/usr/bin
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/bin
-	cp scripts/linux/utils/curabydago scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
-	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
-	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
-	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
-	cd scripts/linux
-	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${TARGET_DIR})/${BUILD_NAME}-${BUILD_TARGET}.deb
-  # Two ways to install it :
-  # - Using apt-get :
-  # -- Copy the .deb file in /var/cache/apt/archives/
-  # -- Install it using sudo apt-get install [package_name]
-  # - Using dpkg :
-  # -- sudo dpkg -i [deb_file]
-  # -- sudo apt-get install -f
-	sudo chown $USER:$USER ${BUILD_TARGET} -R
-	cp ./utils/README.md .
-	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb README.md
-	rm README.md
-
-	if [ ! -d "packages" ]; then
-		mkdir packages
-	fi
-	mv -f ${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
-
-	if [ ! -d "dist" ]; then
-		mkdir dist
-	fi
-	mv -f ${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
-
-	exit
-fi
-
-#############################
-# Archive 32bit .tar.gz
-#############################
-
-if [ "$BUILD_TARGET" = "archive_i386" ]; then
-	export CXX="g++ -m32"
-	# To build for i386 archs :
-	# - Install lib32stdc++-5-dev
-	# - Make a symlink from /usr/include/asm-generic to /usr/include/asm
-	if [ ! -d "Power" ]; then
-		git clone https://github.com/GreatFruitOmsk/Power
-	else
-		cd Power
-		git pull
-		cd ..
-	fi
-  #rm -rf CuraEngine
-  if [ ! -d "CuraEngine" ]; then
-  	git clone ${CURA_ENGINE_REPO}
-    git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
-    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-  fi
-
-	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
-	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
-
-  rm -rf scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}
-	mkdir -p scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}
-	cp -a Cura scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
-	cp -a resources scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
-	cp -a plugins scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
-	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
-	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
-	cp -a Power/power scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
-	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/Cura/version
-	cp scripts/linux/utils/curabydago_generic.desktop scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
-	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.ico
-	cp scripts/linux/${BUILD_TARGET}/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
-	cd scripts/linux/${BUILD_TARGET}
-	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
-	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
-	cd ..
-	zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz
-
-	if [ ! -d "packages" ]; then
-		mkdir packages
-	fi
-	mv -f ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
-
-	if [ ! -d "dist" ]; then
-		mkdir dist
-	fi
-	mv -f ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
-
-	exit
-fi
-
-#############################
-# Archive 64bit .tar.gz
-#############################
-
-if [ "$BUILD_TARGET" = "archive_amd64" ]; then
-  export CXX="g++ -m64"
-	if [ ! -d "Power" ]; then
-		git clone https://github.com/GreatFruitOmsk/Power
-	else
-		cd Power
-		git pull
-		cd ..
-	fi
-  #rm -rf CuraEngine
-  if [ ! -d "CuraEngine" ]; then
-  	git clone ${CURA_ENGINE_REPO}
-    git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
-    if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-  fi
-
-	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
-	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
-
+if [[ $BUILD_TARGET == archive* ]]; then
 	rm -rf scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}
 	mkdir -p scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}
 	cp -a Cura scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
@@ -484,95 +267,15 @@ if [ "$BUILD_TARGET" = "archive_amd64" ]; then
 	exit
 fi
 
-if [ "$BUILD_TARGET" = "appimage" ]; then
-  echo ${CURA_DIR}
-  CURABYDAGO_BUILDDIR=scripts/linux/AppImage
-  CURABYDAGO_APPDIRNAME=CuraByDagoma
-  CURABYDAGO_APPDIR=${CURABYDAGO_BUILDDIR}/${CURABYDAGO_APPDIRNAME}
-
-  #if [ -d "${CURABYDAGO_APPDIR}/usr" ]; then
-    rm -rf ${CURABYDAGO_APPDIR}/usr
-    mkdir -p ${CURABYDAGO_APPDIR}/usr
-  #fi
-
-  # Python and its needed dependencies
-  #if [ ! -d "debs" ]; then
-    mkdir -p ${CURABYDAGO_BUILDDIR}/debs
-    cd ${CURABYDAGO_BUILDDIR}/debs
-    # python-setuptools
-    #apt-get download python-pkg-resources python-setuptools
-    # python-gtk2
-    apt-get download libatk1.0-0 libc6 libcairo2 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk2.0-0 libpango-1.0-0 libpangocairo-1.0-0 python-cairo python-gobject-2 python-gtk2
-    # python-wxversion
-    apt-get download python-wxversion
-    # python-wxgtk3.0
-    apt-get download libgcc1 libstdc++6 libwxbase3.0-0v5 libwxgtk3.0-0v5 python-wxgtk3.0
-    # python-serial
-    #apt-get download python-serial
-    # python-numpy
-    #apt-get download libatlas3-base libblas3 libopenblas-base liblapack3 python-numpy
-    # python-opengl
-    #apt-get download python-ctypeslib libgl1-mesa-dev  libgl1-mesa-dri libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev python-opengl
-    # freeglut3
-    apt-get download libgl1-mesa-glx libx11-6 libxi6 libxxf86vm1 freeglut3
-    # freeglut3-dev
-    #apt-get download libxext6 libxext-dev libxt6 libxt-dev freeglut3-dev
-    # ...?
-    apt-get download libglapi-mesa libgfortran3
-    cd ../${CURABYDAGO_APPDIRNAME}
-  #fi
-
-  virtualenv --python=python2.7 usr
-  source ./usr/bin/activate
-  pip install PyOpenGL PyOpenGL_accelerate numpy pyserial
-  find ../debs/ -name *deb -exec dpkg -x {} . \;
-  deactivate
-
-  rm ./usr/lib/python2.7/dist-packages/wx.pth
-  ln -s ../../wx/python/wx3.0.pth ./usr/lib/python2.7/dist-packages/wx.pth
-  #cp /usr/lib/x86_64-linux-gnu/libglut.so.3 ./usr/lib/x86_64-linux-gnu/
-
-  #cp -r /usr/lib/python2.7/dist-packages/OpenGL ./usr/lib/python2.7/dist-packages/
-  #cp /usr/lib/x86_64-linux-gnu/libglut.so.3.9.0 ./usr/lib/x86_64-linux-gnu/
-  #flags 'freeglut_ext.xml -l ./usr/lib/x86_64-linux-gnu/libglut.so.3 -o freeglut_ext.py -v -kf'
-
-  # Cura
-  mkdir -p ./usr/share/curabydago
-	cp -a ${CURA_DIR}/Cura ./usr/share/curabydago/
-	cp -a ${CURA_DIR}/resources ./usr/share/curabydago/
-	cp -a ${CURA_DIR}/plugins ./usr/share/curabydago/
-	cp -a ${CURA_DIR}/CuraEngine/build/CuraEngine ./usr/share/curabydago/
-	cp -a ${CURA_DIR}/Power/power ./usr/share/curabydago/
-	echo $BUILD_NAME > ./usr/share/curabydago/Cura/version
-
-  # Stuff to create AppImage
-  CURABYDAGO_UTILSDIR="${CURA_DIR}/scripts/linux/utils"
-  cp ${CURABYDAGO_UTILSDIR}/cura.py ./usr/share/curabydago/
-  cp ${CURABYDAGO_UTILSDIR}/curabydago ./usr/bin/
-  cp ${CURABYDAGO_UTILSDIR}/AppRun .
-  cp ${CURABYDAGO_UTILSDIR}/curabydago.desktop .
-  cp ${CURABYDAGO_UTILSDIR}/curabydago.png .
-	cp ${CURABYDAGO_UTILSDIR}/test.py .
-
-  # Create the AppImage
-  if [ -f "Cura-by-dagoma-Easy200-x86_64.AppImage" ]; then
-    rm "Cura-by-dagoma-Easy200-x86_64.AppImage"
-  fi
-
-  cd ${CURA_DIR}
-  ${CURABYDAGO_UTILSDIR}/appimagetool-x86_64.AppImage -v ${CURABYDAGO_APPDIR} ./scripts/linux/AppImage/Cura-by-dagoma-Easy200-x86_64.AppImage
-	exit
-fi
-
-#############################
-# Rest
-#############################
-
 #############################
 # Download all needed files.
 #############################
-
-if [ $BUILD_TARGET = "win32" ]; then
+if [[ $BUILD_TARGET == win32 ]]; then
+	##Which versions of external programs to use
+	WIN_PORTABLE_PY_VERSION=2.7.2.1
+	#Check if we have 7zip, needed to extract and packup a bunch of packages for windows.
+	checkTool 7z "7zip: http://www.7-zip.org/"
+	checkTool mingw32-make "mingw: http://www.mingw.org/"
 	#Get portable python for windows and extract it. (Linux and Mac need to install python themselfs)
 	downloadURL http://ftp.nluug.nl/languages/python/portablepython/v2.7/PortablePython_${WIN_PORTABLE_PY_VERSION}.exe
 	downloadURL http://sourceforge.net/projects/pyserial/files/pyserial/2.5/pyserial-2.5.win32.exe
@@ -582,25 +285,14 @@ if [ $BUILD_TARGET = "win32" ]; then
 	#downloadURL http://ffmpeg.zeranoe.com/builds/win32/static/ffmpeg-20120927-git-13f0cd6-win32-static.7z
 	downloadURL http://sourceforge.net/projects/comtypes/files/comtypes/0.6.2/comtypes-0.6.2.win32.exe
 	downloadURL http://www.uwe-sieber.de/files/ejectmedia.zip
-	#Get the power module for python
-	rm -rf Power
-	git clone https://github.com/GreatFruitOmsk/Power
-	# rm -rf CuraEngine # By Dagoma ne pas redownload CuraEngine pour win32
-	if [ ! -d "CuraEngine" ]; then
-		git clone ${CURA_ENGINE_REPO}
-		git --git-dir=CuraEngine/.git --work-tree=CuraEngine checkout ${CURAENGINE_VERSION}
-		if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-	fi
-fi
 
-#############################
-# Build the packages
-#############################
-rm -rf ${TARGET_DIR}
-mkdir -p ${TARGET_DIR}
+	#############################
+	# Build the packages
+	#############################
+	rm -rf ${BUILD_NAME}
+	mkdir -p ${BUILD_NAME}
+	rm -f log.txt
 
-rm -f log.txt
-if [ $BUILD_TARGET = "win32" ]; then
 	#For windows extract portable python to include it.
 	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/App
 	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/Lib/site-packages
@@ -615,22 +307,22 @@ if [ $BUILD_TARGET = "win32" ]; then
 	extract ejectmedia.zip Win32
 	echo "extract Finished"
 
-	mkdir -p ${TARGET_DIR}/python
-	mkdir -p ${TARGET_DIR}/Cura/
-	mv \$_OUTDIR/App/* ${TARGET_DIR}/python
-	mv \$_OUTDIR/Lib/site-packages/wx* ${TARGET_DIR}/python/Lib/site-packages/
-	mv PURELIB/serial ${TARGET_DIR}/python/Lib
-	mv PURELIB/OpenGL ${TARGET_DIR}/python/Lib
-	mv PURELIB/comtypes ${TARGET_DIR}/python/Lib
-	mv PLATLIB/numpy ${TARGET_DIR}/python/Lib
-	mv Power/power ${TARGET_DIR}/python/Lib
-	mv VideoCapture-0.9-5/Python27/DLLs/vidcap.pyd ${TARGET_DIR}/python/DLLs
-	#mv ffmpeg-20120927-git-13f0cd6-win32-static/bin/ffmpeg.exe ${TARGET_DIR}/Cura/
-	#mv ffmpeg-20120927-git-13f0cd6-win32-static/licenses ${TARGET_DIR}/Cura/ffmpeg-licenses/
-	mv Win32/EjectMedia.exe ${TARGET_DIR}/Cura/
+	mkdir -p ${BUILD_NAME}/python
+	mkdir -p ${BUILD_NAME}/Cura/
+	mv \$_OUTDIR/App/* ${BUILD_NAME}/python
+	mv \$_OUTDIR/Lib/site-packages/wx* ${BUILD_NAME}/python/Lib/site-packages/
+	mv PURELIB/serial ${BUILD_NAME}/python/Lib
+	mv PURELIB/OpenGL ${BUILD_NAME}/python/Lib
+	mv PURELIB/comtypes ${BUILD_NAME}/python/Lib
+	mv PLATLIB/numpy ${BUILD_NAME}/python/Lib
+	cp -a Power/power ${BUILD_NAME}/python/Lib
+	mv VideoCapture-0.9-5/Python27/DLLs/vidcap.pyd ${BUILD_NAME}/python/DLLs
+	#mv ffmpeg-20120927-git-13f0cd6-win32-static/bin/ffmpeg.exe ${BUILD_NAME}/Cura/
+	#mv ffmpeg-20120927-git-13f0cd6-win32-static/licenses ${BUILD_NAME}/Cura/ffmpeg-licenses/
+	mv Win32/EjectMedia.exe ${BUILD_NAME}/Cura/
 	echo "mv Finished"
 
-	rm -rf Power/
+	#rm -rf Power/
 	rm -rf \$_OUTDIR
 	rm -rf PURELIB
 	rm -rf PLATLIB
@@ -640,85 +332,50 @@ if [ $BUILD_TARGET = "win32" ]; then
 	echo "rm Finished"
 
 	#Clean up portable python a bit, to keep the package size down.
-	rm -rf ${TARGET_DIR}/python/PyScripter.*
-	rm -rf ${TARGET_DIR}/python/Doc
-	rm -rf ${TARGET_DIR}/python/locale
-	rm -rf ${TARGET_DIR}/python/tcl
-	rm -rf ${TARGET_DIR}/python/Lib/test
-	rm -rf ${TARGET_DIR}/python/Lib/distutils
-	rm -rf ${TARGET_DIR}/python/Lib/site-packages/wx-2.8-msw-unicode/wx/tools
-	rm -rf ${TARGET_DIR}/python/Lib/site-packages/wx-2.8-msw-unicode/wx/locale
+	rm -rf ${BUILD_NAME}/python/PyScripter.*
+	rm -rf ${BUILD_NAME}/python/Doc
+	rm -rf ${BUILD_NAME}/python/locale
+	rm -rf ${BUILD_NAME}/python/tcl
+	rm -rf ${BUILD_NAME}/python/Lib/test
+	rm -rf ${BUILD_NAME}/python/Lib/distutils
+	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-2.8-msw-unicode/wx/tools
+	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-2.8-msw-unicode/wx/locale
 	#Remove the gle files because they require MSVCR71.dll, which is not included. We also don't need gle, so it's safe to remove it.
-	rm -rf ${TARGET_DIR}/python/Lib/OpenGL/DLLS/gle*
+	rm -rf ${BUILD_NAME}/python/Lib/OpenGL/DLLS/gle*
 	echo "clean Finished"
 
-	#Build the C++ engine
-	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURAENGINE_VERSION}
-	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
-fi
+	#add Cura
+	mkdir -p ${BUILD_NAME}/Cura ${BUILD_NAME}/resources ${BUILD_NAME}/plugins
+	cp -a Cura/* ${BUILD_NAME}/Cura
+	cp -a resources/* ${BUILD_NAME}/resources
+	cp -a plugins/* ${BUILD_NAME}/plugins
+	#Add cura version file
+	echo $BUILD_NAME > ${BUILD_NAME}/Cura/version
+	echo "add cura Finished"
 
-#add Cura
-mkdir -p ${TARGET_DIR}/Cura ${TARGET_DIR}/resources ${TARGET_DIR}/plugins
-cp -a Cura/* ${TARGET_DIR}/Cura
-cp -a resources/* ${TARGET_DIR}/resources
-cp -a plugins/* ${TARGET_DIR}/plugins
-#Add cura version file
-echo $BUILD_NAME > ${TARGET_DIR}/Cura/version
-echo "add cura Finished"
-
-
-#add script files
-if [ $BUILD_TARGET = "win32" ]; then
-	cp -a scripts/${BUILD_TARGET}/*.bat $TARGET_DIR/
-	#cp Win32CuraEngine/CuraEngine.exe $TARGET_DIR #Add by dagoma
-	cp CuraEngine/build/CuraEngine.exe $TARGET_DIR
+	#package the result
+	cp -a scripts/${BUILD_TARGET}/*.bat $BUILD_NAME/
+	cp CuraEngine/build/CuraEngine.exe $BUILD_NAME
 	# The following lines are used if CuraEngine is not compiled as static executable.
-	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libgcc_s_sjlj-1.dll $TARGET_DIR
-	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libwinpthread-1.dll $TARGET_DIR
-	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libstdc++-6.dll $TARGET_DIR
-	echo "add script Finished"
+	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libgcc_s_sjlj-1.dll $BUILD_NAME
+	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libwinpthread-1.dll $BUILD_NAME
+	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libstdc++-6.dll $BUILD_NAME
+	echo "add scripts and executables Finished"
 
-else
-    cp -a scripts/${BUILD_TARGET}/*.sh $TARGET_DIR/
-fi
-
-#package the result
-if (( ${ARCHIVE_FOR_DISTRIBUTION} )); then
-	echo "ARCHIVE_FOR_DISTRIBUTION"
-
-	if [ $BUILD_TARGET = "win32" ]; then
-		#rm ${TARGET_DIR}.zip
-		#cd ${TARGET_DIR}
-		#7z a ../${TARGET_DIR}.zip *
-		#cd ..
-
-		# if [ ! -z `which wine` ]; then
-		# 	#if we have wine, try to run our nsis script.
-		# 	rm -rf scripts/win32/dist
-		# 	ln -sf `pwd`/${TARGET_DIR} scripts/win32/dist
-		# 	wine ~/.wine/drive_c/Program\ Files/NSIS/makensis.exe /DVERSION=${BUILD_NAME} scripts/win32/installer.nsi
-  		#           if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
-		# 	mv scripts/win32/Cura_${BUILD_NAME}.exe ./
-		# fi
-		if [ -f '/c/Program Files (x86)/NSIS/makensis.exe' ]; then
-			rm -rf scripts/win32/dist
-			mv `pwd`/${TARGET_DIR} scripts/win32/dist
-			echo ${BUILD_NAME}
-			'/c/Program Files (x86)/NSIS/makensis.exe' -DVERSION=${BUILD_NAME} 'scripts/win32/installer.nsi' >> log.txt
-            if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
-			mv scripts/win32/${BUILD_NAME}.exe ./
-	        if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
-			mv ./${BUILD_NAME}.exe ./${BUILD_NAME_INSTALL}.exe
-	        if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${BUILD_NAME_INSTALL}.exe"; exit 1; fi
-	        echo 'Good Job, All Works Well !!! :)'
-		else
-			echo "no makensis"
-		fi
+	if [ -f '/c/Program Files (x86)/NSIS/makensis.exe' ]; then
+		rm -rf scripts/win32/dist
+		mv `pwd`/${BUILD_NAME} scripts/win32/dist
+		echo ${BUILD_NAME}
+		'/c/Program Files (x86)/NSIS/makensis.exe' -DVERSION=${BUILD_NAME} 'scripts/win32/installer.nsi' >> log.txt
+		if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
+		mv scripts/win32/${BUILD_NAME}.exe ./
+		if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
+		mv ./${BUILD_NAME}.exe ./${BUILD_NAME_INSTALL}.exe
+		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${BUILD_NAME_INSTALL}.exe"; exit 1; fi
+		echo 'Good Job, All Works Well !!! :)'
 	else
-		echo "Archiving to ${TARGET_DIR}.tar.gz"
-		$TAR cfp - ${TARGET_DIR} | gzip --best -c > ${TARGET_DIR}.tar.gz
+		echo "No makensis"
 	fi
-else
-	echo "Installed into ${TARGET_DIR}"
+
+	exit
 fi
