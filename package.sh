@@ -15,37 +15,45 @@ MACHINE_NAME="Easy200"
 ##- debian
 ##- archive
 case "$1" in
-win32|darwin)
-	BUILD_TARGET=$1
-	;;
-archive|debian)
-	LINUX_TARGET_NAME="curabydago-"${MACHINE_NAME,,}
-	case "$2" in
-	32)
-		BUILD_TARGET=$1_i386
-		export CXX="g++ -m$2"
+	darwin)
+		OS=Darwin
+		BUILD_TARGET=$1
+		CXX=g++
 		;;
-	64)
-		BUILD_TARGET=$1_amd64
-		export CXX="g++ -m$2"
+	win32)
+		OS=Windows_NT
+		BUILD_TARGET=$1
+		CXX=g++
+		export LDFLAGS=--static
+		;;
+	archive|debian)
+		OS=Linux
+		LINUX_TARGET_NAME="curabydago-"${MACHINE_NAME,,}
+		case "$2" in
+		32)
+			BUILD_TARGET=$1_i386
+			CXX="g++ -m$2"
+			;;
+		64)
+			BUILD_TARGET=$1_amd64
+			CXX="g++ -m$2"
+			;;
+		*)
+			echo "You need to specify a build architecture with:"
+			echo "$0 archive|debian 32|64"
+			exit 0
+			;;
+		esac
 		;;
 	*)
-		echo "You need to specify a build architecture with:"
-		echo "$0 archive|debian 32|64"
+		echo "You need to specify a build target with:"
+		echo "$0 win32"
+		echo "$0 debian"
+		echo "$0 archive"
+		echo "$0 darwin"
 		exit 0
 		;;
-	esac
-	;;
-*)
-	echo "You need to specify a build target with:"
-	echo "$0 win32"
-	echo "$0 debian"
-	echo "$0 archive"
-	echo "$0 darwin"
-	exit 0
-	;;
 esac
-
 
 ##Which version name are we appending to the final archive
 BUILD_NAME="Cura-by-Dagoma-"${MACHINE_NAME}
@@ -59,10 +67,8 @@ CURA_ENGINE_REPO="https://github.com/Ultimaker/CuraEngine"
 POWER_REPO="https://github.com/GreatFruitOmsk/Power"
 
 ## CuraEngine version to build
-## Info : The version of binary used to build Cura for windows and Mac is 14.09
-## Latest 14.x version is 14.12.1
-## Latest 15.04.x version is 15.04.6
-CURA_ENGINE_VERSION=14.12.1
+## Four more info, please check https://github.com/daid/LegacyCura/blob/SteamEngine/package.sh
+CURA_ENGINE_VERSION=legacy
 
 # Change working directory to the directory the script is in
 # http://stackoverflow.com/a/246128
@@ -122,7 +128,7 @@ fi
 # Build CuraEngine
 if [ ! -d "CuraEngine/build" ]; then
 	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION}
+	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX=${CXX}
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 fi
 
