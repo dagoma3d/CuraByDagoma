@@ -79,26 +79,31 @@ class EngineResult(object):
 		cost_kg = profile.getProfileSettingFloat('filament_cost_kg')
 		cost_meter = profile.getProfileSettingFloat('filament_cost_meter')
 		if cost_kg > 0.0 and cost_meter > 0.0:
-			return "%.2f euros / %.2f euros" % (self.getFilamentWeight(e) * cost_kg, self._filamentMM[e] / 1000.0 * cost_meter)
+			return "%.2f %s / %.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("euros"), self._filamentMM[e] / 1000.0 * cost_meter, _("euros"))
 		elif cost_kg > 0.0:
-			return "%.2f euros" % (self.getFilamentWeight(e) * cost_kg)
+			return "%.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("euros"))
 		elif cost_meter > 0.0:
-			return "%.2f euros" % (self._filamentMM[e] / 1000.0 * cost_meter)
+			return "%.2f %s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("euros"))
 		return None
 
 	def getPrintTime(self):
 		if self._printTimeSeconds is None:
 			return ''
 		if int(self._printTimeSeconds / 60 / 60) < 1:
-			return '%d minutes' % (int(self._printTimeSeconds / 60) % 60)
+			return '%d %s' % (int(self._printTimeSeconds / 60) % 60, _("minutes"))
 		if int(self._printTimeSeconds / 60 / 60) == 1:
-			return '%d %s %d minutes' % (int(self._printTimeSeconds / 60 / 60), _("hours"), int(self._printTimeSeconds / 60) % 60)
-		return '%d %s %d minutes' % (int(self._printTimeSeconds / 60 / 60), _("hours"), int(self._printTimeSeconds / 60) % 60)
+			return '%d %s %d %s' % (int(self._printTimeSeconds / 60 / 60), _("hours"), int(self._printTimeSeconds / 60) % 60, _("minutes"))
+		return '%d %s %d %s' % (int(self._printTimeSeconds / 60 / 60), _("hours"), int(self._printTimeSeconds / 60) % 60, _("minutes"))
 
-	def getFilamentAmount(self, e=0):
+	def getFilamentMeters(self, e=0):
 		if self._filamentMM[e] == 0.0:
 			return None
-		return '%0.2f %s / %0.0f grammes' % (float(self._filamentMM[e]) / 1000.0, _("meters"), self.getFilamentWeight(e) * 1000.0)
+		return '%0.2f %s' % (float(self._filamentMM[e]) / 1000.0, _("meters"))
+
+	def getFilamentGrams(self, e=0):
+		if self._filamentMM[e] == 0.0:
+			return None
+		return '%0.0f %s' % (self.getFilamentWeight(e) * 1000.0, _("grams"))
 
 	def getLog(self):
 		return self._engineLog

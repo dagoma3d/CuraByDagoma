@@ -15,7 +15,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>33.20</filament_cost_kg>
-      <filament_cost_meter>0.110</filament_cost_meter>
     </Filament>
   <Filament name="PLA OctoFiber">
       <print_temperature>210</print_temperature>
@@ -25,7 +24,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>39.98</filament_cost_kg>
-      <filament_cost_meter>0.133</filament_cost_meter>
     </Filament>
 	<Filament name="PLA Filo3D">
       <print_temperature>205</print_temperature>
@@ -35,7 +33,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>59.6</filament_cost_kg>
-      <filament_cost_meter>0.198</filament_cost_meter>
     </Filament>
     <Filament name="PLA Filo3D-VERT">
       <print_temperature>200</print_temperature>
@@ -45,7 +42,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>59.6</filament_cost_kg>
-      <filament_cost_meter>0.198</filament_cost_meter>
     </Filament>
     <Filament name="PLA Fiberlogy HD">
       <print_temperature>210</print_temperature>
@@ -55,7 +51,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>41.05</filament_cost_kg>
-      <filament_cost_meter>0.136</filament_cost_meter>
     </Filament>
     <Filament name="PLA Filo3D-ROUGE">
       <print_temperature>220</print_temperature>
@@ -65,7 +60,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>59.6</filament_cost_kg>
-      <filament_cost_meter>0.198</filament_cost_meter>
     </Filament>
   <Filament name="PLA PolyPlus">
       <print_temperature>210</print_temperature>
@@ -75,7 +69,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>46.53</filament_cost_kg>
-      <filament_cost_meter>0.155</filament_cost_meter>
     </Filament>
     <Filament name="PLA PolyMax">
       <print_temperature>210</print_temperature>
@@ -85,7 +78,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>59.86</filament_cost_kg>
-      <filament_cost_meter>0.199</filament_cost_meter>
     </Filament>
     <Filament name="PLA PolyFlex">
       <print_temperature>230</print_temperature>
@@ -95,7 +87,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>66.53</filament_cost_kg>
-      <filament_cost_meter>0.221</filament_cost_meter>
     </Filament>
     <Filament name="PLA PolyWood">
       <print_temperature>210</print_temperature>
@@ -105,7 +96,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>46.53</filament_cost_kg>
-      <filament_cost_meter>0.155</filament_cost_meter>
     </Filament>
     <!--
     <Filament name="PLA InnoFil">
@@ -129,7 +119,6 @@
       <retraction_amount>3.5</retraction_amount>
       <filament_physical_density>1270</filament_physical_density>
       <filament_cost_kg>46</filament_cost_kg>
-      <filament_cost_meter>0.153</filament_cost_meter>
     </Filament>
   </Bloc_Filaments>
 ;_______________________________________________________________________________________________________________________________________________________

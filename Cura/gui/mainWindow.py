@@ -719,7 +719,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.retraction_amount = '3.5'
 			self.filament_physical_density = '1270'
 			self.filament_cost_kg = '46'
-			self.filament_cost_meter = '0.153'
 
 	class Remplissage:
 		def __init__(self):
@@ -1048,7 +1047,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# Filament Settings
 		#self.setvalue_from_xml_pref(config_pref, 'filament_physical_density')
 		#self.setvalue_from_xml_pref(config_pref, 'filament_cost_kg')
-		#self.setvalue_from_xml_pref(config_pref, 'filament_cost_meter')
 		#Cura Settings
 		self.setvalue_from_xml_pref(config_pref, 'auto_detect_sd')
 		self.setvalue_from_xml_pref(config_pref, 'check_for_updates')
@@ -1073,7 +1071,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 				fila.retraction_amount = self.getNodeText(filament.getElementsByTagName("retraction_amount")[0])
 				fila.filament_physical_density = self.getNodeText(filament.getElementsByTagName("filament_physical_density")[0])
 				fila.filament_cost_kg = self.getNodeText(filament.getElementsByTagName("filament_cost_kg")[0])
-				fila.filament_cost_meter = self.getNodeText(filament.getElementsByTagName("filament_cost_meter")[0])
 				self.filaments.append(fila)
 			except:
 				print 'Some Error in Filament Bloc'
@@ -1267,7 +1264,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('retraction_amount', fila.retraction_amount)
 		profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
 		profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
-		profile.putProfileSetting('filament_cost_meter', fila.filament_cost_meter)
 
 	def Refresh_Rempli(self):
 		fill_index = self.radio_box_2.GetSelection()
@@ -1509,7 +1505,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		print "retraction_amount : ", profile.getProfileSetting('retraction_amount')
 		print "filament_physical_density : ", profile.getProfileSetting('filament_physical_density')
 		print "filament_cost_kg : ", profile.getProfileSetting('filament_cost_kg')
-		print "filament_cost_meter : ", profile.getProfileSetting('filament_cost_meter')
 		print "Température de base : ", self.spin_ctrl_1.GetValue()
 		print '*******************************************'
 		print "Remplissage : ", u''.join(self.radio_box_2.GetStringSelection()).encode('utf-8').strip()
