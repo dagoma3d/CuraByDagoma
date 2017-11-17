@@ -30,7 +30,7 @@ archive|debian)
 		export CXX="g++ -m$2"
 		;;
 	*)
-		echo "You need to specify a build architexture with:"
+		echo "You need to specify a build architecture with:"
 		echo "$0 archive|debian 32|64"
 		exit 0
 		;;
