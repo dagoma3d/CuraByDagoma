@@ -79,11 +79,11 @@ class EngineResult(object):
 		cost_kg = profile.getProfileSettingFloat('filament_cost_kg')
 		cost_meter = profile.getProfileSettingFloat('filament_cost_meter')
 		if cost_kg > 0.0 and cost_meter > 0.0:
-			return "%.2f %s / %.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("euros"), self._filamentMM[e] / 1000.0 * cost_meter, _("euros"))
+			return "%.2f %s / %.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("currency"), self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
 		elif cost_kg > 0.0:
-			return "%.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("euros"))
+			return "%.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("currency"))
 		elif cost_meter > 0.0:
-			return "%.2f %s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("euros"))
+			return "%.2f %s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
 		return None
 
 	def getPrintTime(self):
