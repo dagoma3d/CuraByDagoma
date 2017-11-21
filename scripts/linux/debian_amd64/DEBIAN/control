@@ -8,5 +8,5 @@ Essential: no
 Depends: python2.7, python-wxgtk2.8 | python-wxgtk3.0, python-opengl, python-serial, python-numpy
 Maintainer: Orel <orel@dagoma.fr>
 Provides: curabydago-easy200
-Installed-Size: 10000
+Installed-Size: 24000
 Description: CuraByDagoma Easy200 is a fork of Legacy Cura made by Dagoma for the DiscoEasy200 printer.
