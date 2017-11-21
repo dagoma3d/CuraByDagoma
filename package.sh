@@ -120,15 +120,15 @@ checkTool curl "curl: http://curl.haxx.se/"
 if [ ! -d "CuraEngine" ]; then
 	git clone ${CURA_ENGINE_REPO}
 	if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-	cd CuraEngine
-	git checkout ${CURA_ENGINE_VERSION}
-	cd ..
 fi
+cd CuraEngine
+git checkout ${CURA_ENGINE_VERSION}
+cd ..
 
 # Build CuraEngine
-if [ ! -d "CuraEngine/build" ]; then
+if [[ $BUILD_TARGET != darwin ]]; then
 	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX=${CXX}
+	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 fi
 
