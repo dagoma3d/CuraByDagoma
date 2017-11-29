@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Dagoma_XML_Config>
-  <Bloc_Initialisation />
-
 ;XML for Neva - le 11 avril 2017
 ;_______________________________________________________________________________________________________________________________________________________
 ;Definition des filaments
@@ -356,27 +354,4 @@ G90
 G28
     </Gend>
   </GCODE>
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des textes d'installation
-;_______________________________________________________________________________________________________________________________________________________
-  <Text>
-    <Version>V1.0.7</Version>
-    <FirstInfoPage title="Première Utilisation">
-      <Line1>Bienvenue, merci d'avoir choisi Cura by Dagoma Neva !</Line1>
-      <Line2>Nous allons maintenant vous accompagner tout au long de la configuration ainsi que la première utilisation de votre imprimante 3D.</Line2>
-    </FirstInfoPage>
-    <LanguageSelectPage title="Language">
-      <Line1>What's your favorite language ?</Line1>
-    </LanguageSelectPage>
-    <MachineSelectPage title="Votre Machine">
-      <Line1>Quel modèle d'imprimante 3D possédez-vous ?</Line1>
-    </MachineSelectPage>
-    <DiscoveryPage title="Configuration de votre Cura By Dagoma Neva">
-      <Line1>Encore une fois, toute l’équipe Dagoma vous remercie de votre confiance.</Line1>
-      <Line2>Votre logiciel Cura By Dagoma Neva est maintenant prêt à être utilisé avec votre imprimante 3D.</Line2>
-      <Line3>Nous sommes à votre écoute sur www.dagoma.fr/nous-contacter.html</Line3>
-      <Line4>Bonne découverte à tous !</Line4>
-      <Line5> </Line5>
-    </DiscoveryPage>
-  </Text>
 </Dagoma_XML_Config>

@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2013
+# Copyright (C) 2017
 # This file is distributed under the same license as the Cura package.
-# Ilya Kulakov <kulakov.ilya@gmail.com>, 2013.
+# Orel <orel@dagoma.fr>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-11-17 20:22+0100\n"
+"PO-Revision-Date: 2017-11-29 17:03+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -2694,65 +2694,46 @@ msgstr ""
 "donne généralement de mauvais résultats et n'est pas recommandée."
 
 #: Cura/gui/configWizard.py
-msgid "Première Utilisation"
-msgstr ""
+msgid "First Use"
+msgstr "Première Utilisation"
 
-msgid "Assistant de configuration"
-msgstr ""
+msgid "Configuration wizard"
+msgstr "Assistant de configuration"
 
-msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Easy200 !"
-msgstr ""
-
-msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Neva !"
-msgstr ""
-
-msgid "Bienvenue, merci d'avoir choisi Cura by Dagoma Explorer350 !"
-msgstr ""
+msgid "Welcome! Thank you for using Cura by Dagoma %s"
+msgstr "Bienvenue, merci d'avoir choisi Cura by Dagoma %s !"
 
 msgid ""
+"We are now going to assist you for the entire configuration as well as for "
+"the first use of your 3D printer."
+msgstr ""
 "Nous allons maintenant vous accompagner tout au long de la configuration "
 "ainsi que la première utilisation de votre imprimante 3D."
-msgstr ""
 
-msgid "Votre Machine"
-msgstr ""
+msgid "Your printer"
+msgstr "Votre Machine"
 
-msgid "Quel modèle d'imprimante 3D possédez-vous ?"
-msgstr ""
+msgid "What type of 3D printer have you got?"
+msgstr "Quel modèle d'imprimante 3D possédez-vous ?"
 
-msgid "Configuration de votre Cura By Dagoma Easy200"
-msgstr ""
+msgid "Configuration of your Cura by Dagoma %s"
+msgstr "Configuration de votre Cura By Dagoma %s"
 
-msgid "Configuration de votre Cura By Dagoma Neva"
+msgid "Dagoma would like to thank you again for your trust."
 msgstr ""
-
-msgid "Configuration de votre Cura By Dagoma Explorer350"
-msgstr ""
-
-msgid ""
 "Encore une fois, toute l’équipe Dagoma vous remercie de votre confiance."
-msgstr ""
 
 msgid ""
-"Votre logiciel Cura By Dagoma Easy200 est maintenant prêt à être utilisé "
-"avec votre imprimante 3D."
+"Your Cura by Dagoma %s freeware is now ready to use with your 3D printer."
 msgstr ""
-
-msgid ""
-"Votre logiciel Cura By Dagoma Neva est maintenant prêt à être utilisé avec "
+"Votre logiciel Cura By Dagoma %s est maintenant prêt à être utilisé avec "
 "votre imprimante 3D."
-msgstr ""
 
-msgid ""
-"Votre logiciel Cura By Dagoma Explorer350 est maintenant prêt à être utilisé "
-"avec votre imprimante 3D."
-msgstr ""
+msgid "You can reach us on contact@dagoma.us"
+msgstr "Nous sommes à votre écoute sur www.dagoma.fr/nous-contacter.html"
 
-msgid "Nous sommes à votre écoute sur www.dagoma.fr/nous-contacter.html"
-msgstr ""
-
-msgid "Bonne découverte à tous !"
-msgstr ""
+msgid "Enjoy!"
+msgstr "Bonne découverte à tous !"
 
 #: Cura/gui/mainWindow.py
 msgid "Autre PLA"

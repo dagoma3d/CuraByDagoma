@@ -24,15 +24,7 @@ from Cura.util import resources
 from xml.dom import minidom
 
 doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
-
-def getNodeText(node):
-	nodelist = node.childNodes
-	result = []
-	for node in nodelist:
-		if node.nodeType == node.TEXT_NODE:
-			result.append(node.data)
-	return ''.join(result)
-
+printername = doc.getElementsByTagName("Printer")[0].getElementsByTagName("machine_name")[0].childNodes[0].data
 
 class InfoBox(wx.Panel):
 	def __init__(self, parent):
@@ -237,29 +229,18 @@ class FirstInfoPage(InfoPage):
 		# if addNew:
 		# 	super(FirstInfoPage, self).__init__(parent, _("Add new machine wizard"))
 		# else:
-		firstpage = doc.getElementsByTagName("FirstInfoPage")[0]
-		super(FirstInfoPage, self).__init__(parent, _(firstpage.getAttribute("title")))
-		self.AddText(_(getNodeText(firstpage.getElementsByTagName("Line1")[0])))
+		super(FirstInfoPage, self).__init__(parent, _("First Use"))
+		self.AddText(_("Welcome! Thank you for using Cura by Dagoma %s") % printername)
 		self.AddSeperator()
-		self.AddText(_(getNodeText(firstpage.getElementsByTagName("Line2")[0])))
-		# self.AddText(_("This wizard will help you with the following steps:"))
-		# self.AddText(_("* Configure Cura for your machine"))
-		# self.AddText(_("* Optionally upgrade your firmware"))
-		# self.AddText(_("* Optionally check if your machine is working safely"))
-		# self.AddText(_("* Optionally level your printer bed"))
-
-		#self.AddText('* Calibrate your machine')
-		#self.AddText('* Do your first print')
+		self.AddText(_("We are now going to assist you for the entire configuration as well as for the first use of your 3D printer."))
 
 	def AllowBack(self):
 		return False
 
 class LanguageSelectPage(InfoPage):
 	def __init__(self, parent):
-		page = doc.getElementsByTagName("LanguageSelectPage")[0]
-
-		super(LanguageSelectPage, self).__init__(parent, _(page.getAttribute("title")))
-		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
+		super(LanguageSelectPage, self).__init__(parent, _("Language"))
+		self.AddText(_("What's your favorite language ?"))
 
 		self.FrRadio = self.AddRadioButton("Français".decode("utf-8"))
 		#self.FrRadio = self.AddRadioButton(_("French"))
@@ -425,14 +406,10 @@ class CustomRepRapInfoPage(InfoPage):
 
 class MachineSelectPage(InfoPage):
 	def __init__(self, parent):
-		page = doc.getElementsByTagName("MachineSelectPage")[0]
-
-		super(MachineSelectPage, self).__init__(parent, _(page.getAttribute("title")))
-		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
+		super(MachineSelectPage, self).__init__(parent, _("Your printer"))
+		self.AddText(_("What type of 3D printer have you got?"))
 
 		try:
-			printerinfo = doc.getElementsByTagName("Printer")[0];
-			printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
 			self.DiscoveryRadio = self.AddRadioButton(printername, style=wx.RB_GROUP)
 			self.DiscoveryRadio.Bind(wx.EVT_RADIOBUTTON, self.OnDiscoverySelect)
 			self.DiscoveryRadio.SetValue(True)
@@ -524,9 +501,9 @@ class MachineSelectPage(InfoPage):
 			def getxml_disco(doc, two):
 				return getNodeText(doc.getElementsByTagName("Printer")[0].getElementsByTagName(two)[0])
 
-			def setvalue_from_xml(varibale, doc = doc):
+			def setvalue_from_xml(variable, doc = doc):
 				try:
-					profile.putMachineSetting(varibale, getxml_disco(doc, varibale))
+					profile.putMachineSetting(variable, getxml_disco(doc, variable))
 				except:
 					pass
 
@@ -996,15 +973,13 @@ class Ultimaker2ReadyPage(InfoPage):
 
 class DiscoveryReadyPage(InfoPage):
 	def __init__(self, parent):
-		page = doc.getElementsByTagName("DiscoveryPage")[0]
-		super(DiscoveryReadyPage, self).__init__(parent, _(page.getAttribute("title")))
+		super(DiscoveryReadyPage, self).__init__(parent, _("Configuration of your Cura by Dagoma %s") % printername)
 
-		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
-		self.AddText(_(getNodeText(page.getElementsByTagName("Line2")[0])))
-		self.AddText(_(getNodeText(page.getElementsByTagName("Line3")[0])))
+		self.AddText(_("Dagoma would like to thank you again for your trust."))
+		self.AddText(_("Your Cura by Dagoma %s freeware is now ready to use with your 3D printer." % printername))
+		self.AddText(_("You can reach us on contact@dagoma.us"))
 		self.AddSeperator()
-		self.AddText(_(getNodeText(page.getElementsByTagName("Line4")[0])))
-		self.AddText(_(getNodeText(page.getElementsByTagName("Line5")[0])))
+		self.AddText(_("Enjoy!"))
 		# self.AddText('A très bientôt sur'.decode('utf-8'))
 		# self.AddText('Et d\'ici la, nous vous souhaitons de très bonnes impressions !'.decode('utf-8'))
 		# self.linkweb = hl.HyperLinkCtrl(self, wx.ID_ANY, 'contact@dagoma.fr﻿'.decode('utf-8'), URL="http://www.dagoma.fr/contact/", pos=(545,88))
@@ -1012,7 +987,7 @@ class DiscoveryReadyPage(InfoPage):
 
 class configWizard(wx.wizard.Wizard):
 	def __init__(self, addNew = False):
-		super(configWizard, self).__init__(None, -1, _("Assistant de configuration"))
+		super(configWizard, self).__init__(None, -1, _("Configuration wizard"))
 
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGING, self.OnPageChanging)

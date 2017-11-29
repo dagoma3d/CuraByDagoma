@@ -25,17 +25,6 @@ from Cura.util import resources
 from Cura.util import resources
 from xml.dom import minidom
 
-doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
-
-def getNodeText(node):
-	nodelist = node.childNodes
-	result = []
-	for node in nodelist:
-		if node.nodeType == node.TEXT_NODE:
-			result.append(node.data)
-	return ''.join(result)
-
-
 class InfoBox(wx.Panel):
 	def __init__(self, parent):
 		super(InfoBox, self).__init__(parent)
@@ -236,10 +225,8 @@ class InfoPage(wx.wizard.WizardPageSimple):
 
 class LanguageSelectPage(InfoPage):
 	def __init__(self, parent):
-		page = doc.getElementsByTagName("LanguageSelectPage")[0]
-
-		super(LanguageSelectPage, self).__init__(parent, _(page.getAttribute("title")))
-		self.AddText(_(getNodeText(page.getElementsByTagName("Line1")[0])))
+		super(LanguageSelectPage, self).__init__(parent, _("Language"))
+		self.AddText(_("What's your favorite language ?"))
 
 		self.FrRadio = self.AddRadioButton("Français".decode("utf-8"))
 		#self.FrRadio = self.AddRadioButton(_("French"))
@@ -288,7 +275,7 @@ class LanguageSelectPage(InfoPage):
 
 class languageWizard(wx.wizard.Wizard):
 	def __init__(self, addNew = False):
-		super(languageWizard, self).__init__(None, -1, _("Assistant de configuration"))
+		super(languageWizard, self).__init__(None, -1, _("Configuration wizard"))
 
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGING, self.OnPageChanging)

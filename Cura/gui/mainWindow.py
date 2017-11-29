@@ -47,13 +47,9 @@ class mainWindow(wx.Frame):
 		except:
 			pass
 
-		try:
-			appinfo = doc.getElementsByTagName("Text")[0];
-			appversion = appinfo.getElementsByTagName("Version")[0].childNodes[0].data
-			windowtitle = windowtitle + ' ' + appversion
-		except:
-			pass
-		super(mainWindow, self).__init__(None, title=windowtitle)#+doc.getElementsByTagName("Version")[0])# version.getVersion()
+		windowtitle = windowtitle + ' 1.0.7'
+		
+		super(mainWindow, self).__init__(None, title=windowtitle)
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
