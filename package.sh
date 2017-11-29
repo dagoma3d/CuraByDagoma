@@ -92,12 +92,9 @@ case "$2" in
 esac
 
 # Remove config files and add them according to the printer name.
-rm -rf ./MAC_resources
-cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/MAC_resources .
+cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/resources .
 rm -rf ./plugins
 cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/plugins .
-rm -rf ./resources
-cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/resources .
 rm -rf ./scripts
 cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/scripts .
 
@@ -228,7 +225,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'cp'
 	mv dist/Cura.app dist/${BUILD_NAME}.app
 	cp -a dist/${BUILD_NAME}.app /Volumes/${BUILD_NAME}/
-	cp -a ../../MAC_resources/.background.png /Volumes/${BUILD_NAME}/
+	cp -a ../../resources/images/.background.png /Volumes/${BUILD_NAME}/
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
