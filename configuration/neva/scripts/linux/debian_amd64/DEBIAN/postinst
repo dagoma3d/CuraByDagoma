@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+echo 'Removing configuration files stored in ~/.curaByDagomaNeva/ ...'
+rm -rf ~/.curaByDagomaNeva/
+echo 'Install ok!'
+
+exit 0

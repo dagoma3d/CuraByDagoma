@@ -3,9 +3,8 @@ scripts/linux/AppImage
 scripts/linux/debian_amd64/usr
 scripts/linux/debian_i386/usr
 scripts/linux/*.deb
-script/linux/dist
-script/linux/packages
 scripts/win32/dist
+script/linux/dist
 Power
 CuraEngine
 Cura-Cura-by-Dagoma-*
@@ -19,5 +18,4 @@ DmgTemplateCompressed_*.dmg
 DmgTemplateCompressed-*.dmg
 *.DS_Store
 *.sparseimage
-resources/meshes/badge_dagoma_test.stl
 scripts/darwin/*.sparsebundle

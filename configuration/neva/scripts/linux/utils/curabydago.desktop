@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Cura-by-dagoma-Neva
+Comment=Cura-by-dagoma-Neva
+Icon=/usr/share/icons/curabydago/curabydago-neva.ico
+Exec=/usr/bin/python2.7 /usr/share/curabydago-neva/cura.py
+Path=/usr/share/curabydago-neva/
+StartupNotify=true
+Terminal=false
+Categories=GNOME;GTK;Utility;

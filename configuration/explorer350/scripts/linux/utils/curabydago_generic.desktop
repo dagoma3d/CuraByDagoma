@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Cura-by-dagoma-Explorer350
+Comment=Cura-by-dagoma-Explorer350
+Icon=./curabydago-explorer350.ico
+Exec=python2.7 ./curabydago-explorer350/cura.py
+Path=./curabydago-explorer350/
+StartupNotify=true
+Terminal=false
+Categories=GNOME;GTK;Utility;

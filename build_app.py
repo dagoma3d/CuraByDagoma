@@ -5,15 +5,16 @@ import os
 if sys.platform.startswith('darwin'):
     from setuptools import setup
 
-    version = os.environ['BUILD_NAME']
+    build_version = os.environ['BUILD_VERSION']
+    build_name = os.environ['BUILD_NAME']
 
     APP = ['Cura/cura.py']
     DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/firmware', 'resources/locale', 'resources/machine_profiles','resources/XML', 'plugins']
     PLIST = {
-        u'CFBundleName': u'Cura-By-Dagoma-Easy200',
-        u'CFBundleShortVersionString': version,
-        u'CFBundleVersion': version,
-        u'CFBundleIdentifier': u'com.dagomma.Cura-By-Dagoma-Easy200-'+version,
+        u'CFBundleName': build_name,
+        u'CFBundleShortVersionString': build_version,
+        u'CFBundleVersion': build_version,
+        u'CFBundleIdentifier': u'com.dagoma.'+ build_name + '-' + build_version,
         u'LSMinimumSystemVersion': u'10.6',
         u'LSApplicationCategoryType': u'public.app-category.graphics-design',
         u'CFBundleDocumentTypes': [
@@ -77,7 +78,7 @@ if sys.platform.startswith('darwin'):
     }
 
     setup(
-        name="Cura-By-Dagoma-Easy200",
+        name=build_name,
         app=APP,
         data_files=DATA_FILES,
         options={'py2app': OPTIONS},

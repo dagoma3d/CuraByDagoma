@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/bin/python2.7 /usr/share/curabydago-explorer350/cura.py
