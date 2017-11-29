@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-11-29 17:03+0100\n"
+"PO-Revision-Date: 2017-11-29 18:49+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -1047,11 +1047,7 @@ msgstr "Extérieur seuement"
 #: Cura/gui/tools/imageToMesh.py:28
 #, fuzzy
 msgid "Height (mm)"
-msgstr ""
-"#-#-#-#-#  0catalog.po (Cura)  #-#-#-#-#\n"
-"Hauteur de la machine (mm)\n"
-"#-#-#-#-#  0catalog.po (Cura)  #-#-#-#-#\n"
-"Hauteur (mm)"
+msgstr "Hauteur (mm)"
 
 #: Cura/gui/tools/imageToMesh.py:32
 msgid "Base (mm)"
@@ -2959,3 +2955,6 @@ msgstr "grammes"
 
 msgid "currency"
 msgstr "euros"
+
+msgid "PLA Chromatik Wood"
+msgstr "PLA Chromatik Bois"
