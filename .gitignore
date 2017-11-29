@@ -1,6 +1,10 @@
 /MAC_resources
 /plugins
-/resources
+/resources/images/cura.ico
+/resources/meshes
+/resources/XML
+/resources/cura.icns
+/resources/cura.ico
 /scripts
 /Power
 /CuraEngine

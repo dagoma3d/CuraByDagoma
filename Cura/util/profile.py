@@ -31,7 +31,6 @@ from Cura.util import validators
 from Cura.util import resources
 from xml.dom import minidom
 
-# doc = minidom.parse('./resources/xml_config.xml')
 doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 
 def getNodeText(node):
@@ -41,13 +40,6 @@ def getNodeText(node):
 		if node.nodeType == node.TEXT_NODE:
 			result.append(node.data)
 	return ''.join(result)
-
-# def get_gcode(self):
-# 	gstart = doc.getElementsByTagName("GCODE")[0].getAttribute("Gstart")
-# 	gend = doc.getElementsByTagName("GCODE")[0].getAttribute("Gend")
-# 	print str(gstart)
-# 	print str(gend)
-#
 
 #The settings dictionary contains a key/value reference to all possible settings. With the setting name as key.
 settingsDictionary = {}
