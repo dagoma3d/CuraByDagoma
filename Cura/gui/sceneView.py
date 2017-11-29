@@ -1327,7 +1327,7 @@ class SceneView(openglGui.glGuiPanel):
 				glPopMatrix()
 		elif machine.startswith('DiscoEasy200'):
 			if machine not in self._platformMesh:
-				meshes = meshLoader.loadMeshes(resources.getPathForMesh('Discovery_platform.stl'))
+				meshes = meshLoader.loadMeshes(resources.getPathForMesh('machine_platform.stl'))
 				if len(meshes) > 0:
 					self._platformMesh[machine] = meshes[0]
 				else:
