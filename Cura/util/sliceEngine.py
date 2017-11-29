@@ -382,7 +382,6 @@ class Engine(object):
 					currentLayer = int(line[7:].strip())
 					if currentLayer == 1:
 						f.write('M104 S' + str(int(profile.getProfileSettingFloat('print_temperature'))) + '\n')
-						break
 
 		if tempfilename is not None:
 			f = open(tempfilename, "r")
