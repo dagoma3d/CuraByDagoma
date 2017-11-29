@@ -1,9 +1,9 @@
-./MAC_resousses
-./plugins
-./resources
-./scripts
-Power
-CuraEngine
+/MAC_resources
+/plugins
+/resources
+/scripts
+/Power
+/CuraEngine
 Cura-Cura-by-Dagoma-*
 Cura-by-Dagoma-*
 Cura_by_Dagoma_*
@@ -15,4 +15,3 @@ DmgTemplateCompressed_*.dmg
 DmgTemplateCompressed-*.dmg
 *.DS_Store
 *.sparseimage
-scripts/darwin/*.sparsebundle

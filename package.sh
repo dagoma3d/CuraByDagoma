@@ -91,6 +91,16 @@ case "$2" in
 		;;
 esac
 
+# Remove config files and add them according to the printer name.
+rm -rf ./MAC_resources
+cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/MAC_resources .
+rm -rf ./plugins
+cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/plugins .
+rm -rf ./resources
+cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/resources .
+rm -rf ./scripts
+cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/scripts .
+
 ##Which version name are we appending to the final archive
 export BUILD_NAME="Cura-by-Dagoma-"${MACHINE_NAME}
 BUILD_NAME_INSTALL="Cura_by_Dagoma_"${MACHINE_NAME}
