@@ -20,7 +20,11 @@ class alterationPanel(wx.Panel):
 			self.alterationFileList += ['start4.gcode', 'end4.gcode']
 		if (profile.getMachineSetting('machine_name') == 'DiscoEasy200'):
 			self.alterationFileList = ['start5.gcode', 'end5.gcode']
-			print self.alterationFileList
+		if (profile.getMachineSetting('machine_name') == 'Explorer350'):
+			self.alterationFileList = ['start5.gcode', 'end5.gcode']
+		if (profile.getMachineSetting('machine_name') == 'Neva'):
+			self.alterationFileList = ['start5.gcode', 'end5.gcode']
+		#print self.alterationFileList
 		self.currentFile = None
 
 		self.textArea = gcodeTextArea.GcodeTextArea(self)
@@ -29,7 +33,7 @@ class alterationPanel(wx.Panel):
 		self.Bind(wx.EVT_LISTBOX, self.OnSelect, self.list)
 		self.textArea.Bind(wx.EVT_KILL_FOCUS, self.OnFocusLost, self.textArea)
 		self.textArea.Bind(wx.stc.EVT_STC_CHANGE, self.OnFocusLost, self.textArea)
-		
+
 		sizer = wx.GridBagSizer()
 		sizer.Add(self.list, (0,0), span=(5,1), flag=wx.EXPAND)
 		sizer.Add(self.textArea, (5,0), span=(5,1), flag=wx.EXPAND)
@@ -39,7 +43,7 @@ class alterationPanel(wx.Panel):
 		sizer.AddGrowableRow(6)
 		sizer.AddGrowableRow(7)
 		self.SetSizer(sizer)
-		
+
 		self.loadFile(self.alterationFileList[self.list.GetSelection()])
 		self.currentFile = self.list.GetSelection()
 

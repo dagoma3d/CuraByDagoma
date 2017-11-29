@@ -214,6 +214,8 @@ class gcode(object):
 							pos[1] = center[1]
 						if z is not None:
 							pos[2] = center[2]
+				elif G == 29:	#Auto Bed Leveling
+					pass
 				elif G == 90:	#Absolute position
 					posAbs = True
 				elif G == 91:	#Relative position
@@ -284,6 +286,8 @@ class gcode(object):
 						s = getCodeFloat(line, 'S')
 						if s is not None:
 							extrudeAmountMultiply = s / 100.0
+					elif M == 600:	#Dago pause
+						pass
 					else:
 						print "Unknown M code:" + str(M)
 		for path in currentLayer:

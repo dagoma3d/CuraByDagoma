@@ -1325,7 +1325,7 @@ class SceneView(openglGui.glGuiPanel):
 				glDisable(GL_TEXTURE_2D)
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 				glPopMatrix()
-		elif machine.startswith('DiscoEasy200'):
+		elif machine.startswith('DiscoEasy200') or machine.startswith('Neva')  or machine.startswith('Explorer350'):
 			if machine not in self._platformMesh:
 				meshes = meshLoader.loadMeshes(resources.getPathForMesh('machine_platform.stl'))
 				if len(meshes) > 0:
@@ -1337,6 +1337,16 @@ class SceneView(openglGui.glGuiPanel):
 					self._platformMesh[machine].processMatrix()
 					print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+				elif machine == 'Neva':
+					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+					self._platformMesh[machine].processMatrix()
+					print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					self._platformMesh[machine]._drawOffset = numpy.array([-153,103,53], numpy.float32)
+				elif machine == 'Explorer350':
+					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+					self._platformMesh[machine].processMatrix()
+					print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					self._platformMesh[machine]._drawOffset = numpy.array([-301,381,117], numpy.float32)#303,383,117;306 386 115 (X, Y, Z ) #X inverse : -100 va vers la droite, +Y vers le devant, Z+ vers le bas
 				else:
 					self._platformMesh[machine]._drawOffset = numpy.array([0,0,2.5], numpy.float32)
 			glColor4f(1,1,1,0.5)

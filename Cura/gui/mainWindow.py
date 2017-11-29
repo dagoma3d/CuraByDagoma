@@ -319,9 +319,9 @@ class mainWindow(wx.Frame):
 			self.normalSashPos = 0
 			self.Maximize(True)
 
-		self.SetMinSize((800,600))
+		self.SetMinSize((800, 600))
 		self.leftPane.SetMinSize((380, 600))
-		self.rightPane.SetMinSize((420,600))
+		self.rightPane.SetMinSize((420, 600))
 		# self.splitter.SplitVertically(self.leftPane, self.rightPane, self.normalSashPos)
 		self.splitter.SplitVertically(self.rightPane, self.leftPane, self.normalSashPos) #Left and Right are switched in code
 		self.splitter.SetSashGravity(1.0) # Only the SceneView are resize when the windows size are modifed
@@ -712,6 +712,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	class Filament:
 		def __init__(self):
 			self.type = ''
+			self.grip_temperature = '185'
 			self.print_temperature = '185'
 			self.filament_diameter = '1.74'
 			self.filament_flow = '80'
@@ -939,6 +940,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 		sizer_1.Add((0, 5), pos = (13, 0))
 
+		printerinfo = doc.getElementsByTagName("Printer")[0];
+		printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
+		if printername == "Neva":
+			self.tetes_box.Hide()
+			self.palpeur_chbx.Hide()
+		if printername == "Explorer350":
+			self.tetes_box.Hide()
 		self.pausePluginButton.Hide()
 
 		sizer_1.AddGrowableCol(0)
@@ -1064,6 +1072,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				fila.type = name
 			try :
+				if len(filament.getElementsByTagName("grip_temperature")) > 0:
+					fila.grip_temperature = self.getNodeText(filament.getElementsByTagName("grip_temperature")[0])
+				else:
+					fila.grip_temperature = self.getNodeText(filament.getElementsByTagName("print_temperature")[0])
 				fila.print_temperature = self.getNodeText(filament.getElementsByTagName("print_temperature")[0])
 				fila.filament_diameter = self.getNodeText(filament.getElementsByTagName("filament_diameter")[0])
 				fila.filament_flow = self.getNodeText(filament.getElementsByTagName("filament_flow")[0])
@@ -1251,6 +1263,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		filament_index = self.combo_box_1.GetSelection()
 		fila = self.filaments[filament_index]
 		profile.putPreference('filament_index', filament_index)
+		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 		if fila.type == 'Autre PLA':
 			self.spin_ctrl_1.Enable(True)
 			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))

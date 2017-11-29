@@ -366,6 +366,30 @@ class Engine(object):
 			self._thread.daemon = True
 			self._thread.start()
 
+	def improveAdhesion(self):
+		import tempfile
+		f = tempfile.NamedTemporaryFile(prefix='CuraPluginTemp', delete=False)
+		tempfilename = f.name
+		f.write(self._result.getGCode())
+		f.close()
+
+		with open(tempfilename, "r") as f:
+			lines = f.readlines()
+		with open(tempfilename, "w") as f:
+			for line in lines:
+				f.write(line)
+				if line.startswith(';LAYER:'):
+					currentLayer = int(line[7:].strip())
+					if currentLayer == 1:
+						f.write('M104 S' + str(int(profile.getProfileSettingFloat('print_temperature'))) + '\n')
+						break
+
+		if tempfilename is not None:
+			f = open(tempfilename, "r")
+			self._result.setGCode(f.read())
+			f.close()
+			os.unlink(tempfilename)
+
 	def _watchProcess(self, commandList, oldThread, engineModelData, modelHash):
 		if oldThread is not None:
 			if self._process is not None:
@@ -402,6 +426,11 @@ class Engine(object):
 			if pluginError is not None:
 				print pluginError
 				self._result.addLog(pluginError)
+
+			# Improve adhesion : Gstart code sets a higer temperature than the default one
+			# so we need to reset the default one for layers next to the third one.
+			self.improveAdhesion()
+
 			self._result.setFinished(True)
 			self._callback(1.0)
 		else:

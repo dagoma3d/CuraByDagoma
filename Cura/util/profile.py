@@ -20,6 +20,7 @@ import stat
 import types
 import cPickle as pickle
 import numpy
+import locale
 if sys.version_info[0] < 3:
 	import ConfigParser
 else:
@@ -194,6 +195,7 @@ setting('solid_layer_thickness',     0.6, float, 'basic',    _('Fill')).setRange
 setting('fill_density',               20, float, 'basic',    _('Fill')).setRange(0, 100).setLabel(_("Fill Density (%)"), _("This controls how densely filled the insides of your print will be. For a solid part use 100%, for an empty part use 0%. A value around 20% is usually enough.\nThis won't affect the outside of the print and only adjusts how strong the part becomes."))
 setting('nozzle_size',               0.4, float, 'advanced', _('Machine')).setRange(0.1,10).setLabel(_("Nozzle size (mm)"), _("The nozzle size is very important, this is used to calculate the line width of the infill, and used to calculate the amount of outside wall lines and thickness for the wall thickness you entered in the print settings."))
 setting('print_speed',                50, float, 'basic',    _('Speed and Temperature')).setRange(1).setLabel(_("Print speed (mm/s)"), _("Speed at which printing happens. A well adjusted Ultimaker can reach 150mm/s, but for good quality prints you want to print slower. Printing speed depends on a lot of factors. So you will be experimenting with optimal settings for this."))
+setting('grip_temperature',          220, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("Grip temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
 setting('print_temperature',         220, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("Printing temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
 setting('print_temperature2',          0, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("2nd nozzle temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
 setting('print_temperature3',          0, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("3th nozzle temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
@@ -490,7 +492,7 @@ setting('postSwitchExtruder.gcode', """;Switch between the current extruder and 
 
 setting('startMode', 'Normal', ['Simple', 'Normal'], 'preference', 'hidden')
 setting('oneAtATime', 'False', bool, 'preference', 'hidden')
-setting('lastFile', os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'resources', 'example', 'dagoma.stl')), str, 'preference', 'hidden')
+setting('lastFile', os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'resources', 'example', 'UltimakerRobot_support.stl')), str, 'preference', 'hidden')
 setting('save_profile', 'False', bool, 'preference', 'hidden').setLabel(_("Save profile on slice"), _("When slicing save the profile as [stl_file]_profile.ini next to the model."))
 setting('filament_cost_kg', '46', float, 'advanced', _('Filament')).setLabel(_("Cost (price/kg)"), _("Cost of your filament per kg, to estimate the cost of the final print."))
 setting('filament_cost_meter', '0', float, 'advanced', _('Filament')).setLabel(_("Cost (price/m)"), _("Cost of your filament per meter, to estimate the cost of the final print."))
@@ -661,12 +663,14 @@ def getBasePath():
 	"""
 	:return: The path in which the current configuration files are stored. This depends on the used OS.
 	"""
+	printerinfo = doc.getElementsByTagName("Printer")[0];
+	printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
 	if platform.system() == "Windows":
-		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagomaEasy200'))
+		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma'+printername))
 	elif platform.system() == "Darwin":
-		basePath = os.path.expanduser('~/Library/Application Support/CuraByDagomaEasy200')
+		basePath = os.path.expanduser('~/Library/Application Support/CuraByDagoma'+printername)
 	else:
-		basePath = os.path.expanduser('~/.curaByDagomaEasy200')
+		basePath = os.path.expanduser('~/.curaByDagoma'+printername)
 	if not os.path.isdir(basePath):
 		try:
 			os.makedirs(basePath)
