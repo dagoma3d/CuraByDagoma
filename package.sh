@@ -218,7 +218,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'cp'
 	mv dist/Cura.app dist/${BUILD_NAME}.app
 	cp -a dist/${BUILD_NAME}.app /Volumes/${BUILD_NAME}/
-	cp -a ../../MAC_ressouces/.background.png /Volumes/${BUILD_NAME}/
+	cp -a ../../MAC_resources/.background.png /Volumes/${BUILD_NAME}/
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
@@ -346,7 +346,7 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	#extract ffmpeg-20120927-git-13f0cd6-win32-static.7z ffmpeg-20120927-git-13f0cd6-win32-static/licenses
 	extract comtypes-0.6.2.win32.exe
 	extract ejectmedia.zip Win32/EjectMedia
-	echo "extract Finished"
+	echo "Step extract Finished"
 
 	mkdir -p ${BUILD_NAME}/python
 	mkdir -p ${BUILD_NAME}/Cura/
@@ -361,7 +361,7 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	#mv ffmpeg-20120927-git-13f0cd6-win32-static/bin/ffmpeg.exe ${BUILD_NAME}/Cura/
 	#mv ffmpeg-20120927-git-13f0cd6-win32-static/licenses ${BUILD_NAME}/Cura/ffmpeg-licenses/
 	mv Win32/EjectMedia/EjectMedia.exe ${BUILD_NAME}/Cura/
-	echo "mv Finished"
+	echo "Step mv Finished"
 
 	#rm -rf Power/
 	rm -rf Win32
@@ -370,7 +370,7 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	rm -rf VideoCapture-0.9-5
 	rm -rf numpy-1.6.2-sse2.exe
 	#rm -rf ffmpeg-20120927-git-13f0cd6-win32-static
-	echo "rm Finished"
+	echo "Step rm Finished"
 
 	#Clean up portable python a bit, to keep the package size down.
 	rm -rf ${BUILD_NAME}/python/PyScripter.*
@@ -383,7 +383,7 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-2.8-msw-unicode/wx/locale
 	#Remove the gle files because they require MSVCR71.dll, which is not included. We also don't need gle, so it's safe to remove it.
 	rm -rf ${BUILD_NAME}/python/Lib/OpenGL/DLLS/gle*
-	echo "clean Finished"
+	echo "Step clean Finished"
 
 	#add Cura
 	mkdir -p ${BUILD_NAME}/Cura ${BUILD_NAME}/resources ${BUILD_NAME}/plugins
@@ -392,7 +392,7 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	cp -a plugins/* ${BUILD_NAME}/plugins
 	#Add cura version file
 	echo $BUILD_NAME > ${BUILD_NAME}/Cura/version
-	echo "add cura Finished"
+	echo "Step add cura Finished"
 
 	#package the result
 	cp -a scripts/${BUILD_TARGET}/*.bat $BUILD_NAME/
@@ -401,7 +401,7 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libgcc_s_sjlj-1.dll $BUILD_NAME
 	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libwinpthread-1.dll $BUILD_NAME
 	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libstdc++-6.dll $BUILD_NAME
-	echo "add scripts and executables Finished"
+	echo "Step add scripts and executables Finished"
 
 	if [ -f '/c/Program Files (x86)/NSIS/makensis.exe' ]; then
 		rm -rf scripts/win32/dist

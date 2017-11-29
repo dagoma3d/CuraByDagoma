@@ -1,7 +1,7 @@
-MAC_resousses
-plugins
-resources
-scripts
+./MAC_resousses
+./plugins
+./resources
+./scripts
 Power
 CuraEngine
 Cura-Cura-by-Dagoma-*
