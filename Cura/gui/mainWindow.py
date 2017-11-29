@@ -61,8 +61,8 @@ class mainWindow(wx.Frame):
 
 		self.SetDropTarget(dropTarget.FileDropTarget(self.OnDropFiles))
 
-		# frameicone = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO) #MOI Ajoute Icone dagoma.ico
-		# self.SetIcon(frameicone)
+		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO) #MOI Ajoute Icone dagoma.ico
+		self.SetIcon(frameicon)
 
 		# TODO: wxWidgets 2.9.4 has a bug when NSView does not register for dragged types when wx drop target is set. It was fixed in 2.9.5
 		if sys.platform.startswith('darwin'):
@@ -924,22 +924,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def __do_layout(self):
-		sizer_1 = wx.GridBagSizer(13, 0)
-		sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
-		sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.label_4, pos = (2, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-		sizer_1.Add(self.spin_ctrl_1, pos = (3, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.radio_box_2, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.radio_box_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.tetes_box, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.printsupp, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.palpeur_chbx, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.printbrim, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.pausePluginButton, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.pausePluginPanel, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		sizer_1.Add((0, 5), pos = (13, 0))
-
 		printerinfo = doc.getElementsByTagName("Printer")[0];
 		printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
 		if printername == "Neva":
@@ -949,8 +933,60 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.tetes_box.Hide()
 		self.pausePluginButton.Hide()
 
-		sizer_1.AddGrowableCol(0)
-		self.SetSizerAndFit(sizer_1)
+		if printername == "DiscoEasy200":
+			sizer_1 = wx.GridBagSizer(13, 0)
+			sizer_1.SetEmptyCellSize((0, 0))
+			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.label_4, pos = (2, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+			sizer_1.Add(self.spin_ctrl_1, pos = (3, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_2, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.tetes_box, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printsupp, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.palpeur_chbx, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printbrim, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginButton, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginPanel, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add((0, 5), pos = (13, 0))
+
+		if printername == "Neva":
+			sizer_1 = wx.GridBagSizer(11, 0)
+			sizer_1.SetEmptyCellSize((0, 0))
+			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.label_4, pos = (2, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+			sizer_1.Add(self.spin_ctrl_1, pos = (3, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_2, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printsupp, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printbrim, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginButton, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginPanel, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.button_1, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add((0, 5), pos = (11, 0))
+
+		if printername == "Explorer350":
+			sizer_1 = wx.GridBagSizer(12, 0)
+			sizer_1.SetEmptyCellSize((0, 0))
+			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.label_4, pos = (2, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+			sizer_1.Add(self.spin_ctrl_1, pos = (3, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_2, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printsupp, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.palpeur_chbx, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printbrim, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginButton, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginPanel, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.button_1, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add((0, 5), pos = (12, 0))
+
+		if sizer_1 is not None:
+			sizer_1.AddGrowableCol(0)
+			self.SetSizerAndFit(sizer_1)
 		self.Layout()
 
 	def getNodeText(self, node):
