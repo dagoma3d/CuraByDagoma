@@ -345,8 +345,8 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	rm -f log.txt
 
 	#For windows extract portable python to include it.
-	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe Win32/App
-	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe Win32/Lib/site-packages
+	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/App
+	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/Lib/site-packages
 	extract pyserial-2.5.win32.exe PURELIB
 	extract PyOpenGL-3.0.1.win32.exe PURELIB
 	extract numpy-1.6.2-win32-superpack-python2.7.exe numpy-1.6.2-sse2.exe
@@ -355,13 +355,13 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	#extract ffmpeg-20120927-git-13f0cd6-win32-static.7z ffmpeg-20120927-git-13f0cd6-win32-static/bin/ffmpeg.exe
 	#extract ffmpeg-20120927-git-13f0cd6-win32-static.7z ffmpeg-20120927-git-13f0cd6-win32-static/licenses
 	extract comtypes-0.6.2.win32.exe
-	extract ejectmedia.zip Win32/EjectMedia
+	extract ejectmedia.zip Win32
 	echo "Step extract Finished"
 
 	mkdir -p ${BUILD_NAME}/python
 	mkdir -p ${BUILD_NAME}/Cura/
-	mv Win32/App/* ${BUILD_NAME}/python
-	mv Win32/Lib/site-packages/wx* ${BUILD_NAME}/python/Lib/site-packages/
+	mv \$_OUTDIR/App/* ${BUILD_NAME}/python
+	mv \$_OUTDIR/Lib/site-packages/wx* ${BUILD_NAME}/python/Lib/site-packages/
 	mv PURELIB/serial ${BUILD_NAME}/python/Lib
 	mv PURELIB/OpenGL ${BUILD_NAME}/python/Lib
 	mv PURELIB/comtypes ${BUILD_NAME}/python/Lib
@@ -370,10 +370,11 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	mv VideoCapture-0.9-5/Python27/DLLs/vidcap.pyd ${BUILD_NAME}/python/DLLs
 	#mv ffmpeg-20120927-git-13f0cd6-win32-static/bin/ffmpeg.exe ${BUILD_NAME}/Cura/
 	#mv ffmpeg-20120927-git-13f0cd6-win32-static/licenses ${BUILD_NAME}/Cura/ffmpeg-licenses/
-	mv Win32/EjectMedia/EjectMedia.exe ${BUILD_NAME}/Cura/
+	mv Win32/EjectMedia.exe ${BUILD_NAME}/Cura/
 	echo "Step mv Finished"
 
 	#rm -rf Power/
+	rm -rf \$_OUTDIR
 	rm -rf Win32
 	rm -rf PURELIB
 	rm -rf PLATLIB
