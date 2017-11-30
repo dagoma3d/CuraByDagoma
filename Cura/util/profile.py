@@ -1217,7 +1217,7 @@ def getGCodeExtension():
 #
 def getPalpeurGCode():
 	if getProfileSetting('palpeur_enable') == 'None' or getProfileSetting('palpeur_enable') == 'Disabled':
-		return ';No Palpeur'
+		return ';No Sensor'
 	if getProfileSetting('palpeur_enable') == 'Palpeur' or getProfileSetting('palpeur_enable') == 'Enabled':
 		return 'G29'
 
