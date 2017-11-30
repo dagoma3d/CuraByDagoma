@@ -976,7 +976,7 @@ class DiscoveryReadyPage(InfoPage):
 		super(DiscoveryReadyPage, self).__init__(parent, _("Configuration of your Cura by Dagoma %s") % printername)
 
 		self.AddText(_("Dagoma would like to thank you again for your trust."))
-		self.AddText(_("Your Cura by Dagoma %s freeware is now ready to use with your 3D printer." % printername))
+		self.AddText(_("Your Cura by Dagoma %s freeware is now ready to use with your 3D printer.") % printername)
 		self.AddText(_("You can reach us on contact@dagoma.us"))
 		self.AddSeperator()
 		self.AddText(_("Enjoy!"))

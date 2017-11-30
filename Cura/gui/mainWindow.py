@@ -48,7 +48,7 @@ class mainWindow(wx.Frame):
 			pass
 
 		windowtitle = windowtitle + ' 1.0.7'
-		
+
 		super(mainWindow, self).__init__(None, title=windowtitle)
 
 		wx.EVT_CLOSE(self, self.OnClose)
@@ -1127,8 +1127,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.combo_box_1.SetSelection(int(profile.getPreference('filament_index')))
 
 	def get_remplissage(self):
-		bloc_name = _(doc.getElementsByTagName("Bloc_Remplissage")[0].getAttribute("label"))
-		remplissages = doc.getElementsByTagName("Remplissage")
+		bloc_name = _("Filling density :")
+		remplissages = doc.getElementsByTagName("Filling")
+		if len(bloc) == 0:
+			remplissages = doc.getElementsByTagName("Remplissage")
 		choices = []
 		self.remplissages = []
 		for remplissage in remplissages:
@@ -1147,7 +1149,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.radio_box_2.SetSelection(int(profile.getPreference('fill_index')))
 
 	def get_Precision(self):
-		bloc_name = _(doc.getElementsByTagName("Bloc_Precision")[0].getAttribute("label"))
+		bloc_name = _("Quality (layer thickness) :")
 		precisions = doc.getElementsByTagName("Precision")
 		choices = []
 		self.precisions = []
@@ -1176,8 +1178,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.radio_box_1.SetSelection(int(profile.getPreference('precision_index')))
 
 	def get_Tete(self):
-		bloc_name = _(doc.getElementsByTagName("Bloc_Tete")[0].getAttribute("label"))
-		tetes = doc.getElementsByTagName("Tete")
+		bloc_name = _("Printhead version :")
+		tetes = doc.getElementsByTagName("PrinterHead")
+		if len(tetes) == 0:
+			tetes = doc.getElementsByTagName("Tete")
 		choices = []
 		self.tetes = []
 		for tete in tetes:
@@ -1197,7 +1201,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.tetes_box.SetSelection(int(profile.getPreference('printhead_index')))
 
 	def get_support(self):
-		bloc_name = _(doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label"))
+		bloc_name = _("Printing supports :")
 		supports = doc.getElementsByTagName("Support")
 		choices = []
 		self.supports = []
@@ -1230,7 +1234,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#	# self.supports[1].platform_adhesion = self.getNodeText(support_disable[0].getElementsByTagName("platform_adhesion")[0])
 
 	def get_brim(self):
-		bloc_name = _(doc.getElementsByTagName("Bloc_Brim")[0].getAttribute("label"))
+		bloc_name = _("Improve the adhesion surface")
 		self.printbrim = wx.CheckBox(self, wx.ID_ANY, bloc_name)
 		brim_enable = doc.getElementsByTagName("Brim_Enable")
 		brim_disable = doc.getElementsByTagName("Brim_Disable")
@@ -1246,23 +1250,19 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	#
 	def get_palpeur(self):
-		bloc_name = _(doc.getElementsByTagName("Bloc_Palpeur")[0].getAttribute("label"))
+		bloc_name = _("Use the sensor")
 		self.palpeur_chbx = wx.CheckBox(self, wx.ID_ANY, bloc_name)
-		palpeur_enable = doc.getElementsByTagName("Palpeur_Enable")
-		palpeur_disable = doc.getElementsByTagName("Palpeur_Disable")
+		palpeur_enable = doc.getElementsByTagName("Sensor_Enable")
+		if len(palpeur_enable) == 0:
+			palpeur_enable = doc.getElementsByTagName("Palpeur_Enable")
+		palpeur_disable = doc.getElementsByTagName("Sensor_Disable")
+		if len(palpeur_disable) == 0:
+			palpeur_disable = doc.getElementsByTagName("Palpeur_Disable")
 		self.palpeurs = []
 		self.palpeurs.append(self.Palpeur())
 		self.palpeurs[0].palpeur = self.getNodeText(palpeur_enable[0].getElementsByTagName("palpeur")[0])
 		self.palpeurs.append(self.Palpeur())
 		self.palpeurs[1].palpeur = self.getNodeText(palpeur_disable[0].getElementsByTagName("palpeur")[0])
-
-
-	#Fonction qui recupere dans le xml les differentes lignes pour le bloc Offset
-	#
-	#
-	#def get_Offset(self):
-	#	self.offset_title = doc.getElementsByTagName("Bloc_Offset")[0].getAttribute("label")
-
 
 	#Fonction qui recupere dans le xml les differentes lignes pour le bloc Pritning Surface
 	#
@@ -1296,7 +1296,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		fila = self.filaments[filament_index]
 		profile.putPreference('filament_index', filament_index)
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
-		if fila.type == 'Autre PLA':
+		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
 			self.spin_ctrl_1.Enable(True)
 			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
 		else:
@@ -1383,7 +1383,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	#
 	def Init_Palpeur_chbx(self):
-		if profile.getProfileSetting('palpeur_enable') == 'Palpeur':
+		if profile.getProfileSetting('palpeur_enable') == 'Palpeur' or profile.getProfileSetting('palpeur_enable') == 'Enabled':
 			self.palpeur_chbx.SetValue(True)
 		else :
 			self.palpeur_chbx.SetValue(False)
@@ -1447,9 +1447,15 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	def Refresh_Palpeur_chbx(self):
 		if self.palpeur_chbx.GetValue():
-			profile.putProfileSetting('palpeur_enable', self.palpeurs[0].palpeur)
+			sensor_value = self.palpeurs[0].value
+			if sensor_value is None:
+				sensor_value = self.palpeurs[0].palpeur
+			profile.putProfileSetting('palpeur_enable', sensor_value)
 		else:
-			profile.putProfileSetting('palpeur_enable', self.palpeurs[1].palpeur)
+			sensor_value = self.palpeurs[1].value
+			if sensor_value is None:
+				sensor_value = self.palpeurs[1].palpeur
+			profile.putProfileSetting('palpeur_enable', sensor_value)
 
 
 

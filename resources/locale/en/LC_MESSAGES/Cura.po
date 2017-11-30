@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-11-29 18:48+0100\n"
+"PO-Revision-Date: 2017-11-30 13:20+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2390,38 +2390,74 @@ msgstr ""
 msgid "Autre PLA"
 msgstr "Other PLA type"
 
+msgid "Other PLA type"
+msgstr ""
+
 msgid "Remplissage de la pièce :"
 msgstr "Filling density :"
+
+msgid "Filling density :"
+msgstr ""
 
 msgid "Creux (coque)"
 msgstr "Hollow (shell)"
 
+msgid "Hollow (shell)"
+msgstr ""
+
 msgid "Rempli (17%)"
 msgstr "Filling (17%)"
 
+msgid "Filling (17%)"
+msgstr ""
+
 msgid "Renforcé (33%)"
-msgstr "Reinforced  (33%)"
+msgstr "Reinforced (33%)"
+
+msgid "Reinforced (33%)"
+msgstr ""
 
 msgid "Qualité (épaisseur de couche) :"
 msgstr "Quality (layer thickness) :"
 
+msgid "Quality (layer thickness) :"
+msgstr ""
+
 msgid "Rapide (0.20 mm)"
 msgstr "Fast (0.2mm)"
+
+msgid "Fast (0.2mm)"
+msgstr ""
 
 msgid "Standard (0.15 mm)"
 msgstr "Standard (0.15mm)"
 
+msgid "Standard (0.15mm)"
+msgstr ""
+
 msgid "Fin (0.10 mm)"
 msgstr "Thin (0.1mm)"
+
+msgid "Thin (0.1mm)"
+msgstr ""
 
 msgid "Filaments flexibles"
 msgstr "Flexible filaments"
 
+msgid "Flexible filaments"
+msgstr ""
+
 msgid "Filaments bois"
 msgstr "Wood filaments"
 
+msgid "Wood filaments"
+msgstr ""
+
 msgid "Supports pour impression : "
 msgstr "Printing supports : "
+
+msgid "Printing supports :"
+msgstr ""
 
 msgid "Aucun"
 msgstr "None"
@@ -2429,11 +2465,20 @@ msgstr "None"
 msgid "Parties touchant le plateau"
 msgstr "Sides touching the build plate"
 
+msgid "Sides touching the build plate"
+msgstr ""
+
 msgid "Partout (intérieur pièce inclus)"
 msgstr "All sides (including the inside of the object)"
 
+msgid "All sides (including the inside of the object)"
+msgstr ""
+
 msgid "Amélioration de la surface d'adhésion"
 msgstr "Improve the adhesion surface"
+
+msgid "Improve the adhesion surface"
+msgstr ""
 
 msgid "Offset en mm : (réglage de la 1ère couche)"
 msgstr "Offset in mm : (first layer setting)"
@@ -2441,14 +2486,29 @@ msgstr "Offset in mm : (first layer setting)"
 msgid "Utilisation du palpeur"
 msgstr "Use the sensor"
 
+msgid "Use the sensor"
+msgstr ""
+
 msgid "Version de la tête :"
 msgstr "Printhead version :"
+
+msgid "Printhead version :"
+msgstr ""
 
 msgid "Tête standard (v2)"
 msgstr "Standard printhead (v2)"
 
+msgid "Standard printhead (v2)"
+msgstr ""
+
 msgid "Nouvelle tête (v3)"
 msgstr "New printhead (v3)"
+
+msgid "New printhead (v3)"
+msgstr ""
+
+msgid "Standard printhead"
+msgstr ""
 
 # Menu, bouton(s), autres,...
 msgid "Température (°C) :"
@@ -2499,8 +2559,14 @@ msgstr "Draft (0.30 mm)"
 msgid "PLA Filo3D-VERT"
 msgstr "PLA Filo3D-GREEN"
 
+msgid "PLA Filo3D-GREEN"
+msgstr ""
+
 msgid "PLA Filo3D-ROUGE"
 msgstr "PLA Filo3D-RED"
+
+msgid "PLA Filo3D-RED"
+msgstr ""
 
 msgid "Chromatik noir"
 msgstr "Black Chromatik"

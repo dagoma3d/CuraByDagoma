@@ -1,383 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- XML for Neva - 2017/30/11 -->
 <Dagoma_XML_Config>
-;XML for DiscoEASY200 - le 6 mars 2016
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des filaments
-;_______________________________________________________________________________________________________________________________________________________
-  <Bloc_Filaments>
-    <Filament name="PLA Chromatik">
-      <print_temperature>205</print_temperature>
-      <filament_diameter>1.74</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>33.20</filament_cost_kg>
-    </Filament>
-  <Filament name="PLA OctoFiber">
-      <print_temperature>210</print_temperature>
-      <filament_diameter>1.74</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>39.98</filament_cost_kg>
-    </Filament>
-	<Filament name="PLA Filo3D">
-      <print_temperature>205</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>59.6</filament_cost_kg>
-    </Filament>
-    <Filament name="PLA Filo3D-VERT">
-      <print_temperature>200</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>59.6</filament_cost_kg>
-    </Filament>
-    <Filament name="PLA Fiberlogy HD">
-      <print_temperature>210</print_temperature>
-      <filament_diameter>1.74</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>41.05</filament_cost_kg>
-    </Filament>
-    <Filament name="PLA Filo3D-ROUGE">
-      <print_temperature>220</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>59.6</filament_cost_kg>
-    </Filament>
-  <Filament name="PLA PolyPlus">
-      <print_temperature>210</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>46.53</filament_cost_kg>
-    </Filament>
-    <Filament name="PLA PolyMax">
-      <print_temperature>210</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>95</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>59.86</filament_cost_kg>
-    </Filament>
-    <Filament name="PLA PolyFlex">
-      <print_temperature>230</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>115</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>66.53</filament_cost_kg>
-    </Filament>
-    <Filament name="PLA PolyWood">
-      <print_temperature>210</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>46.53</filament_cost_kg>
-    </Filament>
-    <!--
-    <Filament name="PLA InnoFil">
-      <print_temperature>200</print_temperature>
-      <filament_diameter>1.74</filament_diameter>
-      <filament_flow>100</filament_flow>
-    </Filament>
-    -->
-    <!--
-    <Filament name="PLA ColorFabb">
-      <print_temperature>195</print_temperature>
-      <filament_diameter>1.70</filament_diameter>
-      <filament_flow>99</filament_flow>
-    </Filament>
-    -->
-    <Filament name="Autre PLA">
-      <print_temperature>205</print_temperature>
-      <filament_diameter>1.75</filament_diameter>
-      <filament_flow>100</filament_flow>
-      <retraction_speed>50</retraction_speed>
-      <retraction_amount>3.5</retraction_amount>
-      <filament_physical_density>1270</filament_physical_density>
-      <filament_cost_kg>46</filament_cost_kg>
-    </Filament>
-  </Bloc_Filaments>
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des remplissages
-;_______________________________________________________________________________________________________________________________________________________
-  <Bloc_Remplissage label="Remplissage de la pièce :">
-    <Remplissage name="Creux (coque)">
-      <fill_density>0</fill_density>
-    </Remplissage>
-    <Remplissage name="Rempli (17%)">
-      <fill_density>17</fill_density>
-    </Remplissage>
-    <Remplissage name="Renforcé (33%)">
-      <fill_density>33</fill_density>
-    </Remplissage>
-  </Bloc_Remplissage>
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des vitesses
-;_______________________________________________________________________________________________________________________________________________________
-  <Bloc_Precision label="Qualité (épaisseur de couche) :">
-    <Precision name="Rapide (0.20 mm)">
-      <layer_height>0.2</layer_height>
-      <solid_layer_thickness>1</solid_layer_thickness>
-      <wall_thickness>0.8</wall_thickness>
-      <print_speed>60</print_speed>
-      <temp_preci>10</temp_preci>
-      <travel_speed>100</travel_speed>
-      <bottom_layer_speed>17</bottom_layer_speed>
-      <infill_speed>60</infill_speed>
-      <inset0_speed>50</inset0_speed>
-      <insetx_speed>60</insetx_speed>
-    </Precision>
-    <Precision name="Standard (0.15 mm)">
-      <layer_height>0.15</layer_height>
-      <solid_layer_thickness>1.05</solid_layer_thickness>
-      <wall_thickness>1.2</wall_thickness>
-      <print_speed>50</print_speed>
-      <temp_preci>5</temp_preci>
-      <travel_speed>60</travel_speed>
-      <bottom_layer_speed>17</bottom_layer_speed>
-      <infill_speed>50</infill_speed>
-      <inset0_speed>40</inset0_speed>
-      <insetx_speed>45</insetx_speed>
-    </Precision>
-    <Precision name="Fin (0.10 mm)">
-      <layer_height>0.1</layer_height>
-      <solid_layer_thickness>1</solid_layer_thickness>
-      <wall_thickness>1.2</wall_thickness>
-      <print_speed>35</print_speed>
-      <temp_preci>0</temp_preci>
-      <travel_speed>50</travel_speed>
-      <bottom_layer_speed>15</bottom_layer_speed>
-      <infill_speed>40</infill_speed>
-      <inset0_speed>25</inset0_speed>
-      <insetx_speed>35</insetx_speed>
-    </Precision>
-    <Precision name="Filaments flexibles">
-      <layer_height>0.1</layer_height>
-      <solid_layer_thickness>0.6</solid_layer_thickness>
-      <wall_thickness>1.2</wall_thickness>
-      <print_speed>20</print_speed>
-      <temp_preci>0</temp_preci>
-      <travel_speed>50</travel_speed>
-      <bottom_layer_speed>12</bottom_layer_speed>
-      <infill_speed>25</infill_speed>
-      <inset0_speed>20</inset0_speed>
-      <insetx_speed>25</insetx_speed>
-    </Precision>
-    <Precision name="Filaments bois">
-      <layer_height>0.15</layer_height>
-      <solid_layer_thickness>1.05</solid_layer_thickness>
-      <wall_thickness>1.2</wall_thickness>
-      <print_speed>50</print_speed>
-      <temp_preci>0</temp_preci>
-      <travel_speed>60</travel_speed>
-      <bottom_layer_speed>17</bottom_layer_speed>
-      <infill_speed>50</infill_speed>
-      <inset0_speed>40</inset0_speed>
-      <insetx_speed>45</insetx_speed>
-    </Precision>
+	<!-- Filament definitions -->
+	<Filaments>
+		<Filament name="PLA Chromatik">
+			<print_temperature>205</print_temperature>
+			<filament_diameter>1.74</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>33.20</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA OctoFiber">
+			<print_temperature>210</print_temperature>
+			<filament_diameter>1.74</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>39.98</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA Filo3D">
+			<print_temperature>205</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>59.6</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA Filo3D-GREEN">
+			<print_temperature>200</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>59.6</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA Fiberlogy HD">
+			<print_temperature>210</print_temperature>
+			<filament_diameter>1.74</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>41.05</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA Filo3D-RED">
+			<print_temperature>220</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>59.6</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA PolyPlus">
+			<print_temperature>210</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA PolyMax">
+			<print_temperature>210</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>95</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>59.86</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA PolyFlex">
+			<print_temperature>230</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>115</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>66.53</filament_cost_kg>
+		</Filament>
+		<Filament name="PLA PolyWood">
+			<print_temperature>210</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+		</Filament>
+		<Filament name="Other PLA type">
+			<print_temperature>205</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46</filament_cost_kg>
+		</Filament>
+	</Filaments>
 
-  </Bloc_Precision>
-;_______________________________________________________________________________________________________________________________________________________
-;Definition du type de support et d'accroche
-;_______________________________________________________________________________________________________________________________________________________
-  <!--Bloc_Support label="Support pour impression">
-    <Support name="Aucun">
-      <support>None</support>
-    </Support>
-    <Support name="Touche le plateau">
-      <support>Touching buildplate</support>
-    </Support>
-    <Support name="Partout">
-      <support>Everywhere</support>
-    </Support>
-  </Bloc_Support-->
+	<!-- Filling definitions -->
+	<Fillings>
+		<Filling name="Hollow (shell)">
+			<fill_density>0</fill_density>
+		</Filling>
+		<Filling name="Filling (17%)">
+			<fill_density>17</fill_density>
+		</Filling>
+		<Filling name="Reinforced (33%)">
+			<fill_density>33</fill_density>
+		</Filling>
+	</Fillings>
 
-  <Bloc_Support label="Supports pour impression : ">
-    <Support name="Aucun">
-      <support>None</support>
-    </Support>
-    <Support name="Parties touchant le plateau">
-      <support>Touching buildplate</support>
-    </Support>
-    <Support name="Partout (intérieur pièce inclus)">
-      <support>Everywhere</support>
-    </Support>
-  </Bloc_Support>
+	<!-- Quality definitions -->
+	<Precisions>
+		<Precision name="Fast (0.2mm)">
+			<layer_height>0.2</layer_height>
+			<solid_layer_thickness>1</solid_layer_thickness>
+			<wall_thickness>0.8</wall_thickness>
+			<print_speed>60</print_speed>
+			<temp_preci>10</temp_preci>
+			<travel_speed>100</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>60</infill_speed>
+			<inset0_speed>50</inset0_speed>
+			<insetx_speed>60</insetx_speed>
+		</Precision>
+		<Precision name="Standard (0.15mm)">
+			<layer_height>0.15</layer_height>
+			<solid_layer_thickness>1.05</solid_layer_thickness>
+			<wall_thickness>1.2</wall_thickness>
+			<print_speed>50</print_speed>
+			<temp_preci>5</temp_preci>
+			<travel_speed>60</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>50</infill_speed>
+			<inset0_speed>40</inset0_speed>
+			<insetx_speed>45</insetx_speed>
+		</Precision>
+		<Precision name="Thin (0.1mm)">
+			<layer_height>0.1</layer_height>
+			<solid_layer_thickness>1</solid_layer_thickness>
+			<wall_thickness>1.2</wall_thickness>
+			<print_speed>35</print_speed>
+			<temp_preci>0</temp_preci>
+			<travel_speed>50</travel_speed>
+			<bottom_layer_speed>15</bottom_layer_speed>
+			<infill_speed>40</infill_speed>
+			<inset0_speed>25</inset0_speed>
+			<insetx_speed>35</insetx_speed>
+		</Precision>
+		<Precision name="Flexible filaments">
+			<layer_height>0.1</layer_height>
+			<solid_layer_thickness>0.6</solid_layer_thickness>
+			<wall_thickness>1.2</wall_thickness>
+			<print_speed>20</print_speed>
+			<temp_preci>0</temp_preci>
+			<travel_speed>50</travel_speed>
+			<bottom_layer_speed>12</bottom_layer_speed>
+			<infill_speed>25</infill_speed>
+			<inset0_speed>20</inset0_speed>
+			<insetx_speed>25</insetx_speed>
+		</Precision>
+		<Precision name="Wood filaments">
+			<layer_height>0.15</layer_height>
+			<solid_layer_thickness>1.05</solid_layer_thickness>
+			<wall_thickness>1.2</wall_thickness>
+			<print_speed>50</print_speed>
+			<temp_preci>0</temp_preci>
+			<travel_speed>60</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>50</infill_speed>
+			<inset0_speed>40</inset0_speed>
+			<insetx_speed>45</insetx_speed>
+		</Precision>
+	</Precisions>
 
-  <Bloc_Brim label="Amélioration de la surface d'adhésion">
-    <Brim_Enable>
-      <platform_adhesion>Brim</platform_adhesion>
-    </Brim_Enable>
-    <Brim_Disable>
-      <platform_adhesion>None</platform_adhesion>
-    </Brim_Disable>
-  </Bloc_Brim>
-;_______________________________________________________________________________________________________________________________________________________
-;Definition de l'offset machine
-;_______________________________________________________________________________________________________________________________________________________
-  <Bloc_Offset label="Offset en mm : (réglage de la 1ère couche)">
-  </Bloc_Offset>
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des surface d'impression
-;_______________________________________________________________________________________________________________________________________________________
-  <!--Bloc_Printing_surface label="Surface d'Impression :">
-    <Printing_surface name="Scotch 3M bleu">
-      <printing_surface_height>0.75</printing_surface_height>
-    </Printing_surface>
-    <Printing_surface name="Buildtak">
-      <printing_surface_height>0.5</printing_surface_height>
-    </Printing_surface>
-    <Printing_surface name="Autre">
-      <printing_surface_height>0.0</printing_surface_height>
-    </Printing_surface>
-  </Bloc_Printing_surface-->
-;_______________________________________________________________________________________________________________________________________________________
-;Definition de l'utilisation du palpeur
-;_______________________________________________________________________________________________________________________________________________________
-  <Bloc_Palpeur label="Utilisation du palpeur">
-    <Palpeur_Enable>
-      <palpeur>Palpeur</palpeur>
-    </Palpeur_Enable>
-    <Palpeur_Disable>
-      <palpeur>None</palpeur>
-    </Palpeur_Disable>
-  </Bloc_Palpeur>
+	<!-- Support definitions -->
+	<Supports>
+		<Support name="None">
+			<support>None</support>
+		</Support>
+		<Support name="Sides touching the build plate">
+			<support>Touching buildplate</support>
+		</Support>
+		<Support name="All sides (including the inside of the object)">
+			<support>Everywhere</support>
+		</Support>
+	</Supports>
 
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des types de têtes
-;_______________________________________________________________________________________________________________________________________________________
-  <Bloc_Tete label="Version de la tête :">
-    <Tete name="Tête standard (v2)">
-      <fan_speed>50</fan_speed>
-      <cool_min_layer_time>10</cool_min_layer_time>
-    </Tete>
-    <Tete name="Nouvelle tête (v3)">
-      <fan_speed>65</fan_speed>
-      <cool_min_layer_time>15</cool_min_layer_time>
-    </Tete>
-  </Bloc_Tete>
+	<!-- Adhesion surface definitions -->
+	<Brims>
+		<Brim_Enable>
+			<platform_adhesion>Brim</platform_adhesion>
+		</Brim_Enable>
+		<Brim_Disable>
+			<platform_adhesion>None</platform_adhesion>
+		</Brim_Disable>
+	</Brims>
 
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des caracteristiques mecaniques
-;_______________________________________________________________________________________________________________________________________________________
-  <Printer>
-    <machine_name>DiscoEasy200</machine_name>
-    <machine_type>DiscoEasy200</machine_type>
-	<machine_altname>Easy200</machine_altname>
-    <machine_width>211</machine_width>
-    <machine_depth>211</machine_depth>
-    <machine_height>205</machine_height>
-    <extruder_amount>1</extruder_amount>
-    <has_heated_bed>False</has_heated_bed>
-    <machine_center_is_zero>False</machine_center_is_zero>
-    <machine_shape>Square</machine_shape>
-    <nozzle_size>0.4</nozzle_size>
-    <extruder_head_size_min_x>17</extruder_head_size_min_x>
-    <extruder_head_size_min_y>40</extruder_head_size_min_y>
-    <extruder_head_size_max_x>17</extruder_head_size_max_x>
-    <extruder_head_size_max_y>70</extruder_head_size_max_y>
-    <extruder_head_size_height>10</extruder_head_size_height>
-    <gcode_flavor>DiscoGCode</gcode_flavor>
-    <retraction_enable>True</retraction_enable>
-  </Printer>
-;_______________________________________________________________________________________________________________________________________________________
-;Definition de la retraction et de la premiere couche
-;_______________________________________________________________________________________________________________________________________________________
-  <Config_Adv>
-    <bottom_thickness>0.26</bottom_thickness>
-    <layer0_width_factor>100</layer0_width_factor>
-    <object_sink>0</object_sink>
-    <fan_enabled>True</fan_enabled>
-  </Config_Adv>
+	<!-- Sensor definitions -->
+	<Sensors>
+		<Sensor_Enable>
+			<value>Enabled</value>
+		</Sensor_Enable>
+		<Sensor_Disable>
+			<value>Disabled</value>
+		</Sensor_Disable>
+	</Sensors>
 
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des caracteristiques du support
-;_______________________________________________________________________________________________________________________________________________________
-  <Config_Expert>
-    <retraction_min_travel>1.5</retraction_min_travel>
-    <retraction_combing>True</retraction_combing>
-    <retraction_minimal_extrusion>0.02</retraction_minimal_extrusion>
-    <retraction_hop>0</retraction_hop>
-    <skirt_line_count>2</skirt_line_count>
-    <skirt_gap>3</skirt_gap>
-    <skirt_minimal_length>150</skirt_minimal_length>
-    <fan_full_height>0.5</fan_full_height>
-    <fan_speed_max>100</fan_speed_max>
-    <cool_min_feedrate>20</cool_min_feedrate>
-    <cool_head_lift>False</cool_head_lift>
-    <solid_top>True</solid_top>
-    <solid_bottom>True</solid_bottom>
-    <fill_overlap>25</fill_overlap>
-    <support_type>Lines</support_type>
-    <support_angle>50</support_angle>
-    <support_fill_rate>20</support_fill_rate>
-    <support_xy_distance>0.7</support_xy_distance>
-    <support_z_distance>0.15</support_z_distance>
-    <spiralize>False</spiralize>
-    <simple_mode>False</simple_mode>
-    <brim_line_count>10</brim_line_count>
-    <raft_margin>5</raft_margin>
-    <raft_line_spacing>3</raft_line_spacing>
-    <raft_base_thickness>0.3</raft_base_thickness>
-    <raft_base_linewidth>1</raft_base_linewidth>
-    <raft_interface_thickness>0.27</raft_interface_thickness>
-    <raft_interface_linewidth>0.4</raft_interface_linewidth>
-    <raft_airgap>0.22</raft_airgap>
-    <raft_surface_layers>2</raft_surface_layers>
-    <fix_horrible_union_all_type_a>True</fix_horrible_union_all_type_a>
-    <fix_horrible_union_all_type_b>False</fix_horrible_union_all_type_b>
-    <fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
-    <fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
-  </Config_Expert>
-;_______________________________________________________________________________________________________________________________________________________
-;Definition de l'interface graphique
-;_______________________________________________________________________________________________________________________________________________________
-  <Config_Preferences>
-    <model_colour>#FF9B00</model_colour>
-    <auto_detect_sd>True</auto_detect_sd>
-    <check_for_updates>False</check_for_updates>
-    <submit_slice_information>False</submit_slice_information>
-  </Config_Preferences>
+	<!-- Printer head definitions -->
+	<PrinterHeads>
+		<PrinterHead name="Standard printhead (v2)">
+			<fan_speed>50</fan_speed>
+			<cool_min_layer_time>10</cool_min_layer_time>
+		</PrinterHead>
+		<PrinterHead name="New printhead (v3)">
+			<fan_speed>65</fan_speed>
+			<cool_min_layer_time>15</cool_min_layer_time>
+		</PrinterHead>
+	</PrinterHeads>
 
+	<!-- Printer definition -->
+	<Printer>
+		<machine_name>DiscoEasy200</machine_name>
+		<machine_type>DiscoEasy200</machine_type>
+		<machine_altname>Easy200</machine_altname>
+		<machine_width>211</machine_width>
+		<machine_depth>211</machine_depth>
+		<machine_height>205</machine_height>
+		<extruder_amount>1</extruder_amount>
+		<has_heated_bed>False</has_heated_bed>
+		<machine_center_is_zero>False</machine_center_is_zero>
+		<machine_shape>Square</machine_shape>
+		<nozzle_size>0.4</nozzle_size>
+		<extruder_head_size_min_x>17</extruder_head_size_min_x>
+		<extruder_head_size_min_y>40</extruder_head_size_min_y>
+		<extruder_head_size_max_x>17</extruder_head_size_max_x>
+		<extruder_head_size_max_y>70</extruder_head_size_max_y>
+		<extruder_head_size_height>10</extruder_head_size_height>
+		<gcode_flavor>DiscoGCode</gcode_flavor>
+		<retraction_enable>True</retraction_enable>
+	</Printer>
 
-;_______________________________________________________________________________________________________________________________________________________
-;Definition des G-codes de demarrage et de fin
-;_______________________________________________________________________________________________________________________________________________________
-  <GCODE>
-    <Gstart>
+	<!-- Advanced configuration -->
+	<Config_Adv>
+		<bottom_thickness>0.26</bottom_thickness>
+		<layer0_width_factor>100</layer0_width_factor>
+		<object_sink>0</object_sink>
+		<fan_enabled>True</fan_enabled>
+	</Config_Adv>
+
+	<!-- Expert configuration -->
+	<Config_Expert>
+		<retraction_min_travel>1.5</retraction_min_travel>
+		<retraction_combing>True</retraction_combing>
+		<retraction_minimal_extrusion>0.02</retraction_minimal_extrusion>
+		<retraction_hop>0</retraction_hop>
+		<skirt_line_count>2</skirt_line_count>
+		<skirt_gap>3</skirt_gap>
+		<skirt_minimal_length>150</skirt_minimal_length>
+		<fan_full_height>0.5</fan_full_height>
+		<fan_speed_max>100</fan_speed_max>
+		<cool_min_feedrate>20</cool_min_feedrate>
+		<cool_head_lift>False</cool_head_lift>
+		<solid_top>True</solid_top>
+		<solid_bottom>True</solid_bottom>
+		<fill_overlap>25</fill_overlap>
+		<support_type>Lines</support_type>
+		<support_angle>50</support_angle>
+		<support_fill_rate>20</support_fill_rate>
+		<support_xy_distance>0.7</support_xy_distance>
+		<support_z_distance>0.15</support_z_distance>
+		<spiralize>False</spiralize>
+		<simple_mode>False</simple_mode>
+		<brim_line_count>10</brim_line_count>
+		<raft_margin>5</raft_margin>
+		<raft_line_spacing>3</raft_line_spacing>
+		<raft_base_thickness>0.3</raft_base_thickness>
+		<raft_base_linewidth>1</raft_base_linewidth>
+		<raft_interface_thickness>0.27</raft_interface_thickness>
+		<raft_interface_linewidth>0.4</raft_interface_linewidth>
+		<raft_airgap>0.22</raft_airgap>
+		<raft_surface_layers>2</raft_surface_layers>
+		<fix_horrible_union_all_type_a>True</fix_horrible_union_all_type_a>
+		<fix_horrible_union_all_type_b>False</fix_horrible_union_all_type_b>
+		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
+		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
+	</Config_Expert>
+
+	<!-- Preferences configuration -->
+	<Config_Preferences>
+		<model_colour>#FF9B00</model_colour>
+		<auto_detect_sd>True</auto_detect_sd>
+		<check_for_updates>False</check_for_updates>
+		<submit_slice_information>False</submit_slice_information>
+	</Config_Preferences>
+
+	<!-- Gcodes start and end -->
+	<GCODE>
+		<Gstart>
 ;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.7
-G90   ;absolute positioning
+G90 ;absolute positioning
 M106 S250 ;fan on for the palpeur
 G28 X Y
 G1 X50
 M109 S180
 G28
 M104 S{print_temperature}
-;Activation palpeur
-;bloc palpeur
-;{palpeur}
+;Sensor activation
+;{sensor}
 M107 ;start with the fan off
 G1 X100 Y20 F3000
 G1 Z0.5
@@ -388,21 +325,21 @@ G1 F200 E10 ;extrude 10mm of feed stock
 G92 E0 ;zero the extruded length again
 G1 Z3
 G1 F{travel_speed}
-    </Gstart>
-    <Gend>
+		</Gstart>
+		<Gend>
 M104 S0
-M106 S255   ;start fan full power
-M140 S0   ;heated bed heater off (if you have it)
+M106 S255 ;start fan full power
+M140 S0 ;heated bed heater off (if you have it)
 ;Home machine
-G91   ;relative positioning
+G91 ;relative positioning
 G1 E-1 F300 ;retract the filament a bit before lifting the nozzle, to release some of the pressure
-G1 Z+3 F{travel_speed}  ;move Z up a bit and retract filament even more
+G1 Z+3 F{travel_speed} ;move Z up a bit and retract filament even more
 G90
 G28 X Y
-;Ventilation forcee
-M107    ;stop fan
+;Forced ventilation
+M107 ;stop fan
 ;Shut down motor
-M84   ;shut down motors
-    </Gend>
-  </GCODE>
+M84 ;shut down motors
+		</Gend>
+	</GCODE>
 </Dagoma_XML_Config>

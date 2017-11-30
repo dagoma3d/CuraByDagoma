@@ -1214,9 +1214,9 @@ def getGCodeExtension():
 #
 #
 def getPalpeurGCode():
-	if getProfileSetting('palpeur_enable') == 'None' :
+	if getProfileSetting('palpeur_enable') == 'None' or getProfileSetting('palpeur_enable') == 'Disabled':
 		return ';No Palpeur'
-	if getProfileSetting('palpeur_enable') == 'Palpeur' :
+	if getProfileSetting('palpeur_enable') == 'Palpeur' or getProfileSetting('palpeur_enable') == 'Enabled':
 		return 'G29'
 
 """FIN ERIC"""
@@ -1231,7 +1231,7 @@ def replaceTagMatch(m):
 
 
 	"""ERIC"""
-	if tag == 'palpeur':
+	if tag == 'palpeur' or tag == 'sensor':
 		return getPalpeurGCode()
 
 	if tag == 'z_offset':
