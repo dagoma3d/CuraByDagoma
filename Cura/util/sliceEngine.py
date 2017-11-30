@@ -428,7 +428,8 @@ class Engine(object):
 
 			# Improve adhesion : Gstart code sets a higer temperature than the default one
 			# so we need to reset the default one for layers next to the third one.
-			self.improveAdhesion()
+			if profile.getMachineSetting('machine_name') == 'Neva':
+				self.improveAdhesion()
 
 			self._result.setFinished(True)
 			self._callback(1.0)

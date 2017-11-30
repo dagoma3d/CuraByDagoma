@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-11-30 13:20+0100\n"
+"PO-Revision-Date: 2017-11-30 15:10+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3024,3 +3024,15 @@ msgstr "euros"
 
 msgid "PLA Chromatik Wood"
 msgstr "PLA Chromatik Bois"
+
+msgid "Generic"
+msgstr "Générique"
+
+msgid "Wood"
+msgstr "Bois"
+
+msgid "Red"
+msgstr "Rouge"
+
+msgid "Green"
+msgstr "Vert"
