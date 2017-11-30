@@ -1129,7 +1129,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def get_remplissage(self):
 		bloc_name = _("Filling density :")
 		remplissages = doc.getElementsByTagName("Filling")
-		if len(bloc) == 0:
+		if len(remplissages) == 0:
 			remplissages = doc.getElementsByTagName("Remplissage")
 		choices = []
 		self.remplissages = []
@@ -1255,14 +1255,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 		palpeur_enable = doc.getElementsByTagName("Sensor_Enable")
 		if len(palpeur_enable) == 0:
 			palpeur_enable = doc.getElementsByTagName("Palpeur_Enable")
+			sensor_enabled = palpeur_enable[0].getElementsByTagName("palpeur")[0]
+		else:
+			sensor_enabled = palpeur_enable[0].getElementsByTagName("value")[0]
 		palpeur_disable = doc.getElementsByTagName("Sensor_Disable")
 		if len(palpeur_disable) == 0:
 			palpeur_disable = doc.getElementsByTagName("Palpeur_Disable")
+			sensor_disabled = palpeur_disable[0].getElementsByTagName("palpeur")[0]
+		else:
+			sensor_disabled = palpeur_disable[0].getElementsByTagName("value")[0]
 		self.palpeurs = []
 		self.palpeurs.append(self.Palpeur())
-		self.palpeurs[0].palpeur = self.getNodeText(palpeur_enable[0].getElementsByTagName("palpeur")[0])
+		self.palpeurs[0].palpeur = self.getNodeText(sensor_enabled)
 		self.palpeurs.append(self.Palpeur())
-		self.palpeurs[1].palpeur = self.getNodeText(palpeur_disable[0].getElementsByTagName("palpeur")[0])
+		self.palpeurs[1].palpeur = self.getNodeText(sensor_disabled)
 
 	#Fonction qui recupere dans le xml les differentes lignes pour le bloc Pritning Surface
 	#
@@ -1447,15 +1453,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 	#
 	def Refresh_Palpeur_chbx(self):
 		if self.palpeur_chbx.GetValue():
-			sensor_value = self.palpeurs[0].value
-			if sensor_value is None:
-				sensor_value = self.palpeurs[0].palpeur
-			profile.putProfileSetting('palpeur_enable', sensor_value)
+			sensor_value = self.palpeurs[0].palpeur
 		else:
-			sensor_value = self.palpeurs[1].value
-			if sensor_value is None:
-				sensor_value = self.palpeurs[1].palpeur
-			profile.putProfileSetting('palpeur_enable', sensor_value)
+			sensor_value = self.palpeurs[1].palpeur
+		profile.putProfileSetting('palpeur_enable', sensor_value)
 
 
 
