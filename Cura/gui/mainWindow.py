@@ -790,6 +790,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.parent = parent
 		self.loadxml()
 		self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Filament :"))
+		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
+			self.color_box = wx.Choice(self, wx.ID_ANY, choices = [])
+		else:
+			self.color_box = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_SIMPLE | wx.CB_READONLY)
 
 		"""ERIC"""
 		#Rajout d'un label pour le titre "Offset"
@@ -821,6 +825,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Refresh_Preci()
 		self.Refresh_Tet()
 		self.Refresh_Fila()
+		self.Refresh_Color()
 		self.Refresh_Rempli()
 		"""ERIC"""
 		#self.Refresh_Printing_surface()
@@ -863,10 +868,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		#Evt Select Filament
 		if sys.platform == 'darwin':
 			self.Bind(wx.EVT_CHOICE, self.EVT_Fila, self.combo_box_1)
+			self.Bind(wx.EVT_CHOICE, self.EVT_Color, self.color_box)
 		else:
 			self.Bind(wx.EVT_COMBOBOX, self.EVT_Fila, self.combo_box_1)
-			#self.Bind(wx.EVT_TEXT, self.EVT_Fila, self.combo_box_1)
-			#self.Bind(wx.EVT_TEXT_ENTER, self.EVT_Fila, self.combo_box_1)
+			self.Bind(wx.EVT_COMBOBOX, self.EVT_Color, self.color_box)
 
 		self.Bind(wx.EVT_TEXT, self.EVT_Fila, self.spin_ctrl_1)
 		self.Bind(wx.EVT_TEXT_ENTER, self.EVT_Fila, self.spin_ctrl_1)
@@ -1317,12 +1322,77 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
 		profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
 
-		color_choices = [_("Generic")]
-		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.color_box = wx.Choice(self, wx.ID_ANY, choices = color_choices)
+		self.color_box.Clear()
+		self.color_box.Append(_("Generic"))
+		self.color_box.SetSelection(0)
+		filaments = doc.getElementsByTagName("Filament")
+		colors = filaments[filament_index].getElementsByTagName("Color")
+		if len(colors) > 0:
+			self.color_box.Enable(True)
+			for color in colors:
+				if color.hasAttributes():
+					name = _(color.getAttribute("name"))
+					self.color_box.Append(name)
 		else:
-			self.color_box = wx.ComboBox(self, wx.ID_ANY, choices = color_choices , style=wx.CB_DROPDOWN | wx.CB_SIMPLE | wx.CB_READONLY)
+			self.color_box.Enable(False)
 
+	def Refresh_Color(self):
+		print 'Refresh color'
+		color_index = self.color_box.GetSelection()
+		profile.putPreference('color_index', color_index)
+		if color_index > 0:
+			filament_index = int(profile.getPreference('filament_index'))
+			filaments = doc.getElementsByTagName("Filament")
+			colors = filaments[filament_index].getElementsByTagName("Color")
+			color = colors[color_index - 1]
+			try:
+				grip_temperature = self.getNodeText(color.getElementsByTagName("grip_temperature")[0])
+				profile.putProfileSetting('grip_temperature', grip_temperature)
+			except:
+				pass
+
+			try:
+				print_temperature = self.getNodeText(color.getElementsByTagName("print_temperature")[0])
+				self.spin_ctrl_1.SetValue(float(print_temperature))
+				profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
+			except:
+				pass
+
+			try:
+				filament_diameter = self.getNodeText(color.getElementsByTagName("filament_diameter")[0])
+				profile.putProfileSetting('filament_diameter', filament_diameter)
+			except:
+				pass
+
+			try:
+				filament_flow = self.getNodeText(color.getElementsByTagName("filament_flow")[0])
+				profile.putProfileSetting('filament_flow', filament_flow)
+			except:
+				pass
+
+			try:
+				retraction_speed = self.getNodeText(color.getElementsByTagName("retraction_speed")[0])
+				profile.putProfileSetting('retraction_speed', retraction_speed)
+			except:
+				pass
+
+			try:
+				retraction_amount = self.getNodeText(color.getElementsByTagName("retraction_amount")[0])
+				profile.putProfileSetting('retraction_amount', retraction_amount)
+			except:
+				pass
+
+			try:
+				filament_physical_density = self.getNodeText(color.getElementsByTagName("filament_physical_density")[0])
+				profile.putProfileSetting('filament_physical_density', filament_physical_density)
+			except:
+				pass
+
+			try:
+				filament_cost_kg = self.getNodeText(color.getElementsByTagName("filament_cost_kg")[0])
+				profile.putProfileSetting('filament_cost_kg', filament_cost_kg)
+			except:
+				pass
 
 	def Refresh_Rempli(self):
 		fill_index = self.radio_box_2.GetSelection()
@@ -1508,6 +1578,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def EVT_Fila(self, event):
 		self.Refresh_Fila()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def EVT_Color(self, event):
+		self.Refresh_Color()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
