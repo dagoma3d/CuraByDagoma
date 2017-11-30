@@ -1335,17 +1335,17 @@ class SceneView(openglGui.glGuiPanel):
 				if machine == 'DiscoEasy200':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
-					print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
 				elif machine == 'Neva':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
-					print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-153,103,53], numpy.float32)
 				elif machine == 'Explorer350':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
-					print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-301,381,117], numpy.float32)#303,383,117;306 386 115 (X, Y, Z ) #X inverse : -100 va vers la droite, +Y vers le devant, Z+ vers le bas
 				else:
 					self._platformMesh[machine]._drawOffset = numpy.array([0,0,2.5], numpy.float32)
