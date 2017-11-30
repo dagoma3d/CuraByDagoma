@@ -226,7 +226,6 @@
 	<Printer>
 		<machine_name>Explorer350</machine_name>
 		<machine_type>Explorer350</machine_type>
-		<machine_altname>Explorer350</machine_altname>
 		<machine_width>355</machine_width>
 		<machine_depth>355</machine_depth>
 		<machine_height>355</machine_height>

@@ -656,7 +656,9 @@ def getBasePath():
 	:return: The path in which the current configuration files are stored. This depends on the used OS.
 	"""
 	printerinfo = doc.getElementsByTagName("Printer")[0];
-	printername = printerinfo.getElementsByTagName("machine_altname")[0].childNodes[0].data
+	printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
+	if printername == "DiscoEasy200":
+		printername = "Easy200"
 	if platform.system() == "Windows":
 		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma'+printername))
 	elif platform.system() == "Darwin":
