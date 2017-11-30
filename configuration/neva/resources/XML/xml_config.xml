@@ -153,7 +153,7 @@
 		</Support>
 	</Supports>
 
-<!-- Adhesion surface definitions -->
+	<!-- Adhesion surface definitions -->
 	<Brims>
 		<Brim_Enable>
 			<platform_adhesion>Brim</platform_adhesion>
