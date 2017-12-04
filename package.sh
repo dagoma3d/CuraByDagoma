@@ -45,17 +45,20 @@ MACHINE_NAME_LOWERCASE=${MACHINE_NAME,,}
 ##- archive
 case "$2" in
 	darwin)
+		SCRIPTS_DIR=darwin
 		OS=Darwin
 		BUILD_TARGET=$2
 		CXX=g++
 		;;
 	win32)
+		SCRIPTS_DIR=win32
 		OS=Windows_NT
 		BUILD_TARGET=$2
 		CXX=g++
 		export LDFLAGS=--static
 		;;
 	archive|debian)
+		SCRIPTS_DIR=linux
 		OS=Linux
 		LINUX_TARGET_NAME="curabydago-"${MACHINE_NAME_LOWERCASE}
 		case "$3" in
@@ -92,11 +95,14 @@ case "$2" in
 esac
 
 # Remove config files and add them according to the printer name.
+echo "Copying specific ${MACHINE_NAME} resources..."
 cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/resources .
+echo "Copying specific ${MACHINE_NAME} plugins..."
 rm -rf ./plugins
 cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/plugins .
-rm -rf ./scripts
-cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/scripts .
+echo "Copying specific ${MACHINE_NAME} scripts..."
+rm -rf ./scripts/${SCRIPTS_DIR}
+cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/scripts/${SCRIPTS_DIR} ./scripts/
 
 ##Which version name are we appending to the final archive
 export BUILD_NAME="Cura-by-Dagoma-"${MACHINE_NAME}
@@ -231,6 +237,19 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'convert'
 	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME_INSTALL}.dmg
 
+	cd ../..
+	zip ${BUILD_NAME_INSTALL}.dmg.zip
+
+	if [ ! -d "packages" ]; then
+		mkdir packages
+	fi
+	mv -f ${BUILD_NAME_INSTALL}.dmg ./packages/
+
+	if [ ! -d "dist" ]; then
+		mkdir dist
+	fi
+	mv -f ${BUILD_NAME_INSTALL}.dmg.zip ./dist/
+
 	exit
 fi
 
@@ -267,15 +286,16 @@ if [[ $BUILD_TARGET == debian* ]]; then
 	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb README.md
 	rm README.md
 
+	cd ../..
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f ${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
+	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f ${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
+	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
 
 	exit
 fi
@@ -302,15 +322,16 @@ if [[ $BUILD_TARGET == archive* ]]; then
 	cd ..
 	zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz
 
+	cd ../..
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
+	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
+	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
 
 	exit
 fi
@@ -421,6 +442,18 @@ if [[ $BUILD_TARGET == win32 ]]; then
 		if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
 		mv ./${BUILD_NAME}.exe ./${BUILD_NAME_INSTALL}.exe
 		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${BUILD_NAME_INSTALL}.exe"; exit 1; fi
+
+		7z a -y ${BUILD_NAME_INSTALL}.exe.zip ${BUILD_NAME_INSTALL}.exe
+
+		if [ ! -d "packages" ]; then
+			mkdir packages
+		fi
+		mv -f ${BUILD_NAME_INSTALL}.exe ./packages/
+
+		if [ ! -d "dist" ]; then
+			mkdir dist
+		fi
+		mv -f ${BUILD_NAME_INSTALL}.exe.zip ./dist/
 		echo 'Good Job, All Works Well !!! :)'
 	else
 		echo "No makensis"

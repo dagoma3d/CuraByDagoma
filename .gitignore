@@ -5,7 +5,9 @@
 /resources/XML
 /resources/cura.icns
 /resources/cura.ico
-/scripts
+/scripts/darwin
+/scripts/linux
+/scripts/win32
 /Power
 /CuraEngine
 Cura-Cura-by-Dagoma-*
