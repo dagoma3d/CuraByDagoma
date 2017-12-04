@@ -1320,12 +1320,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.warning_text.SetLabel(_("Use this setting with caution!"))
 			self.warning_text.SetForegroundColour((169, 68, 66))
 			self.spin_ctrl_1.Enable(True)
-			profile.putProfileSetting('print_temperature', str(fila.print_temperature))
+			profile.putProfileSetting('print_temperature', str(float(fila.print_temperature)))
 		else:
 			self.warning_text.SetLabel(_("Supported filament"))
 			self.warning_text.SetForegroundColour((60, 118, 61))
 			self.spin_ctrl_1.Enable(False)
-			profile.putProfileSetting('print_temperature', str(fila.print_temperature + self.temp_preci))
+			profile.putProfileSetting('print_temperature', str(float(fila.print_temperature) + self.temp_preci))
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1335,7 +1335,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		self.color_box.Clear()
 		self.color_box.Append(_("Generic"))
-		self.color_box.SetSelection(0)
 		filaments = doc.getElementsByTagName("Filament")
 		colors = filaments[filament_index].getElementsByTagName("Color")
 		if len(colors) > 0:
@@ -1346,6 +1345,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 					self.color_box.Append(name)
 		else:
 			self.color_box.Enable(False)
+		color_index = int(profile.getPreference('color_index')) + 1
+		self.color_box.SetSelection(color_index)
 
 	def Refresh_Color(self):
 		print 'Refresh color'
@@ -1366,9 +1367,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print_temperature = self.getNodeText(color.getElementsByTagName("print_temperature")[0])
 				self.spin_ctrl_1.SetValue(float(print_temperature))
 				if self.spin_ctrl_1.IsEnabled():
-					profile.putProfileSetting('print_temperature', str(print_temperature))
+					profile.putProfileSetting('print_temperature', str(float(print_temperature)))
 				else:
-					profile.putProfileSetting('print_temperature', str(print_temperature + self.temp_preci))
+					profile.putProfileSetting('print_temperature', str(float(print_temperature) + self.temp_preci))
 			except:
 				pass
 
@@ -1412,9 +1413,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 			self.spin_ctrl_1.SetValue(float(fila.print_temperature))
 			if self.spin_ctrl_1.IsEnabled():
-				profile.putProfileSetting('print_temperature', str(fila.print_temperature))
+				profile.putProfileSetting('print_temperature', str(float(fila.print_temperature)))
 			else:
-				profile.putProfileSetting('print_temperature', str(fila.print_temperature + self.temp_preci))
+				profile.putProfileSetting('print_temperature', str(float(fila.print_temperature) + self.temp_preci))
 			profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 			profile.putProfileSetting('filament_flow', fila.filament_flow)
 			profile.putProfileSetting('retraction_speed', fila.retraction_speed)
