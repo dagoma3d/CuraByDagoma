@@ -877,6 +877,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		self.Bind(wx.EVT_TEXT, self.EVT_SpinCtrl, self.spin_ctrl_1)
 		self.Bind(wx.EVT_TEXT_ENTER, self.EVT_SpinCtrl, self.spin_ctrl_1)
+		self.Bind(wx.EVT_SPINCTRL, self.EVT_SpinCtrl, self.spin_ctrl_1)
 
 		#Evt Select Précision
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Preci, self.radio_box_1)
@@ -1314,15 +1315,17 @@ class normalSettingsPanel(configBase.configPanelBase):
 		fila = self.filaments[filament_index]
 		profile.putPreference('filament_index', filament_index)
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
+		self.spin_ctrl_1.SetValue(float(fila.print_temperature))
 		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
 			self.warning_text.SetLabel(_("Use this setting with caution!"))
 			self.warning_text.SetForegroundColour((169, 68, 66))
 			self.spin_ctrl_1.Enable(True)
+			profile.putProfileSetting('print_temperature', str(fila.print_temperature))
 		else:
 			self.warning_text.SetLabel(_("Supported filament"))
 			self.warning_text.SetForegroundColour((60, 118, 61))
 			self.spin_ctrl_1.Enable(False)
-			self.spin_ctrl_1.SetValue(float(fila.print_temperature))
+			profile.putProfileSetting('print_temperature', str(fila.print_temperature + self.temp_preci))
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1362,6 +1365,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 			try:
 				print_temperature = self.getNodeText(color.getElementsByTagName("print_temperature")[0])
 				self.spin_ctrl_1.SetValue(float(print_temperature))
+				if self.spin_ctrl_1.IsEnabled():
+					profile.putProfileSetting('print_temperature', str(print_temperature))
+				else:
+					profile.putProfileSetting('print_temperature', str(print_temperature + self.temp_preci))
 			except:
 				pass
 
@@ -1403,8 +1410,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			fila = self.filaments[filament_index]
 			profile.putProfileSetting('grip_temperature', fila.grip_temperature)
-			if fila.type != 'Other PLA type' or fila.type != 'Autre PLA':
-				self.spin_ctrl_1.SetValue(float(fila.print_temperature))
+			self.spin_ctrl_1.SetValue(float(fila.print_temperature))
+			if self.spin_ctrl_1.IsEnabled():
+				profile.putProfileSetting('print_temperature', str(fila.print_temperature))
+			else:
+				profile.putProfileSetting('print_temperature', str(fila.print_temperature + self.temp_preci))
 			profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 			profile.putProfileSetting('filament_flow', fila.filament_flow)
 			profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1414,9 +1424,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def Refresh_SpinCtrl(self):
 		print 'Refresh Spin'
-		filament_index = self.combo_box_1.GetSelection()
-		fila = self.filaments[filament_index]
-		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
+		if self.spin_ctrl_1.IsEnabled():
 			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
 		else:
 			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
