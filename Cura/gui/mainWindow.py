@@ -1404,7 +1404,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			fila = self.filaments[filament_index]
 			profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 			if fila.type != 'Other PLA type' or fila.type != 'Autre PLA':
-				self.spin_ctrl_1.SetValue(float(print_temperature))
+				self.spin_ctrl_1.SetValue(float(fila.print_temperature))
 			profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 			profile.putProfileSetting('filament_flow', fila.filament_flow)
 			profile.putProfileSetting('retraction_speed', fila.retraction_speed)
