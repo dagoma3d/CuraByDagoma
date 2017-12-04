@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add a filament color combo box depending on the chosen filament.
 - Add a warning message if 'Other PLA' is chosen.
 - XML file translated in english and used when the chosen language in english.
+- Refine displayed print time.
 
 ## [1.0.7] - 2017-12-01
 - Add the color change feature.
@@ -23,7 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Chosen parameters are saved and reloaded when turning off/on the software.
 
 ## [1.0.3] - 2016-11-01
-- Rework the xml file to be more sharp when changing a parameter.
+- Rework the xml file to be sharper when changing a parameter.
 
 ## [1.0.2] - 2016-06-20
 - Add fyberlogy HD filament.

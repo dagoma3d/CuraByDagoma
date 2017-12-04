@@ -790,6 +790,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.parent = parent
 		self.loadxml()
 		self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Filament :"))
+		self.warning_text = wx.StaticText(self, wx.ID_ANY, _("Warning text"))
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.color_box = wx.Choice(self, wx.ID_ANY, choices = [])
 		else:
@@ -826,6 +827,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Refresh_Tet()
 		self.Refresh_Fila()
 		self.Refresh_Color()
+		self.Refresh_SpinCtrl()
 		self.Refresh_Rempli()
 		"""ERIC"""
 		#self.Refresh_Printing_surface()
@@ -873,8 +875,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.Bind(wx.EVT_COMBOBOX, self.EVT_Fila, self.combo_box_1)
 			self.Bind(wx.EVT_COMBOBOX, self.EVT_Color, self.color_box)
 
-		self.Bind(wx.EVT_TEXT, self.EVT_Fila, self.spin_ctrl_1)
-		self.Bind(wx.EVT_TEXT_ENTER, self.EVT_Fila, self.spin_ctrl_1)
+		self.Bind(wx.EVT_TEXT, self.EVT_SpinCtrl, self.spin_ctrl_1)
+		self.Bind(wx.EVT_TEXT_ENTER, self.EVT_SpinCtrl, self.spin_ctrl_1)
 
 		#Evt Select Précision
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Preci, self.radio_box_1)
@@ -935,56 +937,59 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.pausePluginButton.Hide()
 
 		if printername == "DiscoEasy200":
+			sizer_1 = wx.GridBagSizer(15, 0)
+			sizer_1.SetEmptyCellSize((0, 0))
+			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+			sizer_1.Add(self.spin_ctrl_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_2, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_1, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.tetes_box, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printsupp, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.palpeur_chbx, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printbrim, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginButton, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginPanel, pos = (13, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.button_1, pos = (14, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add((0, 10), pos = (15, 0))
+		elif printername == "Neva":
+			sizer_1 = wx.GridBagSizer(13, 0)
+			sizer_1.SetEmptyCellSize((0, 0))
+			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+			sizer_1.Add(self.spin_ctrl_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_2, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_1, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printsupp, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.printbrim, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginButton, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.pausePluginPanel, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add((0, 10), pos = (13, 0))
+		elif printername == "Explorer350":
 			sizer_1 = wx.GridBagSizer(14, 0)
 			sizer_1.SetEmptyCellSize((0, 0))
 			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
 			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.label_4, pos = (3, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-			sizer_1.Add(self.spin_ctrl_1, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_2, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_1, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.tetes_box, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+			sizer_1.Add(self.spin_ctrl_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_2, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.radio_box_1, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.printsupp, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.palpeur_chbx, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.printbrim, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.pausePluginButton, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.pausePluginPanel, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.button_1, pos = (13, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 5), pos = (14, 0))
-		elif printername == "Neva":
-			sizer_1 = wx.GridBagSizer(12, 0)
-			sizer_1.SetEmptyCellSize((0, 0))
-			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.label_4, pos = (3, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-			sizer_1.Add(self.spin_ctrl_1, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_2, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_1, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printsupp, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printbrim, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginButton, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginPanel, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.button_1, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 5), pos = (12, 0))
-		elif printername == "Explorer350":
-			sizer_1 = wx.GridBagSizer(13, 0)
-			sizer_1.SetEmptyCellSize((0, 0))
-			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.label_4, pos = (3, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-			sizer_1.Add(self.spin_ctrl_1, pos = (4, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_2, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_1, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printsupp, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.palpeur_chbx, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printbrim, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginButton, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginPanel, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 5), pos = (13, 0))
+			sizer_1.Add((0, 10), pos = (14, 0))
 
 		if sizer_1 is not None:
 			sizer_1.AddGrowableCol(0)
@@ -1304,17 +1309,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def Refresh_Fila(self):
+		print "Refresh fila"
 		filament_index = self.combo_box_1.GetSelection()
 		fila = self.filaments[filament_index]
 		profile.putPreference('filament_index', filament_index)
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
+			self.warning_text.SetLabel(_("Use this setting with caution!"))
+			self.warning_text.SetForegroundColour((169, 68, 66))
 			self.spin_ctrl_1.Enable(True)
-			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
 		else:
+			self.warning_text.SetLabel(_("Supported filament"))
+			self.warning_text.SetForegroundColour((60, 118, 61))
 			self.spin_ctrl_1.Enable(False)
 			self.spin_ctrl_1.SetValue(float(fila.print_temperature))
-			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1338,13 +1346,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def Refresh_Color(self):
 		print 'Refresh color'
-		color_index = self.color_box.GetSelection()
+		color_index = self.color_box.GetSelection() - 1
 		profile.putPreference('color_index', color_index)
-		if color_index > 0:
-			filament_index = int(profile.getPreference('filament_index'))
+		filament_index = int(profile.getPreference('filament_index'))
+		if color_index > -1:
 			filaments = doc.getElementsByTagName("Filament")
 			colors = filaments[filament_index].getElementsByTagName("Color")
-			color = colors[color_index - 1]
+			color = colors[color_index]
 			try:
 				grip_temperature = self.getNodeText(color.getElementsByTagName("grip_temperature")[0])
 				profile.putProfileSetting('grip_temperature', grip_temperature)
@@ -1354,7 +1362,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			try:
 				print_temperature = self.getNodeText(color.getElementsByTagName("print_temperature")[0])
 				self.spin_ctrl_1.SetValue(float(print_temperature))
-				profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 			except:
 				pass
 
@@ -1393,6 +1400,26 @@ class normalSettingsPanel(configBase.configPanelBase):
 				profile.putProfileSetting('filament_cost_kg', filament_cost_kg)
 			except:
 				pass
+		else:
+			fila = self.filaments[filament_index]
+			profile.putProfileSetting('grip_temperature', fila.grip_temperature)
+			if fila.type != 'Other PLA type' or fila.type != 'Autre PLA':
+				self.spin_ctrl_1.SetValue(float(print_temperature))
+			profile.putProfileSetting('filament_diameter', fila.filament_diameter)
+			profile.putProfileSetting('filament_flow', fila.filament_flow)
+			profile.putProfileSetting('retraction_speed', fila.retraction_speed)
+			profile.putProfileSetting('retraction_amount', fila.retraction_amount)
+			profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
+			profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
+
+	def Refresh_SpinCtrl(self):
+		print 'Refresh Spin'
+		filament_index = self.combo_box_1.GetSelection()
+		fila = self.filaments[filament_index]
+		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
+			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
+		else:
+			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
 
 	def Refresh_Rempli(self):
 		fill_index = self.radio_box_2.GetSelection()
@@ -1585,6 +1612,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def EVT_Color(self, event):
 		self.Refresh_Color()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def EVT_SpinCtrl(self, event):
+		self.Refresh_SpinCtrl()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()

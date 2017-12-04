@@ -493,7 +493,7 @@ setting('check_for_updates', 'True', bool, 'preference', 'hidden').setLabel(_("C
 setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLabel(_("Send usage statistics"), _("Submit anonymous usage information to improve future versions of Cura"))
 setting('youmagine_token', '', str, 'preference', 'hidden')
 setting('filament_index', 0, int, 'preference', 'hidden')
-setting('color_index', 0, int, 'preference', 'hidden')
+setting('color_index', -1, int, 'preference', 'hidden')
 setting('fill_index', 1, int, 'preference', 'hidden')
 setting('precision_index', 0, int, 'preference', 'hidden')
 setting('printhead_index', 0, int, 'preference', 'hidden')

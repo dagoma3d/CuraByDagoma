@@ -460,7 +460,8 @@ class Engine(object):
 					except:
 						pass
 			elif line.startswith('Print time:'):
-				self._result._printTimeSeconds = int(line.split(':')[1].strip())
+				# A customer made some measures and it seems the real print time is about 70% of the calculated one
+				self._result._printTimeSeconds = int(line.split(':')[1].strip()) * 0.7
 			elif line.startswith('Filament:'):
 				self._result._filamentMM[0] = int(line.split(':')[1].strip())
 				if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':

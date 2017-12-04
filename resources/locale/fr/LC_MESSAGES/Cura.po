@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-11-30 15:10+0100\n"
+"PO-Revision-Date: 2017-12-04 18:12+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3036,3 +3036,12 @@ msgstr "Rouge"
 
 msgid "Green"
 msgstr "Vert"
+
+msgid "Texte d'avertissement"
+msgstr ""
+
+msgid "Use this setting with caution!"
+msgstr "Utilisez ce paramètre avec précaution!"
+
+msgid "Supported filament"
+msgstr "Filament supporté"
