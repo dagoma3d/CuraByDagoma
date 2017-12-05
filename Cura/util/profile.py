@@ -1224,6 +1224,15 @@ def getPalpeurGCode():
 
 """FIN ERIC"""
 
+def getFilamentName():
+	filament_name = 'Unknown'
+	try:
+		filament_index = getPreference('filament_index')
+		filament_name = doc.getElementsByTagName("Filament"))[filament_index].getAttribute("name")
+	except:
+		pass
+	return " " + filament_name
+
 def replaceTagMatch(m):
 	pre = m.group(1)
 	tag = m.group(2)
@@ -1232,6 +1241,8 @@ def replaceTagMatch(m):
 	if tag == 'time':
 		return pre + time.strftime('%H:%M:%S')
 
+	if tag == 'filament_name':
+		return getFilamentName()
 
 	"""ERIC"""
 	if tag == 'palpeur' or tag == 'sensor':

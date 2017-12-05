@@ -7,6 +7,7 @@ import wx
 import os
 import webbrowser
 import sys
+import wx.lib.hyperlink as hl
 
 
 from Cura.gui import configBase
@@ -791,6 +792,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.loadxml()
 		self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Filament :"))
 		self.warning_text = wx.StaticText(self, wx.ID_ANY, _("Warning text"))
+		warning_text_font = self.warning_text.GetFont()
+		warning_text_font.SetPointSize(10)
+		warning_text_font.SetWeight(wx.FONTWEIGHT_BOLD)
+		self.warning_text.SetFont(warning_text_font)
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.color_box = wx.Choice(self, wx.ID_ANY, choices = [])
 		else:

@@ -398,6 +398,7 @@
 	<GCODE>
 		<Gstart>
 ;Gcode by Cura-by-dagoma for Explorer350 V1.0.7
+;Filament: {filament_name}
 ;START
 M117 Initialisation
 G21 ;metric values

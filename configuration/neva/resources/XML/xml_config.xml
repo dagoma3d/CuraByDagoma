@@ -344,6 +344,7 @@
 	<GCODE>
 		<Gstart>
 ;Gcode by Cura-by-dagoma for Neva V1.0.7
+;Filament: {filament_name}
 G90 ;absolute positioning
 G28
 M109 S100

@@ -137,6 +137,17 @@ class InfoPage(wx.wizard.WizardPageSimple):
 		self.rowNr += 1
 		return text
 
+	def AddLink(self, info):
+		language = profile.getPreference('language')
+		if language = "French":
+			url = "https://dagoma.fr/heroes/diagnostique-en-ligne.html"
+		else:
+			url = "https://dagoma3d.com/pages/contact-us"
+		link = hl.HyperLinkCtrl(self, wx.ID_ANY, info, URL=url)
+		self.GetSizer().Add(link, pos=(self.rowNr, 0), span=(1, 2), flag=wx.LEFT | wx.RIGHT)
+		self.rowNr += 1
+		return link
+
 	def AddSeperator(self):
 		self.GetSizer().Add(wx.StaticLine(self, -1), pos=(self.rowNr, 0), span=(1, 2), flag=wx.EXPAND | wx.ALL)
 		self.rowNr += 1
@@ -977,7 +988,7 @@ class DiscoveryReadyPage(InfoPage):
 
 		self.AddText(_("Dagoma would like to thank you again for your trust."))
 		self.AddText(_("Your Cura by Dagoma %s freeware is now ready to use with your 3D printer.") % printername)
-		self.AddText(_("You can reach us on contact@dagoma.us"))
+		self.AddLink(_("Feel free to contact us!"))
 		self.AddSeperator()
 		self.AddText(_("Enjoy!"))
 		# self.AddText('A très bientôt sur'.decode('utf-8'))
