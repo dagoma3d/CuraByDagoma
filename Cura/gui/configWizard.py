@@ -425,8 +425,8 @@ class MachineSelectPage(InfoPage):
 			self.DiscoveryRadio.Bind(wx.EVT_RADIOBUTTON, self.OnDiscoverySelect)
 			self.DiscoveryRadio.SetValue(True)
 
-			self.OtherRadio = self.AddRadioButton(_("Other (Ex: RepRap, MakerBot)"))
-			self.OtherRadio.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
+		#	self.OtherRadio = self.AddRadioButton(_("Other (Ex: RepRap, MakerBot)"))
+		#	self.OtherRadio.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
 		except:
 			self.OtherRadio = self.AddRadioButton(_("Other (Ex: RepRap, MakerBot)"))
 			self.OtherRadio.Bind(wx.EVT_RADIOBUTTON, self.OnOtherSelect)
