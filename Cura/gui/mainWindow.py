@@ -790,7 +790,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.already_loaded = False
 		self.parent = parent
 		self.loadxml()
-		self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Filament :"))
+		self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Filament"))
 		self.warning_text = wx.StaticText(self, wx.ID_ANY, _("Warning text"))
 		warning_text_font = self.warning_text.GetFont()
 		warning_text_font.SetPointSize(10)
@@ -942,10 +942,24 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.tetes_box.Hide()
 		self.pausePluginButton.Hide()
 
+		language = profile.getPreference("language")
+		if language == "French":
+			url = "https://dagoma.fr/boutique/filaments.html"
+		else:
+			url = "https://dagoma3d.com/collections/shop"
+
+		self.buylink = hl.HyperLinkCtrl(self, wx.ID_ANY, _("Buy filament"), URL=url)
+
+		filament_sizer = wx.GridBagSizer(0, 3)
+		filament_sizer.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 0)
+		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, " ("), pos=(0, 1), flag = wx.LEFT|wx.TOP, border = 0)
+		filament_sizer.Add(self.buylink, pos=(0, 2), flag = wx.LEFT|wx.TOP, border = 0)
+		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"), pos=(0, 3), flag = wx.LEFT|wx.TOP, border = 0)
+
 		if printername == "DiscoEasy200":
 			sizer_1 = wx.GridBagSizer(15, 0)
 			sizer_1.SetEmptyCellSize((0, 0))
-			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(filament_sizer, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
 			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
@@ -960,11 +974,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			sizer_1.Add(self.pausePluginButton, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.pausePluginPanel, pos = (13, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.button_1, pos = (14, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 10), pos = (15, 0))
+			sizer_1.Add((0, 15), pos = (15, 0))
 		elif printername == "Neva":
 			sizer_1 = wx.GridBagSizer(13, 0)
 			sizer_1.SetEmptyCellSize((0, 0))
-			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(filament_sizer, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
 			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
@@ -977,11 +991,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			sizer_1.Add(self.pausePluginButton, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.pausePluginPanel, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 10), pos = (13, 0))
+			sizer_1.Add((0, 15), pos = (13, 0))
 		elif printername == "Explorer350":
 			sizer_1 = wx.GridBagSizer(14, 0)
 			sizer_1.SetEmptyCellSize((0, 0))
-			sizer_1.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
+			sizer_1.Add(filament_sizer, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
 			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
@@ -995,7 +1009,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			sizer_1.Add(self.pausePluginButton, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.pausePluginPanel, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.button_1, pos = (13, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 10), pos = (14, 0))
+			sizer_1.Add((0, 15), pos = (14, 0))
 
 		if sizer_1 is not None:
 			sizer_1.AddGrowableCol(0)

@@ -1228,7 +1228,7 @@ def getFilamentName():
 	filament_name = 'Unknown'
 	try:
 		filament_index = getPreference('filament_index')
-		filament_name = doc.getElementsByTagName("Filament"))[filament_index].getAttribute("name")
+		filament_name = doc.getElementsByTagName("Filament")[filament_index].getAttribute("name")
 	except:
 		pass
 	return " " + filament_name
