@@ -786,7 +786,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def __init__(self, parent, callback = None):
 		super(normalSettingsPanel, self).__init__(parent, callback)
-
+		self.already_loaded = False
 		self.parent = parent
 		self.loadxml()
 		self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Filament :"))
@@ -1317,12 +1317,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 		self.spin_ctrl_1.SetValue(float(fila.print_temperature))
 		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
-			self.warning_text.SetLabel(_("Use this setting with caution!"))
+			self.warning_text.SetLabel(_("This setting must be used with caution!"))
 			self.warning_text.SetForegroundColour((169, 68, 66))
 			self.spin_ctrl_1.Enable(True)
 			profile.putProfileSetting('print_temperature', str(float(fila.print_temperature)))
 		else:
-			self.warning_text.SetLabel(_("Supported filament"))
+			self.warning_text.SetLabel(_("Filament approved by Dagoma."))
 			self.warning_text.SetForegroundColour((60, 118, 61))
 			self.spin_ctrl_1.Enable(False)
 			profile.putProfileSetting('print_temperature', str(float(fila.print_temperature) + self.temp_preci))
@@ -1345,8 +1345,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 					self.color_box.Append(name)
 		else:
 			self.color_box.Enable(False)
-		color_index = int(profile.getPreference('color_index')) + 1
-		self.color_box.SetSelection(color_index)
+
+		if not self.already_loaded:
+			color_index = int(profile.getPreference('color_index')) + 1
+			self.color_box.SetSelection(color_index)
+			self.already_loaded = True
+		else:
+			self.color_box.SetSelection(0)
 
 	def Refresh_Color(self):
 		print 'Refresh color'

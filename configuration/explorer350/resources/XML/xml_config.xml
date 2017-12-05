@@ -11,6 +11,50 @@
 			<retraction_amount>3.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>33.20</filament_cost_kg>
+			<Color name="Silver"></Color>
+			<Color name="Silver flake"></Color>
+			<Color name="White"></Color>
+			<Color name="Clear blue"></Color>
+			<Color name="Electric blue"></Color>
+			<Color name="Ocean blue"></Color>
+			<Color name="Capuccino"></Color>
+			<Color name="Chocolate"></Color>
+			<Color name="Lime green"></Color>
+			<Color name="Cream white"></Color>
+			<Color name="Lemon yellow"></Color>
+			<Color name="Sunshine yellow"></Color>
+			<Color name="Khaki"></Color>
+			<Color name="Lavender"></Color>
+			<Color name="Magenta"></Color>
+			<Color name="Mint"></Color>
+			<Color name="Black"></Color>
+			<Color name="Gold"></Color>
+			<Color name="Orange"></Color>
+			<Color name="Sweet pink"></Color>
+			<Color name="Cherry red"></Color>
+			<Color name="Fire red"></Color>
+			<Color name="Glass"></Color>
+			<Color name="Vanilla"></Color>
+			<Color name="Anthracite"></Color>
+			<Color name="Primary red"></Color>
+			<Color name="Primary yellow"></Color>
+			<Color name="Pearl white"></Color>
+			<Color name="Pearl gray"></Color>
+			<Color name="Ivory"></Color>
+			<Color name="Plum"></Color>
+			<Color name="Sand"></Color>
+			<Color name="Phosphorescent"></Color>
+			<Color name="Neon yellow"></Color>
+			<Color name="Neon green"></Color>
+			<Color name="Neon orange"></Color>
+			<Color name="Funky pink"></Color>
+			<Color name="Marron"></Color>
+			<Color name="Fir green"></Color>
+			<Color name="Bronze"></Color>
+			<Color name="Peach"></Color>
+			<Color name="Blueberry"></Color>
+			<Color name="Pistachio"></Color>
+			<Color name="Wood"></Color>
 		</Filament>
 		<Filament name="PLA OctoFiber">
 			<print_temperature>210</print_temperature>
@@ -20,6 +64,26 @@
 			<retraction_amount>3.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>39.98</filament_cost_kg>
+			<Color name="Gray"></Color>
+			<Color name="Silver"></Color>
+			<Color name="Yellow"></Color>
+			<Color name="Black"></Color>
+			<Color name="Bronze"></Color>
+			<Color name="Orange"></Color>
+			<Color name="Red"></Color>
+			<Color name="Blue"></Color>
+			<Color name="White"></Color>
+			<Color name="Pearl white"></Color>
+			<Color name="Pearl blue"></Color>
+			<Color name="Green"></Color>
+			<Color name="Purple"></Color>
+			<Color name="Brown"></Color>
+			<Color name="Carbon black"></Color>
+			<Color name="Pink"></Color>
+			<Color name="Gold"></Color>
+			<Color name="Dark green"></Color>
+			<Color name="Dark blue"></Color>
+			<Color name="Phosphorescent"></Color>
 		</Filament>
 		<Filament name="PLA Filo3D">
 			<print_temperature>205</print_temperature>
@@ -29,14 +93,22 @@
 			<retraction_amount>3.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>59.6</filament_cost_kg>
+			<Color name="Metallic gray"></Color>
+			<Color name="Orange"></Color>
+			<Color name="Neon green"></Color>
+			<Color name="Dark blue"></Color>
+			<Color name="Fire red">
+				<print_temperature>220</print_temperature>
+			</Color>
+			<Color name="White"></Color>
+			<Color name="Mate black"></Color>
+			<Color name="Lemon yellow"></Color>
 			<Color name="Green">
 				<print_temperature>200</print_temperature>
 			</Color>
-			<Color name="Red">
-				<print_temperature>220</print_temperature>
-			</Color>
+			<Color name="Natural"></Color>
 		</Filament>
-		<Filament name="PLA Fiberlogy HD">
+		<Filament name="PLA Fiberlogy">
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -44,6 +116,23 @@
 			<retraction_amount>3.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>41.05</filament_cost_kg>
+			<Color name="Beige"></Color>
+			<Color name="Black"></Color>
+			<Color name="Light blue"></Color>
+			<Color name="Brown"></Color>
+			<Color name="Cherry red"></Color>
+			<Color name="Anthracite"></Color>
+			<Color name="Light gray"></Color>
+			<Color name="Green"></Color>
+			<Color name="Light green"></Color>
+			<Color name="Navy blue"></Color>
+			<Color name="Orange"></Color>
+			<Color name="Pink"></Color>
+			<Color name="Purple"></Color>
+			<Color name="Red"></Color>
+			<Color name="White"></Color>
+			<Color name="Yellow"></Color>
+			<Color name="Translucent"></Color>
 		</Filament>
 		<Filament name="PLA PolyPlus">
 			<print_temperature>210</print_temperature>
@@ -53,6 +142,17 @@
 			<retraction_amount>3.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>46.53</filament_cost_kg>
+			<Color name="Orange"></Color>
+			<Color name="Red"></Color>
+			<Color name="Black"></Color>
+			<Color name="White"></Color>
+			<Color name="Yellow"></Color>
+			<Color name="Natural"></Color>
+			<Color name="Translucent blue"></Color>
+			<Color name="Translucent red"></Color>
+			<Color name="Translucent orange"></Color>
+			<Color name="Translucent yellow"></Color>
+			<Color name="Blue"></Color>
 		</Filament>
 		<Filament name="PLA PolyMax">
 			<print_temperature>210</print_temperature>
@@ -62,6 +162,11 @@
 			<retraction_amount>3.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>59.86</filament_cost_kg>
+			<Color name="Blue"></Color>
+			<Color name="Black"></Color>
+			<Color name="Orange"></Color>
+			<Color name="Red"></Color>
+			<Color name="White"></Color>
 		</Filament>
 		<Filament name="PLA PolyFlex">
 			<print_temperature>230</print_temperature>
@@ -71,6 +176,10 @@
 			<retraction_amount>3.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>66.53</filament_cost_kg>
+			<Color name="Yellow"></Color>
+			<Color name="Black"></Color>
+			<Color name="Orange"></Color>
+			<Color name="White"></Color>
 		</Filament>
 		<Filament name="PLA PolyWood">
 			<print_temperature>210</print_temperature>

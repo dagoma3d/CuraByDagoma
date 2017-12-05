@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-04 18:12+0100\n"
+"PO-Revision-Date: 2017-12-05 12:14+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2696,8 +2696,194 @@ msgstr ""
 msgid "Warning text"
 msgstr ""
 
-msgid "Use this setting with caution!"
+msgid "This setting must be used with caution!"
 msgstr ""
 
-msgid "Supported filament"
+msgid "Filament approved by Dagoma."
+msgstr ""
+
+msgid "Silver"
+msgstr ""
+
+msgid "Silver flake"
+msgstr ""
+
+msgid "White"
+msgstr ""
+
+msgid "Clear blue"
+msgstr ""
+
+msgid "Electric blue"
+msgstr ""
+
+msgid "Ocean blue"
+msgstr ""
+
+msgid "Capuccino"
+msgstr ""
+
+msgid "Chocolate"
+msgstr ""
+
+msgid "Lime green"
+msgstr ""
+
+msgid "Cream white"
+msgstr ""
+
+msgid "Lemon yellow"
+msgstr ""
+
+msgid "Sunshine yellow"
+msgstr ""
+
+msgid "Khaki"
+msgstr ""
+
+msgid "Lavender"
+msgstr ""
+
+msgid "Magenta"
+msgstr ""
+
+msgid "Mint"
+msgstr ""
+
+msgid "Black"
+msgstr ""
+
+msgid "Gold"
+msgstr ""
+
+msgid "Orange"
+msgstr ""
+
+msgid "Sweet pink"
+msgstr ""
+
+msgid "Cherry red"
+msgstr ""
+
+msgid "Fire red"
+msgstr ""
+
+msgid "Glass"
+msgstr ""
+
+msgid "Vanilla"
+msgstr ""
+
+msgid "Anthracite"
+msgstr ""
+
+msgid "Primary red"
+msgstr ""
+
+msgid "Primary yellow"
+msgstr ""
+
+msgid "Pearl white"
+msgstr ""
+
+msgid "Pearl gray"
+msgstr ""
+
+msgid "Ivory"
+msgstr ""
+
+msgid "Plum"
+msgstr ""
+
+msgid "Sand"
+msgstr ""
+
+msgid "Phosphorescent"
+msgstr ""
+
+msgid "Neon yellow"
+msgstr ""
+
+msgid "Neon green"
+msgstr ""
+
+msgid "Neon orange"
+msgstr ""
+
+msgid "Funky pink"
+msgstr ""
+
+msgid "Brown"
+msgstr ""
+
+msgid "Fir green"
+msgstr ""
+
+msgid "Bronze"
+msgstr ""
+
+msgid "Peach"
+msgstr ""
+
+msgid "Blueberry"
+msgstr ""
+
+msgid "Pistachio"
+msgstr ""
+
+msgid "Pearl blue"
+msgstr ""
+
+msgid "Purple"
+msgstr ""
+
+msgid "Carbon black"
+msgstr ""
+
+msgid "Pink"
+msgstr ""
+
+msgid "Dark green"
+msgstr ""
+
+msgid "Dark blue"
+msgstr ""
+
+msgid "Natural"
+msgstr ""
+
+msgid "Translucent blue"
+msgstr ""
+
+msgid "Translucent red"
+msgstr ""
+
+msgid "Translucent orange"
+msgstr ""
+
+msgid "Translucent yellow"
+msgstr ""
+
+msgid "Blue"
+msgstr ""
+
+msgid "Light blue"
+msgstr ""
+
+msgid "Light gray"
+msgstr ""
+
+msgid "Light green"
+msgstr ""
+
+msgid "Navy blue"
+msgstr ""
+
+msgid "Translucent"
+msgstr ""
+
+msgid "Metallic gray"
+msgstr ""
+
+msgid "Mate black"
 msgstr ""

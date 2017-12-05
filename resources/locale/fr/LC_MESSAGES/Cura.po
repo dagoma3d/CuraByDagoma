@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-04 18:12+0100\n"
+"PO-Revision-Date: 2017-12-05 12:14+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3037,11 +3037,197 @@ msgstr "Rouge"
 msgid "Green"
 msgstr "Vert"
 
-msgid "Texte d'avertissement"
-msgstr ""
+msgid "Warning text"
+msgstr "Texte d'avertissement"
 
-msgid "Use this setting with caution!"
-msgstr "Utilisez ce paramètre avec précaution!"
+msgid "This setting must be used with caution!"
+msgstr "Ce paramètre doit être utilisé avec précaution!"
 
-msgid "Supported filament"
-msgstr "Filament supporté"
+msgid "Filament approved by Dagoma."
+msgstr "Filament approuvé par Dagoma."
+
+msgid "Silver"
+msgstr "Argent"
+
+msgid "Silver flake"
+msgstr "Argent pailleté"
+
+msgid "White"
+msgstr "Blanc"
+
+msgid "Clear blue"
+msgstr "Bleu azur"
+
+msgid "Electric blue"
+msgstr "Bleu électrique"
+
+msgid "Ocean blue"
+msgstr "Bleu océan"
+
+msgid "Capuccino"
+msgstr "Capuccino"
+
+msgid "Chocolate"
+msgstr "Chocolat"
+
+msgid "Lime green"
+msgstr "Citron vert"
+
+msgid "Cream white"
+msgstr "Crème"
+
+msgid "Lemon yellow"
+msgstr "Jaune citron"
+
+msgid "Sunshine yellow"
+msgstr "Jaune soleil"
+
+msgid "Khaki"
+msgstr "Kaki"
+
+msgid "Lavender"
+msgstr "Lavande"
+
+msgid "Magenta"
+msgstr "Magenta"
+
+msgid "Mint"
+msgstr "Menthe"
+
+msgid "Black"
+msgstr "Noir"
+
+msgid "Gold"
+msgstr "Or"
+
+msgid "Orange"
+msgstr "Orange"
+
+msgid "Sweet pink"
+msgstr "Rose bonbon"
+
+msgid "Cherry red"
+msgstr "Rouge cerise"
+
+msgid "Fire red"
+msgstr "Rouge pompier"
+
+msgid "Glass"
+msgstr "Transparent"
+
+msgid "Vanilla"
+msgstr "Vanille"
+
+msgid "Anthracite"
+msgstr "Gris anthracite"
+
+msgid "Primary red"
+msgstr "Rouge primaire"
+
+msgid "Primary yellow"
+msgstr "Jaune primaire"
+
+msgid "Pearl white"
+msgstr "Blanc perle"
+
+msgid "Pearl gray"
+msgstr "Argent perle"
+
+msgid "Ivory"
+msgstr "Ivoire"
+
+msgid "Plum"
+msgstr "Prune"
+
+msgid "Sand"
+msgstr "Sable"
+
+msgid "Phosphorescent"
+msgstr "Phosphorescent"
+
+msgid "Neon yellow"
+msgstr "Jaune fluo"
+
+msgid "Neon green"
+msgstr "Vert fluo"
+
+msgid "Neon orange"
+msgstr "Orange fluo"
+
+msgid "Funky pink"
+msgstr "Rose funky"
+
+msgid "Brown"
+msgstr "Marron"
+
+msgid "Fir green"
+msgstr "Vert sapin"
+
+msgid "Bronze"
+msgstr "Bronze"
+
+msgid "Peach"
+msgstr "Pêche"
+
+msgid "Blueberry"
+msgstr "Bleuet"
+
+msgid "Pistachio"
+msgstr "Pistache"
+
+msgid "Pearl blue"
+msgstr "Bleu perle"
+
+msgid "Purple"
+msgstr "Violet"
+
+msgid "Carbon black"
+msgstr "Noir carbone"
+
+msgid "Pink"
+msgstr "Rose"
+
+msgid "Dark green"
+msgstr "Vert foncé"
+
+msgid "Dark blue"
+msgstr "Bleu foncé"
+
+msgid "Natural"
+msgstr "Naturel"
+
+msgid "Translucent blue"
+msgstr "Bleu translucide"
+
+msgid "Translucent red"
+msgstr "Rouge translucide"
+
+msgid "Translucent orange"
+msgstr "Orange translucide"
+
+msgid "Translucent yellow"
+msgstr "Jaune translucide"
+
+msgid "Blue"
+msgstr "Bleu"
+
+msgid "Light blue"
+msgstr "Bleu clair"
+
+msgid "Light gray"
+msgstr "Gris clair"
+
+msgid "Light green"
+msgstr "Vert clair"
+
+msgid "Navy blue"
+msgstr "Bleu marine"
+
+msgid "Translucent"
+msgstr "Translucide"
+
+msgid "Metallic gray"
+msgstr "Gris métal"
+
+msgid "Mate black"
+msgstr "Noir mat"
