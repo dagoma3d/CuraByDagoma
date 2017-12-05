@@ -1352,6 +1352,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.already_loaded = True
 		else:
 			self.color_box.SetSelection(0)
+			profile.putPreference('color_index', -1)
 
 	def Refresh_Color(self):
 		print 'Refresh color'
