@@ -1468,8 +1468,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('wall_thickness', preci.wall_thickness)
 		profile.putProfileSetting('print_speed', preci.print_speed)
 		new_temp_preci = float(preci.temp_preci)
+		calculated_print_temperature = float(profile.getProfileSetting('print_temperature'))
 		if not self.spin_ctrl_1.IsEnabled():
-			calculated_print_temperature = float(profile.getProfileSetting('print_temperature')) + new_temp_preci
+			calculated_print_temperature += new_temp_preci
 			try:
 				calculated_print_temperature -= self.temp_preci
 			except:
