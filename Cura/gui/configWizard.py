@@ -124,7 +124,7 @@ class InfoPage(wx.wizard.WizardPageSimple):
 		self.SetSizer(sizer)
 
 		title = wx.StaticText(self, -1, title)
-		title.SetFont(wx.Font(18, wx.SWISS, wx.NORMAL, wx.BOLD))
+		title.SetFont(wx.Font(16, wx.SWISS, wx.NORMAL, wx.BOLD))
 		sizer.Add(title, pos=(0, 0), span=(1, 2), flag=wx.ALIGN_CENTRE | wx.ALL)
 		sizer.Add(wx.StaticLine(self, -1), pos=(1, 0), span=(1, 2), flag=wx.EXPAND | wx.ALL)
 		sizer.AddGrowableCol(1)
