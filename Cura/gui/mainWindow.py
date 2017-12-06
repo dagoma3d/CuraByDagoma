@@ -809,7 +809,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		"""FIN ERIC"""
 
 		self.label_4 = wx.StaticText(self, wx.ID_ANY, _(("Température (°C) :").decode("utf-8")))
-		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=235, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
+		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		self.button_1 = wx.Button(self, wx.ID_ANY, _(("Préparer l'Impression").decode("utf-8")))
 		# Pause plugin
 		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
@@ -1334,17 +1334,17 @@ class normalSettingsPanel(configBase.configPanelBase):
 		fila = self.filaments[filament_index]
 		profile.putPreference('filament_index', filament_index)
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
-		self.spin_ctrl_1.SetValue(float(fila.print_temperature))
+		calculated_print_temperature = float(fila.print_temperature) + self.temp_preci
+		profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
+		self.spin_ctrl_1.SetValue(calculated_print_temperature)
 		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
 			self.warning_text.SetLabel(_("This setting must be used with caution!"))
 			self.warning_text.SetForegroundColour((169, 68, 66))
 			self.spin_ctrl_1.Enable(True)
-			profile.putProfileSetting('print_temperature', str(float(fila.print_temperature)))
 		else:
 			self.warning_text.SetLabel(_("Filament approved by Dagoma."))
 			self.warning_text.SetForegroundColour((60, 118, 61))
 			self.spin_ctrl_1.Enable(False)
-			profile.putProfileSetting('print_temperature', str(float(fila.print_temperature) + self.temp_preci))
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1390,11 +1390,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 			try:
 				print_temperature = self.getNodeText(color.getElementsByTagName("print_temperature")[0])
-				self.spin_ctrl_1.SetValue(float(print_temperature))
-				if self.spin_ctrl_1.IsEnabled():
-					profile.putProfileSetting('print_temperature', str(float(print_temperature)))
-				else:
-					profile.putProfileSetting('print_temperature', str(float(print_temperature) + self.temp_preci))
+				calculated_print_temperature = float(print_temperature) + self.temp_preci
+				self.spin_ctrl_1.SetValue(calculated_print_temperature)
+				profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
 			except:
 				pass
 
@@ -1436,11 +1434,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			fila = self.filaments[filament_index]
 			profile.putProfileSetting('grip_temperature', fila.grip_temperature)
-			self.spin_ctrl_1.SetValue(float(fila.print_temperature))
-			if self.spin_ctrl_1.IsEnabled():
-				profile.putProfileSetting('print_temperature', str(float(fila.print_temperature)))
-			else:
-				profile.putProfileSetting('print_temperature', str(float(fila.print_temperature) + self.temp_preci))
+			calculated_print_temperature = float(fila.print_temperature) + self.temp_preci
+			self.spin_ctrl_1.SetValue(calculated_print_temperature)
+			profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
 			profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 			profile.putProfileSetting('filament_flow', fila.filament_flow)
 			profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1450,10 +1446,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def Refresh_SpinCtrl(self):
 		print 'Refresh Spin'
-		if self.spin_ctrl_1.IsEnabled():
-			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
-		else:
-			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
+		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
 
 	def Refresh_Rempli(self):
 		fill_index = self.radio_box_2.GetSelection()
@@ -1469,11 +1462,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('solid_layer_thickness', preci.solid_layer_thickness)
 		profile.putProfileSetting('wall_thickness', preci.wall_thickness)
 		profile.putProfileSetting('print_speed', preci.print_speed)
-		self.temp_preci = float(preci.temp_preci)
-		if self.spin_ctrl_1.IsEnabled():
-			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
-		else:
-			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
+		new_temp_preci = float(preci.temp_preci)
+		calculated_print_temperature = float(profile.putProfileSetting('print_temperature')) + new_temp_preci - self.temp_preci
+		self.temp_preci = new_temp_preci
+		profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
 		profile.putProfileSetting('travel_speed', preci.travel_speed)
 		profile.putProfileSetting('bottom_layer_speed', preci.bottom_layer_speed)
 		# Speed
@@ -1752,10 +1744,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def Click_Button(self, event):
-		if self.spin_ctrl_1.IsEnabled():
-			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
-		else:
-			profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue() + self.temp_preci))
+		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
 		self.Print_All()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.OnPrintButton(1)
