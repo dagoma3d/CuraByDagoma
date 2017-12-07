@@ -68,8 +68,6 @@ class mainWindow(wx.Frame):
 			except:
 				pass
 
-		self.normalModeOnlyItems = []
-
 		mruFile = os.path.join(profile.getBasePath(), 'mru_filelist.ini')
 		appname = 'Cura by Dagoma'
 		if 'printername' in locals():
@@ -114,16 +112,14 @@ class mainWindow(wx.Frame):
 		self.viewPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
 		#self.optionsPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
 		self.optionsPane = scrolledpanel.ScrolledPanel(self.splitter, style=wx.BORDER_NONE)
-		self.optionsPane.SetupScrolling(False, True)
+		self.optionsPane.SetupScrolling(True, True)
 		self.optionsPane.FitInside()
 		self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
 
 		##Gui components##
-		self.simpleSettingsPanel = simpleMode.simpleModePanel(self.optionsPane, lambda : self.scene.sceneUpdated())
 		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, lambda : self.scene.sceneUpdated())
 
 		self.optionsSizer = wx.BoxSizer(wx.VERTICAL)
-		self.optionsSizer.Add(self.simpleSettingsPanel, 1, wx.EXPAND) #Dagoma Add wx.EXPAND
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
 		self.optionsPane.SetSizer(self.optionsSizer)
 
@@ -146,18 +142,11 @@ class mainWindow(wx.Frame):
 
 		self.SetBackgroundColour(self.normalSettingsPanel.GetBackgroundColour())
 
-		self.simpleSettingsPanel.Show(False)
-		self.normalSettingsPanel.Show(False)
+		self.normalSettingsPanel.Show()
 
 		# Set default window size & position
 		self.SetSize((wx.Display().GetClientArea().GetWidth()/2,wx.Display().GetClientArea().GetHeight()/2))
 		self.Centre()
-
-		#Timer set; used to check if profile is on the clipboard
-		#self.timer = wx.Timer(self)
-		#self.Bind(wx.EVT_TIMER, self.onTimer)
-		#self.timer.Start(1000)
-		self.lastTriedClipboard = profile.getProfileString()
 
 		# Restore the window position, size & state from the preferences file
 		try:
@@ -175,128 +164,42 @@ class mainWindow(wx.Frame):
 		except:
 			self.Maximize(True)
 
-		self.SetMinSize((960, 600))
-		self.optionsPane.SetMinSize((350, 600))
-		self.viewPane.SetMinSize((610, 600))
-		self.splitter.SplitVertically(self.viewPane, self.optionsPane, -350) #Left and Right are switched in code...
-		self.splitter.SetSashGravity(1.0) # Only the SceneView are resize when the windows size are modifed
-		self.splitter.SetMinimumPaneSize(350)
+		self.SetMinSize((800, 600))
+		self.splitter.SplitVertically(self.viewPane, self.optionsPane)
+		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
+		# Enabled sash
+		self.splitter.SetSashSize(4)
 
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.Centre()
 		if wx.Display.GetFromPoint((self.GetPositionTuple()[0] + self.GetSizeTuple()[1], self.GetPositionTuple()[1] + self.GetSizeTuple()[1])) < 0:
 			self.Centre()
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
-			self.SetSize((960, 600))
+			self.SetSize((800, 600))
 			self.Centre()
 
-		self.Bind(wx.EVT_SIZE, self.mainResize)
-		self.updateSliceMode()
-		self.scene.SetFocus()
-
-
-	def mainResize(self, e):
-		x, y = self.GetSize()
-		self.optionsPane.SetMinSize((350, 600))
-		e.Skip()
-
-	def onTimer(self, e):
-		#Check if there is something in the clipboard
-		profileString = ""
-		try:
-			if not wx.TheClipboard.IsOpened():
-				if not wx.TheClipboard.Open():
-					return
-				do = wx.TextDataObject()
-				if wx.TheClipboard.GetData(do):
-					profileString = do.GetText()
-				wx.TheClipboard.Close()
-
-				startTag = "CURA_PROFILE_STRING:"
-				if startTag in profileString:
-					#print "Found correct syntax on clipboard"
-					profileString = profileString.replace("\n","").strip()
-					profileString = profileString[profileString.find(startTag)+len(startTag):]
-					if profileString != self.lastTriedClipboard:
-						print profileString
-						self.lastTriedClipboard = profileString
-						profile.setProfileFromString(profileString)
-						self.scene.notification.message("Loaded new profile from clipboard.")
-						self.updateProfileToAllControls()
-		except:
-			print "Unable to read from clipboard"
-
-
-	def updateSliceMode(self):
-		isSimple = profile.getPreference('startMode') == 'Simple'
-
-		self.normalSettingsPanel.Show(not isSimple)
-		self.simpleSettingsPanel.Show(isSimple)
 		self.optionsPane.Layout()
-
-		for i in self.normalModeOnlyItems:
-			i.Enable(not isSimple)
-		if isSimple:
-			self.switchToQuickprintMenuItem.Check()
-		else:
-			self.switchToNormalMenuItem.Check()
-
-		# Enabled sash
-		self.splitter.SetSashSize(4)
-		self.defaultFirmwareInstallMenuItem.Enable(firmwareInstall.getDefaultFirmware() is not None)
-		if profile.getMachineSetting('machine_type') == 'ultimaker2':
-			self.bedLevelWizardMenuItem.Enable(False)
-			self.headOffsetWizardMenuItem.Enable(False)
-		if int(profile.getMachineSetting('extruder_amount')) < 2:
-			self.headOffsetWizardMenuItem.Enable(False)
 		self.scene.updateProfileToControls()
 		self.scene._scene.pushFree()
-
-	def onOneAtATimeSwitch(self, e):
-		profile.putPreference('oneAtATime', self.oneAtATime.IsChecked())
-		if self.oneAtATime.IsChecked() and profile.getMachineSettingFloat('extruder_head_size_height') < 1:
-			wx.MessageBox(_('For "One at a time" printing, you need to have entered the correct head size and gantry height in the machine settings'), _('One at a time warning'), wx.OK | wx.ICON_WARNING)
-		self.scene.updateProfileToControls()
-		self.scene._scene.pushFree()
-		self.scene.sceneUpdated()
-
-	def OnPreferences(self, e):
-		prefDialog = preferencesDialog.preferencesDialog(self)
-		prefDialog.Centre()
-		prefDialog.Show()
-		prefDialog.Raise()
-		wx.CallAfter(prefDialog.Show)
+		self.scene.SetFocus()
 
 	def OnLanguagePreferences(self, e):
 		prefDialog = preferencesDialog.languagePreferencesDialog(self)
 		prefDialog.Centre()
 		prefDialog.Show()
 		prefDialog.Raise()
-		#wx.CallAfter(prefDialog.Show)
-
-	def OnMachineSettings(self, e):
-		prefDialog = preferencesDialog.machineSettingsDialog(self)
-		prefDialog.Centre()
-		prefDialog.Show()
-		prefDialog.Raise()
+		wx.CallAfter(prefDialog.Show)
 
 	def OnDropFiles(self, files):
 		if len(files) > 0:
 			self.updateProfileToAllControls()
 		self.scene.loadFiles(files)
 
-	def OnModelMRU(self, e):
-		fileNum = e.GetId() - self.ID_MRU_MODEL1
-		path = self.modelFileHistory.GetHistoryFile(fileNum)
-		# Update Model MRU
-		self.modelFileHistory.AddFileToHistory(path)  # move up the list
-		self.config.SetPath("/ModelMRU")
-		self.modelFileHistory.Save(self.config)
+	def addToProfileMRU(self, file):
+		self.profileFileHistory.AddFileToHistory(file)
+		self.config.SetPath("/ProfileMRU")
+		self.profileFileHistory.Save(self.config)
 		self.config.Flush()
-		# Load Model
-		profile.putPreference('lastFile', path)
-		filelist = [ path ]
-		self.scene.loadFiles(filelist)
 
 	def addToModelMRU(self, file):
 		self.modelFileHistory.AddFileToHistory(file)
@@ -316,176 +219,22 @@ class mainWindow(wx.Frame):
 		profile.loadProfile(path)
 		self.updateProfileToAllControls()
 
-	def addToProfileMRU(self, file):
-		self.profileFileHistory.AddFileToHistory(file)
-		self.config.SetPath("/ProfileMRU")
-		self.profileFileHistory.Save(self.config)
+	def OnModelMRU(self, e):
+		fileNum = e.GetId() - self.ID_MRU_MODEL1
+		path = self.modelFileHistory.GetHistoryFile(fileNum)
+		# Update Model MRU
+		self.modelFileHistory.AddFileToHistory(path)  # move up the list
+		self.config.SetPath("/ModelMRU")
+		self.modelFileHistory.Save(self.config)
 		self.config.Flush()
+		# Load Model
+		profile.putPreference('lastFile', path)
+		filelist = [ path ]
+		self.scene.loadFiles(filelist)
 
 	def updateProfileToAllControls(self):
 		self.scene.updateProfileToControls()
 		self.normalSettingsPanel.updateProfileToControls()
-		self.simpleSettingsPanel.updateProfileToControls()
-
-	def reloadSettingPanels(self):
-		self.optionsSizer.Detach(self.simpleSettingsPanel)
-		self.optionsSizer.Detach(self.normalSettingsPanel)
-		self.simpleSettingsPanel.Destroy()
-		self.normalSettingsPanel.Destroy()
-		self.simpleSettingsPanel = simpleMode.simpleModePanel(self.optionsPane, lambda : self.scene.sceneUpdated())
-		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, lambda : self.scene.sceneUpdated())
-		self.optionsSizer.Add(self.simpleSettingsPanel, 1)
-		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
-		self.updateSliceMode()
-		self.updateProfileToAllControls()
-
-	def updateMachineMenu(self):
-		#Remove all items so we can rebuild the menu. Inserting items seems to cause crashes, so this is the safest way.
-		for item in self.machineMenu.GetMenuItems():
-			self.machineMenu.RemoveItem(item)
-
-		#Add a menu item for each machine configuration.
-		for n in xrange(0, profile.getMachineCount()):
-			i = self.machineMenu.Append(n + 0x1000, profile.getMachineSetting('machine_name', n).title(), kind=wx.ITEM_RADIO)
-			if n == int(profile.getPreferenceFloat('active_machine')):
-				i.Check(True)
-			self.Bind(wx.EVT_MENU, lambda e: self.OnSelectMachine(e.GetId() - 0x1000), i)
-
-		self.machineMenu.AppendSeparator()
-
-		i = self.machineMenu.Append(-1, _("Machine settings..."))
-		self.Bind(wx.EVT_MENU, self.OnMachineSettings, i)
-
-		#Add tools for machines.
-		self.machineMenu.AppendSeparator()
-
-		self.defaultFirmwareInstallMenuItem = self.machineMenu.Append(-1, _("Install default firmware..."))
-		self.Bind(wx.EVT_MENU, self.OnDefaultMarlinFirmware, self.defaultFirmwareInstallMenuItem)
-
-		i = self.machineMenu.Append(-1, _("Install custom firmware..."))
-		self.Bind(wx.EVT_MENU, self.OnCustomFirmware, i)
-
-	def OnLoadProfile(self, e):
-		dlg=wx.FileDialog(self, _("Select profile file to load"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST)
-		dlg.SetWildcard("ini files (*.ini)|*.ini")
-		if dlg.ShowModal() == wx.ID_OK:
-			profileFile = dlg.GetPath()
-			profile.loadProfile(profileFile)
-			self.updateProfileToAllControls()
-
-			# Update the Profile MRU
-			self.addToProfileMRU(profileFile)
-
-		dlg.Destroy()
-
-
-
-
-	def OnLoadProfileFromGcode(self, e):
-		dlg=wx.FileDialog(self, _("Select gcode file to load profile from"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST)
-		dlg.SetWildcard("gcode files (*%s)|*%s;*%s" % (profile.getGCodeExtension(), profile.getGCodeExtension(), profile.getGCodeExtension()[0:2]))
-		if dlg.ShowModal() == wx.ID_OK:
-			gcodeFile = dlg.GetPath()
-			f = open(gcodeFile, 'r')
-			hasProfile = False
-			for line in f:
-				if line.startswith(';CURA_PROFILE_STRING:'):
-					profile.setProfileFromString(line[line.find(':')+1:].strip())
-					if ';{profile_string}' not in profile.getAlterationFile('end.gcode'):
-						profile.setAlterationFile('end.gcode', profile.getAlterationFile('end.gcode') + '\n;{profile_string}')
-					hasProfile = True
-			if hasProfile:
-				self.updateProfileToAllControls()
-			else:
-				wx.MessageBox(_("No profile found in GCode file.\nThis feature only works with GCode files made by Cura 12.07 or newer."), _("Profile load error"), wx.OK | wx.ICON_INFORMATION)
-		dlg.Destroy()
-
-	def OnSaveProfile(self, e):
-		dlg=wx.FileDialog(self, _("Select profile file to save"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_SAVE)
-		dlg.SetWildcard("ini files (*.ini)|*.ini")
-		if dlg.ShowModal() == wx.ID_OK:
-			profileFile = dlg.GetPath()
-			if not profileFile.lower().endswith('.ini'): #hack for linux, as for some reason the .ini is not appended.
-				profileFile += '.ini'
-			profile.saveProfile(profileFile)
-		dlg.Destroy()
-
-	def OnResetProfile(self, e):
-		dlg = wx.MessageDialog(self, _("This will reset all profile settings to defaults.\nUnless you have saved your current profile, all settings will be lost!\nDo you really want to reset?"), _("Profile reset"), wx.YES_NO | wx.ICON_QUESTION)
-		result = dlg.ShowModal() == wx.ID_YES
-		dlg.Destroy()
-		if result:
-			profile.resetProfile()
-			self.updateProfileToAllControls()
-
-	def OnSimpleSwitch(self, e):
-		profile.putPreference('startMode', 'Simple')
-		self.updateSliceMode()
-
-	def OnNormalSwitch(self, e):
-		profile.putPreference('startMode', 'Normal')
-		self.updateSliceMode()
-
-	def OnDefaultMarlinFirmware(self, e):
-		firmwareInstall.InstallFirmware()
-
-	def OnCustomFirmware(self, e):
-		if profile.getMachineSetting('machine_type').startswith('ultimaker'):
-			wx.MessageBox(_("Warning: Installing a custom firmware does not guarantee that you machine will function correctly, and could damage your machine."), _("Firmware update"), wx.OK | wx.ICON_EXCLAMATION)
-		dlg=wx.FileDialog(self, _("Open firmware to upload"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST)
-		dlg.SetWildcard("HEX file (*.hex)|*.hex;*.HEX")
-		if dlg.ShowModal() == wx.ID_OK:
-			filename = dlg.GetPath()
-			dlg.Destroy()
-			if not(os.path.exists(filename)):
-				return
-			#For some reason my Ubuntu 10.10 crashes here.
-			firmwareInstall.InstallFirmware(filename)
-
-	def OnFirstRunWizard(self, e):
-		self.Hide()
-		configWizard.configWizard()
-		self.Show()
-		self.reloadSettingPanels()
-
-	def OnSelectMachine(self, index):
-		profile.setActiveMachine(index)
-		self.reloadSettingPanels()
-
-	def OnBedLevelWizard(self, e):
-		configWizard.bedLevelWizard()
-
-	def OnHeadOffsetWizard(self, e):
-		configWizard.headOffsetWizard()
-
-	def OnExpertOpen(self, e):
-		ecw = expertConfig.expertConfigWindow(lambda : self.scene.sceneUpdated())
-		ecw.Centre()
-		ecw.Show()
-
-	def OnPIDDebugger(self, e):
-		debugger = pidDebugger.debuggerWindow(self)
-		debugger.Centre()
-		debugger.Show(True)
-
-	def onCopyProfileClipboard(self, e):
-		try:
-			if not wx.TheClipboard.IsOpened():
-				wx.TheClipboard.Open()
-				clipData = wx.TextDataObject()
-				self.lastTriedClipboard = profile.getProfileString()
-				profileString = profile.insertNewlines("CURA_PROFILE_STRING:" + self.lastTriedClipboard)
-				clipData.SetText(profileString)
-				wx.TheClipboard.SetData(clipData)
-				wx.TheClipboard.Close()
-		except:
-			print "Could not write to clipboard, unable to get ownership. Another program is using the clipboard."
-
-	def OnAbout(self, e):
-		# aboutBox = aboutWindow.aboutWindow() # MOI ENLEVE LA WINDOWS ABOUT
-		aboutBox.Centre()
-		aboutBox.Show()
-
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -508,23 +257,6 @@ class mainWindow(wx.Frame):
 
 	def OnQuit(self, e):
 		self.Close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class normalSettingsPanel(configBase.configPanelBase):
@@ -605,9 +337,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	"""FIN ERIC"""
-
-
-
 
 
 	def __init__(self, parent, callback = None):
