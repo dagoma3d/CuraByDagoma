@@ -558,28 +558,6 @@ setting('extruder_head_size_max_x', '0.0', float, 'machine', 'hidden').setLabel(
 setting('extruder_head_size_max_y', '0.0', float, 'machine', 'hidden').setLabel(_("Head size towards Y max (mm)"), _("The head size when printing multiple objects, measured from the tip of the nozzle towards the outer part of the head. 35mm for an Ultimaker if the fan is on the left side."))
 setting('extruder_head_size_height', '0.0', float, 'machine', 'hidden').setLabel(_("Printer gantry height (mm)"), _("The height of the gantry holding up the printer head. If an object is higher then this then you cannot print multiple objects one for one. 60mm for an Ultimaker."))
 
-
-
-
-
-
-
-
-"""ERIC"""
-setting('printing_surface_name',   'Verre ', str, 'printing_surface', _('PrintingSurface')).setLabel(_("printing surface height (mm)"), _("Nom de la surface d'impression."))
-setting('printing_surface_height', 	0.0, float, 'printing_surface', _('PrintingSurface')).setRange(0.0001).setLabel(_("printing surface height (mm)"), _("Hauteur de la surface d'impression."))
-
-setting('offset_value', 			0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Valeur de l'offset (mm)"), _("Valeur calculee de l'offset."))
-setting('offset_input', 			0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Entree de l'offset (mm)"), _("Valeur entree de l'offset."))
-
-setting('palpeur_enable',        	'Palpeur', str,  'palpeur',    _('Palpeur')).setLabel(_("Activer le palpeur "), _("A cocher si vous utilisez le palpeur."))
-"""FIN ERIC"""
-
-
-
-
-
-
 validators.warningAbove(settingsDictionary['filament_flow'], 150, _("More flow than 150% is rare and usually not recommended."))
 validators.warningBelow(settingsDictionary['filament_flow'], 50, _("Less flow than 50% is rare and usually not recommended."))
 validators.warningAbove(settingsDictionary['layer_height'], lambda : (float(getProfileSetting('nozzle_size')) * 80.0 / 100.0), _("Thicker layers then %.2fmm (80%% nozzle size) usually give bad results and are not recommended."))
@@ -1209,19 +1187,13 @@ def getGCodeExtension():
 #########################################################
 ## Alteration file functions
 #########################################################
-#
-#
-"""ERIC"""
-#Genere le Gcode pour le palpeur
-#
-#
+
+# Genere le Gcode pour le palpeur
 def getPalpeurGCode():
 	if getProfileSetting('palpeur_enable') == 'None' or getProfileSetting('palpeur_enable') == 'Disabled':
 		return ';No Sensor'
 	if getProfileSetting('palpeur_enable') == 'Palpeur' or getProfileSetting('palpeur_enable') == 'Enabled':
 		return 'G29'
-
-"""FIN ERIC"""
 
 def getFilamentName():
 	filament_name = 'Unknown'
@@ -1243,13 +1215,8 @@ def replaceTagMatch(m):
 	if tag == 'filament_name':
 		return getFilamentName()
 
-	"""ERIC"""
 	if tag == 'palpeur' or tag == 'sensor':
 		return getPalpeurGCode()
-
-	if tag == 'z_offset':
-		return pre + str(getProfileSettingFloat('offset_value'))
-	"""FIN ERIC"""
 
 	if tag == 'date':
 		return pre + time.strftime('%d-%m-%Y')

@@ -400,7 +400,7 @@
 ;Gcode by Cura-by-dagoma for Explorer350 V1.0.7
 ;Filament: {filament_name}
 ;START
-M117 Initialisation
+M117 Initialization
 G21 ;metric values
 G91 ;relative coordinates
 G1 Z10 F{travel_speed} ;lift nozzle
@@ -439,7 +439,7 @@ M117 www.DAGOMA.fr
 		</Gstart>
 		<Gend>
 ;Exctinction
-M117 Extinction
+M117 Shut down
 ;Filament retract
 G91 ;relative positioning
 G1 E-1 F{travel_speed} ;retract the filament a bit before lifting the nozzle, to release some of the pressure
@@ -454,7 +454,7 @@ G28 X0 Y200 ;move X/Y to min endstops
 M84 ;steppers off
 G90 ;absolute positioning
 ;Print end
-M117 Fin Impression
+M117 Print end
 ;{profile_string}
 		</Gend>
 	</GCODE>

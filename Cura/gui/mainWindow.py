@@ -32,9 +32,6 @@ from Cura.util import resources
 
 doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 
-#
-# MAINTENANT
-#
 class mainWindow(wx.Frame):
 	def __init__(self):
 		windowtitle = 'Cura by dagoma'
@@ -52,7 +49,6 @@ class mainWindow(wx.Frame):
 		wx.EVT_CLOSE(self, self.OnClose)
 
 		# allow dropping any file, restrict later
-
 		self.SetDropTarget(dropTarget.FileDropTarget(self.OnDropFiles))
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO) #MOI Ajoute Icone dagoma.ico
@@ -88,16 +84,16 @@ class mainWindow(wx.Frame):
 
 		self.menubar = wx.MenuBar()
 		self.fileMenu = wx.Menu()
-		i = self.fileMenu.Append(-1, _("Ouvrir un Objet") + "\tCTRL+L")
+		i = self.fileMenu.Append(-1, _("Open an Object") + "\tCTRL+L")
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showLoadModel(), i)
-		i = self.fileMenu.Append(1, _(("Préparer l'Impression").decode("utf-8")) + "\tCTRL+S")
+		i = self.fileMenu.Append(1, _("Prepare the Print") + "\tCTRL+S")
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveGCode(), i)
-		i = self.fileMenu.Append(-1, _("Preferences...\tCTRL+P"))
+		i = self.fileMenu.Append(-1, _("Preferences") + "...\tCTRL+P")
 		self.Bind(wx.EVT_MENU, self.OnLanguagePreferences, i)
 
 		# Model MRU list
 		modelHistoryMenu = wx.Menu()
-		self.fileMenu.AppendMenu(wx.NewId(), '&' + _(("Objets Récemment Ouverts").decode("utf-8")), modelHistoryMenu)
+		self.fileMenu.AppendMenu(wx.NewId(), '&' + _("Recently Opened Objects"), modelHistoryMenu)
 		self.modelFileHistory.UseMenu(modelHistoryMenu)
 		self.modelFileHistory.AddFilesToMenu()
 		self.Bind(wx.EVT_MENU_RANGE, self.OnModelMRU, id=self.ID_MRU_MODEL1, id2=self.ID_MRU_MODEL10)
@@ -249,6 +245,9 @@ class mainWindow(wx.Frame):
 			profile.putPreference('window_width', width)
 			profile.putPreference('window_height', height)
 
+		self.normalSashPos = self.splitter.GetSashPosition()
+		profile.putPreference('window_normal_sash', self.normalSashPos)
+
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
 		print "Closing down"
 		self.scene.OnPaint = lambda e : e
@@ -308,36 +307,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		def __init__(self):
 			self.platform_adhesion = None
 
-
-
-
-	"""ERIC"""
-	#Ajout class printing_surface afin de stocker les infos relative au different surface d'impression
-	#
-	#
-	class PrintingSurface:
-		def __init__(self):
-			self.name = ''
-			self.height = ''
-
-	#Ajout class Offset afin de stocker les infos relative à l'offset en Z pour Dagoma
-	#
-	#
-	class Offset:
-		def __init__(self):
-			self.value = ''
-			self.input = ''
-
-	#Ajout class Palpeur afin de stocker les infos relative à la présence d'un palpeur pour Dagoma
-	#
-	#
 	class Palpeur:
 		def __init__(self):
 			self.palpeur = None
-
-
-	"""FIN ERIC"""
-
 
 	def __init__(self, parent, callback = None):
 		super(normalSettingsPanel, self).__init__(parent, callback)
@@ -353,26 +325,19 @@ class normalSettingsPanel(configBase.configPanelBase):
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.color_box = wx.Choice(self, wx.ID_ANY, choices = [])
 		else:
-			self.color_box = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_SIMPLE | wx.CB_READONLY)
+			self.color_box = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
-		self.label_4 = wx.StaticText(self, wx.ID_ANY, _(("Température (°C) :").decode("utf-8")))
+		self.label_4 = wx.StaticText(self, wx.ID_ANY, _("Temperature (°C) :"))
 		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
-		self.button_1 = wx.Button(self, wx.ID_ANY, _(("Préparer l'Impression").decode("utf-8")))
+		self.button_1 = wx.Button(self, wx.ID_ANY, _("Prepare the Print"))
 		# Pause plugin
 		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
 		self.pausePluginPanel = pausePluginPanel.pausePluginPanel(self, callback)
 		self.__set_properties()
 		self.__do_layout()
 
-		"""ERIC"""
-		# Initialisation des valeurs à partir du profile
-		#
-		#
+
 		self.Init_Palpeur_chbx()
-		#self.Init_Printing_surface()
-		"""FIN ERIC"""
-
-
 		#Refresh ALL Value
 		self.Refresh_Supp()
 		self.Refresh_Preci()
@@ -381,12 +346,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Refresh_Color()
 		self.Refresh_SpinCtrl()
 		self.Refresh_Rempli()
-		"""ERIC"""
-		#self.Refresh_Printing_surface()
 		self.Refresh_Palpeur_chbx()
-		#self.Refresh_Offset()
-		"""FIN ERIC"""
-		#self.Refresh_Checkboxsupp()
 		self.Refresh_Checkboxbrim()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -402,47 +362,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_TEXT, self.EVT_SpinCtrl, self.spin_ctrl_1)
 		self.Bind(wx.EVT_TEXT_ENTER, self.EVT_SpinCtrl, self.spin_ctrl_1)
 		self.Bind(wx.EVT_SPINCTRL, self.EVT_SpinCtrl, self.spin_ctrl_1)
-
-		#Evt Select Précision
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Preci, self.radio_box_1)
-
-		#Evt Select Tete
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Tet, self.tetes_box)
-
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Supp, self.printsupp)
-
-		#Evt Select Remplissage
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Rempl, self.radio_box_2)
-
-
-		"""ERIC"""
-		#Evt Select palpeur
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxpalpeur,self.palpeur_chbx)
-
-		# evt input Text
-		#self.Bind(wx.EVT_TEXT, self.EVT_Offset, self.offset_ctrl)
-		"""FIN ERIC"""
-
-		#Evt CheckboxSupport
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Supp ,self.printsupp)
-		#Evt CheckboxBrim
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxbrim, self.printbrim)
-
-		#Evt Print Button
 		self.Bind(wx.EVT_BUTTON, self.Click_Button, self.button_1)
-
-		#Evt Print Button
 		self.Bind(wx.EVT_BUTTON, self.ClickPauseButton, self.pausePluginButton)
-
- 		self.Bind(wx.EVT_SIZE, self.OnSize)
+ 		#self.Bind(wx.EVT_SIZE, self.OnSize)
 
 
 	def __set_properties(self):
-		#self.combo_box_1.SetSelection(0)
 		self.spin_ctrl_1.Enable(False)
-		#self.radio_box_2.SetSelection(1)
-		#self.radio_box_1.SetSelection(0)
-		#self.tetes_box.SetSelection(0)
 		self.printsupp.SetSelection(0)
 
 
@@ -545,11 +478,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.get_Tete()
 		self.get_support()
 		self.get_brim()
-		"""ERIC"""
-		#self.get_Offset()
-		#self.get_printing_surface()
 		self.get_palpeur()
-		"""FIN ERIC"""
 		self.init_Config_Preferences()
 		self.init_Config_Adv()
 		self.init_Config_Expert()
@@ -562,19 +491,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def init_Config_Adv(self):
 		config_adv = doc.getElementsByTagName("Config_Adv")[0]
-		# Retraction Adv
-		#self.setvalue_from_xml(config_adv, 'retraction_speed')
-		#self.setvalue_from_xml(config_adv, 'retraction_amount')
-		# Quality
 		self.setvalue_from_xml(config_adv, 'bottom_thickness')
 		self.setvalue_from_xml(config_adv, 'layer0_width_factor')
 		self.setvalue_from_xml(config_adv, 'object_sink')
-		# # Speed
-		# self.setvalue_from_xml(config_adv, 'infill_speed')
-		# self.setvalue_from_xml(config_adv, 'inset0_speed')
-		# self.setvalue_from_xml(config_adv, 'insetx_speed')
-		# Cool
-		#self.setvalue_from_xml(config_adv, 'cool_min_layer_time')
 		self.setvalue_from_xml(config_adv, 'fan_enabled')
 		print 'Config_Adv Reload from XML file'
 
@@ -668,7 +587,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.combo_box_1 = wx.Choice(self, wx.ID_ANY, choices = choices)
 		else:
-			self.combo_box_1 = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_SIMPLE | wx.CB_READONLY)
+			self.combo_box_1 = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 		self.combo_box_1.SetSelection(int(profile.getPreference('filament_index')))
 
 	def get_remplissage(self):
@@ -764,20 +683,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 					pass
 		self.printsupp = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
-
-	#def get_support(self):
-	#	bloc_name = doc.getElementsByTagName("Bloc_Support")[0].getAttribute("label")
-	#	self.printsupp = wx.CheckBox(self, wx.ID_ANY, bloc_name)
-	#	support_enable = doc.getElementsByTagName("Support_Enable")
-	#	support_disable = doc.getElementsByTagName("Support_Disable")
-	#	self.supports = []
-	#	self.supports.append(self.Support())
-	#	self.supports[0].support = self.getNodeText(support_enable[0].getElementsByTagName("support")[0])
-	#	# self.supports[0].platform_adhesion = self.getNodeText(support_enable[0].getElementsByTagName("platform_adhesion")[0])
-	#	self.supports.append(self.Support())
-	#	self.supports[1].support = self.getNodeText(support_disable[0].getElementsByTagName("support")[0])
-	#	# self.supports[1].platform_adhesion = self.getNodeText(support_disable[0].getElementsByTagName("platform_adhesion")[0])
-
 	def get_brim(self):
 		bloc_name = _("Improve the adhesion surface")
 		self.printbrim = wx.CheckBox(self, wx.ID_ANY, bloc_name)
@@ -789,11 +694,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.brims.append(self.Brim())
 		self.brims[1].platform_adhesion = self.getNodeText(brim_disable[0].getElementsByTagName("platform_adhesion")[0])
 
-
-	"""ERIC"""
-	#Fonction qui recupere dans le xml les differentes lignes pour le bloc Palpeur
-	#
-	#
+	# Fonction qui recupere dans le xml les differentes lignes pour le bloc Palpeur
 	def get_palpeur(self):
 		bloc_name = _("Use the sensor")
 		self.palpeur_chbx = wx.CheckBox(self, wx.ID_ANY, bloc_name)
@@ -814,33 +715,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.palpeurs[0].palpeur = self.getNodeText(sensor_enabled)
 		self.palpeurs.append(self.Palpeur())
 		self.palpeurs[1].palpeur = self.getNodeText(sensor_disabled)
-
-	#Fonction qui recupere dans le xml les differentes lignes pour le bloc Pritning Surface
-	#
-	#
-	def get_printing_surface(self):
-		bloc_name = _(doc.getElementsByTagName("Bloc_Printing_surface")[0].getAttribute("label"))
-
-
-		printing_surfaces = doc.getElementsByTagName("Printing_surface")
-		choices = []
-		self.printing_surfaces = []
-
-		for printing_surface in printing_surfaces:
-			if printing_surface.hasAttributes():
-				prtsurf = self.PrintingSurface()
-				name = _(printing_surface.getAttribute("name"))
-				choices.append(name)
-				prtsurf.name = name
-				try :
-					prtsurf.height = self.getNodeText(printing_surface.getElementsByTagName("printing_surface_height")[0])
-					self.printing_surfaces.append(prtsurf)
-				except :
-					print 'Some Error in Printing Surface Bloc'
-					pass
-		self.radio_box_3 = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
-	"""FIN ERIC"""
-
 
 	def Refresh_Fila(self):
 		#print "Refresh fila"
@@ -1027,98 +901,27 @@ class normalSettingsPanel(configBase.configPanelBase):
 		supp = self.supports[self.printsupp.GetSelection()]
 		profile.putProfileSetting('support', supp.support)
 
-	#def Refresh_Checkboxsupp(self):
-	#	if self.printsupp.GetValue():
-	#		profile.putProfileSetting('support', self.supports[0].support)
-	#	else:
-	#		profile.putProfileSetting('support', self.supports[1].support)
-
 	def Refresh_Checkboxbrim(self):
 		if self.printbrim.GetValue():
 			profile.putProfileSetting('platform_adhesion', self.brims[0].platform_adhesion)
 		else:
 			profile.putProfileSetting('platform_adhesion', self.brims[1].platform_adhesion)
 
-
-	"""ERIC"""
-
-	#fonction pour initialiser la checkbox palpeur dans le profil
-	#
-	#
+	# fonction pour initialiser la checkbox palpeur dans le profil
 	def Init_Palpeur_chbx(self):
 		if profile.getProfileSetting('palpeur_enable') == 'Palpeur' or profile.getProfileSetting('palpeur_enable') == 'Enabled':
 			self.palpeur_chbx.SetValue(True)
 		else :
 			self.palpeur_chbx.SetValue(False)
-		#self.palpeur_chbx.SetValue(True)
 		self.palpeur_chbx.Refresh()
 
-
-	#fonction pour initialiser la checkbox palpeur dans le profil
-	#
-	#
-	def Init_Printing_surface(self):
-		self.radio_box_3.SetStringSelection(profile.getProfileSetting('printing_surface_name'))
-		self.radio_box_3.Refresh()
-
-
-	#fonction qui verif si un str est un floatant
-	#
-	#
-	def is_number(self, zeString):
-		try:
-			float(zeString)
-			return True
-		except ValueError:
-			return False
-
-
-	#fonction pour calcul l'offset en fonction
-	#
-	#
-	def calculateZOffset(self):
-		printing_surface_height = float(profile.getProfileSetting('printing_surface_height'))
-		offset_input = float(profile.getProfileSetting('offset_input'))
-		offset_value = offset_input - printing_surface_height
-		profile.putProfileSetting('offset_value', offset_value)
-
-
-	#fonction pour enregistrer les données relative à la surface d'impresion dans le profil
-	#
-	#
-	#def Refresh_Printing_surface(self):
-	#	prtsurf = self.printing_surfaces[self.radio_box_3.GetSelection()]
-	#	profile.putProfileSetting('printing_surface_name', prtsurf.name)
-	#	profile.putProfileSetting('printing_surface_height', prtsurf.height)
-	#	self.calculateZOffset()
-
-
-	#fonction pour enregistrer les données relative à l'offset dans le profil
-	#
-	#
-	def Refresh_Offset(self):
-		valu = self.offset_ctrl.GetValue()
-		if self.is_number(valu) :
-			profile.putProfileSetting('offset_input', self.offset_ctrl.GetValue())
-			self.calculateZOffset()
-		else :
-			self.offset_ctrl.SetValue(profile.getProfileSetting('offset_input'))
-			self.offset_ctrl.Refresh()
-
-	#fonction pour enregistrer les données relative au palpeur dans le profil
-	#
-	#
+	# fonction pour enregistrer les données relative au palpeur dans le profil
 	def Refresh_Palpeur_chbx(self):
 		if self.palpeur_chbx.GetValue():
 			sensor_value = self.palpeurs[0].palpeur
 		else:
 			sensor_value = self.palpeurs[1].palpeur
 		profile.putProfileSetting('palpeur_enable', sensor_value)
-
-
-
-	"""FIN ERIC"""
-
 
 	def EVT_Supp(self, event):
 		self.Refresh_Supp()
@@ -1176,32 +979,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
-	"""ERIC"""
-	# evenement sur le bloc Printing Surface
-	#
-	#
-	def EVT_PrtSurf(self, event):
-		self.Refresh_Printing_surface()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
-
-
-	# evenement sur le l'input pour l'Offset
-	#
-	#
-	def EVT_Offset(self, event):
-		self.Refresh_Offset()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
-
-
 	# evenement sur le bloc palpeur
-	#
-	#
 	def EVT_Checkboxpalpeur(self, event):
 		self.Refresh_Palpeur_chbx()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -1209,64 +987,37 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
-	"""FIN ERIC"""
-
  	def Print_All(self):
-		print '*******************************************'
-		print 'Initialisation'
+		print '********* Slicing parameters *********'
+		print "print_temperature : ", profile.getProfileSetting('print_temperature')
 		print "nozzle_size : ", profile.getProfileSetting('nozzle_size')
 		print "rectration_enable : ", profile.getProfileSetting('retraction_enable')
 		print "fan_full_height : ", profile.getProfileSetting('fan_full_height')
 		print "fan_speed : ", profile.getProfileSetting('fan_speed')
 		print "fan_speed_max : ", profile.getProfileSetting('fan_speed_max')
 		print "coll_min_feedrate : ", profile.getProfileSetting('cool_min_feedrate')
-		print '*******************************************'
-		print "Filament : ", u''.join(self.combo_box_1.GetStringSelection()).encode('utf-8').strip()
 		print "filament_diameter : ", profile.getProfileSetting('filament_diameter')
 		print "filament_flow : ", profile.getProfileSetting('filament_flow')
 		print "retraction_speed : ", profile.getProfileSetting('retraction_speed')
 		print "retraction_amount : ", profile.getProfileSetting('retraction_amount')
 		print "filament_physical_density : ", profile.getProfileSetting('filament_physical_density')
 		print "filament_cost_kg : ", profile.getProfileSetting('filament_cost_kg')
-		print "Température de base : ", self.spin_ctrl_1.GetValue()
-		print '*******************************************'
-		print "Remplissage : ", u''.join(self.radio_box_2.GetStringSelection()).encode('utf-8').strip()
 		print "fill_density", profile.getProfileSetting('fill_density')
-		print '*******************************************'
-		print "Précision : ", u''.join(self.radio_box_1.GetStringSelection()).encode('utf-8').strip()
 		print "layer_height ", profile.getProfileSetting('layer_height')
-		print "bottom_thickness / solid_layer_thickness : ", profile.getProfileSetting('solid_layer_thickness')
-		print "shell_thickness / wall_thickness : ", profile.getProfileSetting('wall_thickness')
+		print "solid_layer_thickness : ", profile.getProfileSetting('solid_layer_thickness')
+		print "wall_thickness : ", profile.getProfileSetting('wall_thickness')
 		print "print_speed : ", profile.getProfileSetting('print_speed')
-		print "Print temp à add : ", self.temp_preci
 		print "travel_speed : ", profile.getProfileSetting('travel_speed')
 		print "bottom_layer_speed : ", profile.getProfileSetting('bottom_layer_speed')
 		print "infill_speed : ", profile.getProfileSetting('infill_speed')
 		print "inset0_speed : ", profile.getProfileSetting('inset0_speed')
 		print "insetx_speed : ", profile.getProfileSetting('insetx_speed')
-		print '*******************************************'
-		print "Tête : ", u''.join(self.tetes_box.GetStringSelection()).encode('utf-8').strip()
 		print "fan_speed ", profile.getProfileSetting('fan_speed')
 		print "cool_min_layer_time : ", profile.getProfileSetting('cool_min_layer_time')
-		print '*******************************************'
-		print "Support Label : ", u''.join(self.printsupp.GetStringSelection()).encode('utf-8').strip()
 		print "support : ", profile.getProfileSetting('support')
 		print "platform_adhesion : ", profile.getProfileSetting('platform_adhesion')
-		print '*******************************************'
-		print "Température d'impression : ", profile.getProfileSetting('print_temperature')
-		"""ERIC"""
-		print '*******************************************'
-		print "Surface d'impression choisie : "
-		print "name : ", profile.getProfileSetting('printing_surface_name')
-		print "height : ", profile.getProfileSetting('printing_surface_height')
-		print '*******************************************'
-		print "Offset en Z : "
-		print "Valeur Entrée : ", profile.getProfileSetting('offset_input')
-		print "Valeur Calculée : ", profile.getProfileSetting('offset_value')
-		print '*******************************************'
-		print "Palpeur Activé: ", profile.getProfileSetting('palpeur_enable')
-		print '*******************************************'
-		"""FIN ERIC"""
+		print "palpeur_enable : ", profile.getProfileSetting('palpeur_enable')
+		print '**************************************'
 
 
 	def Click_Button(self, event):
@@ -1284,76 +1035,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 			scene_viewSelection.setValue(0)
 		event.Skip()
 
-	def _addSettingsToPanels(self, category, left, right):
-		count = len(profile.getSubCategoriesFor(category)) + len(profile.getSettingsForCategory(category))
-
-		p = left
-		n = 0
-		for title in profile.getSubCategoriesFor(category):
-			n += 1 + len(profile.getSettingsForCategory(category, title))
-			if n > count / 2:
-				p = right
-			configBase.TitleRow(p, _(title))
-			for s in profile.getSettingsForCategory(category, title):
-				configBase.SettingRow(p, s.getName())
-
-	def SizeLabelWidths(self, left, right):
-		leftWidth = self.getLabelColumnWidth(left)
-		rightWidth = self.getLabelColumnWidth(right)
-		maxWidth = max(leftWidth, rightWidth)
-		self.setLabelColumnWidth(left, maxWidth)
-		self.setLabelColumnWidth(right, maxWidth)
-
 	def OnSize(self, e):
 		e.Skip()
 
-	def UpdateSize(self, configPanel):
-		sizer = configPanel.GetSizer()
-
-		# Pseudocde
-		# if horizontal:
-		#     if width(col1) < best_width(col1) || width(col2) < best_width(col2):
-		#         switch to vertical
-		# else:
-		#     if width(col1) > (best_width(col1) + best_width(col1)):
-		#         switch to horizontal
-		#
-
-		col1 = configPanel.leftPanel
-		colSize1 = col1.GetSize()
-		colBestSize1 = col1.GetBestSize()
-		col2 = configPanel.rightPanel
-		colSize2 = col2.GetSize()
-		colBestSize2 = col2.GetBestSize()
-
-		orientation = sizer.GetOrientation()
-
-		if orientation == wx.HORIZONTAL:
-			if (colSize1[0] <= colBestSize1[0]) or (colSize2[0] <= colBestSize2[0]):
-				configPanel.Freeze()
-				sizer = wx.BoxSizer(wx.VERTICAL)
-				sizer.Add(configPanel.leftPanel, flag=wx.EXPAND)
-				sizer.Add(configPanel.rightPanel, flag=wx.EXPAND)
-				configPanel.SetSizer(sizer)
-				#sizer.Layout()
-				configPanel.Layout()
-				self.Layout()
-				configPanel.Thaw()
-		else:
-			if max(colSize1[0], colSize2[0]) > (colBestSize1[0] + colBestSize2[0]):
-				configPanel.Freeze()
-				sizer = wx.BoxSizer(wx.HORIZONTAL)
-				sizer.Add(configPanel.leftPanel, proportion=1, border=35, flag=wx.EXPAND)
-				sizer.Add(configPanel.rightPanel, proportion=1, flag=wx.EXPAND)
-				configPanel.SetSizer(sizer)
-				#sizer.Layout()
-				configPanel.Layout()
-				self.Layout()
-				configPanel.Thaw()
-
 	def updateProfileToControls(self):
 		super(normalSettingsPanel, self).updateProfileToControls()
-		# if self.alterationPanel is not None:
-		# 	self.alterationPanel.updateProfileToControls()
-		# self.pluginPanel.updateProfileToControls()
 		self.pausePluginPanel.updateProfileToControls()

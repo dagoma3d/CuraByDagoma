@@ -21,3 +21,5 @@ DmgTemplateCompressed_*.dmg
 DmgTemplateCompressed-*.dmg
 *.DS_Store
 *.sparseimage
+*.exe
+*.zip
