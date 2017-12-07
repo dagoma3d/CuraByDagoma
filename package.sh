@@ -341,17 +341,14 @@ fi
 #############################
 if [[ $BUILD_TARGET == win32 ]]; then
 	##Which versions of external programs to use
-	WIN_PORTABLE_PY_VERSION=2.7.2.1
+	WIN_PORTABLE_PY_VERSION=2.7.6.1
 	#Check if we have 7zip, needed to extract and packup a bunch of packages for windows.
 	checkTool 7z "7zip: http://www.7-zip.org/"
 	checkTool mingw32-make "mingw: http://www.mingw.org/"
 	#Get portable python for windows and extract it. (Linux and Mac need to install python themselfs)
 	downloadURL http://ftp.nluug.nl/languages/python/portablepython/v2.7/PortablePython_${WIN_PORTABLE_PY_VERSION}.exe
-	downloadURL http://sourceforge.net/projects/pyserial/files/pyserial/2.5/pyserial-2.5.win32.exe
 	downloadURL http://sourceforge.net/projects/pyopengl/files/PyOpenGL/3.0.1/PyOpenGL-3.0.1.win32.exe
-	downloadURL http://sourceforge.net/projects/numpy/files/NumPy/1.6.2/numpy-1.6.2-win32-superpack-python2.7.exe
 	downloadURL http://videocapture.sourceforge.net/VideoCapture-0.9-5.zip
-	#downloadURL http://ffmpeg.zeranoe.com/builds/win32/static/ffmpeg-20120927-git-13f0cd6-win32-static.7z
 	downloadURL http://sourceforge.net/projects/comtypes/files/comtypes/0.6.2/comtypes-0.6.2.win32.exe
 	downloadURL http://www.uwe-sieber.de/files/ejectmedia.zip
 
@@ -365,13 +362,10 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	#For windows extract portable python to include it.
 	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/App
 	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/Lib/site-packages
-	extract pyserial-2.5.win32.exe PURELIB
+	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/numpy
+	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/serial
 	extract PyOpenGL-3.0.1.win32.exe PURELIB
-	extract numpy-1.6.2-win32-superpack-python2.7.exe numpy-1.6.2-sse2.exe
-	extract numpy-1.6.2-sse2.exe PLATLIB
 	extract VideoCapture-0.9-5.zip VideoCapture-0.9-5/Python27/DLLs/vidcap.pyd
-	#extract ffmpeg-20120927-git-13f0cd6-win32-static.7z ffmpeg-20120927-git-13f0cd6-win32-static/bin/ffmpeg.exe
-	#extract ffmpeg-20120927-git-13f0cd6-win32-static.7z ffmpeg-20120927-git-13f0cd6-win32-static/licenses
 	extract comtypes-0.6.2.win32.exe
 	extract ejectmedia.zip Win32
 	echo "Step extract Finished"
@@ -380,36 +374,32 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	mkdir -p ${BUILD_NAME}/Cura/
 	mv \$_OUTDIR/App/* ${BUILD_NAME}/python
 	mv \$_OUTDIR/Lib/site-packages/wx* ${BUILD_NAME}/python/Lib/site-packages/
-	mv PURELIB/serial ${BUILD_NAME}/python/Lib
+	mv \$_OUTDIR/serial ${BUILD_NAME}/python/Lib
 	mv PURELIB/OpenGL ${BUILD_NAME}/python/Lib
 	mv PURELIB/comtypes ${BUILD_NAME}/python/Lib
-	mv PLATLIB/numpy ${BUILD_NAME}/python/Lib
+	mv \$_OUTDIR/numpy ${BUILD_NAME}/python/Lib
 	cp -a Power/power ${BUILD_NAME}/python/Lib
 	mv VideoCapture-0.9-5/Python27/DLLs/vidcap.pyd ${BUILD_NAME}/python/DLLs
-	#mv ffmpeg-20120927-git-13f0cd6-win32-static/bin/ffmpeg.exe ${BUILD_NAME}/Cura/
-	#mv ffmpeg-20120927-git-13f0cd6-win32-static/licenses ${BUILD_NAME}/Cura/ffmpeg-licenses/
 	mv Win32/EjectMedia.exe ${BUILD_NAME}/Cura/
 	echo "Step mv Finished"
 
-	#rm -rf Power/
 	rm -rf \$_OUTDIR
 	rm -rf Win32
 	rm -rf PURELIB
-	rm -rf PLATLIB
 	rm -rf VideoCapture-0.9-5
-	rm -rf numpy-1.6.2-sse2.exe
-	#rm -rf ffmpeg-20120927-git-13f0cd6-win32-static
 	echo "Step rm Finished"
 
 	#Clean up portable python a bit, to keep the package size down.
+	rm -rf ${BUILD_NAME}/python/PyCharm
 	rm -rf ${BUILD_NAME}/python/PyScripter.*
 	rm -rf ${BUILD_NAME}/python/Doc
 	rm -rf ${BUILD_NAME}/python/locale
 	rm -rf ${BUILD_NAME}/python/tcl
-	rm -rf ${BUILD_NAME}/python/Lib/test
 	rm -rf ${BUILD_NAME}/python/Lib/distutils
-	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-2.8-msw-unicode/wx/tools
-	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-2.8-msw-unicode/wx/locale
+	rm -rf ${BUILD_NAME}/python/Lib/test
+	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-3.0-msw/docs
+	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-3.0-msw/wx/locale
+	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-3.0-msw/wx/tools
 	#Remove the gle files because they require MSVCR71.dll, which is not included. We also don't need gle, so it's safe to remove it.
 	rm -rf ${BUILD_NAME}/python/Lib/OpenGL/DLLS/gle*
 	echo "Step clean Finished"
