@@ -327,7 +327,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			self.color_box = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
-		self.label_4 = wx.StaticText(self, wx.ID_ANY, _("Temperature (°C) :"))
+		self.label_4 = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :").decode('utf-8')))
 		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		self.button_1 = wx.Button(self, wx.ID_ANY, _("Prepare the Print"))
 		# Pause plugin
