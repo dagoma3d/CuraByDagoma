@@ -11,10 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - XML file translated in english and used when the chosen language in english.
 - Refine displayed print time.
 
-## [1.0.7] - 2017-12-01
-- Add the color change feature.
-
 ## [1.0.6] - 2017-07-01
+- Add the color change feature.
 - Fix some display bugs.
 
 ## [1.0.5] - 2017-03-01

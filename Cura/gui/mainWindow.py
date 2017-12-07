@@ -3,12 +3,14 @@
 
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
+import platform
 import wx
 import os
 import webbrowser
 import sys
 import wx.lib.hyperlink as hl
-
+from wx.lib import scrolledpanel
+from xml.dom import minidom
 
 from Cura.gui import configBase
 from Cura.gui import expertConfig
@@ -22,16 +24,11 @@ from Cura.gui import simpleMode
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
 from Cura.gui.util import dropTarget
-#from Cura.gui.tools import batchRun
 from Cura.gui.tools import pidDebugger
-from Cura.gui.tools import minecraftImport
 from Cura.util import profile
 from Cura.util import version
-import platform
 from Cura.util import meshLoader
-
 from Cura.util import resources
-from xml.dom import minidom
 
 doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
 
@@ -50,7 +47,7 @@ class mainWindow(wx.Frame):
 
 		windowtitle = windowtitle + ' 1.0.7'
 
-		super(mainWindow, self).__init__(None, title=windowtitle)
+		super(mainWindow, self).__init__(None, title=windowtitle, pos=(0, 0), size=wx.DisplaySize())
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
@@ -91,55 +88,14 @@ class mainWindow(wx.Frame):
 		self.config.SetPath("/ProfileMRU")
 		self.profileFileHistory.Load(self.config)
 
-		# self.menubar = wx.MenuBar()
+		self.menubar = wx.MenuBar()
 		self.fileMenu = wx.Menu()
 		i = self.fileMenu.Append(-1, _("Ouvrir un Objet") + "\tCTRL+L")
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showLoadModel(), i)
-		# i = self.fileMenu.Append(-1, _("Save model...\tCTRL+S"))
-		# self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveModel(), i)
-		# i = self.fileMenu.Append(-1, _("Reload platform\tF5"))
-		# # self.Bind(wx.EVT_MENU, lambda e: self.scene.reloadScene(e), i)
-		# i = self.fileMenu.Append(-1, _("Clear platform"))
-		# self.Bind(wx.EVT_MENU, lambda e: self.scene.OnDeleteAll(e), i)
-
-		# self.fileMenu.AppendSeparator()
-		# i = self.fileMenu.Append(-1, _("Print...\tCTRL+P"))
-		# # self.Bind(wx.EVT_MENU, lambda e: self.scene.OnPrintButton(1), i)
 		i = self.fileMenu.Append(1, _(("Préparer l'Impression").decode("utf-8")) + "\tCTRL+S")
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveGCode(), i)
-		# i = self.fileMenu.Append(-1, _("Show slice engine log..."))
-		# self.Bind(wx.EVT_MENU, lambda e: self.scene._showEngineLog(), i)
-		# self.fileMenu.AppendSeparator()
-
-		# i = self.fileMenu.Append(-1, _("Open Profile..."))
-		# self.normalModeOnlyItems.append(i)
-		# self.Bind(wx.EVT_MENU, self.OnLoadProfile, i)
-
-		# i = self.fileMenu.Append(-1, _("Save Profile..."))
-		# self.normalModeOnlyItems.append(i)
-		# self.Bind(wx.EVT_MENU, self.OnSaveProfile, i)
-
-		# i = self.fileMenu.Append(-1, _("Load Profile from GCode..."))
-		# self.normalModeOnlyItems.append(i)
-		# self.Bind(wx.EVT_MENU, self.OnLoadProfileFromGcode, i)
-		# self.fileMenu.AppendSeparator()
-
-		# i = self.fileMenu.Append(-1, _("Reset Profile to default"))
-		# self.normalModeOnlyItems.append(i)
-		# self.Bind(wx.EVT_MENU, self.OnResetProfile, i)
-
-		# self.fileMenu.AppendSeparator()
-
 		i = self.fileMenu.Append(-1, _("Preferences...\tCTRL+P"))
 		self.Bind(wx.EVT_MENU, self.OnLanguagePreferences, i)
-
-		# i = self.fileMenu.Append(-1, _("Machine settings...\tCTRL+M"))
-		# self.Bind(wx.EVT_MENU, self.OnMachineSettings, i)
-
-		# i = self.fileMenu.Append(-1, _("Expert settings...\tCTRL+E"))
-		# self.Bind(wx.EVT_MENU, self.OnExpertOpen, i)
-
-		# self.fileMenu.AppendSeparator()
 
 		# Model MRU list
 		modelHistoryMenu = wx.Menu()
@@ -148,129 +104,35 @@ class mainWindow(wx.Frame):
 		self.modelFileHistory.AddFilesToMenu()
 		self.Bind(wx.EVT_MENU_RANGE, self.OnModelMRU, id=self.ID_MRU_MODEL1, id2=self.ID_MRU_MODEL10)
 
-		# Profle MRU list
-		# profileHistoryMenu = wx.Menu()
-		# self.fileMenu.AppendMenu(wx.NewId(), _("Recent Profile Files"), profileHistoryMenu)
-		# self.profileFileHistory.UseMenu(profileHistoryMenu)
-		# self.profileFileHistory.AddFilesToMenu()
-		# self.Bind(wx.EVT_MENU_RANGE, self.OnProfileMRU, id=self.ID_MRU_PROFILE1, id2=self.ID_MRU_PROFILE10)
-
 		self.fileMenu.AppendSeparator()
 		i = self.fileMenu.Append(wx.ID_EXIT, _("Quit"))
 		self.Bind(wx.EVT_MENU, self.OnQuit, i)
-		# self.menubar.Append(self.fileMenu, '&' + _("File"))
-
-		toolsMenu = wx.Menu()
-		#i = toolsMenu.Append(-1, 'Batch run...')
-		#self.Bind(wx.EVT_MENU, self.OnBatchRun, i)
-		#self.normalModeOnlyItems.append(i)
-
-
-		# Dagoma Menu //Hiden on Linux
-		menuBar = wx.MenuBar()
-		menuBar.Append(self.fileMenu, _("File"))
-		self.SetMenuBar(menuBar)
-		#menuBar.Hide()
-		#menuBar.Show(False)
-
-		if minecraftImport.hasMinecraft():
-			i = toolsMenu.Append(-1, _("Minecraft map import..."))
-			self.Bind(wx.EVT_MENU, self.OnMinecraftImport, i)
-
-		if version.isDevVersion():
-			i = toolsMenu.Append(-1, _("PID Debugger..."))
-			self.Bind(wx.EVT_MENU, self.OnPIDDebugger, i)
-
-		#i = toolsMenu.Append(-1, _("Copy profile to clipboard"))
-		#self.Bind(wx.EVT_MENU, self.onCopyProfileClipboard,i)
-
-		toolsMenu.AppendSeparator()
-		self.allAtOnceItem = toolsMenu.Append(-1, _("Print all at once"), kind=wx.ITEM_RADIO)
-		self.Bind(wx.EVT_MENU, self.onOneAtATimeSwitch, self.allAtOnceItem)
-		self.oneAtATime = toolsMenu.Append(-1, _("Print one at a time"), kind=wx.ITEM_RADIO)
-		self.Bind(wx.EVT_MENU, self.onOneAtATimeSwitch, self.oneAtATime)
-		if profile.getPreference('oneAtATime') == 'True':
-			self.oneAtATime.Check(True)
-		else:
-			self.allAtOnceItem.Check(True)
-
-
-		# self.menubar.Append(toolsMenu, _("Tools"))
-
-		#Machine menu for machine configuration/tooling
-		self.machineMenu = wx.Menu()
-		self.updateMachineMenu()
-
-		# self.menubar.Append(self.machineMenu, _("Machine"))
-
-		expertMenu = wx.Menu()
-		i = expertMenu.Append(-1, _("Switch to quickprint..."), kind=wx.ITEM_RADIO)
-		self.switchToQuickprintMenuItem = i
-		self.Bind(wx.EVT_MENU, self.OnSimpleSwitch, i)
-
-		i = expertMenu.Append(-1, _("Switch to full settings..."), kind=wx.ITEM_RADIO)
-		self.switchToNormalMenuItem = i
-		self.Bind(wx.EVT_MENU, self.OnNormalSwitch, i)
-		expertMenu.AppendSeparator()
-
-		i = expertMenu.Append(-1, _("Open expert settings...\tCTRL+E"))
-		self.normalModeOnlyItems.append(i)
-		self.Bind(wx.EVT_MENU, self.OnExpertOpen, i)
-		expertMenu.AppendSeparator()
-
-		i = expertMenu.Append(-1, _("Run first run wizard..."))
-		self.Bind(wx.EVT_MENU, self.OnFirstRunWizard, i)
-		self.bedLevelWizardMenuItem = expertMenu.Append(-1, _("Run bed leveling wizard..."))
-		self.Bind(wx.EVT_MENU, self.OnBedLevelWizard, self.bedLevelWizardMenuItem)
-		self.headOffsetWizardMenuItem = expertMenu.Append(-1, _("Run head offset wizard..."))
-		self.Bind(wx.EVT_MENU, self.OnHeadOffsetWizard, self.headOffsetWizardMenuItem)
-
-		# self.menubar.Append(expertMenu, _("Expert"))
-
-
-		helpMenu = wx.Menu()
-		# i = helpMenu.Append(-1, _("Online documentation..."))
-		# self.Bind(wx.EVT_MENU, lambda e: webbrowser.open('http://daid.github.com/Cura'), i)
-
-		# i = helpMenu.Append(-1, _("Report a problem..."))
-		# self.Bind(wx.EVT_MENU, lambda e: webbrowser.open('https://github.com/daid/Cura/issues'), i)
-
-		# i = helpMenu.Append(-1, _("Check for update..."))
-		# self.Bind(wx.EVT_MENU, self.OnCheckForUpdate, i)
-
-		# i = helpMenu.Append(-1, _("Open YouMagine website..."))
-		# self.Bind(wx.EVT_MENU, lambda e: webbrowser.open('https://www.youmagine.com/'), i)
-
-		# i = helpMenu.Append(-1, _("About Cura..."))
-		# self.Bind(wx.EVT_MENU, self.OnAbout, i)
-
-		# self.menubar.Append(helpMenu, _("Help"))
-		# self.SetMenuBar(self.menubar)
-		# self.menubar.Hide() # Dagoma
+		self.menubar.Append(self.fileMenu, _("File"))
+		self.SetMenuBar(self.menubar)
 
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3D | wx.SP_LIVE_UPDATE)
-		self.rightPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
-		#self.leftPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
-		self.leftPane = wx.ScrolledWindow(self.splitter, style=wx.BORDER_NONE)
-		self.leftPane.SetScrollbars(0, 5, 0, 1)
-		self.leftPane.FitInside()
+		self.viewPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
+		#self.optionsPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
+		self.optionsPane = scrolledpanel.ScrolledPanel(self.splitter, style=wx.BORDER_NONE)
+		self.optionsPane.SetupScrolling(False, True)
+		self.optionsPane.FitInside()
 		self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
 
 		##Gui components##
-		self.simpleSettingsPanel = simpleMode.simpleModePanel(self.leftPane, lambda : self.scene.sceneUpdated())
-		self.normalSettingsPanel = normalSettingsPanel(self.leftPane, lambda : self.scene.sceneUpdated())
+		self.simpleSettingsPanel = simpleMode.simpleModePanel(self.optionsPane, lambda : self.scene.sceneUpdated())
+		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, lambda : self.scene.sceneUpdated())
 
-		self.leftSizer = wx.BoxSizer(wx.VERTICAL)
-		self.leftSizer.Add(self.simpleSettingsPanel, 1, wx.EXPAND) #Dagoma Add wx.EXPAND
-		self.leftSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
-		self.leftPane.SetSizer(self.leftSizer)
+		self.optionsSizer = wx.BoxSizer(wx.VERTICAL)
+		self.optionsSizer.Add(self.simpleSettingsPanel, 1, wx.EXPAND) #Dagoma Add wx.EXPAND
+		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
+		self.optionsPane.SetSizer(self.optionsSizer)
 
 		#Preview window
-		self.scene = sceneView.SceneView(self.rightPane)
+		self.scene = sceneView.SceneView(self.viewPane)
 
 		#Main sizer, to position the preview window, buttons and tab control
 		sizer = wx.BoxSizer()
-		self.rightPane.SetSizer(sizer)
+		self.viewPane.SetSizer(sizer)
 		sizer.Add(self.scene, 1, flag=wx.EXPAND)
 
 		# Main window sizer
@@ -310,26 +172,22 @@ class mainWindow(wx.Frame):
 					self.SetPosition((posx,posy))
 				if width > 0 and height > 0:
 					self.SetSize((width,height))
-
-			self.normalSashPos = int(profile.getPreference('window_normal_sash'))
 		except:
-			self.normalSashPos = 0
 			self.Maximize(True)
 
-		self.SetMinSize((800, 600))
-		self.leftPane.SetMinSize((380, 600))
-		self.rightPane.SetMinSize((420, 600))
-		# self.splitter.SplitVertically(self.leftPane, self.rightPane, self.normalSashPos)
-		self.splitter.SplitVertically(self.rightPane, self.leftPane, self.normalSashPos) #Left and Right are switched in code
+		self.SetMinSize((960, 600))
+		self.optionsPane.SetMinSize((350, 600))
+		self.viewPane.SetMinSize((610, 600))
+		self.splitter.SplitVertically(self.viewPane, self.optionsPane, -350) #Left and Right are switched in code...
 		self.splitter.SetSashGravity(1.0) # Only the SceneView are resize when the windows size are modifed
-		self.splitter.SetMinimumPaneSize(380)
+		self.splitter.SetMinimumPaneSize(350)
 
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.Centre()
 		if wx.Display.GetFromPoint((self.GetPositionTuple()[0] + self.GetSizeTuple()[1], self.GetPositionTuple()[1] + self.GetSizeTuple()[1])) < 0:
 			self.Centre()
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
-			self.SetSize((800, 600))
+			self.SetSize((960, 600))
 			self.Centre()
 
 		self.Bind(wx.EVT_SIZE, self.mainResize)
@@ -339,7 +197,7 @@ class mainWindow(wx.Frame):
 
 	def mainResize(self, e):
 		x, y = self.GetSize()
-		self.rightPane.SetMinSize((x/2,750))
+		self.optionsPane.SetMinSize((350, 600))
 		e.Skip()
 
 	def onTimer(self, e):
@@ -374,7 +232,7 @@ class mainWindow(wx.Frame):
 
 		self.normalSettingsPanel.Show(not isSimple)
 		self.simpleSettingsPanel.Show(isSimple)
-		self.leftPane.Layout()
+		self.optionsPane.Layout()
 
 		for i in self.normalModeOnlyItems:
 			i.Enable(not isSimple)
@@ -383,21 +241,7 @@ class mainWindow(wx.Frame):
 		else:
 			self.switchToNormalMenuItem.Check()
 
-			# MOI Enabled splitter for all setting panel
-		# Set splitter sash position & size
-#		if isSimple:
-			# Save normal mode sash
-#			self.normalSashPos = self.splitter.GetSashPosition()
-
-			# Change location of sash to width of quick mode pane
-#			(width, height) = self.simpleSettingsPanel.GetSizer().GetSize()
-#			self.splitter.SetSashPosition(width, True)
-
-			# Disable sash
-#			self.splitter.SetSashSize(4)
-#		else:
-		self.splitter.SetSashPosition(self.normalSashPos, True)
-			# Enabled sash
+		# Enabled sash
 		self.splitter.SetSashSize(4)
 		self.defaultFirmwareInstallMenuItem.Enable(firmwareInstall.getDefaultFirmware() is not None)
 		if profile.getMachineSetting('machine_type') == 'ultimaker2':
@@ -484,14 +328,14 @@ class mainWindow(wx.Frame):
 		self.simpleSettingsPanel.updateProfileToControls()
 
 	def reloadSettingPanels(self):
-		self.leftSizer.Detach(self.simpleSettingsPanel)
-		self.leftSizer.Detach(self.normalSettingsPanel)
+		self.optionsSizer.Detach(self.simpleSettingsPanel)
+		self.optionsSizer.Detach(self.normalSettingsPanel)
 		self.simpleSettingsPanel.Destroy()
 		self.normalSettingsPanel.Destroy()
-		self.simpleSettingsPanel = simpleMode.simpleModePanel(self.leftPane, lambda : self.scene.sceneUpdated())
-		self.normalSettingsPanel = normalSettingsPanel(self.leftPane, lambda : self.scene.sceneUpdated())
-		self.leftSizer.Add(self.simpleSettingsPanel, 1)
-		self.leftSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
+		self.simpleSettingsPanel = simpleMode.simpleModePanel(self.optionsPane, lambda : self.scene.sceneUpdated())
+		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, lambda : self.scene.sceneUpdated())
+		self.optionsSizer.Add(self.simpleSettingsPanel, 1)
+		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
 		self.updateSliceMode()
 		self.updateProfileToAllControls()
 
@@ -619,11 +463,6 @@ class mainWindow(wx.Frame):
 		ecw.Centre()
 		ecw.Show()
 
-	def OnMinecraftImport(self, e):
-		mi = minecraftImport.minecraftImportWindow(self)
-		mi.Centre()
-		mi.Show(True)
-
 	def OnPIDDebugger(self, e):
 		debugger = pidDebugger.debuggerWindow(self)
 		debugger.Centre()
@@ -641,14 +480,6 @@ class mainWindow(wx.Frame):
 				wx.TheClipboard.Close()
 		except:
 			print "Could not write to clipboard, unable to get ownership. Another program is using the clipboard."
-
-	def OnCheckForUpdate(self, e):
-		newVersion = version.checkForNewerVersion()
-		if newVersion is not None:
-			if wx.MessageBox(_("A new version of Cura is available, would you like to download?"), _("New version available"), wx.YES_NO | wx.ICON_INFORMATION) == wx.YES:
-				webbrowser.open(newVersion)
-		else:
-			wx.MessageBox(_("You are running the latest version of Cura!"), _("Awesome!"), wx.ICON_INFORMATION)
 
 	def OnAbout(self, e):
 		# aboutBox = aboutWindow.aboutWindow() # MOI ENLEVE LA WINDOWS ABOUT
@@ -668,12 +499,6 @@ class mainWindow(wx.Frame):
 			(width, height) = self.GetSize()
 			profile.putPreference('window_width', width)
 			profile.putPreference('window_height', height)
-
-			# Save normal sash position.  If in normal mode (!simple mode), get last position of sash before saving it...
-			isSimple = profile.getPreference('startMode') == 'Simple'
-			if not isSimple:
-				self.normalSashPos = self.splitter.GetSashPosition()
-			#profile.putPreference('window_normal_sash', self.normalSashPos)
 
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
 		print "Closing down"
@@ -801,13 +626,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			self.color_box = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_SIMPLE | wx.CB_READONLY)
 
-		"""ERIC"""
-		#Rajout d'un label pour le titre "Offset"
-		#self.offset_label = wx.StaticText(self, wx.ID_ANY, _(self.offset_title))
-		#Rajout d'un champ pour recuperer un float pour l'"Offset"
-		#self.offset_ctrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
-		"""FIN ERIC"""
-
 		self.label_4 = wx.StaticText(self, wx.ID_ANY, _(("Température (°C) :").decode("utf-8")))
 		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		self.button_1 = wx.Button(self, wx.ID_ANY, _(("Préparer l'Impression").decode("utf-8")))
@@ -844,34 +662,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 
-		# Main tabs
-		# self.nb = wx.Notebook(self)
-		# self.SetSizer(wx.BoxSizer(wx.HORIZONTAL))
-		# self.GetSizer().Add(self.nb, 1, wx.EXPAND)
-
-		# (left, right, self.printPanel) = self.CreateDynamicConfigTab(self.nb, 'Basic')
-		# self._addSettingsToPanels('basic', left, right)
-		# self.SizeLabelWidths(left, right)
-
-		# (left, right, self.advancedPanel) = self.CreateDynamicConfigTab(self.nb, 'Advanced')
-		# self._addSettingsToPanels('advanced', left, right)
-		# self.SizeLabelWidths(left, right)
-
-		# #Plugin page
-		# self.pluginPanel = pluginPanel.pluginPanel(self.nb, callback)
-		# self.nb.AddPage(self.pluginPanel, _("Plugins"))
-		# self.nb.Hide()
-
-		#Alteration page
-		# if profile.getMachineSetting('machine_name') == 'Discovery':
-		# 	self.alterationPanel = alterationPanel.alterationPanel(self, callback)
-		# if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':
-		# 	self.alterationPanel = None
-		# else:
-			# self.alterationPanel = alterationPanel.alterationPanel(self.nb, callback)
-			# self.nb.AddPage(self.alterationPanel, "Start/End-GCode")
-
-
 		#Evt Select Filament
 		if sys.platform == 'darwin':
 			self.Bind(wx.EVT_CHOICE, self.EVT_Fila, self.combo_box_1)
@@ -897,11 +687,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 		"""ERIC"""
-
-
-		#Evt Select printing surface
-		#self.Bind(wx.EVT_RADIOBOX, self.EVT_PrtSurf, self.radio_box_3)
-
 		#Evt Select palpeur
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxpalpeur,self.palpeur_chbx)
 
