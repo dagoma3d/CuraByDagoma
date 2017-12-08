@@ -5,7 +5,7 @@ import platform
 
 class aboutWindow(wx.Frame):
 	def __init__(self):
-		super(aboutWindow, self).__init__(None, title="About", style = wx.DEFAULT_DIALOG_STYLE)
+		super(aboutWindow, self).__init__(None, title=_("About"), style = wx.DEFAULT_DIALOG_STYLE)
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
@@ -17,15 +17,15 @@ class aboutWindow(wx.Frame):
 		s = wx.BoxSizer(wx.VERTICAL)
 		p.SetSizer(s)
 
-		title = wx.StaticText(p, -1, 'Cura')
+		title = wx.StaticText(p, -1, 'Cura by Dagoma')
 		title.SetFont(wx.Font(18, wx.SWISS, wx.NORMAL, wx.BOLD))
 		s.Add(title, flag=wx.ALIGN_CENTRE|wx.EXPAND|wx.BOTTOM, border=5)
 
 		s.Add(wx.StaticText(p, -1, 'End solution for Open Source Fused Filament Fabrication 3D printing.'))
-		s.Add(wx.StaticText(p, -1, 'Cura is currently developed and maintained by Ultimaker.'))
+		s.Add(wx.StaticText(p, -1, 'Cura by Dagoma was originally forked from Legacy Cura'))
 
-		s.Add(wx.StaticText(p, -1, 'Cura is build with the following components:'), flag=wx.TOP, border=10)
-		self.addComponent('Cura', 'Graphical user interface', 'AGPLv3', 'https://github.com/daid/Cura')
+		s.Add(wx.StaticText(p, -1, 'Cura by Dagoma is built with the following components:'), flag=wx.TOP, border=10)
+		self.addComponent('LegacyCura', 'Graphical user interface', 'AGPLv3', 'https://github.com/daid/LegacyCura')
 		self.addComponent('CuraEngine', 'GCode Generator', 'AGPLv3', 'https://github.com/Ultimaker/CuraEngine')
 		self.addComponent('Clipper', 'Polygon clipping library', 'Boost', 'http://www.angusj.com/delphi/clipper.php')
 
@@ -40,13 +40,6 @@ class aboutWindow(wx.Frame):
 			self.addComponent('comtypes', 'Library to help with windows taskbar features on Windows 7', 'MIT', 'http://starship.python.net/crew/theller/comtypes/')
 			self.addComponent('EjectMedia', 'Utility to safe-remove SD cards', 'Freeware', 'http://www.uwe-sieber.de/english.html')
 		self.addComponent('Pymclevel', 'Python library for reading Minecraft levels.', 'ISC', 'https://github.com/mcedit/pymclevel')
-
-		#Translations done by:
-		#Dutch: Charlotte Jansen
-		#German: Gregor Luetolf, Lars Potter
-		#Polish: Piotr Paczynski
-		#French: Jeremie Francois
-		#Spanish: Jose Gemez
 		self.Fit()
 
 	def addComponent(self, name, description, license, url):

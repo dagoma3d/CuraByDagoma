@@ -102,6 +102,24 @@ class mainWindow(wx.Frame):
 		i = self.fileMenu.Append(wx.ID_EXIT, _("Quit"))
 		self.Bind(wx.EVT_MENU, self.OnQuit, i)
 		self.menubar.Append(self.fileMenu, _("File"))
+
+		language = profile.getPreference("language")
+		if language == "French":
+			contact_url = "https://dagoma.fr/heroes/diagnostique-en-ligne.html"
+			buy_url = "https://dagoma.fr/boutique/filaments.html"
+		else:
+			contact_url = "https://dagoma3d.com/pages/contact-us"
+			buy_url = "https://dagoma3d.com/collections/shop"
+
+		self.helpMenu = wx.Menu()
+		i = self.helpMenu.Append(-1, _("Contact us"))
+		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(contact_url), i)
+		i = self.helpMenu.Append(-1, _("Buy filament"))
+		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(buy_url), i)
+		i = self.helpMenu.Append(-1, _("About"))
+		self.Bind(wx.EVT_MENU, self.OnAbout, i)
+		self.menubar.Append(self.helpMenu, _("Help"))
+
 		self.SetMenuBar(self.menubar)
 
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3D | wx.SP_LIVE_UPDATE)
@@ -141,7 +159,7 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel.Show()
 
 		# Set default window size & position
-		self.SetSize((wx.Display().GetClientArea().GetWidth()/2,wx.Display().GetClientArea().GetHeight()/2))
+		#self.SetSize((wx.Display().GetClientArea().GetWidth()/2,wx.Display().GetClientArea().GetHeight()/2))
 		self.Centre()
 
 		# Restore the window position, size & state from the preferences file
@@ -231,6 +249,11 @@ class mainWindow(wx.Frame):
 	def updateProfileToAllControls(self):
 		self.scene.updateProfileToControls()
 		self.normalSettingsPanel.updateProfileToControls()
+
+	def OnAbout(self, e):
+		aboutBox = aboutWindow.aboutWindow()
+		aboutBox.Centre()
+		aboutBox.Show()
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)

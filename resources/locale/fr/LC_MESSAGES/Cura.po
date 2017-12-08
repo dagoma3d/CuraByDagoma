@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-07 17:22+0100\n"
+"PO-Revision-Date: 2017-12-08 10:30+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -619,6 +619,12 @@ msgstr "Ouvrir le site YouMagine..."
 #: Cura/gui/mainWindow.py:190
 msgid "About Cura..."
 msgstr "A propos de Cura..."
+
+msgid "About"
+msgstr "A propos"
+
+msgid "Contact us"
+msgstr "Nous contacter"
 
 #: Cura/gui/mainWindow.py:192
 msgid "Help"
