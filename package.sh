@@ -16,12 +16,15 @@ export BUILD_VERSION=1.0.7
 case "$1" in
 	discoeasy200)
 		export MACHINE_NAME="Easy200"
+		MACHINE_NAME_LOWERCASE="easy200"
 		;;
 	explorer350)
 		export MACHINE_NAME="Explorer350"
+		MACHINE_NAME_LOWERCASE="explorer350"
 		;;
 	neva)
 		export MACHINE_NAME="Neva"
+		MACHINE_NAME_LOWERCASE="neva"
 		;;
 	*)
 		echo "You need to specify a printer name."
@@ -34,8 +37,6 @@ case "$1" in
 		exit 0
 		;;
 esac
-
-MACHINE_NAME_LOWERCASE=${MACHINE_NAME,,}
 
 ##Select the build target
 ##Available options:
