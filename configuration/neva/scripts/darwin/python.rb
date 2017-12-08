@@ -2,18 +2,18 @@ require 'formula'
 
 class Distribute < Formula
   url 'http://pypi.python.org/packages/source/d/distribute/distribute-0.6.34.tar.gz'
-  sha1 'b6f9cfbaf3e63833b71009812a613be13e68f5de'
+  sha256 '1a82a50f448fd963c1efade437b9ace3c47bfdd9b168fcdba7fca140df4b364e'
 end
 
 class Pip < Formula
   url 'http://pypi.python.org/packages/source/p/pip/pip-1.2.1.tar.gz'
-  sha1 '35db84983ef3f66a8a161d320e61d192afc233d9'
+  sha256 '12a9302acfca62cdc7bc5d83386cac3e0581db61ac39acdb3a4e766a16b88eb1'
 end
 
 class Python < Formula
   homepage 'http://www.python.org'
   url 'http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2'
-  sha1 '842c4e2aff3f016feea3c6e992c7fa96e49c9aa0'
+  sha256 '726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c'
 
   option :universal
   option 'quicktest', 'Run `make quicktest` after the build'
