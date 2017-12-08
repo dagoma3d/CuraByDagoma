@@ -6,7 +6,7 @@
 #############################
 # CONFIGURATION
 #############################
-BUILD_VERSION=1.0.7
+export BUILD_VERSION=1.0.7
 
 ##Select the printer name
 ##Available options:
