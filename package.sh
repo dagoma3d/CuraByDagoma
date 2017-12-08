@@ -190,7 +190,7 @@ fi
 # Darwin
 #############################
 if [[ $BUILD_TARGET == darwin ]]; then
-	mkvirtualenv Cura
+	#mkvirtualenv Cura
 
 	rm -rf scripts/darwin/build
 	rm -rf scripts/darwin/dist
