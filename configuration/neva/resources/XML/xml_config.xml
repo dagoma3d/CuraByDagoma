@@ -349,10 +349,10 @@ G90 ;absolute positioning
 G28
 M109 S100
 G29
-M104 S{grip_temperature}
+M104 S{grip_temperature} ;Temperature for the first layer only
 G0 X0 Y-85
 G0 Z0.26
-M109 S{grip_temperature}
+M109 S{grip_temperature} ;Temperature for the first layer only
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
 G1 F200 E6 ;extrude 10mm of feed stock
