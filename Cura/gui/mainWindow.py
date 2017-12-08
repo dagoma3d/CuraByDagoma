@@ -127,7 +127,6 @@ class mainWindow(wx.Frame):
 		#self.optionsPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
 		self.optionsPane = scrolledpanel.ScrolledPanel(self.splitter, style=wx.BORDER_NONE)
 		self.optionsPane.SetupScrolling(True, True)
-		self.optionsPane.FitInside()
 		self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
 
 		##Gui components##
@@ -159,7 +158,7 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel.Show()
 
 		# Set default window size & position
-		#self.SetSize((wx.Display().GetClientArea().GetWidth()/2,wx.Display().GetClientArea().GetHeight()/2))
+		self.SetSize((wx.Display().GetClientArea().GetWidth()/2,wx.Display().GetClientArea().GetHeight()/2))
 		self.Centre()
 
 		# Restore the window position, size & state from the preferences file
@@ -181,8 +180,7 @@ class mainWindow(wx.Frame):
 		self.SetMinSize((800, 600))
 		self.splitter.SplitVertically(self.viewPane, self.optionsPane)
 		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
-		# Enabled sash
-		self.splitter.SetSashSize(4)
+		self.splitter.SetSashSize(4) # Enabled sash
 
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.Centre()
@@ -193,6 +191,7 @@ class mainWindow(wx.Frame):
 			self.Centre()
 
 		self.optionsPane.Layout()
+		self.optionsPane.SetMinSize((390, 600))
 		self.scene.updateProfileToControls()
 		self.scene._scene.pushFree()
 		self.scene.SetFocus()
@@ -267,9 +266,6 @@ class mainWindow(wx.Frame):
 			(width, height) = self.GetSize()
 			profile.putPreference('window_width', width)
 			profile.putPreference('window_height', height)
-
-		self.normalSashPos = self.splitter.GetSashPosition()
-		profile.putPreference('window_normal_sash', self.normalSashPos)
 
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
 		print "Closing down"
