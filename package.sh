@@ -239,7 +239,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME_INSTALL}.dmg
 
 	cd ../..
-	zip ${BUILD_NAME_INSTALL}.dmg.zip
+	zip ${BUILD_NAME_INSTALL}.dmg.zip ${BUILD_NAME_INSTALL}.dmg
 
 	if [ ! -d "packages" ]; then
 		mkdir packages
