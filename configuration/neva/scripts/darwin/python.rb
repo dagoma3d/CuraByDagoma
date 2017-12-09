@@ -181,8 +181,8 @@ class Python < Formula
 
   def distutils_fix_superenv(args)
     # To allow certain Python bindings to find brewed software:
-    cflags = "CFLAGS=-msse2 -mno-sse3 -mno-sse4 -I#{HOMEBREW_PREFIX}/include -I#{Formula.factory('sqlite').opt_prefix}/include"
-    ldflags = "LDFLAGS=-L#{HOMEBREW_PREFIX}/lib -L#{Formula.factory('sqlite').opt_prefix}/lib"
+    cflags = "CFLAGS=-msse2 -mno-sse3 -mno-sse4 -I#{HOMEBREW_PREFIX}/include -I#{Formulary.factory('sqlite').opt_prefix}/include"
+    ldflags = "LDFLAGS=-L#{HOMEBREW_PREFIX}/lib -L#{Formulary.factory('sqlite').opt_prefix}/lib"
     unless MacOS::CLT.installed?
       # Help Python's build system (distribute/pip) to build things on Xcode-only systems
       # The setup.py looks at "-isysroot" to get the sysroot (and not at --sysroot)
