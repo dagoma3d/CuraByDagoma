@@ -211,20 +211,20 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	fi
 
 	#Add cura version file (should read the version from the bundle with pyobjc, but will figure that out later)
-	echo $BUILD_NAME > scripts/darwin/dist/Cura.app/Contents/Resources/version
+	echo $BUILD_NAME > scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/version
 
 	#Copy CuraEngine
-	cp CuraEngine/build/CuraEngine scripts/darwin/dist/Cura.app/Contents/Resources/CuraEngine
+	cp CuraEngine/build/CuraEngine scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/CuraEngine
 
 	cd scripts/darwin
 
 	# Install QuickLook plugin
-	mkdir -p dist/Cura.app/Contents/Library/QuickLook
-	cp -a STLQuickLook.qlgenerator dist/Cura.app/Contents/Library/QuickLook/
+	mkdir -p dist/${BUILD_NAME}.app/Contents/Library/QuickLook
+	cp -a STLQuickLook.qlgenerator dist/${BUILD_NAME}.app/Contents/Library/QuickLook/
 
 	# Archive app
 	cd dist
-	gnutar cfp - Cura.app | gzip --best -c > ../../../${BUILD_NAME_INSTALL}.tar.gz
+	gnutar cfp - ${BUILD_NAME}.app | gzip --best -c > ../../../${BUILD_NAME_INSTALL}.tar.gz
 	cd ..
 
 	# Create sparse image for distribution
@@ -237,7 +237,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'attach'
 	hdiutil attach ${BUILD_NAME}.dmg.sparseimage
 	echo 'cp'
-	mv dist/Cura.app dist/${BUILD_NAME}.app
+	mv dist/${BUILD_NAME}.app dist/${BUILD_NAME}.app
 	cp -a dist/${BUILD_NAME}.app /Volumes/${BUILD_NAME}/
 	cp -a ../../resources/images/.background.png /Volumes/${BUILD_NAME}/
 	echo 'detach'
