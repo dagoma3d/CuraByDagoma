@@ -124,6 +124,13 @@ CURA_ENGINE_VERSION=legacy
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SCRIPT_DIR
 
+#For building under MacOS we need gnutar instead of tar
+if [ -z `which gnutar` ]; then
+	TAR=tar
+else
+	TAR=gnutar
+fi
+
 #############################
 # Support functions
 #############################
