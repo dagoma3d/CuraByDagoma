@@ -112,9 +112,6 @@ BUILD_NAME_INSTALL="Cura_by_Dagoma_"${MACHINE_NAME}
 ##CuraEngine github repository
 CURA_ENGINE_REPO="https://github.com/Ultimaker/CuraEngine"
 
-##Power github repository
-POWER_REPO="https://github.com/GreatFruitOmsk/Power"
-
 ## CuraEngine version to build
 ## Four more info, please check https://github.com/daid/LegacyCura/blob/SteamEngine/package.sh
 CURA_ENGINE_VERSION=legacy
@@ -179,20 +176,12 @@ if [ ! -d "CuraEngine" ]; then
 fi
 
 # Build CuraEngine
-if [[ ! -d "CuraEngine/build" ]]; then
-	cd CuraEngine
-	git checkout ${CURA_ENGINE_VERSION}
-	cd ..
-	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
-	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
-fi
-
-# Checkout Power
-if [ ! -d "Power" ]; then
-	git clone ${POWER_REPO}
-	if [ $? != 0 ]; then echo "Failed to clone Power"; exit 1; fi
-fi
+cd CuraEngine
+git checkout ${CURA_ENGINE_VERSION}
+cd ..
+make -C CuraEngine clean
+make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
+if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 
 #############################
 # Darwin
@@ -273,7 +262,6 @@ if [[ $BUILD_TARGET == debian* ]]; then
 	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
 	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
 	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
-	cp -a Power/power scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/Cura/version
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/applications
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/applications
@@ -319,7 +307,6 @@ if [[ $BUILD_TARGET == archive* ]]; then
 	cp -a plugins scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
 	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
 	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
-	cp -a Power/power scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/Cura/version
 	cp scripts/linux/utils/curabydago_generic.desktop scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
 	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.ico
@@ -386,7 +373,6 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	mv PURELIB/OpenGL ${BUILD_NAME}/python/Lib
 	mv PURELIB/comtypes ${BUILD_NAME}/python/Lib
 	mv \$_OUTDIR/numpy ${BUILD_NAME}/python/Lib
-	cp -a Power/power ${BUILD_NAME}/python/Lib
 	mv VideoCapture-0.9-5/Python27/DLLs/vidcap.pyd ${BUILD_NAME}/python/DLLs
 	mv Win32/EjectMedia.exe ${BUILD_NAME}/Cura/
 	echo "Step mv Finished"
