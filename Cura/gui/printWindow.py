@@ -1,7 +1,6 @@
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import wx
-import power
 import time
 import sys
 import os
@@ -321,15 +320,10 @@ class printWindowBasic(wx.Frame):
 
 		self.powerWarningText = wx.StaticText(parent=self.panel,
 			id=-1,
-			label=_("Your computer is running on battery power.\nConnect your computer to AC power or your print might not finish."),
+			label=_("Your computer is maybe running on battery power.\nConnect your computer to AC power or your print might not finish."),
 			style=wx.ALIGN_CENTER)
 		self.powerWarningText.SetBackgroundColour('red')
 		self.powerWarningText.SetForegroundColour('white')
-		self.powerManagement = power.PowerManagement()
-		self.powerWarningTimer = wx.Timer(self)
-		self.Bind(wx.EVT_TIMER, self.OnPowerWarningChange, self.powerWarningTimer)
-		self.OnPowerWarningChange(None)
-		self.powerWarningTimer.Start(10000)
 
 		self.statsText = wx.StaticText(self.panel, -1, _("InfoLine from printer connection\nInfoLine from dialog\nExtra line\nMore lines for layout\nMore lines for layout\nMore lines for layout"))
 
@@ -372,21 +366,6 @@ class printWindowBasic(wx.Frame):
 		if self._printerConnection.hasActiveConnection() and not self._printerConnection.isActiveConnectionOpen():
 			self._printerConnection.openActiveConnection()
 		preventComputerFromSleeping(True)
-
-	def OnPowerWarningChange(self, e):
-		type = self.powerManagement.get_providing_power_source_type()
-		if type == power.POWER_TYPE_AC and self.powerWarningText.IsShown():
-			self.powerWarningText.Hide()
-			self.panel.Layout()
-			self.Layout()
-			self.Fit()
-			self.Refresh()
-		elif type != power.POWER_TYPE_AC and not self.powerWarningText.IsShown():
-			self.powerWarningText.Show()
-			self.panel.Layout()
-			self.Layout()
-			self.Fit()
-			self.Refresh()
 
 	def OnClose(self, e):
 		if self._printerConnection.hasActiveConnection():

@@ -17,8 +17,6 @@ def treeWalk(moduleList, dirname, fnames):
 		return
 	if dirname == 'Cura.util.pymclevel':
 		return
-	if dirname == 'Cura.util.Power':
-		return
 	if dirname == 'Cura.plugins':
 		return
 	if dirname == 'Cura.resouces':

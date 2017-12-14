@@ -9,7 +9,6 @@ try:
 	import wx
 	import serial
 	import numpy
-	import power
 except ImportError as e:
 	print e.message
 	if e.message[0:16] == 'No module named ':
@@ -20,11 +19,7 @@ except ImportError as e:
 		elif module == 'serial':
 			module = 'pyserial'
 		print 'Requires ' + module
-
-		if module == 'power':
-			print "Install from: https://github.com/GreatFruitOmsk/Power"
-		else:
-			print "Try sudo easy_install " + module
+		print "Try sudo easy_install " + module
 		print e.message
 
 	exit(1)

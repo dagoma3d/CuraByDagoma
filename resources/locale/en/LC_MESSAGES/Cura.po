@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-08 10:30+0100\n"
+"PO-Revision-Date: 2017-12-14 16:59+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -729,7 +729,7 @@ msgstr ""
 
 #: Cura/gui/printWindow.py:324
 msgid ""
-"Your computer is running on battery power.\n"
+"Your computer is maybe running on battery power.\n"
 "Connect your computer to AC power or your print might not finish."
 msgstr ""
 
