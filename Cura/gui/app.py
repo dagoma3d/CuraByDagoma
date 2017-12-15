@@ -189,8 +189,9 @@ if platform.system() == "Darwin": #Mac magic. Dragons live here. THis sets full 
 			frameobj = _objc.PyObjCObject_New(frame.GetHandle(), 0, 1)
 
 			NSWindowCollectionBehaviorFullScreenPrimary = 1 << 7
+			NSWindowCollectionBehaviorFullScreenAuxiliary = 1 << 8
 			window = frameobj.window()
-			newBehavior = window.collectionBehavior() | NSWindowCollectionBehaviorFullScreenPrimary
+			newBehavior = window.collectionBehavior() | NSWindowCollectionBehaviorFullScreenAuxiliary
 			window.setCollectionBehavior_(newBehavior)
 	except:
 		def setFullScreenCapable(frame):
