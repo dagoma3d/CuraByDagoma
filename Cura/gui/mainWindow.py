@@ -165,7 +165,6 @@ class mainWindow(wx.Frame):
 		self.SetMinSize((800, 600))
 		self.splitter.SplitVertically(self.viewPane, self.optionsPane, int(profile.getPreference('window_normal_sash')))
 		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
-		self.splitter.SetSashSize(4) # Enabled sash
 
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.Centre()

@@ -286,7 +286,7 @@
 		<Support name="Sides touching the build plate">
 			<support>Touching buildplate</support>
 		</Support>
-		<Support name="All sides (including the inside of the object)">
+		<Support name="Everywhere (including holes)">
 			<support>Everywhere</support>
 		</Support>
 	</Supports>
