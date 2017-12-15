@@ -580,8 +580,9 @@ class SceneView(openglGui.glGuiPanel):
 			profile.resetTempOverride()
 
 	def _updateEngineProgress(self, progressValue):
-		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
-		normalSettingsPanel.button_1.Disable()
+		mainWindow = self.GetParent().GetParent().GetParent()
+		mainWindow.normalSettingsPanel.button_1.Disable()
+		mainWindow.fileMenu.FindItemById(1).Enable(False)
 		result = self._engine.getResult()
 		finished = result is not None and result.isFinished()
 		if not finished:
@@ -594,7 +595,8 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setProgressBar(None)
 		self._engineResultView.setResult(result)
 		if finished:
-			normalSettingsPanel.button_1.Enable()
+			mainWindow.normalSettingsPanel.button_1.Enable()
+			mainWindow.fileMenu.FindItemById(1).Enable(True)
 			self.printButton.setProgressBar(None)
 			text = '%s' % (result.getPrintTime())
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
