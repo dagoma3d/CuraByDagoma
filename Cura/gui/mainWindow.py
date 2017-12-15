@@ -157,11 +157,13 @@ class mainWindow(wx.Frame):
 
 		self.normalSettingsPanel.Show()
 
+		# Set default window size & position
+		self.SetSize((wx.Display().GetClientArea().GetWidth()/2, wx.Display().GetClientArea().GetHeight()/2))
 		self.Centre()
 		self.Maximize(True)
 
 		self.SetMinSize((800, 600))
-		self.splitter.SplitVertically(self.viewPane, self.optionsPane)
+		self.splitter.SplitVertically(self.viewPane, self.optionsPane, int(profile.getPreference('window_normal_sash')))
 		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
 		self.splitter.SetSashSize(4) # Enabled sash
 
@@ -239,6 +241,7 @@ class mainWindow(wx.Frame):
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		profile.putPreference('window_normal_sash', '-' + str(self.optionsPane.GetSize()[0]))
 
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
 		print "Closing down"
