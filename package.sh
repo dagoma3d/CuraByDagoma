@@ -226,9 +226,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'attach'
 	hdiutil attach ${BUILD_NAME}.dmg.sparseimage
 	echo 'cp'
-	#mv dist/${BUILD_NAME}.app dist/${BUILD_NAME}.app
 	cp -a dist/${BUILD_NAME}.app /Volumes/${BUILD_NAME}/
-	cp -a ../../resources/images/.background.png /Volumes/${BUILD_NAME}/
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
