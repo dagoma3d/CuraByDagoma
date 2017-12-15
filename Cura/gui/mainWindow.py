@@ -392,10 +392,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.buylink = hl.HyperLinkCtrl(self, wx.ID_ANY, _("Buy filament"), URL=url)
 
 		filament_sizer = wx.GridBagSizer(0, 3)
-		filament_sizer.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 0)
-		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, " ("), pos=(0, 1), flag = wx.LEFT|wx.TOP, border = 0)
-		filament_sizer.Add(self.buylink, pos=(0, 2), flag = wx.LEFT|wx.TOP, border = 0)
-		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"), pos=(0, 3), flag = wx.LEFT|wx.TOP, border = 0)
+		filament_sizer.Add(self.label_1, pos=(0, 0), flag = wx.ALL, border = 0)
+		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, " ("), pos=(0, 1), flag = wx.ALL, border = 0)
+		filament_sizer.Add(self.buylink, pos=(0, 2), flag = wx.ALL, border = 0)
+		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"), pos=(0, 3), flag = wx.ALL, border = 0)
+
+		color_sizer = wx.GridBagSizer(0, 1)
+		color_sizer.Add(wx.StaticText(self, wx.ID_ANY, "Color:"), pos=(0, 0), flag = wx.ALL, border = 0)
+		color_sizer.Add(self.color_box, pos=(0, 1), flag = wx.ALL, border = 0)
 
 		if printername == "DiscoEasy200":
 			sizer_1 = wx.GridBagSizer(15, 0)
@@ -403,8 +407,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			sizer_1.Add(filament_sizer, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
 			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.RIGHT, border = 5)
+			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP|wx.RIGHT,  border = 5)
 			sizer_1.Add(self.spin_ctrl_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.radio_box_2, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.radio_box_1, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
@@ -421,7 +425,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			sizer_1.SetEmptyCellSize((0, 0))
 			sizer_1.Add(filament_sizer, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
 			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			sizer_1.Add(self.color_sizer, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
 			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
 			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP,  border = 5)
 			sizer_1.Add(self.spin_ctrl_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)

@@ -22,3 +22,7 @@ DmgTemplateCompressed-*.dmg
 *.sparseimage
 *.exe
 *.zip
+/$_OUTDIR
+/PURELIB
+/Win32
+/VideoCapture-0.9-5
