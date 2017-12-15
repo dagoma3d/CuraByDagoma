@@ -157,8 +157,6 @@ class mainWindow(wx.Frame):
 
 		self.normalSettingsPanel.Show()
 
-		# Set default window size & position
-		#self.SetSize((wx.Display().GetClientArea().GetWidth()/2,wx.Display().GetClientArea().GetHeight()/2))
 		self.Centre()
 		self.Maximize(True)
 
@@ -175,14 +173,8 @@ class mainWindow(wx.Frame):
 			self.SetSize((800, 600))
 			self.Centre()
 
-		self.optionsPane.Layout()
-		(width, height) = self.optionsPane.GetSize()
-		userWidth = int(profile.getPreference('options_pane_width'))
-		print("userWidth: %s" % str(userWidth))
-		if userWidth < 0:
-			userWidth = 310
 		self.optionsPane.SetMinSize((310, 600))
-		self.optionsPane.SetSize((userWidth, height))
+		self.optionsPane.Layout()
 		self.scene.updateProfileToControls()
 		self.scene._scene.pushFree()
 		self.scene.SetFocus()
@@ -247,8 +239,6 @@ class mainWindow(wx.Frame):
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		(width, height) = self.optionsPane.GetSize()
-		profile.putPreference('options_pane_width', width)
 
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
 		print "Closing down"
