@@ -523,11 +523,7 @@ setting('model_colour3', '#DDD93C', str, 'preference', 'hidden').setLabel(_('Mod
 setting('model_colour4', '#4550D3', str, 'preference', 'hidden').setLabel(_('Model colour (4)'), _('Display color for forth extruder'))
 setting('printing_window', 'Basic', ['Basic'], 'preference', 'hidden').setLabel(_('Printing window type'), _('Select the interface used for USB printing.'))
 
-setting('window_maximized', 'True', bool, 'preference', 'hidden')
-setting('window_pos_x', '-1', float, 'preference', 'hidden')
-setting('window_pos_y', '-1', float, 'preference', 'hidden')
-setting('window_width', '-1', float, 'preference', 'hidden')
-setting('window_height', '-1', float, 'preference', 'hidden')
+setting('options_pane_width', '-1', float, 'preference', 'hidden')
 setting('last_run_version', '', str, 'preference', 'hidden')
 
 setting('machine_name', '', str, 'machine', 'hidden')

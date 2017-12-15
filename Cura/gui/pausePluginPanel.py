@@ -20,12 +20,10 @@ class pausePluginPanel(wx.Panel):
 		sizer = wx.GridBagSizer(1, 1)
 		self.SetSizer(sizer)
 
-		#hPauseTitle = wx.StaticText(self, -1, _("Height (mm)")) # (92, 27) is the default size of a TextCtrl and (80, 17) is the default size of a StaticText
-		lPauseTitle = wx.StaticText(self, -1, _("Add a pause at the layer selected in the 3D view")) # (92, 27) is the default size of a TextCtrl and (80, 17) is the default size of a StaticText
-		#addHeightButton = wx.Button(self, id=-1, label="+", style=wx.BU_EXACTFIT)
+		lPauseTitle = wx.StaticText(self, -1, _("Add a pause")) # (92, 27) is the default size of a TextCtrl and (80, 17) is the default size of a StaticText
 		addLayerButton = wx.Button(self, id=-1, label="+", style=wx.BU_EXACTFIT)
-		emptyText = wx.StaticText(self, -1, "")
-		#sb = wx.StaticBox(self, label=_("Pauses :"))
+		lPauseTitleToolTip = wx.ToolTip(_("Add a pause at the layer selected in the 3D view"))
+		addLayerButton.SetToolTip(lPauseTitleToolTip)
 		sb = wx.StaticBox(self)
 
 		boxsizer = wx.StaticBoxSizer(sb, wx.VERTICAL)

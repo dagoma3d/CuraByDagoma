@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-14 16:59+0100\n"
+"PO-Revision-Date: 2017-12-15 13:47+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3025,6 +3025,9 @@ msgstr "Changement(s) de couleur"
 
 msgid "Add a pause at the layer selected in the 3D view"
 msgstr "Ajouter une pause à la couche selectionnée dans la vue 3D"
+
+msgid "Add a pause"
+msgstr "Ajouter une pause"
 
 msgid "grams"
 msgstr "grammes"

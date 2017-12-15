@@ -158,24 +158,9 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel.Show()
 
 		# Set default window size & position
-		self.SetSize((wx.Display().GetClientArea().GetWidth()/2,wx.Display().GetClientArea().GetHeight()/2))
+		#self.SetSize((wx.Display().GetClientArea().GetWidth()/2,wx.Display().GetClientArea().GetHeight()/2))
 		self.Centre()
-
-		# Restore the window position, size & state from the preferences file
-		try:
-			if profile.getPreference('window_maximized') == 'True':
-				self.Maximize(True)
-			else:
-				posx = int(profile.getPreference('window_pos_x'))
-				posy = int(profile.getPreference('window_pos_y'))
-				width = int(profile.getPreference('window_width'))
-				height = int(profile.getPreference('window_height'))
-				if posx > 0 or posy > 0:
-					self.SetPosition((posx,posy))
-				if width > 0 and height > 0:
-					self.SetSize((width,height))
-		except:
-			self.Maximize(True)
+		self.Maximize(True)
 
 		self.SetMinSize((800, 600))
 		self.splitter.SplitVertically(self.viewPane, self.optionsPane)
@@ -191,7 +176,13 @@ class mainWindow(wx.Frame):
 			self.Centre()
 
 		self.optionsPane.Layout()
-		self.optionsPane.SetMinSize((390, 600))
+		(width, height) = self.optionsPane.GetSize()
+		userWidth = int(profile.getPreference('options_pane_width'))
+		print("userWidth: %s" % str(userWidth))
+		if userWidth < 0:
+			userWidth = 310
+		self.optionsPane.SetMinSize((310, 600))
+		self.optionsPane.SetSize((userWidth, height))
 		self.scene.updateProfileToControls()
 		self.scene._scene.pushFree()
 		self.scene.SetFocus()
@@ -256,16 +247,8 @@ class mainWindow(wx.Frame):
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
-
-		# Save the window position, size & state from the preferences file
-		profile.putPreference('window_maximized', self.IsMaximized())
-		if not self.IsMaximized() and not self.IsIconized():
-			(posx, posy) = self.GetPosition()
-			profile.putPreference('window_pos_x', posx)
-			profile.putPreference('window_pos_y', posy)
-			(width, height) = self.GetSize()
-			profile.putPreference('window_width', width)
-			profile.putPreference('window_height', height)
+		(width, height) = self.optionsPane.GetSize()
+		profile.putPreference('options_pane_width', width)
 
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
 		print "Closing down"
