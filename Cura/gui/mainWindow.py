@@ -36,8 +36,7 @@ class mainWindow(wx.Frame):
 	def __init__(self):
 		windowtitle = 'Cura by dagoma'
 		try:
-			printerinfo = doc.getElementsByTagName("Printer")[0];
-			printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
+			printername = profile.getMachineSetting('machine_name')
 			windowtitle = windowtitle + ' ' + printername
 		except:
 			pass
@@ -87,7 +86,7 @@ class mainWindow(wx.Frame):
 		i = self.fileMenu.Append(-1, _("Open an Object") + "\tCTRL+L")
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showLoadModel(), i)
 		i = self.fileMenu.Append(1, _("Prepare the Print") + "\tCTRL+S")
-		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveGCode(), i)
+		self.Bind(wx.EVT_MENU, self.OnPreparePrint, i)
 		i = self.fileMenu.Append(-1, _("Preferences") + "...\tCTRL+P")
 		self.Bind(wx.EVT_MENU, self.OnLanguagePreferences, i)
 
@@ -186,6 +185,11 @@ class mainWindow(wx.Frame):
 		prefDialog.Show()
 		prefDialog.Raise()
 		wx.CallAfter(prefDialog.Show)
+
+	def OnPreparePrint(self, e):
+		profile.printSlicingInfo()
+		self.scene.OnPrintButton(1)
+		e.Skip()
 
 	def OnDropFiles(self, files):
 		if len(files) > 0:
@@ -363,7 +367,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxpalpeur,self.palpeur_chbx)
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Supp ,self.printsupp)
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxbrim, self.printbrim)
-		self.Bind(wx.EVT_BUTTON, self.Click_Button, self.button_1)
+		self.Bind(wx.EVT_BUTTON, self.ClickPreparePrintButton, self.button_1)
 		self.Bind(wx.EVT_BUTTON, self.ClickPauseButton, self.pausePluginButton)
  		#self.Bind(wx.EVT_SIZE, self.OnSize)
 
@@ -374,8 +378,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 	def __do_layout(self):
-		printerinfo = doc.getElementsByTagName("Printer")[0];
-		printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
+		printername = profile.getMachineSetting('machine_name')
 		if printername == "Neva":
 			self.tetes_box.Hide()
 			self.palpeur_chbx.Hide()
@@ -489,7 +492,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setvalue_from_xml(config_adv, 'layer0_width_factor')
 		self.setvalue_from_xml(config_adv, 'object_sink')
 		self.setvalue_from_xml(config_adv, 'fan_enabled')
-		print 'Config_Adv Reload from XML file'
 
 	def init_Config_Expert(self):
 		config_expert = doc.getElementsByTagName("Config_Expert")[0]
@@ -981,43 +983,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
- 	def Print_All(self):
-		print '********* Slicing parameters *********'
-		print "print_temperature : ", profile.getProfileSetting('print_temperature')
-		print "nozzle_size : ", profile.getProfileSetting('nozzle_size')
-		print "rectration_enable : ", profile.getProfileSetting('retraction_enable')
-		print "fan_full_height : ", profile.getProfileSetting('fan_full_height')
-		print "fan_speed : ", profile.getProfileSetting('fan_speed')
-		print "fan_speed_max : ", profile.getProfileSetting('fan_speed_max')
-		print "coll_min_feedrate : ", profile.getProfileSetting('cool_min_feedrate')
-		print "filament_diameter : ", profile.getProfileSetting('filament_diameter')
-		print "filament_flow : ", profile.getProfileSetting('filament_flow')
-		print "retraction_speed : ", profile.getProfileSetting('retraction_speed')
-		print "retraction_amount : ", profile.getProfileSetting('retraction_amount')
-		print "filament_physical_density : ", profile.getProfileSetting('filament_physical_density')
-		print "filament_cost_kg : ", profile.getProfileSetting('filament_cost_kg')
-		print "fill_density", profile.getProfileSetting('fill_density')
-		print "layer_height ", profile.getProfileSetting('layer_height')
-		print "solid_layer_thickness : ", profile.getProfileSetting('solid_layer_thickness')
-		print "wall_thickness : ", profile.getProfileSetting('wall_thickness')
-		print "print_speed : ", profile.getProfileSetting('print_speed')
-		print "travel_speed : ", profile.getProfileSetting('travel_speed')
-		print "bottom_layer_speed : ", profile.getProfileSetting('bottom_layer_speed')
-		print "infill_speed : ", profile.getProfileSetting('infill_speed')
-		print "inset0_speed : ", profile.getProfileSetting('inset0_speed')
-		print "insetx_speed : ", profile.getProfileSetting('insetx_speed')
-		print "fan_speed ", profile.getProfileSetting('fan_speed')
-		print "cool_min_layer_time : ", profile.getProfileSetting('cool_min_layer_time')
-		print "support : ", profile.getProfileSetting('support')
-		print "platform_adhesion : ", profile.getProfileSetting('platform_adhesion')
-		print "palpeur_enable : ", profile.getProfileSetting('palpeur_enable')
-		print '**************************************'
 
-
-	def Click_Button(self, event):
-		profile.putProfileSetting('print_temperature', str(self.spin_ctrl_1.GetValue()))
-		self.Print_All()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
+	def ClickPreparePrintButton(self, event):
+		profile.printSlicingInfo()
 		self.GetParent().GetParent().GetParent().scene.OnPrintButton(1)
 		event.Skip()
 

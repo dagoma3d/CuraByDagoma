@@ -76,7 +76,6 @@ class languagePreferencesDialog(wx.Dialog):
 		left, right, main = self.panel.CreateConfigPanel(self)
 
 		if len(resources.getLanguageOptions()) > 1:
-			#configBase.TitleRow(left, _("Language"))
 			configBase.SettingRow(left, 'language', map(lambda n: n[1], resources.getLanguageOptions()))
 
 		self.okButton = wx.Button(right, -1, 'Ok')

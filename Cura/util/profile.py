@@ -1130,12 +1130,6 @@ def calculateObjectSizeOffsets():
 	else:
 		if getProfileSettingFloat('skirt_line_count') > 0:
 			size += getProfileSettingFloat('skirt_line_count') * calculateEdgeWidth() + getProfileSettingFloat('skirt_gap')
-
-	#if getProfileSetting('enable_raft') != 'False':
-	#	size += profile.getProfileSettingFloat('raft_margin') * 2
-	#if getProfileSetting('support') != 'None':
-	#	extraSizeMin = extraSizeMin + numpy.array([3.0, 0, 0])
-	#	extraSizeMax = extraSizeMax + numpy.array([3.0, 0, 0])
 	return [size, size]
 
 def getMachineCenterCoords():
@@ -1347,3 +1341,35 @@ def getAlterationFileContents(filename, extruderCount = 1):
 		#Append the profile string to the end of the GCode, so we can load it from the GCode file later.
 		#postfix = ';CURA_PROFILE_STRING:%s\n' % (getProfileString())
 	return unicode(prefix + re.sub("(.)\{([^\}]*)\}", replaceTagMatch, alterationContents).rstrip() + '\n' + postfix).strip().encode('utf-8') + '\n'
+
+def printSlicingInfo():
+	print '********* Slicing parameters *********'
+	print "print_temperature : ", getProfileSetting('print_temperature')
+	print "nozzle_size : ", getProfileSetting('nozzle_size')
+	print "rectration_enable : ", getProfileSetting('retraction_enable')
+	print "fan_full_height : ", getProfileSetting('fan_full_height')
+	print "fan_speed : ", getProfileSetting('fan_speed')
+	print "fan_speed_max : ", getProfileSetting('fan_speed_max')
+	print "coll_min_feedrate : ", getProfileSetting('cool_min_feedrate')
+	print "filament_diameter : ", getProfileSetting('filament_diameter')
+	print "filament_flow : ", getProfileSetting('filament_flow')
+	print "retraction_speed : ", getProfileSetting('retraction_speed')
+	print "retraction_amount : ", getProfileSetting('retraction_amount')
+	print "filament_physical_density : ", getProfileSetting('filament_physical_density')
+	print "filament_cost_kg : ", getProfileSetting('filament_cost_kg')
+	print "fill_density", getProfileSetting('fill_density')
+	print "layer_height ", getProfileSetting('layer_height')
+	print "solid_layer_thickness : ", getProfileSetting('solid_layer_thickness')
+	print "wall_thickness : ", getProfileSetting('wall_thickness')
+	print "print_speed : ", getProfileSetting('print_speed')
+	print "travel_speed : ", getProfileSetting('travel_speed')
+	print "bottom_layer_speed : ", getProfileSetting('bottom_layer_speed')
+	print "infill_speed : ", getProfileSetting('infill_speed')
+	print "inset0_speed : ", getProfileSetting('inset0_speed')
+	print "insetx_speed : ", getProfileSetting('insetx_speed')
+	print "fan_speed ", getProfileSetting('fan_speed')
+	print "cool_min_layer_time : ", getProfileSetting('cool_min_layer_time')
+	print "support : ", getProfileSetting('support')
+	print "platform_adhesion : ", getProfileSetting('platform_adhesion')
+	print "palpeur_enable : ", getProfileSetting('palpeur_enable')
+	print '**************************************'

@@ -339,8 +339,6 @@ class SceneView(openglGui.glGuiPanel):
 					if not buf:
 						break
 					fdst.write(buf)
-					self.printButton.setProgressBar(float(fsrc.tell()) / size)
-					self._queueRefresh()
 		except:
 			import sys, traceback
 			traceback.print_exc()
@@ -352,8 +350,6 @@ class SceneView(openglGui.glGuiPanel):
 				self.notification.message(_("Sauvegarde dans %s") % (targetFilename), lambda : explorer.openExplorer(targetFilename), 4, _('Ouvrir Dossier'))
 			else:
 				self.notification.message(_("Sauvegarde dans %s") % (targetFilename))
-		self.printButton.setProgressBar(None)
-		self._engine.getResult().submitInfoOnline()
 
 	def _doEjectSD(self, drive):
 		if removableStorage.ejectDrive(drive):

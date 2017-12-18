@@ -11,9 +11,9 @@ class configPanelBase(wx.Panel):
 	"A base class for configuration dialogs. Handles creation of settings, and popups"
 	def __init__(self, parent, changeCallback = None):
 		super(configPanelBase, self).__init__(parent)
-		
+
 		self.settingControlList = []
-		
+
 		#Create the popup window
 		self.popup = wx.PopupWindow(self, flags=wx.BORDER_SIMPLE)
 		self.popup.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_INFOBK))
@@ -25,12 +25,12 @@ class configPanelBase(wx.Panel):
 		self.popup.SetSizer(self.popup.sizer)
 
 		self._callback = changeCallback
-	
+
 	def CreateConfigTab(self, nb, name):
 		leftConfigPanel, rightConfigPanel, configPanel = self.CreateConfigPanel(nb)
 		nb.AddPage(configPanel, name)
 		return leftConfigPanel, rightConfigPanel
-	
+
 	def CreateConfigPanel(self, parent):
 		configPanel = wx.Panel(parent);
 		leftConfigPanel = wx.Panel(configPanel)
@@ -50,7 +50,7 @@ class configPanelBase(wx.Panel):
 		return leftConfigPanel, rightConfigPanel, configPanel
 
 	def CreateDynamicConfigTab(self, nb, name):
-		configPanel = wx.lib.scrolledpanel.ScrolledPanel(nb)	
+		configPanel = wx.lib.scrolledpanel.ScrolledPanel(nb)
 		#configPanel = wx.Panel(nb);
 		leftConfigPanel = wx.Panel(configPanel)
 		rightConfigPanel = wx.Panel(configPanel)
@@ -85,10 +85,10 @@ class configPanelBase(wx.Panel):
 		self.popup.setting = setting
 		self.UpdatePopup(setting)
 		self.popup.Show(True)
-		
+
 	def OnPopupHide(self, e):
 		self.popup.Show(False)
-	
+
 	def UpdatePopup(self, setting):
 		if self.popup.setting == setting:
 			if setting.validationMsg != '':
@@ -105,7 +105,7 @@ class configPanelBase(wx.Panel):
 			#	x -= wx
 			#	y -= wy
 			self.popup.SetPosition((x, y+sy))
-	
+
 	def updateProfileToControls(self):
 		"Update the configuration wx controls to show the new configuration settings"
 		for setting in self.settingControlList:
@@ -124,14 +124,14 @@ class configPanelBase(wx.Panel):
 			if isinstance(child, wx.lib.stattext.GenStaticText):
 				maxWidth = max(maxWidth, child.GetSize()[0])
 		return maxWidth
-	
+
 	def setLabelColumnWidth(self, panel, width):
 		for child in panel.GetChildren():
 			if isinstance(child, wx.lib.stattext.GenStaticText):
 				size = child.GetSize()
 				size[0] = width
 				child.SetBestSize(size)
-	
+
 class TitleRow(object):
 	def __init__(self, panel, name):
 		"Add a title row to the configuration panel"
@@ -156,7 +156,7 @@ class SettingRow(object):
 		self.validationMsg = ''
 		self.panel = panel
 
-		self.label = wx.lib.stattext.GenStaticText(panel, -1, self.setting.getLabel())
+		self.label = wx.lib.stattext.GenStaticText(panel, -1, self.setting.getLabel() + ":")
 		self.label.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
 		self.label.Bind(wx.EVT_LEAVE_WINDOW, self.OnMouseExit)
 
@@ -180,6 +180,7 @@ class SettingRow(object):
 			choices = self.setting.getType()
 			if valueOverride is not None:
 				choices = valueOverride
+			choices = choices[:]
 			self._englishChoices = choices[:]
 			if value not in choices and len(choices) > 0:
 				value = choices[0]
@@ -207,7 +208,7 @@ class SettingRow(object):
 			self.defaultBGColour = self.ctrl.GetTextCtrl().GetBackgroundColour()
 		else:
 			self.defaultBGColour = self.ctrl.GetBackgroundColour()
-		
+
 		panel.main.settingControlList.append(self)
 
 	def OnMouseEnter(self, e):

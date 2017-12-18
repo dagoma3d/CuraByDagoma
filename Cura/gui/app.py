@@ -97,34 +97,30 @@ class CuraApp(wx.App):
 		#These imports take most of the time and thus should be done after showing the splashscreen
 		import webbrowser
 		from Cura.gui import mainWindow
-		from Cura.gui import languageWizard
 		from Cura.gui import configWizard
 		from Cura.gui import newVersionDialog
 		from Cura.util import profile
 		from Cura.util import resources
 		from Cura.util import version
 
-		resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install _
-
-		#If we do not have preferences yet, try to load it from a previous Cura install
-		#if profile.getMachineSetting('machine_type') == 'unknown':
-			#try:
-			#	otherCuraInstalls = profile.getAlternativeBasePaths()
-			#	otherCuraInstalls.sort()
-			#	if len(otherCuraInstalls) > 0:
-			#		profile.loadPreferences(os.path.join(otherCuraInstalls[-1], 'preferences.ini'))
-			#		profile.loadProfile(os.path.join(otherCuraInstalls[-1], 'current_profile.ini'))
-			#except:
-			#	import traceback
-			#	print traceback.print_exc()
-
 		#If we haven't run it before, run the configuration wizard.
-		if profile.getMachineSetting('machine_type') == 'unknown':
-			#otherCuraInstalls = profile.getAlternativeBasePaths()
-			#otherCuraInstalls = 0
-			#if len(otherCuraInstalls) > 0:
-				#profile.loadPreferences(os.path.join(otherCuraInstalls[-1], 'preferences.ini'))
-				#profile.loadProfile(os.path.join(otherCuraInstalls[-1], 'current_profile.ini'))
+		if profile.getMachineSetting('machine_name') == '':
+			# Check the os language to set the default application language.
+			default_locale = "en_US"
+			if platform.system() == "Darwin":
+				import commands
+				default_locale = commands.getoutput("defaults read -g AppleLocale")
+			else:
+				import locale
+				default_locale = locale.getdefaultlocale()[0]
+
+			if not default_locale.find('fr') == -1:
+				profile.putPreference('language', 'French')
+			else:
+				profile.putPreference('language', 'English')
+
+			resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install
+
 			#Check if we need to copy our examples
 			exampleFile = os.path.normpath(os.path.join(resources.resourceBasePath, 'example', 'dagoma.stl'))
 
@@ -134,12 +130,13 @@ class CuraApp(wx.App):
 					self.splash.Show(False)
 				except:
 					print 'Show() couldn\'t be called'
-			languageWizard.languageWizard()
-			configWizard.configWizard()
+			configWizard.ConfigWizard()
+		else:
+			resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install
 
 		if profile.getPreference('check_for_updates') == 'True':
 			# newVersion = version.checkForNewerVersion()
-			newVersion = None # MOI SUPP THE DIALOGUE AND CHECK FOR NEW VERSION OF CURA
+			newVersion = None
 			if newVersion is not None:
 				if self.splash is not None:
 					self.splash.Show(False)
@@ -157,9 +154,6 @@ class CuraApp(wx.App):
 		self.SetTopWindow(self.mainWindow)
 		self.mainWindow.Show()
 		self.mainWindow.OnDropFiles(self.loadFiles)
-		# if profile.getPreference('last_run_version') != version.getVersion(False):
-		# 	profile.putPreference('last_run_version', version.getVersion(False))
-		# 	newVersionDialog.newVersionDialog().Show()
 
 		setFullScreenCapable(self.mainWindow)
 

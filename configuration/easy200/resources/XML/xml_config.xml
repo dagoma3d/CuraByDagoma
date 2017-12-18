@@ -326,7 +326,7 @@
 	<!-- Printer definition -->
 	<Printer>
 		<machine_name>DiscoEasy200</machine_name>
-		<machine_type>DiscoEasy200</machine_type>
+		<machine_type>RepRap</machine_type>
 		<machine_width>211</machine_width>
 		<machine_depth>211</machine_depth>
 		<machine_height>205</machine_height>
