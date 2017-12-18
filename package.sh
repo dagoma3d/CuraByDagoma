@@ -98,9 +98,6 @@ esac
 # Remove config files and add them according to the printer name.
 echo "Copying specific ${MACHINE_NAME} resources..."
 cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/resources .
-echo "Copying specific ${MACHINE_NAME} plugins..."
-rm -rf ./plugins
-cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/plugins .
 echo "Copying specific ${MACHINE_NAME} scripts..."
 rm -rf ./scripts/${SCRIPTS_DIR}
 cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/scripts/${SCRIPTS_DIR} ./scripts/
