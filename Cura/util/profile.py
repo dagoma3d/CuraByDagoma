@@ -29,17 +29,7 @@ else:
 from Cura.util import version
 from Cura.util import validators
 from Cura.util import resources
-from xml.dom import minidom
-
-doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
-
-def getNodeText(node):
-	nodelist = node.childNodes
-	result = []
-	for node in nodelist:
-		if node.nodeType == node.TEXT_NODE:
-			result.append(node.data)
-	return ''.join(result)
+from Cura.util import xmlconfig
 
 #The settings dictionary contains a key/value reference to all possible settings. With the setting name as key.
 settingsDictionary = {}
@@ -261,8 +251,8 @@ setting('fix_horrible_extensive_stitching', False, bool, 'expert', _('Fix horrib
 setting('plugin_config', '', str, 'hidden', 'hidden')
 setting('object_center_x', -1, float, 'hidden', 'hidden')
 setting('object_center_y', -1, float, 'hidden', 'hidden')
-setting('start.gcode', getNodeText(doc.getElementsByTagName("GCODE")[0].getElementsByTagName("Gstart")[0]), str, 'alteration', 'alteration')
-setting('end.gcode',  getNodeText(doc.getElementsByTagName("GCODE")[0].getElementsByTagName("Gend")[0]), str, 'alteration', 'alteration')
+setting('start.gcode', xmlconfig.getValue("Gstart", "GCODE"), str, 'alteration', 'alteration')
+setting('end.gcode',  xmlconfig.getValue("Gend", "GCODE"), str, 'alteration', 'alteration')
 setting('startMode', 'Normal', ['Simple', 'Normal'], 'preference', 'hidden')
 setting('oneAtATime', 'False', bool, 'preference', 'hidden')
 setting('lastFile', os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'resources', 'example', 'dagoma.stl')), str, 'preference', 'hidden')
@@ -313,7 +303,6 @@ setting('machine_depth', '205', float, 'machine', 'hidden').setLabel(_("Maximum 
 setting('machine_height', '200', float, 'machine', 'hidden').setLabel(_("Maximum height (mm)"), _("Size of the machine in mm"))
 setting('machine_center_is_zero', 'False', bool, 'machine', 'hidden').setLabel(_("Machine center 0,0"), _("Machines firmware defines the center of the bed as 0,0 instead of the front left corner."))
 setting('machine_shape', 'Square', ['Square','Circular'], 'machine', 'hidden').setLabel(_("Build area shape"), _("The shape of machine build area."))
-setting('ultimaker_extruder_upgrade', 'False', bool, 'machine', 'hidden')
 setting('has_heated_bed', 'False', bool, 'machine', 'hidden').setLabel(_("Heated bed"), _("If you have an heated bed, this enabled heated bed settings (requires restart)"))
 setting('gcode_flavor', 'RepRap (Marlin/Sprinter)', ['RepRap (Marlin/Sprinter)', 'RepRap (Volumetric)', 'UltiGCode', 'MakerBot', 'BFB', 'Mach3'], 'machine', 'hidden').setLabel(_("GCode Flavor"), _("Flavor of generated GCode.\nRepRap is normal 5D GCode which works on Marlin/Sprinter based firmwares.\nUltiGCode is a variation of the RepRap GCode which puts more settings in the machine instead of the slicer.\nMakerBot GCode has a few changes in the way GCode is generated, but still requires MakerWare to generate to X3G.\nBFB style generates RPM based code.\nMach3 uses A,B,C instead of E for extruders."))
 setting('extruder_amount', '1', ['1','2','3','4','5'], 'machine', 'hidden').setLabel(_("Extruder count"), _("Amount of extruders in your machine."))
@@ -412,8 +401,7 @@ def getBasePath():
 	"""
 	:return: The path in which the current configuration files are stored. This depends on the used OS.
 	"""
-	printerinfo = doc.getElementsByTagName("Printer")[0];
-	printername = printerinfo.getElementsByTagName("machine_name")[0].childNodes[0].data
+	printername = xmlconfig.getValue('machine_name', 'Printer')
 	if printername == "DiscoEasy200":
 		printername = "Easy200"
 	if platform.system() == "Windows":
@@ -542,13 +530,12 @@ def resetProfile():
 
 	if getMachineSetting('machine_type') == 'ultimaker':
 		putProfileSetting('nozzle_size', '0.4')
-		if getMachineSetting('ultimaker_extruder_upgrade') == 'True':
-			putProfileSetting('retraction_enable', 'True')
+		putProfileSetting('retraction_enable', 'True')
 	elif getMachineSetting('machine_type') == 'ultimaker2':
 		putProfileSetting('nozzle_size', '0.4')
 		putProfileSetting('retraction_enable', 'True')
 	else:
-		putProfileSetting('nozzle_size', '0.35')
+		putProfileSetting('nozzle_size', '0.4')
 		putProfileSetting('retraction_enable', 'True')
 
 def setProfileFromString(options):
@@ -971,8 +958,7 @@ def getPalpeurGCode():
 def getFilamentName():
 	filament_name = 'Unknown'
 	try:
-		filament_index = int(getPreference('filament_index'))
-		filament_name = doc.getElementsByTagName("Filament")[filament_index].getAttribute("name")
+		filament_name = xmlconfig.getAttribute('name', 'Filament', int(getPreference('filament_index')))
 	except:
 		pass
 	return " " + filament_name

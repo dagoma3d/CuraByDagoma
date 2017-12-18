@@ -12,10 +12,7 @@ import wx.lib.hyperlink as hl
 
 from Cura.util import profile
 from Cura.util import resources
-
-from xml.dom import minidom
-
-doc = minidom.parse(resources.getPathForXML('xml_config.xml'))
+from Cura.util import xmlconfig
 
 class InfoPage(wx.wizard.WizardPageSimple):
 	def __init__(self, parent, title):
@@ -133,10 +130,10 @@ class InfoPage(wx.wizard.WizardPageSimple):
 
 class ConfigurationPage(InfoPage):
 	def __init__(self, parent):
-		printername = doc.getElementsByTagName("Printer")[0].getElementsByTagName("machine_name")[0].childNodes[0].data
-		super(ConfigurationPage, self).__init__(parent, _("Configuration Cura by Dagoma %s") % printername)
+		printer_name = xmlconfig.getValue('machine_name', 'Printer')
+		super(ConfigurationPage, self).__init__(parent, _("Configuration Cura by Dagoma %s") % printer_name)
 		self.AddText(_("Dagoma would like to thank you for your trust."))
-		self.AddText(_("The Cura by Dagoma software is now ready to use with your %s 3D printer.") % printername)
+		self.AddText(_("The Cura by Dagoma software is now ready to use with your %s 3D printer.") % printer_name)
 		self.AddLink(_("Feel free to contact us!"))
 		self.AddSeperator()
 		self.AddText(_("Enjoy!"))
@@ -148,43 +145,6 @@ class ConfigurationPage(InfoPage):
 		return False
 
 	def StoreData(self):
-		def getNodeText(node):
-			nodelist = node.childNodes
-			result = []
-			for node in nodelist:
-				if node.nodeType == node.TEXT_NODE:
-					result.append(node.data)
-			return ''.join(result)
-
-		def getxml_disco(doc, two):
-			return getNodeText(doc.getElementsByTagName("Printer")[0].getElementsByTagName(two)[0])
-
-		def setvalue_from_xml(variable, doc = doc):
-			try:
-				profile.putMachineSetting(variable, getxml_disco(doc, variable))
-			except:
-				pass
-
-		profile.putProfileSetting('retraction_enable', getxml_disco(doc, 'retraction_enable'))
-		profile.putProfileSetting('nozzle_size', getxml_disco(doc, 'nozzle_size'))
-		profile.putProfileSetting('wall_thickness', float(profile.getProfileSetting('nozzle_size')) * 2)
-
-		setvalue_from_xml('machine_name')
-		setvalue_from_xml('machine_type')
-		setvalue_from_xml('machine_width')
-		setvalue_from_xml('machine_depth')
-		setvalue_from_xml('machine_height')
-		setvalue_from_xml('extruder_amount')
-		setvalue_from_xml('has_heated_bed')
-		setvalue_from_xml('machine_center_is_zero')
-		setvalue_from_xml('machine_shape')
-		setvalue_from_xml('extruder_head_size_min_x')
-		setvalue_from_xml('extruder_head_size_min_y')
-		setvalue_from_xml('extruder_head_size_max_x')
-		setvalue_from_xml('extruder_head_size_max_y')
-		setvalue_from_xml('extruder_head_size_height')
-		setvalue_from_xml('gcode_flavor')
-
 		profile.checkAndUpdateMachineName()
 
 class ConfigWizard(wx.wizard.Wizard):

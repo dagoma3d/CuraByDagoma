@@ -7,9 +7,6 @@ __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AG
 import os
 import sys
 import glob
-
-#Cura/util classes should not depend on wx...
-import wx
 import gettext
 
 if sys.platform.startswith('darwin'):
@@ -68,9 +65,5 @@ def setupLocalization(selectedLanguage = None):
 def getLanguageOptions():
 	return [
 		['en', 'English'],
-		#['de', 'Deutsch'],
-		['fr', 'French'],
-		# ['nl', 'Nederlands'],
-		# ['es', 'Spanish'],
-		# ['po', 'Polish']
+		['fr', 'French']
 	]

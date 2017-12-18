@@ -1269,7 +1269,7 @@ class SceneView(openglGui.glGuiPanel):
 
 		size = [profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')]
 
-		machine = profile.getMachineSetting('machine_type')
+		machine = profile.getMachineSetting('machine_name')
 		if machine.startswith('ultimaker'):
 			if machine not in self._platformMesh:
 				meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine + '_platform.stl'))

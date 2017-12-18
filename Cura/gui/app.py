@@ -8,11 +8,10 @@ import glob
 import warnings
 
 try:
-    #Only try to import the _core to save import time
-    import wx._core
+	#Only try to import the _core to save import time
+	import wx._core
 except ImportError:
-    import wx
-
+	import wx
 
 class CuraApp(wx.App):
 	def __init__(self, files):
@@ -96,9 +95,8 @@ class CuraApp(wx.App):
 	def afterSplashCallback(self):
 		#These imports take most of the time and thus should be done after showing the splashscreen
 		import webbrowser
-		from Cura.gui import mainWindow
 		from Cura.gui import configWizard
-		from Cura.gui import newVersionDialog
+		from Cura.gui import mainWindow
 		from Cura.util import profile
 		from Cura.util import resources
 		from Cura.util import version

@@ -123,7 +123,11 @@ class pausePluginPanel(wx.Panel):
 			panelWidget = panelChild.GetWindow()
 			# The only disabled textctrl by line is the one containing the height info
 			if isinstance(panelWidget, wx.TextCtrl) and not panelWidget.IsEnabled():
-				height_value = float(e.GetEventObject().GetValue()) * float(profile.getProfileSettingFloat('layer_height'))
+				height_value = 0
+				try:
+					height_value = float(e.GetEventObject().GetValue()) * float(profile.getProfileSettingFloat('layer_height'))
+				except:
+					print "Invalid user value in pause input: '%s'" % e.GetEventObject().GetValue()
 				if(e.IsCommandEvent()):
 					panelWidget.SetValue(str(height_value) + ' mm')
 		for panel in self.panelList:
