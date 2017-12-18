@@ -94,61 +94,28 @@ class CuraApp(wx.App):
 
 	def afterSplashCallback(self):
 		#These imports take most of the time and thus should be done after showing the splashscreen
-		import webbrowser
 		from Cura.gui import configWizard
 		from Cura.gui import mainWindow
 		from Cura.util import profile
 		from Cura.util import resources
-		from Cura.util import version
+
+		# it's important to set up localization at very beginning to install
+		resources.setupLocalization(profile.getPreference('language'))
+
+		if self.splash is not None:
+			self.splash.Show(False)
+			self.splash = None
 
 		#If we haven't run it before, run the configuration wizard.
 		if profile.getMachineSetting('machine_name') == '':
-			# Check the os language to set the default application language.
-			default_locale = "en_US"
-			if platform.system() == "Darwin":
-				import commands
-				default_locale = commands.getoutput("defaults read -g AppleLocale")
-			else:
-				import locale
-				default_locale = locale.getdefaultlocale()[0]
-
-			if not default_locale.find('fr') == -1:
-				profile.putPreference('language', 'French')
-			else:
-				profile.putPreference('language', 'English')
-
-			resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install
-
-			#Check if we need to copy our examples
-			exampleFile = os.path.normpath(os.path.join(resources.resourceBasePath, 'example', 'dagoma.stl'))
-
-			self.loadFiles = [exampleFile]
-			if self.splash is not None:
-				try:
-					self.splash.Show(False)
-				except:
-					print 'Show() couldn\'t be called'
 			configWizard.ConfigWizard()
-		else:
-			resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install
 
-		if profile.getPreference('check_for_updates') == 'True':
-			# newVersion = version.checkForNewerVersion()
-			newVersion = None
-			if newVersion is not None:
-				if self.splash is not None:
-					self.splash.Show(False)
-				if wx.MessageBox(_("A new version of Cura is available, would you like to download?"), _("New version available"), wx.YES_NO | wx.ICON_INFORMATION) == wx.YES:
-					webbrowser.open(newVersion)
-					return
-		if profile.getMachineSetting('machine_name') == '':
-			return
+		#Check if we need to copy our examples
+		exampleFile = os.path.normpath(os.path.join(resources.resourceBasePath, 'example', 'dagoma.stl'))
+
+		self.loadFiles = [exampleFile]
+
 		self.mainWindow = mainWindow.mainWindow()
-		if self.splash is not None:
-			try:
-				self.splash.Show(False)
-			except:
-				print 'Show() couldn\'t be called'
 		self.SetTopWindow(self.mainWindow)
 		self.mainWindow.Show()
 		self.mainWindow.OnDropFiles(self.loadFiles)

@@ -38,7 +38,7 @@ def main():
 		serialCommunication.startMonitor(port, baud)
 		return
 
-	print ("load preferences from " + profile.getPreferencePath())
+	print ("Load preferences from " + profile.getPreferencePath())
 	profile.loadPreferences(profile.getPreferencePath())
 
 	if options.profile is not None:

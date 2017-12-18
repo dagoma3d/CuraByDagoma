@@ -13,7 +13,5 @@ class splashScreen(wx.SplashScreen):
 
 	def DoCallback(self):
 		self.callback()
-		try:
+		if self:
 			self.Destroy()
-		except:
-			print 'Destroy() couldn\'t be called'

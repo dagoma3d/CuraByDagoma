@@ -125,9 +125,6 @@ class InfoPage(wx.wizard.WizardPageSimple):
 	def AllowBack(self):
 		return True
 
-	def StoreData(self):
-		pass
-
 class ConfigurationPage(InfoPage):
 	def __init__(self, parent):
 		printer_name = xmlconfig.getValue('machine_name', 'Printer')
@@ -144,15 +141,11 @@ class ConfigurationPage(InfoPage):
 	def AllowBack(self):
 		return False
 
-	def StoreData(self):
-		profile.checkAndUpdateMachineName()
-
 class ConfigWizard(wx.wizard.Wizard):
 	def __init__(self):
 		super(ConfigWizard, self).__init__(None, -1, _("Configuration wizard"))
 
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
-		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGING, self.OnPageChanging)
 
 		self.configurationPage = ConfigurationPage(self)
 
@@ -160,9 +153,6 @@ class ConfigWizard(wx.wizard.Wizard):
 		self.GetPageAreaSizer().Add(self.configurationPage)
 		self.RunWizard(self.configurationPage)
 		self.Destroy()
-
-	def OnPageChanging(self, e):
-		e.GetPage().StoreData()
 
 	def OnPageChanged(self, e):
 		prev_btn = self.FindWindowById(wx.ID_BACKWARD)
@@ -174,6 +164,7 @@ class ConfigWizard(wx.wizard.Wizard):
 			next_btn.SetLabel(_('Next >'))
 		else:
 			next_btn.SetLabel(_('Finish'))
+			cancel_btn.Disable()
 		if e.GetPage().AllowNext():
 			next_btn.Enable()
 		else:
