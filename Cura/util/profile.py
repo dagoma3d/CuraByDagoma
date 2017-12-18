@@ -674,7 +674,6 @@ def loadPreferences(filename):
 		return
 
 	for set in settingsList:
-		print set
 		if set.isPreference():
 			if profileParser.has_option('preference', set.getName()):
 				set.setValue(unicode(profileParser.get('preference', set.getName()), 'utf-8', 'replace'))
