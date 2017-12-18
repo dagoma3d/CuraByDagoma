@@ -165,8 +165,7 @@ class ConfigurationPage(InfoPage):
 			except:
 				pass
 
-		profile.putProfileSetting('retraction_enable', 'True')
-		profile.putPreference('submit_slice_information', 'False')
+		profile.putProfileSetting('retraction_enable', getxml_disco(doc, 'retraction_enable'))
 		profile.putProfileSetting('nozzle_size', getxml_disco(doc, 'nozzle_size'))
 		profile.putProfileSetting('wall_thickness', float(profile.getProfileSetting('nozzle_size')) * 2)
 

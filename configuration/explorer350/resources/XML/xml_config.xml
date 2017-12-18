@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- XML for Neva - 2017/30/11 -->
-<Dagoma_XML_Config>
+<Dagoma>
 	<!-- Filament definitions -->
 	<Filaments>
 		<Filament name="PLA Chromatik">
@@ -336,20 +336,15 @@
 		<extruder_head_size_max_x>69</extruder_head_size_max_x>
 		<extruder_head_size_max_y>22</extruder_head_size_max_y>
 		<extruder_head_size_height>53</extruder_head_size_height>
-		<gcode_flavor>DiscoGCode</gcode_flavor>
 		<retraction_enable>True</retraction_enable>
 	</Printer>
 
-	<!-- Advanced configuration -->
-	<Config_Adv>
+	<!-- Global configuration -->
+	<Configuration>
 		<bottom_thickness>0.26</bottom_thickness>
 		<layer0_width_factor>100</layer0_width_factor>
 		<object_sink>0</object_sink>
 		<fan_enabled>True</fan_enabled>
-	</Config_Adv>
-
-	<!-- Expert configuration -->
-	<Config_Expert>
 		<retraction_min_travel>1.5</retraction_min_travel>
 		<retraction_combing>True</retraction_combing>
 		<retraction_minimal_extrusion>0.02</retraction_minimal_extrusion>
@@ -384,15 +379,9 @@
 		<fix_horrible_union_all_type_b>False</fix_horrible_union_all_type_b>
 		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
-	</Config_Expert>
-
-	<!-- Preferences configuration -->
-	<Config_Preferences>
 		<model_colour>#FF9B00</model_colour>
 		<auto_detect_sd>True</auto_detect_sd>
-		<check_for_updates>False</check_for_updates>
-		<submit_slice_information>False</submit_slice_information>
-	</Config_Preferences>
+	</Configuration>
 
 	<!-- Gcodes start and end -->
 	<GCODE>
@@ -458,4 +447,4 @@ M117 Print end
 ;{profile_string}
 		</Gend>
 	</GCODE>
-</Dagoma_XML_Config>
+</Dagoma>

@@ -476,9 +476,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.get_support()
 		self.get_brim()
 		self.get_palpeur()
-		self.init_Config_Preferences()
-		self.init_Config_Adv()
-		self.init_Config_Expert()
+		self.init_Configuration()
 
 	def setvalue_from_xml(self, sub, var):
 		profile.putProfileSetting(var, self.getNodeText(sub.getElementsByTagName(var)[0]))
@@ -486,72 +484,76 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def setvalue_from_xml_pref(self, sub, var):
 		profile.putPreference(var, self.getNodeText(sub.getElementsByTagName(var)[0]))
 
-	def init_Config_Adv(self):
-		config_adv = doc.getElementsByTagName("Config_Adv")[0]
-		self.setvalue_from_xml(config_adv, 'bottom_thickness')
-		self.setvalue_from_xml(config_adv, 'layer0_width_factor')
-		self.setvalue_from_xml(config_adv, 'object_sink')
-		self.setvalue_from_xml(config_adv, 'fan_enabled')
+	def init_Configuration(self):
+		global_config = doc.getElementsByTagName("Configuration")
+		is_global = len(global_config) > 0
+		if is_global:
+			config = global_config[0]
+		else:
+			config = doc.getElementsByTagName("Config_Adv")[0]
 
-	def init_Config_Expert(self):
-		config_expert = doc.getElementsByTagName("Config_Expert")[0]
+		self.setvalue_from_xml(config, 'bottom_thickness')
+		self.setvalue_from_xml(config, 'layer0_width_factor')
+		self.setvalue_from_xml(config, 'object_sink')
+		self.setvalue_from_xml(config, 'fan_enabled')
+
+		if is_global:
+			config = global_config[0]
+		else:
+			config = doc.getElementsByTagName("Config_Expert")[0]
 		# Retraction
-		self.setvalue_from_xml(config_expert, 'retraction_min_travel')
-		self.setvalue_from_xml(config_expert, 'retraction_combing')
-		self.setvalue_from_xml(config_expert, 'retraction_minimal_extrusion')
-		self.setvalue_from_xml(config_expert, 'retraction_hop')
+		self.setvalue_from_xml(config, 'retraction_min_travel')
+		self.setvalue_from_xml(config, 'retraction_combing')
+		self.setvalue_from_xml(config, 'retraction_minimal_extrusion')
+		self.setvalue_from_xml(config, 'retraction_hop')
 		# Skirt
-		self.setvalue_from_xml(config_expert, 'skirt_line_count')
-		self.setvalue_from_xml(config_expert, 'skirt_gap')
-		self.setvalue_from_xml(config_expert, 'skirt_minimal_length')
+		self.setvalue_from_xml(config, 'skirt_line_count')
+		self.setvalue_from_xml(config, 'skirt_gap')
+		self.setvalue_from_xml(config, 'skirt_minimal_length')
 		# Cool
-		self.setvalue_from_xml(config_expert, 'fan_full_height')
-		#self.setvalue_from_xml(config_expert, 'fan_speed')
-		self.setvalue_from_xml(config_expert, 'fan_speed_max')
-		self.setvalue_from_xml(config_expert, 'cool_min_feedrate')
-		self.setvalue_from_xml(config_expert, 'cool_head_lift')
+		self.setvalue_from_xml(config, 'fan_full_height')
+		#self.setvalue_from_xml(config, 'fan_speed')
+		self.setvalue_from_xml(config, 'fan_speed_max')
+		self.setvalue_from_xml(config, 'cool_min_feedrate')
+		self.setvalue_from_xml(config, 'cool_head_lift')
 		# Infill
-		self.setvalue_from_xml(config_expert, 'solid_top')
-		self.setvalue_from_xml(config_expert, 'solid_bottom')
-		self.setvalue_from_xml(config_expert, 'fill_overlap')
+		self.setvalue_from_xml(config, 'solid_top')
+		self.setvalue_from_xml(config, 'solid_bottom')
+		self.setvalue_from_xml(config, 'fill_overlap')
 		# Support
-		self.setvalue_from_xml(config_expert, 'support_type')
-		self.setvalue_from_xml(config_expert, 'support_angle')
-		self.setvalue_from_xml(config_expert, 'support_fill_rate')
-		self.setvalue_from_xml(config_expert, 'support_xy_distance')
-		self.setvalue_from_xml(config_expert, 'support_z_distance')
+		self.setvalue_from_xml(config, 'support_type')
+		self.setvalue_from_xml(config, 'support_angle')
+		self.setvalue_from_xml(config, 'support_fill_rate')
+		self.setvalue_from_xml(config, 'support_xy_distance')
+		self.setvalue_from_xml(config, 'support_z_distance')
 		# Block Magic
-		self.setvalue_from_xml(config_expert, 'spiralize')
-		self.setvalue_from_xml(config_expert, 'simple_mode')
+		self.setvalue_from_xml(config, 'spiralize')
+		self.setvalue_from_xml(config, 'simple_mode')
 		# Brim
-		self.setvalue_from_xml(config_expert, 'brim_line_count')
+		self.setvalue_from_xml(config, 'brim_line_count')
 		# Raft
-		self.setvalue_from_xml(config_expert, 'raft_margin')
-		self.setvalue_from_xml(config_expert, 'raft_line_spacing')
-		self.setvalue_from_xml(config_expert, 'raft_base_thickness')
-		self.setvalue_from_xml(config_expert, 'raft_base_linewidth')
-		self.setvalue_from_xml(config_expert, 'raft_interface_thickness')
-		self.setvalue_from_xml(config_expert, 'raft_interface_linewidth')
-		self.setvalue_from_xml(config_expert, 'raft_airgap')
-		self.setvalue_from_xml(config_expert, 'raft_surface_layers')
+		self.setvalue_from_xml(config, 'raft_margin')
+		self.setvalue_from_xml(config, 'raft_line_spacing')
+		self.setvalue_from_xml(config, 'raft_base_thickness')
+		self.setvalue_from_xml(config, 'raft_base_linewidth')
+		self.setvalue_from_xml(config, 'raft_interface_thickness')
+		self.setvalue_from_xml(config, 'raft_interface_linewidth')
+		self.setvalue_from_xml(config, 'raft_airgap')
+		self.setvalue_from_xml(config, 'raft_surface_layers')
 		# Fix Horrible
-		self.setvalue_from_xml(config_expert, 'fix_horrible_union_all_type_a')
-		self.setvalue_from_xml(config_expert, 'fix_horrible_union_all_type_b')
-		self.setvalue_from_xml(config_expert, 'fix_horrible_use_open_bits')
-		self.setvalue_from_xml(config_expert, 'fix_horrible_extensive_stitching')
+		self.setvalue_from_xml(config, 'fix_horrible_union_all_type_a')
+		self.setvalue_from_xml(config, 'fix_horrible_union_all_type_b')
+		self.setvalue_from_xml(config, 'fix_horrible_use_open_bits')
+		self.setvalue_from_xml(config, 'fix_horrible_extensive_stitching')
 
-	def init_Config_Preferences(self):
-		config_pref = doc.getElementsByTagName("Config_Preferences")[0]
-		# Colours
-		self.setvalue_from_xml_pref(config_pref, 'model_colour')
-		# Filament Settings
-		#self.setvalue_from_xml_pref(config_pref, 'filament_physical_density')
-		#self.setvalue_from_xml_pref(config_pref, 'filament_cost_kg')
+		if is_global:
+			config = global_config[0]
+		else:
+			config = doc.getElementsByTagName("Config_Preferences")[0]
+		# Colors
+		self.setvalue_from_xml_pref(config, 'model_colour')
 		#Cura Settings
-		self.setvalue_from_xml_pref(config_pref, 'auto_detect_sd')
-		self.setvalue_from_xml_pref(config_pref, 'check_for_updates')
-		self.setvalue_from_xml_pref(config_pref, 'submit_slice_information')
-
+		self.setvalue_from_xml_pref(config, 'auto_detect_sd')
 
 	def get_filaments(self):
 		filaments = doc.getElementsByTagName("Filament")
