@@ -8,9 +8,9 @@ from xml.dom import minidom
 
 configuration = minidom.parse(resources.getPathForXML('xml_config.xml'))
 
-def getTags(name):
+def getTags(name, parent = configuration):
 	try:
-		return configuration.getElementsByTagName(name)
+		return parent.getElementsByTagName(name)
 	except:
 		return []
 

@@ -759,7 +759,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.color_box.Clear()
 		self.color_box.Append(_("Generic"))
 		filaments = xmlconfig.getTags("Filament")
-		colors = xmlconfig.getTags("Color")
+		colors = xmlconfig.getTags("Color", filaments[filament_index])
 		if len(colors) > 0:
 			self.color_box.Enable(True)
 			for color in colors:
