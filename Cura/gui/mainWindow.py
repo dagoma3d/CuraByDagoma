@@ -782,33 +782,62 @@ class normalSettingsPanel(configBase.configPanelBase):
 		color_index = self.color_box.GetSelection() - 1
 		profile.putPreference('color_index', color_index)
 		filament_index = int(profile.getPreference('filament_index'))
+		fila = self.filaments[filament_index]
 		if color_index > -1:
 			filaments = xmlconfig.getTags("Filament")
 			colors = filaments[filament_index].getElementsByTagName("Color")
 			color = colors[color_index]
 
 			print_temperature = xmlconfig.getValue("print_temperature", color)
-			if print_temperature is not None:
-				calculated_print_temperature = float(print_temperature)
-				if not self.spin_ctrl_1.IsEnabled():
-					calculated_print_temperature += self.temp_preci
-				self.spin_ctrl_1.SetValue(calculated_print_temperature)
-				profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
-
-			self.setProfileSetting(color, 'grip_temperature')
-			self.setProfileSetting(color, 'filament_diameter')
-			self.setProfileSetting(color, 'filament_flow')
-			self.setProfileSetting(color, 'retraction_speed')
-			self.setProfileSetting(color, 'retraction_amount')
-			self.setProfileSetting(color, 'filament_physical_density')
-			self.setProfileSetting(color, 'filament_cost_kg')
-		else:
-			fila = self.filaments[filament_index]
-			calculated_print_temperature = float(fila.print_temperature)
+			if print_temperature is None:
+				print_temperature = float(fila.print_temperature)
+			else:
+				print_temperature = float(print_temperature)
 			if not self.spin_ctrl_1.IsEnabled():
-				calculated_print_temperature += self.temp_preci
-			self.spin_ctrl_1.SetValue(calculated_print_temperature)
-			profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
+				print_temperature += self.temp_preci
+			self.spin_ctrl_1.SetValue(print_temperature)
+			profile.putProfileSetting('print_temperature', str(print_temperature))
+
+			grip_temperature = xmlconfig.getValue("grip_temperature", color)
+			if grip_temperature is None:
+				grip_temperature = fila.grip_temperature
+			profile.putProfileSetting('grip_temperature', str(grip_temperature))
+
+			filament_diameter = xmlconfig.getValue("filament_diameter", color)
+			if filament_diameter is None:
+				filament_diameter = fila.filament_diameter
+			profile.putProfileSetting('filament_diameter', str(filament_diameter))
+
+			filament_flow = xmlconfig.getValue("filament_flow", color)
+			if filament_flow is None:
+				filament_flow = fila.filament_flow
+			profile.putProfileSetting('filament_flow', str(filament_flow))
+
+			retraction_speed = xmlconfig.getValue("retraction_speed", color)
+			if retraction_speed is None:
+				retraction_speed = fila.retraction_speed
+			profile.putProfileSetting('retraction_speed', str(retraction_speed))
+
+			retraction_amount = xmlconfig.getValue("retraction_amount", color)
+			if retraction_amount is None:
+				retraction_amount = fila.retraction_amount
+			profile.putProfileSetting('retraction_amount', str(retraction_amount))
+
+			filament_physical_density = xmlconfig.getValue("filament_physical_density", color)
+			if filament_physical_density is None:
+				filament_physical_density = fila.filament_physical_density
+			profile.putProfileSetting('filament_physical_density', str(filament_physical_density))
+
+			filament_cost_kg = xmlconfig.getValue("filament_cost_kg", color)
+			if filament_cost_kg is None:
+				filament_cost_kg = fila.filament_cost_kg
+			profile.putProfileSetting('filament_cost_kg', str(filament_cost_kg))
+		else:
+			print_temperature = float(fila.print_temperature)
+			if not self.spin_ctrl_1.IsEnabled():
+				print_temperature += self.temp_preci
+			self.spin_ctrl_1.SetValue(print_temperature)
+			profile.putProfileSetting('print_temperature', str(print_temperature))
 			profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 			profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 			profile.putProfileSetting('filament_flow', fila.filament_flow)
