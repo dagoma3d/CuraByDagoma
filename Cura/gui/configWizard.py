@@ -146,13 +146,15 @@ class ConfigWizard(wx.wizard.Wizard):
 		super(ConfigWizard, self).__init__(None, -1, _("Configuration wizard"))
 
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
+		self.Bind(wx.wizard.EVT_WIZARD_FINISHED, self.OnPageFinished)
 
 		self.configurationPage = ConfigurationPage(self)
 
 		self.FitToPage(self.configurationPage)
 		self.GetPageAreaSizer().Add(self.configurationPage)
 		self.RunWizard(self.configurationPage)
-		self.Destroy()
+		if self:
+			self.Destroy()
 
 	def OnPageChanged(self, e):
 		prev_btn = self.FindWindowById(wx.ID_BACKWARD)
@@ -173,3 +175,6 @@ class ConfigWizard(wx.wizard.Wizard):
 			prev_btn.Enable()
 		else:
 			prev_btn.Disable()
+
+	def OnPageFinished(self, e):
+		print "Configuration wizard finished..."
