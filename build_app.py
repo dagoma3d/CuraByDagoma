@@ -12,6 +12,7 @@ if sys.platform.startswith('darwin'):
     DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/locale','resources/XML', 'plugins']
     PLIST = {
         u'CFBundleName': build_name,
+        u'postinstall_script': u'rm -rf ~/Library/Application\ Support/CuraByDagomaNeva',
         u'CFBundleShortVersionString': build_version,
         u'CFBundleVersion': build_version,
         u'CFBundleIdentifier': u'com.dagoma.'+ build_name + '-' + build_version,

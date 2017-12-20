@@ -107,11 +107,20 @@ class CuraApp(wx.App):
 			self.splash = None
 
 		#If we haven't run it before, run the configuration wizard.
+		if sys.platform.startswith('darwin'):
+			newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
+			if os.path.isfile(newinstallfile):
+				try:
+					os.remove(newinstallfile)
+				except:
+					pass
+
 		if profile.getMachineSetting('machine_name') == '':
 			configWizard.ConfigWizard()
 			#Check if we need to copy our examples
 			exampleFile = os.path.normpath(os.path.join(resources.resourceBasePath, 'example', 'dagoma.stl'))
 			self.loadFiles = [exampleFile]
+
 
 		self.mainWindow = mainWindow.mainWindow()
 		self.SetTopWindow(self.mainWindow)
