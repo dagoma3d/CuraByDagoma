@@ -1,9 +1,8 @@
 /resources/images/cura.ico
+/resources/images/cura.icns
 /resources/images/background.png
 /resources/meshes
 /resources/XML
-/resources/cura.icns
-/resources/cura.ico
 /scripts/darwin
 /scripts/linux
 /scripts/win32

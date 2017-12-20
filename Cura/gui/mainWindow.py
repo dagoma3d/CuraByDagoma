@@ -18,7 +18,6 @@ from Cura.gui import pluginPanel
 from Cura.gui import pausePluginPanel
 from Cura.gui import preferencesDialog
 from Cura.gui import configWizard
-from Cura.gui import firmwareInstall
 from Cura.gui import simpleMode
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
@@ -47,7 +46,7 @@ class mainWindow(wx.Frame):
 		# allow dropping any file, restrict later
 		self.SetDropTarget(dropTarget.FileDropTarget(self.OnDropFiles))
 
-		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO) #MOI Ajoute Icone dagoma.ico
+		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
 
 		# TODO: wxWidgets 2.9.4 has a bug when NSView does not register for dragged types when wx drop target is set. It was fixed in 2.9.5

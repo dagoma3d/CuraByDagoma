@@ -9,7 +9,7 @@ if sys.platform.startswith('darwin'):
     build_name = os.environ['BUILD_NAME']
 
     APP = ['Cura/cura.py']
-    DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/firmware', 'resources/locale', 'resources/machine_profiles','resources/XML', 'plugins']
+    DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/locale','resources/XML', 'plugins']
     PLIST = {
         u'CFBundleName': build_name,
         u'CFBundleShortVersionString': build_version,
@@ -68,7 +68,7 @@ if sys.platform.startswith('darwin'):
     }
     OPTIONS = {
         'argv_emulation': True,
-        'iconfile': 'resources/cura.icns',
+        'iconfile': 'resources/images/cura.icns',
         'includes': ['objc', 'Foundation'],
         'resources': DATA_FILES,
         'optimize': '2',

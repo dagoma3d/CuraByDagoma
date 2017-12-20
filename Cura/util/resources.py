@@ -45,10 +45,6 @@ def getPathForFirmware(name):
 def getPathForXML(name):
 	return getPathForResource(resourceBasePath, 'XML', name)
 
-def getDefaultMachineProfiles():
-	path = os.path.normpath(os.path.join(resourceBasePath, 'machine_profiles', '*.ini'))
-	return glob.glob(path)
-
 def setupLocalization(selectedLanguage = None):
 	#Default to english
 	languages = ['en']

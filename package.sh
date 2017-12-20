@@ -257,9 +257,6 @@ if [[ $BUILD_TARGET == debian* ]]; then
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/applications
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/applications
 	cp scripts/linux/utils/curabydago.desktop scripts/linux/${BUILD_TARGET}/usr/share/applications/${LINUX_TARGET_NAME}.desktop
-	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/icons
-	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/icons/curabydago
-	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/usr/share/icons/curabydago/${LINUX_TARGET_NAME}.ico
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/bin
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/bin
 	cp scripts/linux/utils/curabydago scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
@@ -300,7 +297,6 @@ if [[ $BUILD_TARGET == archive* ]]; then
 	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/Cura/version
 	cp scripts/linux/utils/curabydago_generic.desktop scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
-	cp scripts/linux/utils/curabydago.ico scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.ico
 	cp scripts/linux/${BUILD_TARGET}/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	cd scripts/linux/${BUILD_TARGET}
 	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
