@@ -109,20 +109,20 @@ class CuraApp(wx.App):
 
 
 		# Is it the first run after installation?
+		first_run = profile.getMachineSetting('machine_name') == ''
 		if sys.platform.startswith('darwin'):
 			newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
 			if os.path.isfile(newinstallfile):
 				try:
 					os.remove(newinstallfile)
-					printername = xmlconfig.getValue('machine_name', 'Printer')
-					base_path = os.path.expanduser('~/Library/Application Support/CuraByDagoma'+printername)
 					import shutil
-					shutil.rmtree(base_path)
+					shutil.rmtree(profile.getBasePath())
+					first_run = True
 				except:
 					pass
 
 		#If we haven't run it before, run the configuration wizard.
-		if profile.getMachineSetting('machine_name') == '':
+		if first_run:
 			configWizard.ConfigWizard()
 			#Check if we need to copy our examples
 			exampleFile = os.path.normpath(os.path.join(resources.resourceBasePath, 'example', 'dagoma.stl'))
