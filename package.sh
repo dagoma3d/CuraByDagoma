@@ -204,10 +204,6 @@ if [[ $BUILD_TARGET == darwin ]]; then
 
 	cd scripts/darwin
 
-	# Install QuickLook plugin
-	mkdir -p dist/${BUILD_NAME}.app/Contents/Library/QuickLook
-	cp -a STLQuickLook.qlgenerator dist/${BUILD_NAME}.app/Contents/Library/QuickLook/
-
 	# Archive app
 	cd dist
 	gnutar cfp - ${BUILD_NAME}.app | gzip --best -c > ../../../${BUILD_NAME_INSTALL}.tar.gz
