@@ -106,16 +106,23 @@ class CuraApp(wx.App):
 			self.splash.Show(False)
 			self.splash = None
 
-		#If we haven't run it before, run the configuration wizard.
+
+
+		# Is it the first run after installation?
 		if sys.platform.startswith('darwin'):
+			first_run = False
 			newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
 			if os.path.isfile(newinstallfile):
 				try:
 					os.remove(newinstallfile)
+					first_run = True
 				except:
 					pass
+		else:
+			first_run = profile.getMachineSetting('machine_name') == ''
 
-		if profile.getMachineSetting('machine_name') == '':
+		#If we haven't run it before, run the configuration wizard.
+		if first_run:
 			configWizard.ConfigWizard()
 			#Check if we need to copy our examples
 			exampleFile = os.path.normpath(os.path.join(resources.resourceBasePath, 'example', 'dagoma.stl'))

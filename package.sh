@@ -198,7 +198,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 
 	#Add cura version file (should read the version from the bundle with pyobjc, but will figure that out later)
 	echo $BUILD_NAME > scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/version
-	echo 'New installation' > scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/new
+	touch scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/new
 
 	#Copy CuraEngine
 	cp CuraEngine/build/CuraEngine scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/CuraEngine
