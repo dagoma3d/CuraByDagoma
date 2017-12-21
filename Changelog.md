@@ -8,8 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix crashes when changing a parameter during the slicing process.
 - Add a filament color combo box depending on the chosen filament.
 - Add a warning message if 'Other PLA' is chosen.
-- XML file translated in english and used when the chosen language in english.
+- XML file reformatted and translated in english. The software is still compatible with the old xml format.
 - Refine displayed print time.
+- Update core components: wxPython 3.0.2 and CuraEngine legacy.
+- Rework on macos build.
+- Both prepare print buttons buttons have the same behavior.
+- The gcodes start/end can now be modified in the xml and are set during the software loading.
+-
 
 ## [1.0.6] - 2017-07-01
 - Add the color change feature.
