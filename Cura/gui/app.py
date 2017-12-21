@@ -115,8 +115,6 @@ class CuraApp(wx.App):
 			if os.path.isfile(newinstallfile):
 				try:
 					os.remove(newinstallfile)
-					import shutil
-					shutil.rmtree(profile.getBasePath())
 					first_run = True
 				except:
 					pass
