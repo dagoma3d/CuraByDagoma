@@ -631,6 +631,12 @@ def putProfileSetting(name, value):
 	if name in settingsDictionary and settingsDictionary[name].isProfile():
 		settingsDictionary[name].setValue(value)
 
+def putAlterationSetting(name, value):
+	""" Store a certain value in a alteration setting. """
+	global settingsDictionary
+	if name in settingsDictionary and settingsDictionary[name].isAlteration():
+		settingsDictionary[name].setValue(value)
+
 def isProfileSetting(name):
 	""" Check if a certain key name is actually a profile value. """
 	global settingsDictionary

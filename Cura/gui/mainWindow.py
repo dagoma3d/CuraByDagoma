@@ -251,9 +251,7 @@ class mainWindow(wx.Frame):
 	def OnQuit(self, e):
 		self.Close()
 
-
 class normalSettingsPanel(configBase.configPanelBase):
-
 
 	"Main user interface window"
 	class Filament:
@@ -459,6 +457,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def loadxml(self):
 		self.init_Printer()
 		self.init_Configuration()
+		self.init_GCode()
 		self.get_filaments()
 		self.get_remplissage()
 		self.get_Precision()
@@ -570,6 +569,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setPreferenceSetting(config, 'model_colour')
 		#Cura Settings
 		self.setPreferenceSetting(config, 'auto_detect_sd')
+
+	def init_GCode(self):
+		gcode_start = xmlconfig.getValue("Gstart", "GCODE")
+		profile.putAlterationSetting('start.gcode', gcode_start)
+
+		gcode_end = xmlconfig.getValue("Gend", "GCODE")
+		profile.putAlterationSetting('end.gcode', gcode_end)
 
 	def get_filaments(self):
 		filaments = xmlconfig.getTags('Filament')
