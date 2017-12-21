@@ -12,13 +12,9 @@ import wx.lib.hyperlink as hl
 from wx.lib import scrolledpanel
 
 from Cura.gui import configBase
-from Cura.gui import expertConfig
-from Cura.gui import alterationPanel
-from Cura.gui import pluginPanel
 from Cura.gui import pausePluginPanel
 from Cura.gui import preferencesDialog
 from Cura.gui import configWizard
-from Cura.gui import simpleMode
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
 from Cura.gui.util import dropTarget

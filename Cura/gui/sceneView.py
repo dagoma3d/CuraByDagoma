@@ -32,7 +32,6 @@ from Cura.gui.util import previewTools
 from Cura.gui.util import openglHelpers
 from Cura.gui.util import openglGui
 from Cura.gui.util import engineResultView
-from Cura.gui.tools import youmagineGui
 from Cura.gui.tools import imageToMesh
 
 class SceneView(openglGui.glGuiPanel):
@@ -108,9 +107,6 @@ class SceneView(openglGui.glGuiPanel):
 		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Layers")], (-1,0), self.OnViewChange)
 		self.viewSelection = openglGui.glComboButton(self, _(" "), [7,23], [_("Normal"), _("Layers")], (-1,0), self.OnViewChange)
 		self.viewSelection.setHidden(True)
-
-		# self.youMagineButton = openglGui.glButton(self, 26, _("Share on YouMagine"), (2,0), lambda button: youmagineGui.youmagineManager(self.GetTopLevelParent(), self._scene))
-		# self.youMagineButton.setDisabled(True) Dagoma
 
 		self.notification = openglGui.glNotification(self, (0, 0))
 

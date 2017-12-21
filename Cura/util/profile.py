@@ -262,7 +262,6 @@ setting('filament_cost_meter', '0', float, 'advanced', _('Filament')).setLabel(_
 setting('auto_detect_sd', 'True', bool, 'preference', 'hidden').setLabel(_("Auto detect SD card drive"), _("Auto detect the SD card. You can disable this because on some systems external hard-drives or USB sticks are detected as SD card."))
 setting('check_for_updates', 'False', bool, 'preference', 'hidden').setLabel(_("Check for updates"), _("Check for newer versions of Cura on startup"))
 setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLabel(_("Send usage statistics"), _("Submit anonymous usage information to improve future versions of Cura"))
-setting('youmagine_token', '', str, 'preference', 'hidden')
 setting('filament_index', 0, int, 'preference', 'hidden')
 setting('color_index', -1, int, 'preference', 'hidden')
 setting('fill_index', 1, int, 'preference', 'hidden')

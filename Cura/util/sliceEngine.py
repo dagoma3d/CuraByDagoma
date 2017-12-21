@@ -151,28 +151,6 @@ class EngineResult(object):
 			time.sleep(0.1)
 		return self._gcodeLoadCallback(self, progress)
 
-	def submitInfoOnline(self):
-		if profile.getPreference('submit_slice_information') != 'True':
-			return
-		if version.isDevVersion():
-			return
-		data = {
-			'processor': platform.processor(),
-			'machine': platform.machine(),
-			'platform': platform.platform(),
-			'profile': self._profileString,
-			'preferences': self._preferencesString,
-			'modelhash': self._modelHash,
-			'version': version.getVersion(),
-		}
-		try:
-			f = urllib2.urlopen("https://www.youmagine.com/curastats/", data = urllib.urlencode(data), timeout = 1)
-			f.read()
-			f.close()
-		except:
-			import traceback
-			traceback.print_exc()
-
 class Engine(object):
 	"""
 	Class used to communicate with the CuraEngine.
