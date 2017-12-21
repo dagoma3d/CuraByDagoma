@@ -28,6 +28,7 @@ from Cura.util import profile
 from Cura.util import pluginInfo
 from Cura.util import version
 from Cura.util import gcodeInterpreter
+from Cura.util import xmlconfig
 
 def getEngineFilename():
 	"""
@@ -460,8 +461,12 @@ class Engine(object):
 					except:
 						pass
 			elif line.startswith('Print time:'):
-				# A customer made some measures and it seems the real print time is about 70% of the calculated one
-				self._result._printTimeSeconds = int(line.split(':')[1].strip()) * 0.7
+				speed_factor = 1.0
+				if xmlconfig.getValue('machine_name', 'Printer') == 'Neva':
+					# A customer made some measures for the Neva and it seems the real print time is about 70% of the calculated one
+					# TODO: Understand why the time discrepancy occurs
+					speed_factor = 0.7
+				self._result._printTimeSeconds = int(line.split(':')[1].strip()) * speed_factor
 			elif line.startswith('Filament:'):
 				self._result._filamentMM[0] = int(line.split(':')[1].strip())
 				if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':
