@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-26 12:20+0100\n"
+"PO-Revision-Date: 2017-12-26 14:34+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -2883,23 +2883,23 @@ msgstr "heures"
 msgid "meters"
 msgstr "mètres"
 
-msgid "Impossible d'enregistrer"
-msgstr ""
+msgid "Failed to save"
+msgstr "Impossible d'enregistrer"
 
-msgid "Sauvegarde dans %s"
-msgstr ""
+msgid "Saved as %s"
+msgstr "Sauvegardé dans %s"
 
-msgid "Ejecter"
-msgstr ""
+msgid "Eject"
+msgstr "Ejecter"
 
-msgid "Ouvrir Dossier"
-msgstr ""
+msgid "Open Folder"
+msgstr "Ouvrir Dossier"
 
-msgid "Vous pouvez maintenant retirer la carte memoire."
-msgstr ""
+msgid "You can now remove the SD card."
+msgstr "Vous pouvez maintenant retirer la carte memoire."
 
-msgid "Le retrait sur a échoué..."
-msgstr ""
+msgid "Failed to remove the SD card..."
+msgstr "Le retrait sur a échoué..."
 
 msgid "Cannot start print, because other print still running."
 msgstr "Impossible de démarrer l'impression car une autre est en cours."
@@ -3249,3 +3249,25 @@ msgstr "Acheter du filament"
 
 msgid "Save the build plate"
 msgstr "Sauvegarder le plateau"
+
+msgid "STL files (%s)"
+msgstr "Fichiers STL (%s)"
+
+msgid "Select SD drive"
+msgstr "Sélectionner un lecteur SD"
+
+msgid ""
+"Multiple removable drives have been found,\n"
+"please select your SD card drive"
+msgstr ""
+"Plusieurs lecteurs amovibles ont été trouvés,\n"
+"veuillez selectionner votre lecteur de carte SD"
+
+msgid "Select the %s connection to use"
+msgstr "Selectionner la connexion %s à utiliser"
+
+msgid "Multiple %s connections found"
+msgstr "Plusieurs connexions %s trouvées"
+
+msgid "Currently saving..."
+msgstr "Sauvegarde en cours..."

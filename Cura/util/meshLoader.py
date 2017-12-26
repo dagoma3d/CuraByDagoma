@@ -17,7 +17,7 @@ def loadSupportedExtensions():
 
 def saveSupportedExtensions():
 	""" return a list of supported file extensions for saving. """
-	return ['.amf', '.stl']
+	return ['.stl']
 
 def loadMeshes(filename):
 	"""
@@ -46,8 +46,5 @@ def saveMeshes(filename, objects):
 	ext = os.path.splitext(filename)[1].lower()
 	if ext == '.stl':
 		stl.saveScene(filename, objects)
-		return
-	if ext == '.amf':
-		amf.saveScene(filename, objects)
 		return
 	print 'Error: Unknown model extension: %s' % (ext)

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-26 12:20+0100\n"
+"PO-Revision-Date: 2017-12-26 14:33+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2537,23 +2537,23 @@ msgstr ""
 msgid "meters"
 msgstr ""
 
-msgid "Impossible d'enregistrer"
-msgstr "Unable to save"
+msgid "Failed to save"
+msgstr ""
 
-msgid "Sauvegarde dans %s"
-msgstr "Save in %s"
+msgid "Saved as %s"
+msgstr ""
 
-msgid "Ejecter"
-msgstr "Eject"
+msgid "Eject"
+msgstr ""
 
-msgid "Ouvrir Dossier"
-msgstr "Open Folder"
+msgid "Open Folder"
+msgstr ""
 
-msgid "Vous pouvez maintenant retirer la carte memoire."
-msgstr "You can now remove the SD card."
+msgid "You can now remove the SD card."
+msgstr ""
 
-msgid "Le retrait sur a échoué..."
-msgstr "Failed to remove the SD card..."
+msgid "Failed to remove the SD card..."
+msgstr ""
 
 msgid "Cannot start print, because other print still running."
 msgstr ""
@@ -2903,4 +2903,24 @@ msgid "Buy filament"
 msgstr ""
 
 msgid "Save the build plate"
+msgstr ""
+
+msgid "STL files (%s)"
+msgstr ""
+
+msgid "Select SD drive"
+msgstr ""
+
+msgid ""
+"Multiple removable drives have been found,\n"
+"please select your SD card drive"
+msgstr ""
+
+msgid "Select the %s connection to use"
+msgstr ""
+
+msgid "Multiple %s connections found"
+msgstr ""
+
+msgid "Currently saving..."
 msgstr ""

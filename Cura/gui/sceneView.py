@@ -236,7 +236,7 @@ class SceneView(openglGui.glGuiPanel):
 		dlg=wx.FileDialog(self, _("Save 3D model"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
 		fileExtensions = meshLoader.saveSupportedExtensions()
 		wildcardList = ';'.join(map(lambda s: '*' + s, fileExtensions))
-		wildcardFilter = "Mesh files (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
+		wildcardFilter = _("STL files (%s)") % (wildcardList)
 		dlg.SetWildcard(wildcardFilter)
 		if dlg.ShowModal() != wx.ID_OK:
 			dlg.Destroy()
@@ -251,7 +251,7 @@ class SceneView(openglGui.glGuiPanel):
 			if len(removableStorage.getPossibleSDcardDrives()) > 0 and (connectionGroup is None or connectionGroup.getPriority() < 0):
 				drives = removableStorage.getPossibleSDcardDrives()
 				if len(drives) > 1:
-					dlg = wx.SingleChoiceDialog(self, "Select SD drive", "Multiple removable drives have been found,\nplease select your SD card drive", map(lambda n: n[0], drives))
+					dlg = wx.SingleChoiceDialog(self, _("Select SD drive"), _("Multiple removable drives have been found,\nplease select your SD card drive"), map(lambda n: n[0], drives))
 					if dlg.ShowModal() != wx.ID_OK:
 						dlg.Destroy()
 						return
@@ -267,7 +267,7 @@ class SceneView(openglGui.glGuiPanel):
 				if len(connections) < 2:
 					connection = connections[0]
 				else:
-					dlg = wx.SingleChoiceDialog(self, "Select the %s connection to use" % (connectionGroup.getName()), "Multiple %s connections found" % (connectionGroup.getName()), map(lambda n: n.getName(), connections))
+					dlg = wx.SingleChoiceDialog(self, _("Select the %s connection to use") % (connectionGroup.getName()), _("Multiple %s connections found") % (connectionGroup.getName()), map(lambda n: n.getName(), connections))
 					if dlg.ShowModal() != wx.ID_OK:
 						dlg.Destroy()
 						return
@@ -314,7 +314,7 @@ class SceneView(openglGui.glGuiPanel):
 		filename = "dagoma0" + profile.getGCodeExtension()
 		# filename = self._scene._objectList[0].getName() + profile.getGCodeExtension()
 		dlg.SetFilename(filename)
-		dlg.SetWildcard('Toolpath (*%s)|*%s;*%s' % (profile.getGCodeExtension(), profile.getGCodeExtension(), profile.getGCodeExtension()[0:2]))
+		dlg.SetWildcard('GCode (*%s)|*%s;*%s' % (profile.getGCodeExtension(), profile.getGCodeExtension(), profile.getGCodeExtension()[0:2]))
 		if dlg.ShowModal() != wx.ID_OK:
 			dlg.Destroy()
 			return
@@ -326,6 +326,7 @@ class SceneView(openglGui.glGuiPanel):
 	def _saveGCode(self, targetFilename, ejectDrive = False):
 		data = self._engine.getResult().getGCode()
 		try:
+			self.notification.message(_("Currently saving..."))
 			size = float(len(data))
 			fsrc = StringIO.StringIO(data)
 			print 'Save in : ', targetFilename # Dagoma
@@ -338,20 +339,20 @@ class SceneView(openglGui.glGuiPanel):
 		except:
 			import sys, traceback
 			traceback.print_exc()
-			self.notification.message(_("Impossible d'enregistrer"))
+			self.notification.message(_("Failed to save"))
 		else:
 			if ejectDrive:
-				self.notification.message(_("Sauvegarde dans %s") % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Ejecter'))
+				self.notification.message(_("Saved as %s") % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
 			elif explorer.hasExplorer():
-				self.notification.message(_("Sauvegarde dans %s") % (targetFilename), lambda : explorer.openExplorer(targetFilename), 4, _('Ouvrir Dossier'))
+				self.notification.message(_("Saved as %s") % (targetFilename), lambda : explorer.openExplorer(targetFilename), 4, _('Open Folder'))
 			else:
-				self.notification.message(_("Sauvegarde dans %s") % (targetFilename))
+				self.notification.message(_("Saved as %s") % (targetFilename))
 
 	def _doEjectSD(self, drive):
 		if removableStorage.ejectDrive(drive):
-			self.notification.message(_('Vous pouvez maintenant retirer la carte memoire.'))
+			self.notification.message(_('You can now remove the SD card.'))
 		else:
-			self.notification.message(_('Le retrait sur a échoué...'))
+			self.notification.message(_('Failed to remove the SD card...'))
 
 	def _showEngineLog(self):
 		dlg = wx.TextEntryDialog(self, _("The slicing engine reported the following"), _("Engine log..."), '\n'.join(self._engine.getResult().getLog()), wx.TE_MULTILINE | wx.OK | wx.CENTRE)
