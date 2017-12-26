@@ -236,7 +236,7 @@ class SceneView(openglGui.glGuiPanel):
 		dlg=wx.FileDialog(self, _("Save 3D model"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
 		fileExtensions = meshLoader.saveSupportedExtensions()
 		wildcardList = ';'.join(map(lambda s: '*' + s, fileExtensions))
-		wildcardFilter = _("STL files (%s)") % (wildcardList)
+		wildcardFilter = _("STL files") + " (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
 		dlg.SetWildcard(wildcardFilter)
 		if dlg.ShowModal() != wx.ID_OK:
 			dlg.Destroy()
