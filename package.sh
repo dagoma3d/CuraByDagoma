@@ -64,11 +64,13 @@ case "$2" in
 		LINUX_TARGET_NAME="curabydago-"${MACHINE_NAME_LOWERCASE}
 		case "$3" in
 		32)
-			BUILD_TARGET=$2_i386
+			BUILD_ARCHITECTURE=i386
+			BUILD_TARGET=$2_${BUILD_ARCHITECTURE}
 			CXX="g++ -m$3"
 			;;
 		64)
-			BUILD_TARGET=$2_amd64
+			BUILD_ARCHITECTURE=amd64
+			BUILD_TARGET=$2_${BUILD_ARCHITECTURE}
 			CXX="g++ -m$3"
 			;;
 		*)
@@ -242,6 +244,7 @@ fi
 #############################
 # Debian
 #############################
+# sed -i 's/machine_name/Neva/g' curabydago0.desktop
 if [[ $BUILD_TARGET == debian* ]]; then
 	mkdir -p scripts/linux/${BUILD_TARGET}
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R

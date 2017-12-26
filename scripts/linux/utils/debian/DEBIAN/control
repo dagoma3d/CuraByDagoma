@@ -1,0 +1,12 @@
+Package: curabydagoma-#machine_name_lowercase#
+Source: Dagoma
+Version: #build_version#
+Section: misc
+Priority: optional
+Architecture: #build_architecture#
+Essential: no
+Depends: python2.7, python-wxgtk2.8 | python-wxgtk3.0, python-opengl, python-serial, python-numpy
+Maintainer: Orel <orel@dagoma.fr>
+Provides: curabydagoma-#machine_name_lowercase#
+Installed-Size: 23300
+Description: CuraByDagoma #machine_name# is a fork of Legacy Cura made by Dagoma for the #machine_name# printer.

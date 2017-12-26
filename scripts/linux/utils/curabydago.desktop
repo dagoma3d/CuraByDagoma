@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Application
-Name=Cura-by-dagoma-Neva
-Comment=Cura-by-dagoma-Neva
-Icon=/usr/share/curabydago-neva/resources/images/cura.ico
-Exec=/usr/bin/python2.7 /usr/share/curabydago-neva/cura.py
-Path=/usr/share/curabydago-neva/
+Name=Cura-by-dagoma-#machine_name#
+Comment=Cura-by-dagoma-#machine_name#
+Icon=/usr/share/curabydago-#machine_name_lowercase#/resources/images/cura.ico
+Exec=/usr/bin/python2.7 /usr/share/curabydago-#machine_name_lowercase#/cura.py
+Path=/usr/share/curabydago-#machine_name_lowercase#/
 StartupNotify=true
 Terminal=false
 Categories=GNOME;GTK;Utility;
