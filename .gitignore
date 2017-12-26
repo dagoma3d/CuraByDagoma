@@ -6,6 +6,7 @@
 /scripts/darwin
 /scripts/linux
 /scripts/win32
+/scripts/clear_comtypes_cache.py
 /CuraEngine
 Cura-Cura-by-Dagoma-*
 Cura-by-Dagoma-*

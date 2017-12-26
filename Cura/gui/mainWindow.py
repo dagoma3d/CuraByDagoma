@@ -75,11 +75,13 @@ class mainWindow(wx.Frame):
 
 		self.menubar = wx.MenuBar()
 		self.fileMenu = wx.Menu()
-		i = self.fileMenu.Append(-1, _("Open an Object") + "\tCTRL+L")
+		i = self.fileMenu.Append(-1, _("Open an Object") + "\tCTRL+O")
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showLoadModel(), i)
-		i = self.fileMenu.Append(1, _("Prepare the Print") + "\tCTRL+S")
+		i = self.fileMenu.Append(-1, _("Save the build plate") + "\tCTRL+S")
+		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveModel(), i)
+		i = self.fileMenu.Append(1, _("Prepare the Print") + "\tCTRL+P")
 		self.Bind(wx.EVT_MENU, self.OnPreparePrint, i)
-		i = self.fileMenu.Append(-1, _("Preferences") + "...\tCTRL+P")
+		i = self.fileMenu.Append(-1, _("Preferences") + "...")
 		self.Bind(wx.EVT_MENU, self.OnLanguagePreferences, i)
 
 		# Model MRU list
