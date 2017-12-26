@@ -233,7 +233,7 @@ class SceneView(openglGui.glGuiPanel):
 	def showSaveModel(self):
 		if len(self._scene.objects()) < 1:
 			return
-		dlg=wx.FileDialog(self, _("Save 3D model"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
+		dlg=wx.FileDialog(self, _("Save the build plate"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
 		fileExtensions = meshLoader.saveSupportedExtensions()
 		wildcardList = ';'.join(map(lambda s: '*' + s, fileExtensions))
 		wildcardFilter = _("STL files") + " (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
