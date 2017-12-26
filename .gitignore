@@ -4,8 +4,8 @@
 /resources/XML
 /scripts/darwin/build
 /scripts/darwin/dist
-/scripts/linux/DEBIAN
-/scripts/linux/usr
+/scripts/linux/archive*
+/scripts/linux/debian*
 /scripts/win32/dist
 /scripts/clear_comtypes_cache.py
 /CuraEngine
