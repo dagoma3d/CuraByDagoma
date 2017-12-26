@@ -270,7 +270,6 @@ setting('printhead_index', 0, int, 'preference', 'hidden')
 setting('filament_physical_density', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
 
 # Get the os default locale
-default_language = 'English'
 default_locale = "en_US"
 if platform.system() == "Darwin":
 	import commands
@@ -280,10 +279,15 @@ else:
 	default_locale = locale.getdefaultlocale()[0]
 
 # Set the default language from the found default locale
+default_language = 'English'
+default_url = 'https://dagoma3d.com/'
 if not default_locale.find('fr') == -1:
 	default_language = 'French'
+	default_url = 'https://dagoma.fr/'
 
 setting('language', default_language, str, 'preference', 'hidden').setLabel(_('Language'), _('Change the language in which Cura runs. Switching language requires a restart of Cura'))
+setting('contact_url', default_url, str, 'preference', 'hidden')
+setting('buy_url', default_url, str, 'preference', 'hidden')
 setting('active_machine', '0', int, 'preference', 'hidden')
 
 setting('model_colour', '#FFC924', str, 'preference', 'hidden').setLabel(_('Model colour'), _('Display color for first extruder'))

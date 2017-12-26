@@ -96,14 +96,8 @@ class mainWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnQuit, i)
 		self.menubar.Append(self.fileMenu, _("File"))
 
-		language = profile.getPreference("language")
-		if language == "French":
-			contact_url = "https://dagoma.fr/heroes/diagnostique-en-ligne.html"
-			buy_url = "https://dagoma.fr/boutique/filaments.html"
-		else:
-			contact_url = "https://dagoma3d.com/pages/contact-us"
-			buy_url = "https://dagoma3d.com/collections/shop"
-
+		contact_url = profile.getPreference('contact_url')
+		buy_url = profile.getPreference('buy_url')
 		self.helpMenu = wx.Menu()
 		i = self.helpMenu.Append(-1, _("Contact us"))
 		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(contact_url), i)

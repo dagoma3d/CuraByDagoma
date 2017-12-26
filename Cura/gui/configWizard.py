@@ -36,12 +36,7 @@ class InfoPage(wx.wizard.WizardPageSimple):
 		self.rowNr += 1
 		return text
 
-	def AddLink(self, info):
-		language = profile.getPreference('language')
-		if language == "French":
-			url = "https://dagoma.fr/heroes/diagnostique-en-ligne.html"
-		else:
-			url = "https://dagoma3d.com/pages/contact-us"
+	def AddLink(self, info, url):
 		link = hl.HyperLinkCtrl(self, wx.ID_ANY, info, URL=url)
 		self.GetSizer().Add(link, pos=(self.rowNr, 0), span=(1, 2), flag=wx.LEFT | wx.RIGHT)
 		self.rowNr += 1
@@ -128,10 +123,11 @@ class InfoPage(wx.wizard.WizardPageSimple):
 class ConfigurationPage(InfoPage):
 	def __init__(self, parent):
 		printer_name = xmlconfig.getValue('machine_name', 'Printer')
+		contact_url = profile.getPreference('contact_url')
 		super(ConfigurationPage, self).__init__(parent, _("Configuration Cura by Dagoma %s") % printer_name)
 		self.AddText(_("Dagoma would like to thank you for your trust."))
 		self.AddText(_("The Cura by Dagoma software is now ready to use with your %s 3D printer.") % printer_name)
-		self.AddLink(_("Feel free to contact us!"))
+		self.AddLink(_("Feel free to contact us!"), contact_url)
 		self.AddSeperator()
 		self.AddText(_("Enjoy!"))
 
