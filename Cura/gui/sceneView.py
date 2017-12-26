@@ -326,7 +326,7 @@ class SceneView(openglGui.glGuiPanel):
 	def _saveGCode(self, targetFilename, ejectDrive = False):
 		data = self._engine.getResult().getGCode()
 		try:
-			self.notification.message(_("Currently saving..."))
+			self.notification.message(_("Save in progress..."))
 			size = float(len(data))
 			fsrc = StringIO.StringIO(data)
 			print 'Save in : ', targetFilename # Dagoma
