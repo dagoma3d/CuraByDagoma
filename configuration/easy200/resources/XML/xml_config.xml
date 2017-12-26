@@ -383,7 +383,6 @@
 		<fix_horrible_union_all_type_b>False</fix_horrible_union_all_type_b>
 		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
-		<model_colour>#FF9B00</model_colour>
 		<auto_detect_sd>True</auto_detect_sd>
 	</Configuration>
 

@@ -46,7 +46,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._objectLoadShader = None
 		self._focusObj = None
 		self._selectedObj = None
-		self._objColors = [None,None,None,None]
+		self._objColor = None
 		self._mouseX = -1
 		self._mouseY = -1
 		self._mouseState = None
@@ -242,6 +242,9 @@ class SceneView(openglGui.glGuiPanel):
 			dlg.Destroy()
 			return
 		filename = dlg.GetPath()
+		ext = os.path.splitext(filename)[1].lower()
+		if not ext:
+			filename += '.stl'
 		dlg.Destroy()
 		meshLoader.saveMeshes(filename, self._scene.objects())
 
@@ -673,10 +676,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.sceneUpdated()
 		self._scene.updateSizeOffsets(True)
 		self._machineSize = numpy.array([profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')])
-		self._objColors[0] = profile.getPreferenceColour('model_colour')
-		self._objColors[1] = profile.getPreferenceColour('model_colour2')
-		self._objColors[2] = profile.getPreferenceColour('model_colour3')
-		self._objColors[3] = profile.getPreferenceColour('model_colour4')
+		self._objColor = profile.getPreferenceColour('model_colour')
 		self._scene.updateMachineDimensions()
 		self.updateModelSettingsToControls()
 
@@ -1250,13 +1250,11 @@ class SceneView(openglGui.glGuiPanel):
 
 		glMultMatrixf(openglHelpers.convert3x3MatrixTo4x4(obj.getMatrix()))
 
-		n = 0
 		for m in obj._meshList:
 			if m.vbo is None:
 				m.vbo = openglHelpers.GLVBO(GL_TRIANGLES, m.vertexes, m.normal)
 			if brightness != 0:
-				glColor4fv(map(lambda idx: idx * brightness, self._objColors[n]))
-				n += 1
+				glColor4fv(map(lambda idx: idx * brightness, self._objColor))
 			m.vbo.render()
 		glPopMatrix()
 

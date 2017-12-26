@@ -557,8 +557,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			config = global_config
 		else:
 			config = xmlconfig.getTag('Config_Preferences')
-		# Colors
-		self.setPreferenceSetting(config, 'model_colour')
 		#Cura Settings
 		self.setPreferenceSetting(config, 'auto_detect_sd')
 
