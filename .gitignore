@@ -1,11 +1,12 @@
 /resources/images/cura.ico
 /resources/images/cura.icns
-/resources/images/background.png
 /resources/meshes
 /resources/XML
-/scripts/darwin
-/scripts/linux
-/scripts/win32
+/scripts/darwin/build
+/scripts/darwin/dist
+/scripts/linux/DEBIAN
+/scripts/linux/usr
+/scripts/win32/dist
 /scripts/clear_comtypes_cache.py
 /CuraEngine
 Cura-Cura-by-Dagoma-*
@@ -19,7 +20,7 @@ DmgTemplateCompressed_*.dmg
 DmgTemplateCompressed-*.dmg
 *.DS_Store
 *.sparseimage
-*.exe
+/*.exe
 *.zip
 /$_OUTDIR
 /PURELIB

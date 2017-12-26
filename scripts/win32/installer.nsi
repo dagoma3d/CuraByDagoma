@@ -1,20 +1,17 @@
-!ifndef VERSION
-  !define VERSION 'Dagoma'
-!endif
 !addplugindir "nsisPlugins"
 
 ; The name of the installer
-Name "${VERSION}"
+Name "${BUILD_NAME}"
 
 ; The file to write
-OutFile "${VERSION}.exe"
+OutFile "${BUILD_NAME}.exe"
 
 ; The default installation directory
-InstallDir $PROGRAMFILES\${VERSION}
+InstallDir $PROGRAMFILES\${BUILD_NAME}
 
 ; Registry key to check for directory (so if you install again, it will
 ; overwrite the old one automatically)
-InstallDirRegKey HKLM "Software\${VERSION}" "Install_Dir"
+InstallDirRegKey HKLM "Software\${BUILD_NAME}" "Install_Dir"
 
 ; Request application privileges for Windows Vista
 RequestExecutionLevel admin
@@ -124,8 +121,8 @@ LangString Open_OBJ_files_with_Cura ${LANG_ENGLISH} "Open OBJ files with Cura by
 LangString Open_OBJ_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers OBJ avec Cura by Dagoma"
 LangString Open_AMF_files_with_Cura ${LANG_ENGLISH} "Open AMF files with Cura by Dagoma"
 LangString Open_AMF_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers AMF avec Cura by Dagoma"
-LangString Exec_Cura ${LANG_ENGLISH} "Start ${VERSION}"
-LangString Exec_Cura ${LANG_FRENCH} "Lancer ${VERSION}"
+LangString Exec_Cura ${LANG_ENGLISH} "Start ${BUILD_NAME}"
+LangString Exec_Cura ${LANG_FRENCH} "Lancer ${BUILD_NAME}"
 
 ; Reserve Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
@@ -139,36 +136,38 @@ FunctionEnd
 ;--------------------------------
 
 ; The stuff to install
-Section "${VERSION}"
+Section "${BUILD_NAME}"
   ;Try to delete Profile
-  RMDir /r "$PROFILE\.curaByDagomaEasy200"
+  RMDir /r "$PROFILE\.curaByDagoma${MACHINE_NAME}"
 
   SectionIn RO
 
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
 
-
-
   ; Put file there
   File /r "dist\"
 
   ; Write the installation path into the registry
-  WriteRegStr HKLM "SOFTWARE\${VERSION}" "Install_Dir" "$INSTDIR"
+  WriteRegStr HKLM "SOFTWARE\${BUILD_NAME}" "Install_Dir" "$INSTDIR"
 
   ; Write the uninstall keys for Windows
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${VERSION}" "DisplayName" "${VERSION}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${VERSION}" "UninstallString" '"$INSTDIR\uninstall.exe"'
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${VERSION}" "NoModify" 1
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${VERSION}" "NoRepair" 1
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "DisplayName" "${BUILD_NAME}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "Publisher" "Dagoma"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "DisplayVersion" "${BUILD_VERSION}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "DisplayIcon" "$INSTDIR\resources\images\cura.ico"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "UninstallString" '"$INSTDIR\uninstall.exe"'
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "EstimatedSize" 0x00015f90
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "NoRepair" 1
   WriteUninstaller "uninstall.exe"
 
   ; Write start menu entries for all users
   SetShellVarContext all
 
-  CreateDirectory "$SMPROGRAMS\${VERSION}"
-  CreateShortCut "$SMPROGRAMS\${VERSION}\Uninstall ${VERSION}.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\${VERSION}\${VERSION}.lnk" "$INSTDIR\python\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
+  CreateDirectory "$SMPROGRAMS\${BUILD_NAME}"
+  CreateShortCut "$SMPROGRAMS\${BUILD_NAME}\Uninstall ${BUILD_NAME}.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+  CreateShortCut "$SMPROGRAMS\${BUILD_NAME}\${BUILD_NAME}.lnk" "$INSTDIR\python\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
 
   ; Give all users write permissions in the install directory, so they can read/write profile and preferences files.
   AccessControl::GrantOnFile "$INSTDIR" "(S-1-5-32-545)" "FullAccess"
@@ -178,7 +177,7 @@ SectionEnd
 Function LaunchLink
   ; Write start menu entries for all users
   SetShellVarContext all
-  Exec '"$WINDIR\explorer.exe" "$SMPROGRAMS\${VERSION}\${VERSION}.lnk"'
+  Exec '"$WINDIR\explorer.exe" "$SMPROGRAMS\${BUILD_NAME}\${BUILD_NAME}.lnk"'
 FunctionEnd
 
 Section $(Install_Arduino_Drivers)
@@ -224,14 +223,14 @@ SectionEnd
 Section "Uninstall"
 
   ; Remove registry keys
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${VERSION}"
-  DeleteRegKey HKLM "SOFTWARE\${VERSION}"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}"
+  DeleteRegKey HKLM "SOFTWARE\${BUILD_NAME}"
 
   ; Write start menu entries for all users
   SetShellVarContext all
   ; Remove directories used
-  RMDir /r "$SMPROGRAMS\${VERSION}"
+  RMDir /r "$SMPROGRAMS\${BUILD_NAME}"
   RMDir /r "$INSTDIR"
   ;Try to delete Profile
-  RMDir /r "$PROFILE\.curaByDagomaEasy200"
+  RMDir /r "$PROFILE\.curaByDagoma${MACHINE_NAME}"
 SectionEnd

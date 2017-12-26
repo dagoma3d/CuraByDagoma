@@ -1,9 +1,0 @@
-#!/bin/sh
-
-set -e
-
-echo 'Removing configuration files stored in ~/.curaByDagomaExplorer350/ ...'
-rm -rf ~/.curaByDagomaExplorer350/
-echo 'Install ok!'
-
-exit 0

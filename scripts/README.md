@@ -1,1 +1,0 @@
-The place where scripts files and packages are stored.

@@ -95,12 +95,9 @@ case "$2" in
 		;;
 esac
 
-# Remove config files and add them according to the printer name.
+# Remove resources files and readd them according to the printer name.
 echo "Copying specific ${MACHINE_NAME} resources..."
 cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/resources .
-echo "Copying specific ${MACHINE_NAME} scripts..."
-rm -rf ./scripts/${SCRIPTS_DIR}
-cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/scripts/${SCRIPTS_DIR} ./scripts/
 
 ##Which version name are we appending to the final archive
 export BUILD_NAME="Cura-by-Dagoma-"${MACHINE_NAME}
@@ -214,7 +211,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	hdiutil detach /Volumes/${BUILD_NAME}/ || true
 	rm -rf ${BUILD_NAME}.dmg.sparseimage
 	echo 'convert'
-	hdiutil convert DmgTemplateCompressed.dmg -format UDSP -o ${BUILD_NAME}.dmg
+	hdiutil convert DmgTemplateCompressed${MACHINE_NAME}.dmg -format UDSP -o ${BUILD_NAME}.dmg
 	echo 'resize'
 	hdiutil resize -size 500m ${BUILD_NAME}.dmg.sparseimage
 	echo 'attach'
@@ -246,6 +243,7 @@ fi
 # Debian
 #############################
 if [[ $BUILD_TARGET == debian* ]]; then
+	mkdir -p scripts/linux/${BUILD_TARGET}
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}
@@ -408,7 +406,7 @@ if [[ $BUILD_TARGET == win32 ]]; then
 		rm -rf scripts/win32/dist
 		mv `pwd`/${BUILD_NAME} scripts/win32/dist
 		echo ${BUILD_NAME}
-		'/c/Program Files (x86)/NSIS/makensis.exe' -DVERSION=${BUILD_NAME} 'scripts/win32/installer.nsi' >> log.txt
+		'/c/Program Files (x86)/NSIS/makensis.exe' -DBUILD_NAME=${BUILD_NAME} -DMACHINE_NAME=${MACHINE_NAME} -DBUILD_VERSION=${BUILD_VERSION} 'scripts/win32/installer.nsi' > log.txt
 		if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
 		mv scripts/win32/${BUILD_NAME}.exe ./
 		if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
