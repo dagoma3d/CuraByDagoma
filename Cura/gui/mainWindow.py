@@ -29,7 +29,7 @@ class mainWindow(wx.Frame):
 	def __init__(self):
 		windowtitle = 'Cura by dagoma'
 		try:
-			windowtitle = windowtitle + ' ' + xmlConfig.getValue('Printer', 'machine_name')
+			windowtitle = windowtitle + ' ' + xmlconfig.getValue('machine_name', 'Printer')
 		except:
 			pass
 
