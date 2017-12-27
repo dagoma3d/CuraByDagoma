@@ -313,7 +313,7 @@ if [[ $BUILD_TARGET == archive* ]]; then
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/Cura/version
 	cp scripts/linux/utils/curabydago.desktop scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
 	replaceVars scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
-	cp scripts/linux/archive/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
+	cp scripts/linux/utils/archive/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	replaceVars scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	cd scripts/linux/${BUILD_TARGET}
 	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
