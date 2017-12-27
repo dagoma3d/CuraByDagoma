@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Cura-by-dagoma-<MACHINE_NAME>
-Comment=Cura-by-dagoma-<MACHINE_NAME>
+Comment=CuraByDagoma <MACHINE_NAME> is a fork of Legacy Cura made by Dagoma for the <MACHINE_NAME> printer.
 Icon=/usr/share/curabydago-<MACHINE_NAME_LOWERCASE>/resources/images/cura.ico
 Exec=/usr/bin/python2.7 /usr/share/curabydago-<MACHINE_NAME_LOWERCASE>/cura.py
 Path=/usr/share/curabydago-<MACHINE_NAME_LOWERCASE>/
