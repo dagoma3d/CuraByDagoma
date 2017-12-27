@@ -99,7 +99,7 @@ esac
 
 # Remove resources files and readd them according to the printer name.
 echo "Copying specific ${MACHINE_NAME} resources..."
-cp -a ./configuration/${MACHINE_NAME_LOWERCASE}/resources .
+cp -a ./machines/${MACHINE_NAME_LOWERCASE}/resources .
 
 ##Which version name are we appending to the final archive
 export BUILD_NAME="Cura-by-Dagoma-"${MACHINE_NAME}
@@ -161,12 +161,9 @@ function extract
 	fi
 }
 
-function replaceTags
+function replaceVars
 {
-	sed -i 's/#machine_name#/${MACHINE_NAME}/g' $1
-	sed -i 's/#machine_name_lowercase#/${MACHINE_NAME_LOWERCASE}/g' $1
-	sed -i 's/#build_version#/${BUILD_VERSION}/g' $1
-	sed -i 's/#build_architecture#/${BUILD_ARCHITECTURE}/g' $1
+	sed -i "s/\{MACHINE_NAME\}/${MACHINE_NAME}/g;s/\{MACHINE_NAME_LOWERCASE\}/${MACHINE_NAME_LOWERCASE}/g;s/\{BUILD_VERSION\}/${BUILD_VERSION}/g;s/\{BUILD_ARCHITECTURE\}/${BUILD_ARCHITECTURE}/g" $1
 }
 
 # Mandatory tools
@@ -252,7 +249,6 @@ fi
 #############################
 # Debian
 #############################
-# sed -i 's/machine_name/Neva/g' curabydago0.desktop
 if [[ $BUILD_TARGET == debian* ]]; then
 	mkdir -p scripts/linux/${BUILD_TARGET}
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
@@ -263,27 +259,27 @@ if [[ $BUILD_TARGET == debian* ]]; then
 	cp -a plugins scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
 	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
 	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/
-	replaceTags scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/cura.py
+	replaceVars scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/cura.py
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/usr/share/${LINUX_TARGET_NAME}/Cura/version
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share/applications
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/share/applications
 	cp scripts/linux/utils/curabydago.desktop scripts/linux/${BUILD_TARGET}/usr/share/applications/${LINUX_TARGET_NAME}.desktop
-	replaceTags scripts/linux/${BUILD_TARGET}/usr/share/applications/${LINUX_TARGET_NAME}.desktop
+	replaceVars scripts/linux/${BUILD_TARGET}/usr/share/applications/${LINUX_TARGET_NAME}.desktop
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/bin
 	mkdir -p scripts/linux/${BUILD_TARGET}/usr/bin
-	cp scripts/linux/utils/curabydago scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
-	replaceTags scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
+	cp scripts/linux/utils/debian/curabydago scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
+	replaceVars scripts/linux/${BUILD_TARGET}/usr/bin/${LINUX_TARGET_NAME}
 	cp -a scripts/linux/utils/debian/DEBIAN scripts/linux/${BUILD_TARGET}/
-	replaceTags scripts/linux/${BUILD_TARGET}/DEBIAN/control
-	replaceTags scripts/linux/${BUILD_TARGET}/DEBIAN/postinst
+	replaceVars scripts/linux/${BUILD_TARGET}/DEBIAN/control
+	replaceVars scripts/linux/${BUILD_TARGET}/DEBIAN/postinst
 	sudo chown root:root scripts/linux/${BUILD_TARGET} -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
 	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${BUILD_NAME})/${BUILD_NAME}-${BUILD_TARGET}.deb
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
-	cp ./utils/README.md .
-	replaceTags README.md
+	cp ./utils/debian/README.md .
+	replaceVars README.md
 	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb README.md
 	rm README.md
 
@@ -313,12 +309,12 @@ if [[ $BUILD_TARGET == archive* ]]; then
 	cp -a plugins scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
 	cp -a CuraEngine/build/CuraEngine scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
 	cp scripts/linux/utils/cura.py scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/
-	replaceTags scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/cura.py
+	replaceVars scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/cura.py
 	echo $BUILD_NAME > scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}/Cura/version
 	cp scripts/linux/utils/curabydago.desktop scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
-	replaceTags scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
+	replaceVars scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}.desktop
 	cp scripts/linux/archive/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
-	replaceTags scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
+	replaceVars scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	cd scripts/linux/${BUILD_TARGET}
 	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
 	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
