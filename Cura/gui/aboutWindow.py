@@ -13,18 +13,18 @@ class aboutWindow(wx.Frame):
 		self.panel = p
 		s = wx.BoxSizer()
 		self.SetSizer(s)
-		s.Add(p, flag=wx.ALL, border=15)
+		s.Add(p)
 		s = wx.BoxSizer(wx.VERTICAL)
 		p.SetSizer(s)
 
 		title = wx.StaticText(p, -1, 'Cura by Dagoma')
 		title.SetFont(wx.Font(18, wx.SWISS, wx.NORMAL, wx.BOLD))
-		s.Add(title, flag=wx.ALIGN_CENTRE|wx.EXPAND|wx.BOTTOM, border=5)
+		s.Add(title, flag=wx.ALIGN_CENTRE|wx.EXPAND|wx.BOTTOM|wx.TOP|wx.LEFT|wx.RIGHT, border=5)
 
-		s.Add(wx.StaticText(p, -1, 'End solution for Open Source Fused Filament Fabrication 3D printing.'))
-		s.Add(wx.StaticText(p, -1, 'Cura by Dagoma was originally forked from Legacy Cura'))
+		s.Add(wx.StaticText(p, -1, 'End solution for Open Source Fused Filament Fabrication 3D printing.'), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		s.Add(wx.StaticText(p, -1, 'Cura by Dagoma was originally forked from Legacy Cura'), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 
-		s.Add(wx.StaticText(p, -1, 'Cura by Dagoma is built with the following components:'), flag=wx.TOP, border=10)
+		s.Add(wx.StaticText(p, -1, 'Cura by Dagoma is built with the following components:'), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		self.addComponent('LegacyCura', 'Graphical user interface', 'AGPLv3', 'https://github.com/daid/LegacyCura')
 		self.addComponent('CuraEngine', 'GCode Generator', 'AGPLv3', 'https://github.com/Ultimaker/CuraEngine')
 		self.addComponent('Clipper', 'Polygon clipping library', 'Boost', 'http://www.angusj.com/delphi/clipper.php')
@@ -45,8 +45,8 @@ class aboutWindow(wx.Frame):
 	def addComponent(self, name, description, license, url):
 		p = self.panel
 		s = p.GetSizer()
-		s.Add(wx.StaticText(p, -1, '* %s - %s' % (name, description)), flag=wx.TOP, border=5)
-		s.Add(wx.StaticText(p, -1, '   License: %s - Website: %s' % (license, url)))
+		s.Add(wx.StaticText(p, -1, '* %s - %s' % (name, description)), flag=wx.LEFT|wx.RIGHT, border=5)
+		s.Add(wx.StaticText(p, -1, '   License: %s - Website: %s' % (license, url)), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 
 	def OnClose(self, e):
 		self.Destroy()

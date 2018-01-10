@@ -56,7 +56,7 @@ class printWindowBasic(wx.Frame):
 		self.pauseButton = wx.Button(self.panel, -1, _("Pause"))
 		self.cancelButton = wx.Button(self.panel, -1, _("Cancel print"))
 		self.errorLogButton = wx.Button(self.panel, -1, _("Log"))
-		self.progress = wx.Gauge(self.panel, -1, range=1000)
+		self.progress = wx.Gauge(self.panel, -1, range=1000, size=(400, 15))
 
 		self.sizer.Add(self.powerWarningText, pos=(0, 0), span=(1, 4), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		self.sizer.Add(self.statsText, pos=(1, 0), span=(1, 4), flag=wx.LEFT, border=5)
@@ -64,10 +64,7 @@ class printWindowBasic(wx.Frame):
 		self.sizer.Add(self.pauseButton, pos=(2, 1))
 		self.sizer.Add(self.cancelButton, pos=(2, 2))
 		self.sizer.Add(self.errorLogButton, pos=(2, 3))
-
-		progress_sizer = wx.BoxSizer()
-		progress_sizer.Add(self.progress, flag=wx.EXPAND, border=5)
-		self.sizer.Add(progress_sizer, pos=(3, 0))
+		self.sizer.Add(self.progress, pos=(3, 0), span=(1, 4), flag=wx.ALIGN_CENTRE|wx.LEFT|wx.RIGHT|wx.BOTTOM, border=5)
 
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.printButton.Bind(wx.EVT_BUTTON, self.OnPrint)
