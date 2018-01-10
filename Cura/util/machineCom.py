@@ -194,7 +194,7 @@ class MachineCom(object):
 		self._bedTemp = 0
 		self._bedTargetTemp = 0
 		self._gcodeList = None
-		self._gcodePos = 0
+		self.gcodePosition = 0
 		self._commandQueue = queue.Queue()
 		self._logQueue = queue.Queue(256)
 		self._feedRateModifier = {}
@@ -270,7 +270,7 @@ class MachineCom(object):
 		return self._state == self.STATE_PAUSED
 
 	def getPrintPos(self):
-		return self._gcodePos
+		return self.gcodePosition
 
 	def getPrintTime(self):
 		return time.time() - self._printStartTime
@@ -485,10 +485,10 @@ class MachineCom(object):
 						self._sendNext()
 				elif "resend" in line.lower() or "rs" in line:
 					try:
-						self._gcodePos = int(line.replace("N:"," ").replace("N"," ").replace(":"," ").split()[-1])
+						self.gcodePosition = int(line.replace("N:"," ").replace("N"," ").replace(":"," ").split()[-1])
 					except:
 						if "rs" in line:
-							self._gcodePos = int(line.split()[1])
+							self.gcodePosition = int(line.split()[1])
 		self._log("Connection closed, closing down monitor")
 
 	def _setBaudrate(self, baudrate):
@@ -573,12 +573,12 @@ class MachineCom(object):
 			self.close(True)
 
 	def _sendNext(self):
-		if self._gcodePos >= len(self._gcodeList):
+		if self.gcodePosition >= len(self._gcodeList):
 			self._changeState(self.STATE_OPERATIONAL)
 			return
-		if self._gcodePos == 100:
+		if self.gcodePosition == 100:
 			self._printStartTime100 = time.time()
-		line = self._gcodeList[self._gcodePos]
+		line = self._gcodeList[self.gcodePosition]
 		if type(line) is tuple:
 			self._printSection = line[1]
 			line = line[0]
@@ -595,10 +595,10 @@ class MachineCom(object):
 					self._callback.mcZChange(z)
 		except:
 			self._log("Unexpected error: %s" % (getExceptionString()))
-		checksum = reduce(lambda x,y:x^y, map(ord, "N%d%s" % (self._gcodePos, line)))
-		self._sendCommand("N%d%s*%d" % (self._gcodePos, line, checksum))
-		self._gcodePos += 1
-		self._callback.mcProgress(self._gcodePos)
+		checksum = reduce(lambda x,y:x^y, map(ord, "N%d%s" % (self.gcodePosition, line)))
+		self._sendCommand("N%d%s*%d" % (self.gcodePosition, line, checksum))
+		self.gcodePosition += 1
+		self._callback.mcProgress(self.gcodePosition)
 
 	def sendCommand(self, cmd):
 		cmd = cmd.encode('ascii', 'replace')
@@ -611,7 +611,7 @@ class MachineCom(object):
 		if not self.isOperational() or self.isPrinting():
 			return
 		self._gcodeList = gcodeList
-		self._gcodePos = 0
+		self.gcodePosition = 0
 		self._printStartTime100 = None
 		self._printSection = 'CUSTOM'
 		self._changeState(self.STATE_PRINTING)

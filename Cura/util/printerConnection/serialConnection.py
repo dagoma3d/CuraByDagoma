@@ -62,7 +62,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 		self._targetTemperature = []
 		self._bedTemperature = 0
 		self._targetBedTemperature = 0
-		self._log = []
+		self.log = []
 
 		self._commState = None
 		self._commStateString = None
@@ -186,7 +186,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 
 	#Returns the error log in case there was an error.
 	def getErrorLog(self):
-		return '\n'.join(self._log)
+		return '\n'.join(self.log)
 
 	def _serialCommunicationThread(self):
 		if platform.system() == "Darwin" and hasattr(sys, 'frozen'):
@@ -206,9 +206,9 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 			if line[0] == '':
 				pass
 			elif line[0] == 'log':
-				self._log.append(line[1])
-				if len(self._log) > 30:
-					self._log.pop(0)
+				self.log.append(line[1])
+				if len(self.log) > 30:
+					self.log.pop(0)
 			elif line[0] == 'temp':
 				line = line[1].split(':')
 				self._temperature = json.loads(line[0])

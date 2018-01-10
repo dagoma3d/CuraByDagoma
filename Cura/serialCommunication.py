@@ -77,7 +77,7 @@ class serialComm(object):
 				self._gcodeList = [pause_command]
 				self._comm.printGCode(self._gcodeList)
 			elif line[0] == 'RESUME':
-				self._gcodeList = self._gcodeList[self._comm._gcodePos:-1]
+				self._gcodeList = self._gcodeList[self._comm.gcodePosition:-1]
 				self._comm.printGCode(self._gcodeList)
 			else:
 				sys.stderr.write(str(line))
