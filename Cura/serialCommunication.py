@@ -13,6 +13,7 @@ import os
 import json
 
 from Cura.util import machineCom
+from Cura.util import profile
 
 class serialComm(object):
 	"""
@@ -61,6 +62,22 @@ class serialComm(object):
 			elif line[0] == 'C':
 				self._comm.sendCommand(line[1])
 			elif line[0] == 'START':
+				self._comm.printGCode(self._gcodeList)
+			elif line[0] == 'CANCEL':
+				self._comm.cancelPrint()
+				end_gcode = profile.getAlterationFileContents('end.gcode', 1)
+				self._gcodeList = end_gcode.splitlines()
+				self._comm.printGCode(self._gcodeList)
+			elif line[0] == 'PAUSE':
+				pause_command = 'M600 L0 '
+				if profile.getMachineSetting('machine_name') == 'Neva':
+					pause_command += 'P18\n'
+				else:
+					pause_command += 'PA\n'
+				self._gcodeList = [pause_command]
+				self._comm.printGCode(self._gcodeList)
+			elif line[0] == 'RESUME':
+				self._gcodeList = self._gcodeList[self._comm._gcodePos:-1]
 				self._comm.printGCode(self._gcodeList)
 			else:
 				sys.stderr.write(str(line))

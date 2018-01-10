@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-26 16:02+0100\n"
+"PO-Revision-Date: 2018-01-09 17:50+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3271,3 +3271,60 @@ msgstr "Plusieurs connexions %s trouvées"
 
 msgid "Save in progress..."
 msgstr "Sauvegarde en cours..."
+
+msgid "Baby blue"
+msgstr "Bleu clair"
+
+msgid "Grey"
+msgstr "Gris"
+
+msgid "Fluor yellow"
+msgstr "Jaune fluo"
+
+msgid "Yellow"
+msgstr "Jaune"
+
+msgid "Fluor orange"
+msgstr "Orange fluo"
+
+msgid "Baby green"
+msgstr "Vert clair"
+
+msgid "Glow green"
+msgstr "Vert vif"
+
+msgid "Fluor green"
+msgstr "Vert fluo"
+
+msgid "Silver glitter"
+msgstr "Argent pailleté"
+
+msgid "Azure"
+msgstr "Azur"
+
+msgid "Desert"
+msgstr "Désert"
+
+msgid "Sun yellow"
+msgstr "Jaune soleil"
+
+msgid "Camouflage"
+msgstr "Camouflage"
+
+msgid "Baby pink"
+msgstr "Rose clair"
+
+msgid "Ruby red"
+msgstr "Rouge rubis"
+
+msgid "Mustard"
+msgstr "Moutarde"
+
+msgid "Solid green"
+msgstr "Vert foncé"
+
+msgid "Resume"
+msgstr "Reprise"
+
+msgid "Log"
+msgstr "Journal"

@@ -27,7 +27,7 @@ from Cura.util import xmlconfig
 
 class mainWindow(wx.Frame):
 	def __init__(self):
-		windowtitle = 'Cura by dagoma'
+		windowtitle = 'Cura by Dagoma'
 		try:
 			windowtitle = windowtitle + ' ' + xmlconfig.getValue('machine_name', 'Printer')
 		except:

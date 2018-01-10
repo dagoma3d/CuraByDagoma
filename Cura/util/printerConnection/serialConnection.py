@@ -99,7 +99,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 	def cancelPrint(self):
 		if not self.isPrinting()or self._process is None:
 			return
-		self._process.stdin.write('STOP\n')
+		self._process.stdin.write('CANCEL\n')
 		self._printProgress = 0
 
 	def isPrinting(self):
@@ -156,6 +156,19 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 
 	def getBedTemperature(self):
 		return self._bedTemperature
+
+	#Returns true if we have the ability to pause the file printing.
+	def hasPause(self):
+		return True
+
+	#Pause or unpause the printing depending on the value, if supported.
+	def pause(self, value):
+		if not value:
+			for line in self._gcodeData:
+				self._process.stdin.write('G:%s\n' % (line))
+			self._process.stdin.write('RESUME\n')
+		else:
+			self._process.stdin.write('PAUSE\n')
 
 	#Are we able to send a direct command with sendCommand at this moment in time.
 	def isAbleToSendDirectCommand(self):

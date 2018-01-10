@@ -41,7 +41,7 @@ def serialList(forAutoDetect=False):
 			i=0
 			while True:
 				values = _winreg.EnumValue(key, i)
-				if not forAutoDetect or 'USBSER' in values[0]:
+				if 'VCP0' in values[0] or 'USBSER' in values[0]:
 					baselist+=[values[1]]
 				i+=1
 		except:
@@ -84,7 +84,7 @@ class VirtualPrinter():
 		self.lastTempAt = time.time()
 		self.bedTemp = 1.0
 		self.bedTargetTemp = 1.0
-	
+
 	def write(self, data):
 		if self.readList is None:
 			return
@@ -124,7 +124,7 @@ class VirtualPrinter():
 		time.sleep(0.001)
 		#print "Recv: %s" % (self.readList[0].rstrip())
 		return self.readList.pop(0)
-	
+
 	def close(self):
 		self.readList = None
 
@@ -135,19 +135,19 @@ class MachineComPrintCallback(object):
 	"""
 	def mcLog(self, message):
 		pass
-	
+
 	def mcTempUpdate(self, temp, bedTemp, targetTemp, bedTargetTemp):
 		pass
-	
+
 	def mcStateChange(self, state):
 		pass
-	
+
 	def mcMessage(self, message):
 		pass
-	
+
 	def mcProgress(self, lineNr):
 		pass
-	
+
 	def mcZChange(self, newZ):
 		pass
 
@@ -167,7 +167,7 @@ class MachineCom(object):
 	STATE_CLOSED = 8
 	STATE_ERROR = 9
 	STATE_CLOSED_WITH_ERROR = 10
-	
+
 	def __init__(self, port = None, baudrate = None, callbackObject = None):
 		if port is None:
 			port = profile.getMachineSetting('serial_port')
@@ -202,11 +202,11 @@ class MachineCom(object):
 		self._heatupWaitStartTime = 0
 		self._heatupWaitTimeLost = 0.0
 		self._printStartTime100 = None
-		
+
 		self.thread = threading.Thread(target=self._monitor)
 		self.thread.daemon = True
 		self.thread.start()
-	
+
 	def _changeState(self, newState):
 		if self._state == newState:
 			return
@@ -214,10 +214,10 @@ class MachineCom(object):
 		self._state = newState
 		self._log('Changing monitoring state from \'%s\' to \'%s\'' % (oldState, self.getStateString()))
 		self._callback.mcStateChange(newState)
-	
+
 	def getState(self):
 		return self._state
-	
+
 	def getStateString(self):
 		if self._state == self.STATE_NONE:
 			return "Offline"
@@ -242,7 +242,7 @@ class MachineCom(object):
 		if self._state == self.STATE_CLOSED_WITH_ERROR:
 			return "Error: %s" % (self.getShortErrorString())
 		return "?%d?" % (self._state)
-	
+
 	def getShortErrorString(self):
 		if len(self._errorValue) < 35:
 			return self._errorValue
@@ -259,19 +259,19 @@ class MachineCom(object):
 
 	def isError(self):
 		return self._state == self.STATE_ERROR or self._state == self.STATE_CLOSED_WITH_ERROR
-	
+
 	def isOperational(self):
 		return self._state == self.STATE_OPERATIONAL or self._state == self.STATE_PRINTING or self._state == self.STATE_PAUSED
-	
+
 	def isPrinting(self):
 		return self._state == self.STATE_PRINTING
-	
+
 	def isPaused(self):
 		return self._state == self.STATE_PAUSED
 
 	def getPrintPos(self):
 		return self._gcodePos
-	
+
 	def getPrintTime(self):
 		return time.time() - self._printStartTime
 
@@ -282,13 +282,13 @@ class MachineCom(object):
 		printTimeTotal = printTime * (len(self._gcodeList) - 100) / (self.getPrintPos() - 100)
 		printTimeLeft = printTimeTotal - printTime
 		return printTimeLeft
-	
+
 	def getTemp(self):
 		return self._temp
-	
+
 	def getBedTemp(self):
 		return self._bedTemp
-	
+
 	def getLog(self):
 		ret = []
 		while not self._logQueue.empty():
@@ -296,7 +296,7 @@ class MachineCom(object):
 		for line in ret:
 			self._logQueue.put(line, False)
 		return ret
-	
+
 	def _monitor(self):
 		#Open the serial port.
 		if self._port == 'AUTO':
@@ -364,7 +364,7 @@ class MachineCom(object):
 			line = self._readline()
 			if line is None:
 				break
-			
+
 			#No matter the state, if we see an fatal error, goto the error state and store the error for reference.
 			# Only goto error on known fatal errors.
 			if line.startswith('Error:'):
@@ -524,7 +524,7 @@ class MachineCom(object):
 			return ''
 		self._log("Recv: %s" % (unicode(ret, 'ascii', 'replace').encode('ascii', 'replace').rstrip()))
 		return ret
-	
+
 	def close(self, isError = False):
 		if self._serial != None:
 			self._serial.close()
@@ -533,10 +533,10 @@ class MachineCom(object):
 			else:
 				self._changeState(self.STATE_CLOSED)
 		self._serial = None
-	
+
 	def __del__(self):
 		self.close()
-	
+
 	def _sendCommand(self, cmd):
 		if self._serial is None:
 			return
@@ -571,7 +571,7 @@ class MachineCom(object):
 			self._log("Unexpected error while writing serial port: %s" % (getExceptionString()))
 			self._errorValue = getExceptionString()
 			self.close(True)
-	
+
 	def _sendNext(self):
 		if self._gcodePos >= len(self._gcodeList):
 			self._changeState(self.STATE_OPERATIONAL)
@@ -599,14 +599,14 @@ class MachineCom(object):
 		self._sendCommand("N%d%s*%d" % (self._gcodePos, line, checksum))
 		self._gcodePos += 1
 		self._callback.mcProgress(self._gcodePos)
-	
+
 	def sendCommand(self, cmd):
 		cmd = cmd.encode('ascii', 'replace')
 		if self.isPrinting():
 			self._commandQueue.put(cmd)
 		elif self.isOperational():
 			self._sendCommand(cmd)
-	
+
 	def printGCode(self, gcodeList):
 		if not self.isOperational() or self.isPrinting():
 			return
@@ -618,11 +618,11 @@ class MachineCom(object):
 		self._printStartTime = time.time()
 		for i in xrange(0, 4):
 			self._sendNext()
-	
+
 	def cancelPrint(self):
 		if self.isOperational():
 			self._changeState(self.STATE_OPERATIONAL)
-	
+
 	def setPause(self, pause):
 		if not pause and self.isPaused():
 			self._changeState(self.STATE_PRINTING)
@@ -630,7 +630,7 @@ class MachineCom(object):
 				self._sendNext()
 		if pause and self.isPrinting():
 			self._changeState(self.STATE_PAUSED)
-	
+
 	def setFeedrateModifier(self, type, value):
 		self._feedRateModifier[type] = value
 

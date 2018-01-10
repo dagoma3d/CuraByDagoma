@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2017-12-26 16:02+0100\n"
+"PO-Revision-Date: 2018-01-09 17:50+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2923,4 +2923,61 @@ msgid "Multiple %s connections found"
 msgstr ""
 
 msgid "Save in progress..."
+msgstr ""
+
+msgid "Baby blue"
+msgstr ""
+
+msgid "Grey"
+msgstr ""
+
+msgid "Fluor yellow"
+msgstr ""
+
+msgid "Yellow"
+msgstr ""
+
+msgid "Fluor orange"
+msgstr ""
+
+msgid "Baby green"
+msgstr ""
+
+msgid "Glow green"
+msgstr ""
+
+msgid "Fluor green"
+msgstr ""
+
+msgid "Silver glitter"
+msgstr ""
+
+msgid "Azure"
+msgstr ""
+
+msgid "Desert"
+msgstr ""
+
+msgid "Sun yellow"
+msgstr ""
+
+msgid "Camouflage"
+msgstr ""
+
+msgid "Baby pink"
+msgstr ""
+
+msgid "Ruby red"
+msgstr ""
+
+msgid "Mustard"
+msgstr ""
+
+msgid "Solid green"
+msgstr ""
+
+msgid "Resume"
+msgstr ""
+
+msgid "Log"
 msgstr ""

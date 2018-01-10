@@ -315,39 +315,35 @@ class printWindowBasic(wx.Frame):
 		self.SetSizer(wx.BoxSizer())
 		self.panel = wx.Panel(self)
 		self.GetSizer().Add(self.panel, 1, flag=wx.EXPAND)
-		self.sizer = wx.GridBagSizer(2, 2)
+		self.sizer = wx.GridBagSizer(4, 6)
 		self.panel.SetSizer(self.sizer)
 
 		self.powerWarningText = wx.StaticText(parent=self.panel,
 			id=-1,
 			label=_("Your computer is maybe running on battery power.\nConnect your computer to AC power or your print might not finish."),
 			style=wx.ALIGN_CENTER)
-		self.powerWarningText.SetBackgroundColour('red')
-		self.powerWarningText.SetForegroundColour('white')
+		self.powerWarningText.SetForegroundColour((169, 68, 66))
 
 		self.statsText = wx.StaticText(self.panel, -1, _("InfoLine from printer connection\nInfoLine from dialog\nExtra line\nMore lines for layout\nMore lines for layout\nMore lines for layout"))
 
 		self.connectButton = wx.Button(self.panel, -1, _("Connect"))
-		#self.loadButton = wx.Button(self.panel, -1, 'Load')
 		self.printButton = wx.Button(self.panel, -1, _("Print"))
 		self.pauseButton = wx.Button(self.panel, -1, _("Pause"))
 		self.cancelButton = wx.Button(self.panel, -1, _("Cancel print"))
-		self.errorLogButton = wx.Button(self.panel, -1, _("Error log"))
+		self.errorLogButton = wx.Button(self.panel, -1, _("Log"))
 		self.progress = wx.Gauge(self.panel, -1, range=1000)
 
 		self.sizer.Add(self.powerWarningText, pos=(0, 0), span=(1, 5), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		self.sizer.Add(self.statsText, pos=(1, 0), span=(1, 5), flag=wx.LEFT, border=5)
 		self.sizer.Add(self.connectButton, pos=(2, 0))
-		#self.sizer.Add(self.loadButton, pos=(2,1))
 		self.sizer.Add(self.printButton, pos=(2, 1))
 		self.sizer.Add(self.pauseButton, pos=(2, 2))
 		self.sizer.Add(self.cancelButton, pos=(2, 3))
 		self.sizer.Add(self.errorLogButton, pos=(2, 4))
-		self.sizer.Add(self.progress, pos=(3, 0), span=(1, 5), flag=wx.EXPAND)
+		self.sizer.Add(self.progress, pos=(3, 0), span=(1, 5), flag=wx.EXPAND, border=5)
 
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.connectButton.Bind(wx.EVT_BUTTON, self.OnConnect)
-		#self.loadButton.Bind(wx.EVT_BUTTON, self.OnLoad)
 		self.printButton.Bind(wx.EVT_BUTTON, self.OnPrint)
 		self.pauseButton.Bind(wx.EVT_BUTTON, self.OnPause)
 		self.cancelButton.Bind(wx.EVT_BUTTON, self.OnCancel)
@@ -390,6 +386,10 @@ class printWindowBasic(wx.Frame):
 		self._printerConnection.cancelPrint()
 
 	def OnPause(self, e):
+		if not self._printerConnection.isPaused():
+			self.pauseButton.SetLabel(_("Pause"))
+		else:
+			self.pauseButton.SetLabel(_("Resume"))
 		self._printerConnection.pause(not self._printerConnection.isPaused())
 
 	def OnErrorLog(self, e):
@@ -435,7 +435,7 @@ class printWindowBasic(wx.Frame):
 			self.printButton.Enable(False)
 			self.pauseButton.Enable(False)
 			self.cancelButton.Enable(False)
-		self.errorLogButton.Show(self._printerConnection.isInErrorState())
+		self.errorLogButton.Show(True)
 
 class TemperatureGraph(wx.Panel):
 	def __init__(self, parent):
@@ -568,7 +568,7 @@ class TemperatureGraph(wx.Panel):
 
 class LogWindow(wx.Frame):
 	def __init__(self, logText):
-		super(LogWindow, self).__init__(None, title="Error log")
+		super(LogWindow, self).__init__(None, title=_("Log"))
 		self.textBox = wx.TextCtrl(self, -1, logText, style=wx.TE_MULTILINE | wx.TE_DONTWRAP | wx.TE_READONLY)
 		self.SetSize((500, 400))
 		self.Show(True)
