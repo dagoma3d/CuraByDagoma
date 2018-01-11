@@ -196,8 +196,8 @@ class SettingRow(object):
 			self.ctrl.Bind(wx.EVT_TEXT, self.OnSettingChange)
 			flag = wx.EXPAND
 
-		sizer.Add(self.label, (x,y), flag=wx.ALIGN_CENTER_VERTICAL|wx.LEFT,border=10)
-		sizer.Add(self.ctrl, (x,y+1), flag=wx.ALIGN_BOTTOM|flag)
+		sizer.Add(self.label, (x,y), flag=wx.ALIGN_CENTER_VERTICAL|wx.TOP|wx.LEFT, border=7)
+		sizer.Add(self.ctrl, (x,y+1), flag=wx.ALIGN_BOTTOM|wx.TOP|flag, border=7)
 		sizer.SetRows(x+1)
 
 		self.ctrl.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
