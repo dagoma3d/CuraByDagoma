@@ -7,6 +7,8 @@ import sys
 import os
 import ctypes
 
+from Cura.util import resources
+
 #TODO: This does not belong here!
 if sys.platform.startswith('win'):
 	def preventComputerFromSleeping(prevent):
@@ -34,7 +36,11 @@ class printWindowBasic(wx.Frame):
 	This is only a basic window with minimal information.
 	"""
 	def __init__(self, parent, printerConnection):
-		super(printWindowBasic, self).__init__(None, -1, style=wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP, title=_("Printing on %s") % (printerConnection.getName()))
+		super(printWindowBasic, self).__init__(None, -1, style=wx.DEFAULT_DIALOG_STYLE|wx.MINIMIZE_BOX|wx.STAY_ON_TOP, title=_("Printing on %s") % (printerConnection.getName()))
+
+		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
+		self.SetIcon(frameicon)
+
 		self._printerConnection = printerConnection
 		self._lastUpdateTime = 0
 
@@ -285,6 +291,8 @@ class TemperatureGraph(wx.Panel):
 class LogWindow(wx.Frame):
 	def __init__(self, logText):
 		super(LogWindow, self).__init__(None, title=_("Log"))
+		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
+		self.SetIcon(frameicon)
 		self.textBox = wx.TextCtrl(self, -1, logText, style=wx.TE_MULTILINE | wx.TE_DONTWRAP | wx.TE_READONLY)
 		self.SetSize((500, 400))
 		self.Show(True)

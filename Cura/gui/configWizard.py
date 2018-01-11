@@ -141,6 +141,9 @@ class ConfigWizard(wx.wizard.Wizard):
 	def __init__(self):
 		super(ConfigWizard, self).__init__(None, -1, _("Configuration wizard"))
 
+		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
+		self.SetIcon(frameicon)
+
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
 		self.Bind(wx.wizard.EVT_WIZARD_FINISHED, self.OnPageFinished)
 

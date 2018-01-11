@@ -4,9 +4,14 @@ import wx
 import wx.lib.hyperlink as hl
 import platform
 
+from Cura.util import resources
+
 class aboutWindow(wx.Frame):
 	def __init__(self):
 		super(aboutWindow, self).__init__(None, title=_("About"), style = wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP)
+
+		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
+		self.SetIcon(frameicon)
 
 		isWindows = platform.system() == "Windows"
 
