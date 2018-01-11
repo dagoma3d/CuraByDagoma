@@ -161,7 +161,7 @@ class mainWindow(wx.Frame):
 			self.SetSize((800, 600))
 			self.Centre()
 
-		#self.optionsPane.SetMinSize((310, 600))
+		self.optionsPane.SetMinSize((310, 600))
 		self.optionsPane.Layout()
 		self.scene.updateProfileToControls()
 		self.scene._scene.pushFree()
