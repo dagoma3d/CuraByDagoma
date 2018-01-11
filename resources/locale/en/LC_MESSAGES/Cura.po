@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2018-01-09 17:50+0100\n"
+"PO-Revision-Date: 2018-01-11 13:26+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2980,4 +2980,81 @@ msgid "Resume"
 msgstr ""
 
 msgid "Log"
+msgstr ""
+
+msgid "Offline"
+msgstr ""
+
+msgid "Opening serial port"
+msgstr ""
+
+msgid "Detecting serial port"
+msgstr ""
+
+msgid "Detecting baudrate"
+msgstr ""
+
+msgid "Connecting"
+msgstr ""
+
+msgid "Operational"
+msgstr ""
+
+msgid "Printing"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
+
+msgid "Closed"
+msgstr ""
+
+msgid "Error: %s"
+msgstr ""
+
+msgid "Noozle temperature: %d "
+msgstr ""
+
+msgid "Bed temperature: %d "
+msgstr ""
+
+msgid ""
+"Cura by Dagoma was originally forked from Legacy Cura.\n"
+"It is built with the following components:"
+msgstr ""
+
+msgid "Graphical user interface"
+msgstr ""
+
+msgid "GCode Generator"
+msgstr ""
+
+msgid "Polygon clipping library"
+msgstr ""
+
+msgid "Framework"
+msgstr ""
+
+msgid "GUI Framework"
+msgstr ""
+
+msgid "3D Rendering Framework"
+msgstr ""
+
+msgid "Serial communication library"
+msgstr ""
+
+msgid "Support library for faster math"
+msgstr ""
+
+msgid "Library for WebCam capture"
+msgstr ""
+
+msgid "Library to help with windows taskbar features"
+msgstr ""
+
+msgid "Utility to safe-remove SD cards"
+msgstr ""
+
+msgid "%s: %s (License: %s)"
 msgstr ""

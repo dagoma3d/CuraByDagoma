@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2018-01-10 14:21+0100\n"
+"PO-Revision-Date: 2018-01-11 13:34+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: Cura/gui/app.py:144 Cura/gui/mainWindow.py:566
 msgid "A new version of Cura is available, would you like to download?"
@@ -2736,7 +2736,7 @@ msgstr ""
 "ligne.html"
 
 msgid "Feel free to contact us!"
-msgstr "N'hésitez pas à nous contactez!"
+msgstr "N'hésitez pas à nous contacter!"
 
 msgid "Enjoy!"
 msgstr "Bonne découverte à tous !"
@@ -3328,3 +3328,82 @@ msgstr "Reprise"
 
 msgid "Log"
 msgstr "Journal"
+
+msgid "Offline"
+msgstr "Déconnecté"
+
+msgid "Opening serial port"
+msgstr "Ouverture du port série"
+
+msgid "Detecting serial port"
+msgstr "Détection du port série"
+
+msgid "Detecting baudrate"
+msgstr "Détection du baudrate"
+
+msgid "Connecting"
+msgstr "Connection en cours"
+
+msgid "Operational"
+msgstr "Opérationel"
+
+msgid "Printing"
+msgstr "EN cours d'impression"
+
+msgid "Paused"
+msgstr "En pause"
+
+msgid "Closed"
+msgstr "Fermé"
+
+msgid "Error: %s"
+msgstr "Erreur: %s"
+
+msgid "Noozle temperature: %d "
+msgstr "Température de la buse: %d "
+
+msgid "Bed temperature: %d "
+msgstr "Température du plateau: %d "
+
+msgid ""
+"Cura by Dagoma was originally forked from Legacy Cura.\n"
+"It is built with the following components:"
+msgstr ""
+"Cura by Dagoma est un fork de Legacy Cura.\n"
+"Il est construit avec les composants suivants:"
+
+msgid "Graphical user interface"
+msgstr "Interface graphique"
+
+msgid "GCode Generator"
+msgstr "Générateur de GCode"
+
+msgid "Polygon clipping library"
+msgstr "Bibliothèque géométrique"
+
+msgid "Framework"
+msgstr "Environnement de programmation"
+
+msgid "GUI Framework"
+msgstr "Environnement graphique"
+
+msgid "3D Rendering Framework"
+msgstr "Environnement de rendu 3D"
+
+msgid "Serial communication library"
+msgstr "Bibliothèque de communication série"
+
+msgid "Support library for faster math"
+msgstr "Bibliothèque mathématique"
+
+msgid "Library for WebCam capture"
+msgstr "Bibliothèque de capture WebCam"
+
+msgid "Library to help with windows taskbar features"
+msgstr "Bibliothèque d'aide à l'utilisation de la barre de tâches"
+
+msgid "Utility to safe-remove SD cards"
+msgstr "Utilitaire pour retirer la carte SD de façon sécurisée"
+
+msgid "%s: %s (License: %s)"
+msgstr "%s: %s (Licence: %s)"

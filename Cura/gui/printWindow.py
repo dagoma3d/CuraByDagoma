@@ -42,7 +42,6 @@ class printWindowBasic(wx.Frame):
 		self.panel = wx.Panel(self)
 		self.GetSizer().Add(self.panel, 1, flag=wx.EXPAND)
 		self.sizer = wx.GridBagSizer(4, 5)
-		self.panel.SetSizer(self.sizer)
 
 		self.powerWarningText = wx.StaticText(parent=self.panel,
 			id=-1,
@@ -56,15 +55,15 @@ class printWindowBasic(wx.Frame):
 		self.pauseButton = wx.Button(self.panel, -1, _("Pause"))
 		self.cancelButton = wx.Button(self.panel, -1, _("Cancel print"))
 		self.errorLogButton = wx.Button(self.panel, -1, _("Log"))
-		self.progress = wx.Gauge(self.panel, -1, range=1000, size=(400, 15))
+		self.progress = wx.Gauge(self.panel, -1, range=1000)
 
-		self.sizer.Add(self.powerWarningText, pos=(0, 0), span=(1, 4), flag=wx.EXPAND|wx.BOTTOM, border=5)
-		self.sizer.Add(self.statsText, pos=(1, 0), span=(1, 4), flag=wx.LEFT, border=5)
-		self.sizer.Add(self.printButton, pos=(2, 0))
+		self.sizer.Add(self.powerWarningText, pos=(0, 0), span=(1, 4), flag=wx.EXPAND|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		self.sizer.Add(self.statsText, pos=(1, 0), span=(1, 4), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		self.sizer.Add(self.printButton, pos=(2, 0), flag=wx.LEFT, border=5)
 		self.sizer.Add(self.pauseButton, pos=(2, 1))
 		self.sizer.Add(self.cancelButton, pos=(2, 2))
-		self.sizer.Add(self.errorLogButton, pos=(2, 3))
-		self.sizer.Add(self.progress, pos=(3, 0), span=(1, 4), flag=wx.ALIGN_CENTRE|wx.LEFT|wx.RIGHT|wx.BOTTOM, border=5)
+		self.sizer.Add(self.errorLogButton, pos=(2, 3), flag=wx.RIGHT|wx.ALIGN_RIGHT, border=5)
+		self.sizer.Add(self.progress, pos=(3, 0), span=(1, 4), flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.BOTTOM, border=5)
 
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.printButton.Bind(wx.EVT_BUTTON, self.OnPrint)
@@ -72,6 +71,7 @@ class printWindowBasic(wx.Frame):
 		self.cancelButton.Bind(wx.EVT_BUTTON, self.OnCancel)
 		self.errorLogButton.Bind(wx.EVT_BUTTON, self.OnErrorLog)
 
+		self.panel.SetSizerAndFit(self.sizer)
 		self.Layout()
 		self.Fit()
 		self.Centre()
@@ -132,11 +132,11 @@ class printWindowBasic(wx.Frame):
 		info = connection.getStatusString()
 		info += '\n'
 		if self._printerConnection.getTemperature(0) is not None:
-			info += 'Noozle temperature: %d ' % self._printerConnection.getTemperature(0)
+			info += _("Noozle temperature: %d ") % self._printerConnection.getTemperature(0)
 			info += ('°C').decode('utf-8')
 			info += '\n'
 		if self._printerConnection.getBedTemperature() > 0:
-			info += 'Bed temperature: %d ' % self._printerConnection.getBedTemperature()
+			info += _("Bed temperature: %d ") % self._printerConnection.getBedTemperature()
 			info += ('°C').decode('utf-8')
 			info += '\n'
 		self.statsText.SetLabel(info)
