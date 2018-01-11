@@ -34,14 +34,14 @@ class printWindowBasic(wx.Frame):
 	This is only a basic window with minimal information.
 	"""
 	def __init__(self, parent, printerConnection):
-		super(printWindowBasic, self).__init__(parent, -1, style=wx.CLOSE_BOX|wx.CAPTION|wx.SYSTEM_MENU|wx.FRAME_TOOL_WINDOW|wx.FRAME_FLOAT_ON_PARENT, title=_("Printing on %s") % (printerConnection.getName()))
+		super(printWindowBasic, self).__init__(None, -1, style=wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP, title=_("Printing on %s") % (printerConnection.getName()))
 		self._printerConnection = printerConnection
 		self._lastUpdateTime = 0
 
 		self.SetSizer(wx.BoxSizer())
 		self.panel = wx.Panel(self)
 		self.GetSizer().Add(self.panel, 1, flag=wx.EXPAND)
-		self.sizer = wx.GridBagSizer(4, 5)
+		self.sizer = wx.GridBagSizer(3, 4)
 
 		self.powerWarningText = wx.StaticText(parent=self.panel,
 			id=-1,
