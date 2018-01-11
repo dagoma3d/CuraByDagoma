@@ -385,60 +385,49 @@ class normalSettingsPanel(configBase.configPanelBase):
 		filament_sizer.Add(self.buylink, pos=(0, 2), flag = wx.LEFT|wx.TOP, border = 0)
 		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"), pos=(0, 3), flag = wx.LEFT|wx.TOP, border = 0)
 
+		x_index = 0
+		nb_rows = 13
+
+		sizer_1 = wx.GridBagSizer(nb_rows, 0)
+		sizer_1.SetEmptyCellSize((0, 0))
+
+		sizer_1.Add(filament_sizer, pos=(x_index, 0), flag = wx.LEFT|wx.TOP, border = 5)
+		x_index += 1
+		sizer_1.Add(self.combo_box_1, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		sizer_1.Add(self.color_box, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		sizer_1.Add(self.warning_text, pos=(x_index, 0), flag = wx.LEFT|wx.TOP, border = 5)
+		x_index += 1
+		sizer_1.Add(self.label_4, pos = (x_index, 0), flag = wx.LEFT|wx.TOP,  border = 5)
+		x_index += 1
+		sizer_1.Add(self.spin_ctrl_1, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		sizer_1.Add(self.radio_box_2, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		sizer_1.Add(self.radio_box_1, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
 		if printername == "DiscoEasy200":
-			sizer_1 = wx.GridBagSizer(15, 0)
-			sizer_1.SetEmptyCellSize((0, 0))
-			sizer_1.Add(filament_sizer, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-			sizer_1.Add(self.spin_ctrl_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_2, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_1, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.tetes_box, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printsupp, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.palpeur_chbx, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printbrim, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginButton, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginPanel, pos = (13, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.button_1, pos = (14, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 15), pos = (15, 0))
-		elif printername == "Neva":
-			sizer_1 = wx.GridBagSizer(13, 0)
-			sizer_1.SetEmptyCellSize((0, 0))
-			sizer_1.Add(filament_sizer, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-			sizer_1.Add(self.spin_ctrl_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_2, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_1, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printsupp, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printbrim, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginButton, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginPanel, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.button_1, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 15), pos = (13, 0))
-		elif printername == "Explorer350":
-			sizer_1 = wx.GridBagSizer(14, 0)
-			sizer_1.SetEmptyCellSize((0, 0))
-			sizer_1.Add(filament_sizer, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.combo_box_1, pos = (1, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.color_box, pos = (2, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.warning_text, pos=(3, 0), flag = wx.LEFT|wx.TOP, border = 5)
-			sizer_1.Add(self.label_4, pos = (4, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-			sizer_1.Add(self.spin_ctrl_1, pos = (5, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_2, pos = (6, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.radio_box_1, pos = (7, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printsupp, pos = (8, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.palpeur_chbx, pos = (9, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.printbrim, pos = (10, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginButton, pos = (11, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.pausePluginPanel, pos = (12, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add(self.button_1, pos = (13, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			sizer_1.Add((0, 15), pos = (14, 0))
+			nb_rows += 1
+			sizer_1.SetRows(nb_rows)
+			sizer_1.Add(self.tetes_box, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			x_index += 1
+		sizer_1.Add(self.printsupp, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		if printername != "Neva":
+			nb_rows += 1
+			sizer_1.SetRows(nb_rows)
+			sizer_1.Add(self.palpeur_chbx, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+			x_index += 1
+		sizer_1.Add(self.printbrim, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		sizer_1.Add(self.pausePluginButton, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		sizer_1.Add(self.pausePluginPanel, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		sizer_1.Add(self.button_1, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
+		x_index += 1
+		sizer_1.Add((0, nb_rows), pos = (nb_rows, 0))
 
 		if sizer_1 is not None:
 			sizer_1.AddGrowableCol(0)

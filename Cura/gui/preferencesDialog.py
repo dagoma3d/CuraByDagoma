@@ -79,7 +79,7 @@ class languagePreferencesDialog(wx.Dialog):
 			configBase.SettingRow(left, 'language', map(lambda n: n[1], resources.getLanguageOptions()))
 
 		self.okButton = wx.Button(right, -1, 'Ok')
-		right.GetSizer().Add(self.okButton, (right.GetSizer().GetRows(), 0), flag=wx.TOP|wx.BOTTOM|wx.RIGHT, border=5)
+		right.GetSizer().Add(self.okButton, (right.GetSizer().GetRows(), 0), flag=wx.BOTTOM|wx.RIGHT, border=5)
 		self.okButton.Bind(wx.EVT_BUTTON, lambda e: self.Close())
 
 		main.Fit()
