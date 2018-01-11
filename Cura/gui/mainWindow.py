@@ -121,19 +121,19 @@ class mainWindow(wx.Frame):
 
 		self.optionsSizer = wx.BoxSizer(wx.VERTICAL)
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
-		self.optionsPane.SetSizer(self.optionsSizer)
+		self.optionsPane.SetSizerAndFit(self.optionsSizer)
 
 		#Preview window
 		self.scene = sceneView.SceneView(self.viewPane)
 
 		#Main sizer, to position the preview window, buttons and tab control
 		sizer = wx.BoxSizer()
-		self.viewPane.SetSizer(sizer)
+		self.viewPane.SetSizerAndFit(sizer)
 		sizer.Add(self.scene, 1, flag=wx.EXPAND)
 
 		# Main window sizer
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		self.SetSizer(sizer)
+		self.SetSizerAndFit(sizer)
 		sizer.Add(self.splitter, 1, wx.EXPAND)
 		sizer.Layout()
 		self.sizer = sizer
@@ -161,7 +161,7 @@ class mainWindow(wx.Frame):
 			self.SetSize((800, 600))
 			self.Centre()
 
-		self.optionsPane.SetMinSize((310, 600))
+		#self.optionsPane.SetMinSize((310, 600))
 		self.optionsPane.Layout()
 		self.scene.updateProfileToControls()
 		self.scene._scene.pushFree()
