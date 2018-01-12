@@ -36,7 +36,7 @@ class printWindowBasic(wx.Frame):
 	This is only a basic window with minimal information.
 	"""
 	def __init__(self, parent, printerConnection):
-		super(printWindowBasic, self).__init__(parent, -1, style=wx.DEFAULT_DIALOG_STYLE|wx.MINIMIZE_BOX|wx.STAY_ON_TOP, title=_("Printing on %s") % (printerConnection.getName()))
+		super(printWindowBasic, self).__init__(parent, -1, style=wx.DEFAULT_DIALOG_STYLE|wx.MINIMIZE_BOX|wx.FRAME_FLOAT_ON_PARENT, title=_("Printing on %s") % (printerConnection.getName()))
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)

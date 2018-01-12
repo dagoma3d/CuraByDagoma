@@ -8,7 +8,7 @@ from Cura.util import resources
 
 class aboutWindow(wx.Frame):
 	def __init__(self, parent):
-		super(aboutWindow, self).__init__(parent, title=_("About"), style = wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP)
+		super(aboutWindow, self).__init__(parent, title=_("About"), style = wx.DEFAULT_DIALOG_STYLE|wx.FRAME_FLOAT_ON_PARENT)
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
