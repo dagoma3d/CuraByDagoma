@@ -63,9 +63,9 @@ class preferencesDialog(wx.Dialog):
 		#self.parent.reloadSettingPanels()
 		self.Destroy()
 
-class languagePreferencesDialog(wx.Dialog):
+class languagePreferencesDialog(wx.Frame):
 	def __init__(self, parent):
-		super(languagePreferencesDialog, self).__init__(None, title=_("Preferences"), style=wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP)
+		super(languagePreferencesDialog, self).__init__(parent, title=_("Preferences"), style=wx.DEFAULT_DIALOG_STYLE|wx.STAY_ON_TOP)
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)

@@ -225,7 +225,7 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel.updateProfileToControls()
 
 	def OnAbout(self, e):
-		aboutBox = aboutWindow.aboutWindow()
+		aboutBox = aboutWindow.aboutWindow(self)
 		aboutBox.Centre()
 		aboutBox.Show()
 
