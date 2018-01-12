@@ -121,7 +121,6 @@ class mainWindow(wx.Frame):
 
 		self.optionsSizer = wx.BoxSizer(wx.VERTICAL)
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
-		self.optionsPane.SetMinSize((310, 600))
 		self.optionsPane.SetSizerAndFit(self.optionsSizer)
 
 		#Preview window
@@ -299,7 +298,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.already_loaded = False
 		self.parent = parent
 		self.loadxml()
-		self.warning_text = wx.StaticText(self, wx.ID_ANY, _("Warning text"))
+		self.warning_text = wx.StaticText(self, wx.ID_ANY, _("This setting must be used with caution!"))
 		warning_text_font = self.warning_text.GetFont()
 		warning_text_font.SetPointSize(10)
 		warning_text_font.SetWeight(wx.FONTWEIGHT_BOLD)
@@ -363,11 +362,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def __do_layout(self):
 		printername = profile.getMachineSetting('machine_name')
-		if printername == "Neva":
-			self.tetes_box.Hide()
-			self.palpeur_chbx.Hide()
-		if printername == "Explorer350":
-			self.tetes_box.Hide()
 		self.pausePluginButton.Hide()
 
 		language = profile.getPreference("language")
@@ -382,53 +376,32 @@ class normalSettingsPanel(configBase.configPanelBase):
 		filament_sizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Buy filament"), URL=url))
 		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"))
 
-		x_index = 0
-		nb_rows = 13
+		main_sizer = wx.BoxSizer(wx.VERTICAL)
 
-		sizer_1 = wx.GridBagSizer(nb_rows, 0)
-		sizer_1.SetEmptyCellSize((0, 0))
-
-		sizer_1.Add(filament_sizer, pos=(x_index, 0), flag = wx.LEFT|wx.TOP, border = 5)
-		x_index += 1
-		sizer_1.Add(self.combo_box_1, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
-		sizer_1.Add(self.color_box, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
-		sizer_1.Add(self.warning_text, pos=(x_index, 0), flag = wx.LEFT|wx.TOP, border = 5)
-		x_index += 1
-		sizer_1.Add(self.label_4, pos = (x_index, 0), flag = wx.LEFT|wx.TOP,  border = 5)
-		x_index += 1
-		sizer_1.Add(self.spin_ctrl_1, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
-		sizer_1.Add(self.radio_box_2, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
-		sizer_1.Add(self.radio_box_1, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
+		main_sizer.Add(filament_sizer)
+		main_sizer.Add(self.combo_box_1, flag=wx.EXPAND)
+		main_sizer.Add(self.color_box, flag=wx.EXPAND)
+		main_sizer.Add(self.warning_text)
+		main_sizer.Add(self.label_4)
+		main_sizer.Add(self.spin_ctrl_1, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		main_sizer.Add(self.radio_box_2, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		main_sizer.Add(self.radio_box_1, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if printername == "DiscoEasy200":
-			nb_rows += 1
-			sizer_1.SetRows(nb_rows)
-			sizer_1.Add(self.tetes_box, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			x_index += 1
-		sizer_1.Add(self.printsupp, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
+			main_sizer.Add(self.tetes_box, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		else:
+			self.tetes_box.Hide()
+		main_sizer.Add(self.printsupp, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if printername != "Neva":
-			nb_rows += 1
-			sizer_1.SetRows(nb_rows)
-			sizer_1.Add(self.palpeur_chbx, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-			x_index += 1
-		sizer_1.Add(self.printbrim, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
-		sizer_1.Add(self.pausePluginButton, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
-		sizer_1.Add(self.pausePluginPanel, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
-		sizer_1.Add(self.button_1, pos = (x_index, 0), flag = wx.LEFT|wx.EXPAND|wx.RIGHT, border = 5)
-		x_index += 1
-		sizer_1.Add((0, nb_rows), pos = (nb_rows, 0))
+			main_sizer.Add(self.palpeur_chbx)
+		else:
+			self.palpeur_chbx.Hide()
+		main_sizer.Add(self.printbrim, flag=wx.BOTTOM, border=5)
+		main_sizer.Add(self.pausePluginButton, flag=wx.EXPAND)
+		main_sizer.Add(self.pausePluginPanel, flag=wx.EXPAND)
+		main_sizer.Add(self.button_1, flag=wx.EXPAND|wx.TOP, border=5)
 
-		if sizer_1 is not None:
-			sizer_1.AddGrowableCol(0)
-			self.SetSizerAndFit(sizer_1)
+
+		self.SetSizerAndFit(main_sizer)
 		self.Layout()
 
 	def loadxml(self):
