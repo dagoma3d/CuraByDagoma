@@ -379,7 +379,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		main_sizer = wx.BoxSizer(wx.VERTICAL)
 
 		main_sizer.Add(filament_sizer)
-		main_sizer.Add(self.combo_box_1, flag=wx.EXPAND)
+		main_sizer.Add(self.combo_box_1, flag=wx.EXPAND|wx.BOTTOM, border=2)
 		main_sizer.Add(self.color_box, flag=wx.EXPAND)
 		main_sizer.Add(self.warning_text)
 		main_sizer.Add(self.label_4)
