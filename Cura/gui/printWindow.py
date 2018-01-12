@@ -52,9 +52,13 @@ class printWindowBasic(wx.Frame):
 			style=wx.ALIGN_CENTER)
 		self.powerWarningText.SetForegroundColour((169, 68, 66))
 
-		self.statusText = wx.StaticText(panel, -1, "tutu")
-		self.noozleTemperatureText = wx.StaticText(panel, -1, "toto")
-		self.bedTemperatureText = wx.StaticText(panel, -1, "tata")
+		self.statusText = wx.StaticText(panel, -1)
+		statusFont = self.statusText.GetFont()
+		statusFont.SetStyle(wx.FONTSTYLE_ITALIC)
+		self.statusText.SetFont(statusFont)
+
+		self.noozleTemperatureText = wx.StaticText(panel, -1)
+		self.bedTemperatureText = wx.StaticText(panel, -1)
 
 		self.printButton = wx.Button(panel, -1, _("Print"))
 		self.pauseButton = wx.Button(panel, -1, _("Pause"))
@@ -71,7 +75,7 @@ class printWindowBasic(wx.Frame):
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer.Add(self.powerWarningText, flag=wx.BOTTOM, border=5)
-		sizer.Add(self.statusText)
+		sizer.Add(self.statusText, flag=wx.BOTTOM, border=5)
 		sizer.Add(self.noozleTemperatureText)
 		sizer.Add(self.bedTemperatureText, flag=wx.BOTTOM, border=5)
 		sizer.Add(buttonsSizer)
