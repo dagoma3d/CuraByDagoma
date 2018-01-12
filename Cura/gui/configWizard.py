@@ -14,122 +14,26 @@ from Cura.util import profile
 from Cura.util import resources
 from Cura.util import xmlconfig
 
-class InfoPage(wx.wizard.WizardPageSimple):
-	def __init__(self, parent, title):
-		wx.wizard.WizardPageSimple.__init__(self, parent)
-
-		sizer = wx.GridBagSizer(5, 5)
-		self.sizer = sizer
-		self.SetSizer(sizer)
-
-		title = wx.StaticText(self, -1, title)
-		title.SetFont(wx.Font(16, wx.SWISS, wx.NORMAL, wx.BOLD))
-		sizer.Add(title, pos=(0, 0), span=(1, 2), flag=wx.ALIGN_CENTRE | wx.ALL)
-		sizer.Add(wx.StaticLine(self, -1), pos=(1, 0), span=(1, 2), flag=wx.EXPAND | wx.ALL)
-		sizer.AddGrowableCol(1)
-
-		self.rowNr = 2
-
-	def AddText(self, info):
-		text = wx.StaticText(self, -1, info)
-		self.GetSizer().Add(text, pos=(self.rowNr, 0), span=(1, 2), flag=wx.LEFT | wx.RIGHT)
-		self.rowNr += 1
-		return text
-
-	def AddLink(self, info, url):
-		link = hl.HyperLinkCtrl(self, wx.ID_ANY, info, URL=url)
-		self.GetSizer().Add(link, pos=(self.rowNr, 0), span=(1, 2), flag=wx.LEFT | wx.RIGHT)
-		self.rowNr += 1
-		return link
-
-	def AddSeperator(self):
-		self.GetSizer().Add(wx.StaticLine(self, -1), pos=(self.rowNr, 0), span=(1, 2), flag=wx.EXPAND | wx.ALL)
-		self.rowNr += 1
-
-	def AddHiddenSeperator(self):
-		self.AddText("")
-
-	def AddRadioButton(self, label, style=0):
-		radio = wx.RadioButton(self, -1, label, style=style)
-		self.GetSizer().Add(radio, pos=(self.rowNr, 0), span=(1, 2), flag=wx.EXPAND | wx.ALL)
-		self.rowNr += 1
-		return radio
-
-	def AddCheckbox(self, label, checked=False):
-		check = wx.CheckBox(self, -1)
-		text = wx.StaticText(self, -1, label)
-		check.SetValue(checked)
-		self.GetSizer().Add(text, pos=(self.rowNr, 0), span=(1, 1), flag=wx.LEFT | wx.RIGHT)
-		self.GetSizer().Add(check, pos=(self.rowNr, 1), span=(1, 2), flag=wx.ALL)
-		self.rowNr += 1
-		return check
-
-	def AddButton(self, label):
-		button = wx.Button(self, -1, label)
-		self.GetSizer().Add(button, pos=(self.rowNr, 0), span=(1, 2), flag=wx.LEFT)
-		self.rowNr += 1
-		return button
-
-	def AddDualButton(self, label1, label2):
-		button1 = wx.Button(self, -1, label1)
-		self.GetSizer().Add(button1, pos=(self.rowNr, 0), flag=wx.RIGHT)
-		button2 = wx.Button(self, -1, label2)
-		self.GetSizer().Add(button2, pos=(self.rowNr, 1))
-		self.rowNr += 1
-		return button1, button2
-
-	def AddTextCtrl(self, value):
-		ret = wx.TextCtrl(self, -1, value)
-		self.GetSizer().Add(ret, pos=(self.rowNr, 0), span=(1, 2), flag=wx.LEFT)
-		self.rowNr += 1
-		return ret
-
-	def AddLabelTextCtrl(self, info, value):
-		text = wx.StaticText(self, -1, info)
-		ret = wx.TextCtrl(self, -1, value)
-		self.GetSizer().Add(text, pos=(self.rowNr, 0), span=(1, 1), flag=wx.LEFT)
-		self.GetSizer().Add(ret, pos=(self.rowNr, 1), span=(1, 1), flag=wx.LEFT)
-		self.rowNr += 1
-		return ret
-
-	def AddTextCtrlButton(self, value, buttonText):
-		text = wx.TextCtrl(self, -1, value)
-		button = wx.Button(self, -1, buttonText)
-		self.GetSizer().Add(text, pos=(self.rowNr, 0), span=(1, 1), flag=wx.LEFT)
-		self.GetSizer().Add(button, pos=(self.rowNr, 1), span=(1, 1), flag=wx.LEFT)
-		self.rowNr += 1
-		return text, button
-
-	def AddBitmap(self, bitmap):
-		bitmap = wx.StaticBitmap(self, -1, bitmap)
-		self.GetSizer().Add(bitmap, pos=(self.rowNr, 0), span=(1, 2), flag=wx.LEFT | wx.RIGHT)
-		self.rowNr += 1
-		return bitmap
-
-	def AddCheckmark(self, label, bitmap):
-		check = wx.StaticBitmap(self, -1, bitmap)
-		text = wx.StaticText(self, -1, label)
-		self.GetSizer().Add(text, pos=(self.rowNr, 0), span=(1, 1), flag=wx.LEFT | wx.RIGHT)
-		self.GetSizer().Add(check, pos=(self.rowNr, 1), span=(1, 1), flag=wx.ALL)
-		self.rowNr += 1
-		return check
-
-	def AllowNext(self):
-		return True
-
-	def AllowBack(self):
-		return True
-
-class ConfigurationPage(InfoPage):
+class ConfigurationPage(wx.wizard.WizardPageSimple):
 	def __init__(self, parent):
+		wx.wizard.WizardPageSimple.__init__(self, parent)
 		printer_name = xmlconfig.getValue('machine_name', 'Printer')
 		contact_url = profile.getPreference('contact_url')
-		super(ConfigurationPage, self).__init__(parent, _("Configuration Cura by Dagoma %s") % printer_name)
-		self.AddText(_("Dagoma would like to thank you for your trust."))
-		self.AddText(_("The Cura by Dagoma software is now ready to use with your %s 3D printer.") % printer_name)
-		self.AddLink(_("Feel free to contact us!"), contact_url)
-		self.AddSeperator()
-		self.AddText(_("Enjoy!"))
+
+		sizer = wx.BoxSizer(wx.VERTICAL)
+
+		title = wx.StaticText(self, -1, _("Configuration Cura by Dagoma %s") % printer_name)
+		title.SetFont(wx.Font(16, wx.SWISS, wx.NORMAL, wx.BOLD))
+
+		sizer.Add(title, flag=wx.ALIGN_CENTRE)
+		sizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.TOP|wx.BOTTOM, border=5)
+		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Dagoma would like to thank you for your trust.")))
+		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("The Cura by Dagoma software is now ready to use with your %s 3D printer.") % printer_name))
+		sizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Feel free to contact us!"), URL=contact_url))
+		sizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.TOP|wx.BOTTOM, border=5)
+		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Enjoy!")))
+
+		self.SetSizerAndFit(sizer)
 
 	def AllowNext(self):
 		return True

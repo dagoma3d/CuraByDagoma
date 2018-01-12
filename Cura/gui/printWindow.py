@@ -44,41 +44,47 @@ class printWindowBasic(wx.Frame):
 		self._printerConnection = printerConnection
 		self._lastUpdateTime = 0
 
-		self.SetSizer(wx.BoxSizer())
-		self.panel = wx.Panel(self)
-		self.GetSizer().Add(self.panel, 1, flag=wx.EXPAND)
-		self.sizer = wx.GridBagSizer(3, 4)
+		panel = wx.Panel(self)
 
-		self.powerWarningText = wx.StaticText(parent=self.panel,
+		self.powerWarningText = wx.StaticText(parent=panel,
 			id=-1,
 			label=_("Your computer is maybe running on battery power.\nConnect your computer to AC power or your print might not finish."),
 			style=wx.ALIGN_CENTER)
 		self.powerWarningText.SetForegroundColour((169, 68, 66))
 
-		self.statsText = wx.StaticText(self.panel, -1, '\n\n\n')
+		self.statusText = wx.StaticText(panel, -1, "tutu")
+		self.noozleTemperatureText = wx.StaticText(panel, -1, "toto")
+		self.bedTemperatureText = wx.StaticText(panel, -1, "tata")
 
-		self.printButton = wx.Button(self.panel, -1, _("Print"))
-		self.pauseButton = wx.Button(self.panel, -1, _("Pause"))
-		self.cancelButton = wx.Button(self.panel, -1, _("Cancel print"))
-		self.errorLogButton = wx.Button(self.panel, -1, _("Log"))
-		self.progress = wx.Gauge(self.panel, -1, range=1000)
+		self.printButton = wx.Button(panel, -1, _("Print"))
+		self.pauseButton = wx.Button(panel, -1, _("Pause"))
+		self.cancelButton = wx.Button(panel, -1, _("Cancel print"))
+		self.logButton = wx.Button(panel, -1, _("Log"))
 
-		self.sizer.Add(self.powerWarningText, pos=(0, 0), span=(1, 4), flag=wx.EXPAND|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		self.sizer.Add(self.statsText, pos=(1, 0), span=(1, 4), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		self.sizer.Add(self.printButton, pos=(2, 0), flag=wx.LEFT, border=5)
-		self.sizer.Add(self.pauseButton, pos=(2, 1))
-		self.sizer.Add(self.cancelButton, pos=(2, 2))
-		self.sizer.Add(self.errorLogButton, pos=(2, 3), flag=wx.RIGHT|wx.ALIGN_RIGHT, border=5)
-		self.sizer.Add(self.progress, pos=(3, 0), span=(1, 4), flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.BOTTOM, border=5)
+		buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
+		buttonsSizer.Add(self.printButton)
+		buttonsSizer.Add(self.pauseButton)
+		buttonsSizer.Add(self.cancelButton)
+		buttonsSizer.Add(self.logButton)
+
+		self.progress = wx.Gauge(panel, -1, range=1000)
+
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		sizer.Add(self.powerWarningText, flag=wx.BOTTOM, border=5)
+		sizer.Add(self.statusText)
+		sizer.Add(self.noozleTemperatureText)
+		sizer.Add(self.bedTemperatureText, flag=wx.BOTTOM, border=5)
+		sizer.Add(buttonsSizer)
+		sizer.Add(self.progress, flag=wx.EXPAND)
 
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.printButton.Bind(wx.EVT_BUTTON, self.OnPrint)
 		self.pauseButton.Bind(wx.EVT_BUTTON, self.OnPause)
 		self.cancelButton.Bind(wx.EVT_BUTTON, self.OnCancel)
-		self.errorLogButton.Bind(wx.EVT_BUTTON, self.OnErrorLog)
+		self.logButton.Bind(wx.EVT_BUTTON, self.OnErrorLog)
 
-		self.panel.SetSizerAndFit(self.sizer)
-		self.Layout()
+		panel.SetSizerAndFit(sizer)
+		panel.Layout()
 		self.Fit()
 		self.Centre()
 
@@ -135,17 +141,15 @@ class printWindowBasic(wx.Frame):
 			self.progress.SetValue(connection.getPrintProgress() * 1000)
 		else:
 			self.progress.SetValue(0)
-		info = connection.getStatusString()
-		info += '\n'
+		self.statusText.SetLabel(connection.getStatusString())
 		if self._printerConnection.getTemperature(0) is not None:
-			info += _("Noozle temperature: %d ") % self._printerConnection.getTemperature(0)
+			info = _("Noozle temperature: %d ") % self._printerConnection.getTemperature(0)
 			info += ('°C').decode('utf-8')
-			info += '\n'
+			self.noozleTemperatureText.SetLabel(info)
 		if self._printerConnection.getBedTemperature() > 0:
-			info += _("Bed temperature: %d ") % self._printerConnection.getBedTemperature()
+			info = _("Bed temperature: %d ") % self._printerConnection.getBedTemperature()
 			info += ('°C').decode('utf-8')
-			info += '\n'
-		self.statsText.SetLabel(info)
+			self.bedTemperatureText.SetLabel(info)
 
 	def _updateButtonStates(self):
 		self.pauseButton.Show(self._printerConnection.hasPause())
@@ -157,7 +161,7 @@ class printWindowBasic(wx.Frame):
 			self.printButton.Enable(False)
 			self.pauseButton.Enable(False)
 			self.cancelButton.Enable(False)
-		self.errorLogButton.Show(True)
+		self.logButton.Show(True)
 
 class TemperatureGraph(wx.Panel):
 	def __init__(self, parent):

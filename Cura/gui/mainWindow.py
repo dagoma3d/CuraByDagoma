@@ -299,7 +299,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.already_loaded = False
 		self.parent = parent
 		self.loadxml()
-		self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Filament"))
 		self.warning_text = wx.StaticText(self, wx.ID_ANY, _("Warning text"))
 		warning_text_font = self.warning_text.GetFont()
 		warning_text_font.SetPointSize(10)
@@ -377,13 +376,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			url = "https://dagoma3d.com/collections/shop"
 
-		self.buylink = hl.HyperLinkCtrl(self, wx.ID_ANY, _("Buy filament"), URL=url)
-
-		filament_sizer = wx.GridBagSizer(0, 3)
-		filament_sizer.Add(self.label_1, pos=(0, 0), flag = wx.LEFT|wx.TOP, border = 0)
-		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, " ("), pos=(0, 1), flag = wx.LEFT|wx.TOP, border = 0)
-		filament_sizer.Add(self.buylink, pos=(0, 2), flag = wx.LEFT|wx.TOP, border = 0)
-		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"), pos=(0, 3), flag = wx.LEFT|wx.TOP, border = 0)
+		filament_sizer = wx.BoxSizer(wx.HORIZONTAL)
+		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Filament")))
+		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, " ("))
+		filament_sizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Buy filament"), URL=url))
+		filament_sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"))
 
 		x_index = 0
 		nb_rows = 13
