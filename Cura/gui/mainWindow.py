@@ -109,12 +109,15 @@ class mainWindow(wx.Frame):
 
 		self.SetMenuBar(self.menubar)
 
-		self.splitter = wx.SplitterWindow(self, style = wx.SP_3D | wx.SP_LIVE_UPDATE)
+		self.splitter = wx.SplitterWindow(self, style = wx.SP_3DSASH | wx.SP_LIVE_UPDATE)
+		self.splitter.SetMinimumPaneSize(290)
+		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
+		self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
+
 		self.viewPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
 		#self.optionsPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
 		self.optionsPane = scrolledpanel.ScrolledPanel(self.splitter, style=wx.BORDER_NONE)
 		self.optionsPane.SetupScrolling(True, True)
-		self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
 
 		##Gui components##
 		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, lambda : self.scene.sceneUpdated())
@@ -131,12 +134,13 @@ class mainWindow(wx.Frame):
 		self.viewPane.SetSizerAndFit(sizer)
 		sizer.Add(self.scene, 1, flag=wx.EXPAND)
 
+		self.splitter.SplitVertically(self.viewPane, self.optionsPane, int(profile.getPreference('window_normal_sash')))
+
 		# Main window sizer
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		self.SetSizerAndFit(sizer)
 		sizer.Add(self.splitter, 1, wx.EXPAND)
+		self.SetSizerAndFit(sizer)
 		sizer.Layout()
-		self.sizer = sizer
 
 		self.updateProfileToAllControls()
 
@@ -146,12 +150,9 @@ class mainWindow(wx.Frame):
 
 		# Set default window size & position
 		self.SetSize((wx.Display().GetClientArea().GetWidth()/2, wx.Display().GetClientArea().GetHeight()/2))
+		self.SetMinSize((800, 600))
 		self.Centre()
 		self.Maximize(True)
-
-		self.SetMinSize((800, 600))
-		self.splitter.SplitVertically(self.viewPane, self.optionsPane, int(profile.getPreference('window_normal_sash')))
-		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
 
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.Centre()
@@ -298,7 +299,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.already_loaded = False
 		self.parent = parent
 		self.loadxml()
-		self.warning_text = wx.StaticText(self, wx.ID_ANY, _("This setting must be used with caution!"))
+		self.warning_text = wx.StaticText(self, wx.ID_ANY)
 		warning_text_font = self.warning_text.GetFont()
 		warning_text_font.SetPointSize(10)
 		warning_text_font.SetWeight(wx.FONTWEIGHT_BOLD)

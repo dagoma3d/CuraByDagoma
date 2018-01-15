@@ -293,7 +293,7 @@ setting('active_machine', '0', int, 'preference', 'hidden')
 setting('model_colour', '#FF9B00', str, 'preference', 'hidden').setLabel(_('Model colour'), _('Display color for first extruder'))
 setting('printing_window', 'Basic', ['Basic'], 'preference', 'hidden').setLabel(_('Printing window type'), _('Select the interface used for USB printing.'))
 
-setting('window_normal_sash', '-310', float, 'preference', 'hidden')
+setting('window_normal_sash', '-290', float, 'preference', 'hidden')
 setting('last_run_version', '', str, 'preference', 'hidden')
 
 setting('machine_name', '', str, 'machine', 'hidden')
