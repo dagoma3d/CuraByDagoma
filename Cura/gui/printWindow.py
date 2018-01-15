@@ -159,7 +159,7 @@ class printWindowBasic(wx.Frame):
 		self.pauseButton.Show(self._printerConnection.hasPause())
 		if not self._printerConnection.hasActiveConnection() or self._printerConnection.isActiveConnectionOpen():
 			self.printButton.Enable(not self._printerConnection.isPrinting())
-			self.pauseButton.Enable(self._printerConnection.isPrinting())
+			self.pauseButton.Enable(self._printerConnection.isPrinting() or self._printerConnection.isPaused())
 			self.cancelButton.Enable(self._printerConnection.isPrinting())
 		else:
 			self.printButton.Enable(False)

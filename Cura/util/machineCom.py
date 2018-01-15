@@ -194,7 +194,7 @@ class MachineCom(object):
 		self._bedTemp = 0
 		self._bedTargetTemp = 0
 		self._gcodeList = None
-		self.gcodePosition = 0
+		self._gcodePosition = 0
 		self._commandQueue = queue.Queue()
 		self._logQueue = queue.Queue(256)
 		self._feedRateModifier = {}
@@ -270,7 +270,7 @@ class MachineCom(object):
 		return self._state == self.STATE_PAUSED
 
 	def getPrintPos(self):
-		return self.gcodePosition
+		return self._gcodePosition
 
 	def getPrintTime(self):
 		return time.time() - self._printStartTime
@@ -485,10 +485,10 @@ class MachineCom(object):
 						self._sendNext()
 				elif "resend" in line.lower() or "rs" in line:
 					try:
-						self.gcodePosition = int(line.replace("N:"," ").replace("N"," ").replace(":"," ").split()[-1])
+						self._gcodePosition = int(line.replace("N:"," ").replace("N"," ").replace(":"," ").split()[-1])
 					except:
 						if "rs" in line:
-							self.gcodePosition = int(line.split()[1])
+							self._gcodePosition = int(line.split()[1])
 		self._log("Connection closed, closing down monitor")
 
 	def _setBaudrate(self, baudrate):
@@ -573,12 +573,12 @@ class MachineCom(object):
 			self.close(True)
 
 	def _sendNext(self):
-		if self.gcodePosition >= len(self._gcodeList):
+		if self._gcodePosition >= len(self._gcodeList):
 			self._changeState(self.STATE_OPERATIONAL)
 			return
-		if self.gcodePosition == 100:
+		if self._gcodePosition == 100:
 			self._printStartTime100 = time.time()
-		line = self._gcodeList[self.gcodePosition]
+		line = self._gcodeList[self._gcodePosition]
 		if type(line) is tuple:
 			self._printSection = line[1]
 			line = line[0]
@@ -589,16 +589,16 @@ class MachineCom(object):
 			if self._printSection in self._feedRateModifier:
 				line = re.sub('F([0-9]*)', lambda m: 'F' + str(int(int(m.group(1)) * self._feedRateModifier[self._printSection])), line)
 			if ('G0' in line or 'G1' in line) and 'Z' in line:
-				z = float(re.search('Z([0-9\.]*)', line).group(1))
+				z = float(re.search('Z([0-9\.\-\+]*)', line).group(1))
 				if self._currentZ != z:
 					self._currentZ = z
 					self._callback.mcZChange(z)
 		except:
 			self._log("Unexpected error: %s" % (getExceptionString()))
-		checksum = reduce(lambda x,y:x^y, map(ord, "N%d%s" % (self.gcodePosition, line)))
-		self._sendCommand("N%d%s*%d" % (self.gcodePosition, line, checksum))
-		self.gcodePosition += 1
-		self._callback.mcProgress(self.gcodePosition)
+		checksum = reduce(lambda x,y:x^y, map(ord, "N%d%s" % (self._gcodePosition, line)))
+		self._sendCommand("N%d%s*%d" % (self._gcodePosition, line, checksum))
+		self._gcodePosition += 1
+		self._callback.mcProgress(self._gcodePosition)
 
 	def sendCommand(self, cmd):
 		cmd = cmd.encode('ascii', 'replace')
@@ -611,7 +611,7 @@ class MachineCom(object):
 		if not self.isOperational() or self.isPrinting():
 			return
 		self._gcodeList = gcodeList
-		self.gcodePosition = 0
+		self._gcodePosition = 0
 		self._printStartTime100 = None
 		self._printSection = 'CUSTOM'
 		self._changeState(self.STATE_PRINTING)

@@ -99,6 +99,11 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 	def cancelPrint(self):
 		if not self.isPrinting()or self._process is None:
 			return
+		self._process.stdin.write('STOP\n')
+		endgcode = profile.getAlterationFileContents('end.gcode', 1).splitlines()
+		for line in endgcode:
+			if not line.startswith(";"):
+				self._process.stdin.write('G:%s\n' % (line.replace("\{travel_speed\}", "6000")))
 		self._process.stdin.write('CANCEL\n')
 		self._printProgress = 0
 
@@ -163,11 +168,17 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 
 	#Pause or unpause the printing depending on the value, if supported.
 	def pause(self, value):
+		self._process.stdin.write('STOP\n')
 		if not value:
-			for line in self._gcodeData:
-				self._process.stdin.write('G:%s\n' % (line))
+			for i, line in enumerate(self._gcodeData):
+				if i > self._printProgress:
+					self._process.stdin.write('G:%s\n' % (line))
 			self._process.stdin.write('RESUME\n')
 		else:
+			if profile.getMachineSetting('machine_name') == 'Neva':
+				self._process.stdin.write('G:M600 L0 P18\n')
+			else:
+				self._process.stdin.write('G:M600 L0 PA\n')
 			self._process.stdin.write('PAUSE\n')
 
 	#Are we able to send a direct command with sendCommand at this moment in time.

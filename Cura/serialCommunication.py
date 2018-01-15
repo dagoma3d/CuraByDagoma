@@ -64,21 +64,12 @@ class serialComm(object):
 			elif line[0] == 'START':
 				self._comm.printGCode(self._gcodeList)
 			elif line[0] == 'CANCEL':
-				self._comm.cancelPrint()
-				end_gcode = profile.getAlterationFileContents('end.gcode', 1)
-				self._gcodeList = end_gcode.splitlines()
 				self._comm.printGCode(self._gcodeList)
 			elif line[0] == 'PAUSE':
 				self._comm.setPause(True)
-				self.gcodePosition = self._comm.gcodePosition
-				if profile.getMachineSetting('machine_name') == 'Neva':
-					self._gcodeList = ['M600 L0 P18\n']
-				else:
-					self._gcodeList = ['M600 L0 PA\n']
 				self._comm.printGCode(self._gcodeList)
 			elif line[0] == 'RESUME':
 				self._comm.setPause(False)
-				self._gcodeList = self._gcodeList[self.gcodePosition:-1]
 				self._comm.printGCode(self._gcodeList)
 			else:
 				sys.stderr.write(str(line))
