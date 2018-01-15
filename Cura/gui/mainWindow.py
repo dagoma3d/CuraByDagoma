@@ -349,7 +349,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Supp, self.printsupp)
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Rempl, self.radio_box_2)
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxpalpeur,self.palpeur_chbx)
-		self.Bind(wx.EVT_CHECKBOX, self.EVT_Supp ,self.printsupp)
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxbrim, self.printbrim)
 		self.Bind(wx.EVT_BUTTON, self.ClickPreparePrintButton, self.button_1)
 		self.Bind(wx.EVT_BUTTON, self.ClickPauseButton, self.pausePluginButton)
