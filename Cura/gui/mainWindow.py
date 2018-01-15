@@ -110,7 +110,7 @@ class mainWindow(wx.Frame):
 		self.SetMenuBar(self.menubar)
 
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3DSASH | wx.SP_LIVE_UPDATE)
-		self.splitter.SetMinimumPaneSize(290)
+		self.splitter.SetMinimumPaneSize(profile.getPreferenceInt('minimum_pane_size'))
 		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
 		self.splitter.Bind(wx.EVT_SPLITTER_DCLICK, lambda evt: evt.Veto())
 
@@ -134,7 +134,7 @@ class mainWindow(wx.Frame):
 		self.viewPane.SetSizerAndFit(sizer)
 		sizer.Add(self.scene, 1, flag=wx.EXPAND)
 
-		self.splitter.SplitVertically(self.viewPane, self.optionsPane, int(profile.getPreference('window_normal_sash')))
+		self.splitter.SplitVertically(self.viewPane, self.optionsPane, profile.getPreferenceInt('window_normal_sash'))
 
 		# Main window sizer
 		sizer = wx.BoxSizer(wx.VERTICAL)
@@ -231,7 +231,7 @@ class mainWindow(wx.Frame):
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		profile.putPreference('window_normal_sash', '-' + str(self.optionsPane.GetSize()[0]))
+		profile.putPreference('window_normal_sash', int('-' + str(self.optionsPane.GetSize()[0])))
 
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
 		print "Closing down"
