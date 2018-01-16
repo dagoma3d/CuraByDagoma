@@ -69,7 +69,7 @@
 			<Color name="Magenta">
 				<print_temperature>220</print_temperature>
 			</Color>
-			<Color name="Chocolate">
+			<Color name="Chocolate brown">
 				<print_temperature>220</print_temperature>
 			</Color>
 			<Color name="Baby pink">
@@ -140,7 +140,7 @@
 			<retraction_amount>3.2</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>39.98</filament_cost_kg>
-			<Color name="Gray"></Color>
+			<Color name="Grey"></Color>
 			<Color name="Silver"></Color>
 			<Color name="Yellow"></Color>
 			<Color name="Black"></Color>

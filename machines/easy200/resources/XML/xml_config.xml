@@ -18,13 +18,13 @@
 			<Color name="Electric blue"></Color>
 			<Color name="Ocean blue"></Color>
 			<Color name="Capuccino"></Color>
-			<Color name="Chocolate"></Color>
+			<Color name="Chocolate brown"></Color>
 			<Color name="Lime green"></Color>
 			<Color name="Cream white"></Color>
 			<Color name="Lemon yellow"></Color>
 			<Color name="Sunshine yellow"></Color>
 			<Color name="Khaki"></Color>
-			<Color name="Lavender"></Color>
+			<Color name="Purple"></Color>
 			<Color name="Magenta"></Color>
 			<Color name="Mint"></Color>
 			<Color name="Black"></Color>
@@ -64,7 +64,7 @@
 			<retraction_amount>3.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>39.98</filament_cost_kg>
-			<Color name="Gray"></Color>
+			<Color name="Grey"></Color>
 			<Color name="Silver"></Color>
 			<Color name="Yellow"></Color>
 			<Color name="Black"></Color>

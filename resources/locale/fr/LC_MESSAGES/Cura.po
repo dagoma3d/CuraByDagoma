@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2018-01-11 13:34+0100\n"
+"PO-Revision-Date: 2018-01-16 11:58+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3044,7 +3044,7 @@ msgid "Wood"
 msgstr "Bois"
 
 msgid "Red"
-msgstr "Rouge"
+msgstr "Rouge primaire"
 
 msgid "Green"
 msgstr "Vert"
@@ -3079,14 +3079,14 @@ msgstr "Bleu océan"
 msgid "Capuccino"
 msgstr "Capuccino"
 
-msgid "Chocolate"
-msgstr "Chocolat"
+msgid "Chocolate brown"
+msgstr "Chocolat noir"
 
 msgid "Lime green"
 msgstr "Citron vert"
 
 msgid "Cream white"
-msgstr "Crème"
+msgstr "Blanc"
 
 msgid "Lemon yellow"
 msgstr "Jaune citron"
@@ -3097,7 +3097,7 @@ msgstr "Jaune soleil"
 msgid "Khaki"
 msgstr "Kaki"
 
-msgid "Lavender"
+msgid "Purple"
 msgstr "Lavande"
 
 msgid "Magenta"
@@ -3125,7 +3125,7 @@ msgid "Fire red"
 msgstr "Rouge pompier"
 
 msgid "Glass"
-msgstr "Transparent"
+msgstr "Verre"
 
 msgid "Vanilla"
 msgstr "Vanille"
@@ -3190,23 +3190,20 @@ msgstr "Pistache"
 msgid "Pearl blue"
 msgstr "Bleu perle"
 
-msgid "Purple"
-msgstr "Violet"
-
 msgid "Carbon black"
 msgstr "Noir carbone"
 
 msgid "Pink"
-msgstr "Rose"
+msgstr "Rose funky"
 
 msgid "Dark green"
-msgstr "Vert foncé"
+msgstr "Vert sapin"
 
 msgid "Dark blue"
 msgstr "Bleu foncé"
 
 msgid "Natural"
-msgstr "Naturel"
+msgstr "Transparent"
 
 msgid "Translucent blue"
 msgstr "Bleu translucide"
@@ -3273,7 +3270,7 @@ msgid "Save in progress..."
 msgstr "Sauvegarde en cours..."
 
 msgid "Baby blue"
-msgstr "Bleu clair"
+msgstr "Bleuet"
 
 msgid "Grey"
 msgstr "Gris"
@@ -3282,46 +3279,49 @@ msgid "Fluor yellow"
 msgstr "Jaune fluo"
 
 msgid "Yellow"
-msgstr "Jaune"
+msgstr "Jaune primaire"
 
 msgid "Fluor orange"
 msgstr "Orange fluo"
 
 msgid "Baby green"
-msgstr "Vert clair"
+msgstr "Pistache"
 
 msgid "Glow green"
-msgstr "Vert vif"
+msgstr "Phosphorescent"
 
 msgid "Fluor green"
 msgstr "Vert fluo"
 
 msgid "Silver glitter"
-msgstr "Argent pailleté"
+msgstr "Argent perle"
 
 msgid "Azure"
-msgstr "Azur"
+msgstr "Bleu azur"
 
 msgid "Desert"
-msgstr "Désert"
+msgstr "Capuccino"
 
 msgid "Sun yellow"
 msgstr "Jaune soleil"
 
 msgid "Camouflage"
-msgstr "Camouflage"
+msgstr "Kaki"
 
 msgid "Baby pink"
-msgstr "Rose clair"
+msgstr "Rose bonbon"
 
-msgid "Ruby red"
-msgstr "Rouge rubis"
+msgid "Rubin red"
+msgstr "Rouge cerise"
 
 msgid "Mustard"
-msgstr "Moutarde"
+msgstr "Vannile"
 
 msgid "Solid green"
-msgstr "Vert foncé"
+msgstr "Vert menthe"
+
+msgid "Violet"
+msgstr "Prune"
 
 msgid "Resume"
 msgstr "Reprise"
