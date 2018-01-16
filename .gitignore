@@ -1,7 +1,9 @@
 /resources/images/cura.ico
 /resources/images/cura.icns
+/resources/images/background.png
 /resources/meshes
 /resources/XML
+/scripts/darwin/DmgTemplateCompressed.dmg
 /scripts/darwin/build
 /scripts/darwin/dist
 /scripts/linux/archive*
