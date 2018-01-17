@@ -12,8 +12,8 @@
 /scripts/clear_comtypes_cache.py
 /CuraEngine
 Cura-Cura-by-Dagoma-*
-Cura-by-Dagoma-*
-Cura_by_Dagoma_*
+Cura-by-Dagoma*
+Cura_by_Dagoma*
 *.pyc
 Install_Cura_by_Dagoma*
 log.txt
