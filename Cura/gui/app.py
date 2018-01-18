@@ -116,19 +116,19 @@ class CuraApp(wx.App):
 			self.splash = None
 
 		# Is it the first run after installation?
-		if sys.platform.startswith('darwin'):
-			newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
-			if os.path.isfile(newinstallfile):
-				try:
-					os.remove(newinstallfile)
-					profile.putMachineSetting('machine_name', '')
-					profile.putPreference('filament_index', 0)
-					profile.putPreference('color_index', -1)
-					profile.putPreference('fill_index', 1)
-					profile.putPreference('precision_index', 0)
-					profile.putPreference('printhead_index', 0)
-				except:
-					pass
+		# if sys.platform.startswith('darwin'):
+		# 	newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
+		# 	if os.path.isfile(newinstallfile):
+		# 		try:
+		# 			os.remove(newinstallfile)
+		# 			profile.putMachineSetting('machine_name', '')
+		# 			profile.putPreference('filament_index', 0)
+		# 			profile.putPreference('color_index', -1)
+		# 			profile.putPreference('fill_index', 1)
+		# 			profile.putPreference('precision_index', 0)
+		# 			profile.putPreference('printhead_index', 0)
+		# 		except:
+		# 			pass
 
 		#If we haven't run it before, run the configuration wizard.
 		if profile.getMachineSetting('machine_name') == '':
