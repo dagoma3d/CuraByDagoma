@@ -4,7 +4,7 @@
 	<!-- Filament definitions -->
 	<Filaments>
 		<Filament name="PLA Chromatik">
-			<grip_temperature>230</grip_temperature>
+			<grip_temperature>225</grip_temperature>
 			<print_temperature>200</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -14,13 +14,14 @@
 			<filament_cost_kg>33.20</filament_cost_kg>
 			<Color name="Silver"></Color>
 			<Color name="Pearl white"></Color>
-			<Color name="Pearl blue"></Color>
+			<Color name="Pearl blue"></Color>	
 			<Color name="Cream white"></Color>
 			<Color name="Baby blue"></Color>
 			<Color name="Bronze"></Color>
 			<Color name="Grey"></Color>
-			<Color name="Fluor yellow"></Color>
+			<Color name="Fluor Yellow"></Color>
 			<Color name="Yellow"></Color>
+			<Color name="Purple"></Color>
 			<Color name="Brown"></Color>
 			<Color name="Black"></Color>
 			<Color name="Gold"></Color>
@@ -39,63 +40,28 @@
 				<filament_physical_density>831.92</filament_physical_density>
 				<filament_cost_kg>49.83</filament_cost_kg>
 			</Color>
-			<Color name="Silver glitter">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Azure">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Electric blue">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Ocean blue">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Desert">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Lime green">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Lemon yellow">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Sun yellow">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Camouflage">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Magenta">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Chocolate brown">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Baby pink">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Ruby red">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Ivory">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Purple">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Mustard">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Natural">
-				<print_temperature>220</print_temperature>
-			</Color>
-			<Color name="Solid green">
-				<print_temperature>220</print_temperature>
-			</Color>
+			<Color name="Silver glitter"><print_temperature>210</print_temperature></Color>
+			<Color name="Azure"><print_temperature>210</print_temperature></Color>
+			<Color name="Electric blue"><print_temperature>210</print_temperature></Color>
+			<Color name="Ocean blue"><print_temperature>210</print_temperature></Color>
+			<Color name="Desert"><print_temperature>210</print_temperature></Color>
+			<Color name="Lime green"><print_temperature>210</print_temperature></Color>
+			<Color name="Lemon yellow"><print_temperature>210</print_temperature></Color>
+			<Color name="Sun yellow"><print_temperature>210</print_temperature></Color>
+			<Color name="Camouflage"><print_temperature>210</print_temperature></Color>
+			<Color name="Magenta"><print_temperature>210</print_temperature></Color>
+			<Color name="Chocolate brown"><print_temperature>210</print_temperature></Color>
+			<Color name="Baby pink"><print_temperature>210</print_temperature></Color>
+			<Color name="Rubin red"><print_temperature>210</print_temperature></Color>
+			<Color name="Ivory"><print_temperature>210</print_temperature></Color>
+			<Color name="Violet"><print_temperature>210</print_temperature></Color>
+			<Color name="Mustard"><print_temperature>210</print_temperature></Color>
+			<Color name="Natural"><print_temperature>210</print_temperature></Color>
+			<Color name="Solid green"><print_temperature>210</print_temperature></Color>
+			
 		</Filament>
 		<Filament name="PLA PolyPlus">
-			<grip_temperature>225</grip_temperature>
+			<grip_temperature>220</grip_temperature>
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -114,9 +80,9 @@
 			<Color name="Translucent yellow"></Color>
 			<Color name="Blue"></Color>
 		</Filament>
-
+		
 		<Filament name="PLA PolyMax">
-			<grip_temperature>225</grip_temperature>
+			<grip_temperature>220</grip_temperature>
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -130,17 +96,17 @@
 			<Color name="White"></Color>
 			<Color name="Blue"></Color>
 		</Filament>
-
+		
 		<Filament name="PLA OctoFiber">
-			<grip_temperature>235</grip_temperature>
-			<print_temperature>215</print_temperature>
+			<grip_temperature>225</grip_temperature>
+			<print_temperature>205</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>100</filament_flow>
 			<retraction_speed>65</retraction_speed>
-			<retraction_amount>3.2</retraction_amount>
+			<retraction_amount>3.8</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>39.98</filament_cost_kg>
-			<Color name="Grey"></Color>
+			<Color name="Gray"></Color>
 			<Color name="Silver"></Color>
 			<Color name="Yellow"></Color>
 			<Color name="Black"></Color>
@@ -161,9 +127,28 @@
 			<Color name="Dark blue"></Color>
 			<Color name="Phosphorescent"></Color>
 		</Filament>
-
+		<Filament name="Biosourced PLA OWA Armor">
+			<grip_temperature>225</grip_temperature>
+			<print_temperature>195</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.3</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<Color name="Orange"></Color>
+			<Color name="Red"></Color>
+			<Color name="Black"></Color>
+			<Color name="White"></Color>
+			<Color name="Yellow"></Color>
+			<Color name="Green"></Color>
+			<Color name="Light Blue"></Color>
+			<Color name="Dark Blue"></Color>
+			<Color name="Pink"></Color>
+			<Color name="Grey"></Color>
+		</Filament>
 		<Filament name="PLA Filo3D">
-			<grip_temperature>230</grip_temperature>
+			<grip_temperature>225</grip_temperature>
 			<print_temperature>190</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -182,7 +167,7 @@
 			<Color name="Green"></Color>
 			<Color name="Natural"></Color>
 		</Filament>
-
+		
 		<Filament name="PLA PolyFlex">
 			<grip_temperature>240</grip_temperature>
 			<print_temperature>240</print_temperature>
@@ -197,9 +182,9 @@
 			<Color name="Orange"></Color>
 			<Color name="White"></Color>
 		</Filament>
-
+		
 		<Filament name="Other PLA type">
-			<grip_temperature>230</grip_temperature>
+			<grip_temperature>220</grip_temperature>
 			<print_temperature>195</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
