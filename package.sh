@@ -17,14 +17,22 @@ case "$1" in
 	discoeasy200)
 		export MACHINE_NAME="Easy200"
 		MACHINE_NAME_LOWERCASE="easy200"
+		APP_SUFFIX=""
 		;;
 	explorer350)
 		export MACHINE_NAME="Explorer350"
 		MACHINE_NAME_LOWERCASE="explorer350"
+		APP_SUFFIX=""
 		;;
-	neva)
+	neva1.0)
 		export MACHINE_NAME="Neva"
 		MACHINE_NAME_LOWERCASE="neva"
+		APP_SUFFIX="1.0"
+		;;
+	neva1.1)
+		export MACHINE_NAME="Neva"
+		MACHINE_NAME_LOWERCASE="neva"
+		APP_SUFFIX="1.1"
 		;;
 	*)
 		echo "You need to specify a printer name."
@@ -100,6 +108,14 @@ esac
 # Remove resources files and readd them according to the printer name.
 echo "Copying specific ${MACHINE_NAME} resources..."
 cp -a ./machines/${MACHINE_NAME_LOWERCASE}/resources .
+
+if [[ $APP_SUFFIX == 1.0 ]]; then
+	mv ./resources/XML/xml_config1.0.xml ./resources/XML/xml_config.xml
+	rm ./resources/XML/xml_config1.1.xml
+elif [[ $APP_SUFFIX == 1.1 ]]; then
+	mv ./resources/XML/xml_config1.1.xml ./resources/XML/xml_config.xml
+	rm ./resources/XML/xml_config1.0.xml
+fi
 
 ##Which version name are we appending to the final archive
 export BUILD_NAME="Cura-by-Dagoma-"${MACHINE_NAME}
@@ -190,6 +206,8 @@ if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 if [[ $BUILD_TARGET == darwin ]]; then
 	#mkvirtualenv Cura
 
+	APP_NAME=${BUILD_NAME_INSTALL}${APP_SUFFIX}
+
 	rm -rf scripts/darwin/build
 	rm -rf scripts/darwin/dist
 
@@ -228,20 +246,20 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
-	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME_INSTALL}.dmg
+	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${APP_NAME}.dmg
 
 	cd ../..
-	zip ${BUILD_NAME_INSTALL}.dmg.zip ${BUILD_NAME_INSTALL}.dmg
+	zip ${APP_NAME}.dmg.zip ${APP_NAME}.dmg
 
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f ${BUILD_NAME_INSTALL}.dmg ./packages/
+	mv -f ${APP_NAME}.dmg ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f ${BUILD_NAME_INSTALL}.dmg.zip ./dist/
+	mv -f ${APP_NAME}.dmg.zip ./dist/
 
 	exit
 fi
@@ -250,6 +268,7 @@ fi
 # Debian
 #############################
 if [[ $BUILD_TARGET == debian* ]]; then
+	APP_NAME=${BUILD_NAME}${APP_SUFFIX}
 	mkdir -p scripts/linux/${BUILD_TARGET}
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share
@@ -276,23 +295,23 @@ if [[ $BUILD_TARGET == debian* ]]; then
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
-	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${BUILD_NAME})/${BUILD_NAME}-${BUILD_TARGET}.deb
+	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${BUILD_NAME})/${APP_NAME}-${BUILD_TARGET}.deb
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
 	cp ./utils/debian/README.md .
 	replaceVars README.md
-	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb README.md
+	zip ${APP_NAME}-${BUILD_TARGET}.zip ${APP_NAME}-${BUILD_TARGET}.deb README.md
 	rm README.md
 
 	cd ../..
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
+	mv -f scripts/linux/${APP_NAME}-${BUILD_TARGET}.deb ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
+	mv -f scripts/linux/${APP_NAME}-${BUILD_TARGET}.zip ./dist/
 
 	exit
 fi
@@ -301,6 +320,7 @@ fi
 # Archive .tar.gz
 #############################
 if [[ $BUILD_TARGET == archive* ]]; then
+	APP_NAME=${BUILD_NAME}${APP_SUFFIX}
 	mkdir -p scripts/linux/${BUILD_TARGET}
 	rm -rf scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}
 	mkdir -p scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}
@@ -316,21 +336,21 @@ if [[ $BUILD_TARGET == archive* ]]; then
 	cp scripts/linux/utils/archive/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	replaceVars scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	cd scripts/linux/${BUILD_TARGET}
-	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
-	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
+	tar -czvf ${APP_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
+	mv ${APP_NAME}-${BUILD_TARGET}.tar.gz ../
 	cd ..
-	zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz
+	zip ${APP_NAME}-${BUILD_TARGET}.tar.gz.zip ${APP_NAME}-${BUILD_TARGET}.tar.gz
 
 	cd ../..
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
+	mv -f scripts/linux/${APP_NAME}-${BUILD_TARGET}.tar.gz ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
+	mv -f scripts/linux/${APP_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
 
 	exit
 fi
@@ -339,6 +359,7 @@ fi
 # Download all needed files.
 #############################
 if [[ $BUILD_TARGET == win32 ]]; then
+	APP_NAME=${BUILD_NAME_INSTALL}${APP_SUFFIX}
 	##Which versions of external programs to use
 	WIN_PORTABLE_PY_VERSION=2.7.6.1
 	#Check if we have 7zip, needed to extract and packup a bunch of packages for windows.
@@ -428,20 +449,20 @@ if [[ $BUILD_TARGET == win32 ]]; then
 		if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
 		mv scripts/win32/${BUILD_NAME}.exe ./
 		if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
-		mv ./${BUILD_NAME}.exe ./${BUILD_NAME_INSTALL}.exe
-		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${BUILD_NAME_INSTALL}.exe"; exit 1; fi
+		mv ./${BUILD_NAME}.exe ./${APP_NAME}.exe
+		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${APP_NAME}.exe"; exit 1; fi
 
-		7z a -y ${BUILD_NAME_INSTALL}.exe.zip ${BUILD_NAME_INSTALL}.exe
+		7z a -y ${APP_NAME}.exe.zip ${APP_NAME}.exe
 
 		if [ ! -d "packages" ]; then
 			mkdir packages
 		fi
-		mv -f ${BUILD_NAME_INSTALL}.exe ./packages/
+		mv -f ${APP_NAME}.exe ./packages/
 
 		if [ ! -d "dist" ]; then
 			mkdir dist
 		fi
-		mv -f ${BUILD_NAME_INSTALL}.exe.zip ./dist/
+		mv -f ${APP_NAME}.exe.zip ./dist/
 		echo 'Good Job, All Works Well !!! :)'
 	else
 		echo "No makensis"
