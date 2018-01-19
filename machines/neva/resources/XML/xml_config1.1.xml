@@ -14,7 +14,7 @@
 			<filament_cost_kg>33.20</filament_cost_kg>
 			<Color name="Silver"></Color>
 			<Color name="Pearl white"></Color>
-			<Color name="Pearl blue"></Color>	
+			<Color name="Pearl blue"></Color>
 			<Color name="Cream white"></Color>
 			<Color name="Baby blue"></Color>
 			<Color name="Bronze"></Color>
@@ -40,25 +40,78 @@
 				<filament_physical_density>831.92</filament_physical_density>
 				<filament_cost_kg>49.83</filament_cost_kg>
 			</Color>
-			<Color name="Silver glitter"><print_temperature>210</print_temperature></Color>
-			<Color name="Azure"><print_temperature>210</print_temperature></Color>
-			<Color name="Electric blue"><print_temperature>210</print_temperature></Color>
-			<Color name="Ocean blue"><print_temperature>210</print_temperature></Color>
-			<Color name="Desert"><print_temperature>210</print_temperature></Color>
-			<Color name="Lime green"><print_temperature>210</print_temperature></Color>
-			<Color name="Lemon yellow"><print_temperature>210</print_temperature></Color>
-			<Color name="Sun yellow"><print_temperature>210</print_temperature></Color>
-			<Color name="Camouflage"><print_temperature>210</print_temperature></Color>
-			<Color name="Magenta"><print_temperature>210</print_temperature></Color>
-			<Color name="Chocolate brown"><print_temperature>210</print_temperature></Color>
-			<Color name="Baby pink"><print_temperature>210</print_temperature></Color>
-			<Color name="Rubin red"><print_temperature>210</print_temperature></Color>
-			<Color name="Ivory"><print_temperature>210</print_temperature></Color>
-			<Color name="Violet"><print_temperature>210</print_temperature></Color>
-			<Color name="Mustard"><print_temperature>210</print_temperature></Color>
-			<Color name="Natural"><print_temperature>210</print_temperature></Color>
-			<Color name="Solid green"><print_temperature>210</print_temperature></Color>
-			
+			<Color name="Silver glitter">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Azure">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Electric blue">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Ocean blue">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Desert">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Lime green">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Lemon yellow">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Sun yellow">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Camouflage">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Magenta">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Chocolate brown">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Baby pink">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Rubin red">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Ivory">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Violet">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Mustard">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Natural">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
+			<Color name="Solid green">
+				<print_temperature>210</print_temperature>
+				<retraction_amount>3.5</retraction_amount>
+			</Color>
 		</Filament>
 		<Filament name="PLA PolyPlus">
 			<grip_temperature>220</grip_temperature>
@@ -80,7 +133,7 @@
 			<Color name="Translucent yellow"></Color>
 			<Color name="Blue"></Color>
 		</Filament>
-		
+
 		<Filament name="PLA PolyMax">
 			<grip_temperature>220</grip_temperature>
 			<print_temperature>210</print_temperature>
@@ -96,7 +149,7 @@
 			<Color name="White"></Color>
 			<Color name="Blue"></Color>
 		</Filament>
-		
+
 		<Filament name="PLA OctoFiber">
 			<grip_temperature>225</grip_temperature>
 			<print_temperature>205</print_temperature>
@@ -167,7 +220,7 @@
 			<Color name="Green"></Color>
 			<Color name="Natural"></Color>
 		</Filament>
-		
+
 		<Filament name="PLA PolyFlex">
 			<grip_temperature>240</grip_temperature>
 			<print_temperature>240</print_temperature>
@@ -182,7 +235,7 @@
 			<Color name="Orange"></Color>
 			<Color name="White"></Color>
 		</Filament>
-		
+
 		<Filament name="Other PLA type">
 			<grip_temperature>220</grip_temperature>
 			<print_temperature>195</print_temperature>
@@ -312,6 +365,7 @@
 		<has_heated_bed>False</has_heated_bed>
 		<machine_center_is_zero>True</machine_center_is_zero>
 		<machine_shape>Circular</machine_shape>
+		<machine_speed_factor>0.7</machine_speed_factor>
 		<nozzle_size>0.4</nozzle_size>
 		<extruder_head_size_min_x>17</extruder_head_size_min_x>
 		<extruder_head_size_min_y>40</extruder_head_size_min_y>
