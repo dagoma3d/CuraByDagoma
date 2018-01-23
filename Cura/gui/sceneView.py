@@ -148,8 +148,8 @@ class SceneView(openglGui.glGuiPanel):
 			return
 		self.viewSelection.setHidden(False)
 		mainWindow = self.GetParent().GetParent().GetParent()
-		mainWindow.normalSettingsPanel.pausePluginButton.Show()
-		mainWindow.normalSettingsPanel.Layout()
+		mainWindow.normalSettingsPanel.pausePluginButton.Enable()
+		mainWindow.normalSettingsPanel.button_1.Enable()
 		# only one GCODE file can be active
 		# so if single gcode file, process this
 		# otherwise ignore all gcode files
@@ -494,8 +494,8 @@ class SceneView(openglGui.glGuiPanel):
 		self.viewSelection.setHidden(True)
 		self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
-		normalSettingsPanel.pausePluginButton.Hide()
-		normalSettingsPanel.Layout()
+		normalSettingsPanel.pausePluginButton.Disable()
+		normalSettingsPanel.button_1.Disable()
 
 	def OnMultiply(self, e):
 		if self._focusObj is None:
@@ -642,8 +642,8 @@ class SceneView(openglGui.glGuiPanel):
 			self.viewSelection.setHidden(True)
 			self.printButton.setBottomText('')
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
-			normalSettingsPanel.pausePluginButton.Hide()
-			normalSettingsPanel.Layout()
+			normalSettingsPanel.pausePluginButton.Disable()
+			normalSettingsPanel.button_1.Disable()
 		import gc
 		gc.collect()
 		self.sceneUpdated()

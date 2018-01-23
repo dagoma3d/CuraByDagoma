@@ -362,7 +362,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def __do_layout(self):
 		printername = profile.getMachineSetting('machine_name')
-		self.pausePluginButton.Hide()
+		self.pausePluginButton.Disable()
+		self.button_1.Disable()
 
 		language = profile.getPreference("language")
 		if language == "French":
