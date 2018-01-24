@@ -406,11 +406,11 @@ def getBasePath():
 	if printername == "DiscoEasy200":
 		printername = "Easy200"
 	if platform.system() == "Windows":
-		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma'+printername))
+		basePath = os.path.normpath(os.path.expanduser(('~/.curaByDagoma' + printername).encode()))
 	elif platform.system() == "Darwin":
-		basePath = os.path.expanduser('~/Library/Application Support/CuraByDagoma'+printername)
+		basePath = os.path.expanduser(('~/Library/Application Support/CuraByDagoma' + printername).encode())
 	else:
-		basePath = os.path.expanduser('~/.curaByDagoma'+printername)
+		basePath = os.path.expanduser(('~/.curaByDagoma' + printername).encode())
 	if not os.path.isdir(basePath):
 		try:
 			os.makedirs(basePath)
