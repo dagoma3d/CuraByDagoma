@@ -29,7 +29,6 @@ else:
 from Cura.util import version
 from Cura.util import validators
 from Cura.util import resources
-from Cura.util import xmlconfig
 
 #The settings dictionary contains a key/value reference to all possible settings. With the setting name as key.
 settingsDictionary = {}
@@ -263,6 +262,8 @@ setting('auto_detect_sd', 'True', bool, 'preference', 'hidden').setLabel(_("Auto
 setting('check_for_updates', 'False', bool, 'preference', 'hidden').setLabel(_("Check for updates"), _("Check for newer versions of Cura on startup"))
 setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLabel(_("Send usage statistics"), _("Submit anonymous usage information to improve future versions of Cura"))
 setting('filament_index', 0, int, 'preference', 'hidden')
+setting('filament_name', '', str, 'preference', 'hidden')
+setting('xml_file', '', str, 'preference', 'hidden')
 setting('color_index', -1, int, 'preference', 'hidden')
 setting('fill_index', 1, int, 'preference', 'hidden')
 setting('precision_index', 0, int, 'preference', 'hidden')
@@ -304,6 +305,7 @@ setting('machine_depth', '205', float, 'machine', 'hidden').setLabel(_("Maximum 
 setting('machine_height', '200', float, 'machine', 'hidden').setLabel(_("Maximum height (mm)"), _("Size of the machine in mm"))
 setting('machine_center_is_zero', 'False', bool, 'machine', 'hidden').setLabel(_("Machine center 0,0"), _("Machines firmware defines the center of the bed as 0,0 instead of the front left corner."))
 setting('machine_shape', 'Square', ['Square','Circular'], 'machine', 'hidden').setLabel(_("Build area shape"), _("The shape of machine build area."))
+setting('machine_speed_factor', '1.0', float, 'machine', 'hidden')
 setting('has_heated_bed', 'False', bool, 'machine', 'hidden').setLabel(_("Heated bed"), _("If you have an heated bed, this enabled heated bed settings (requires restart)"))
 setting('gcode_flavor', 'RepRap (Marlin/Sprinter)', ['RepRap (Marlin/Sprinter)', 'RepRap (Volumetric)', 'UltiGCode', 'MakerBot', 'BFB', 'Mach3'], 'machine', 'hidden').setLabel(_("GCode Flavor"), _("Flavor of generated GCode.\nRepRap is normal 5D GCode which works on Marlin/Sprinter based firmwares.\nUltiGCode is a variation of the RepRap GCode which puts more settings in the machine instead of the slicer.\nMakerBot GCode has a few changes in the way GCode is generated, but still requires MakerWare to generate to X3G.\nBFB style generates RPM based code.\nMach3 uses A,B,C instead of E for extruders."))
 setting('extruder_amount', '1', ['1','2','3','4','5'], 'machine', 'hidden').setLabel(_("Extruder count"), _("Amount of extruders in your machine."))
@@ -325,7 +327,12 @@ setting('extruder_head_size_max_x', '0.0', float, 'machine', 'hidden').setLabel(
 setting('extruder_head_size_max_y', '0.0', float, 'machine', 'hidden').setLabel(_("Head size towards Y max (mm)"), _("The head size when printing multiple objects, measured from the tip of the nozzle towards the outer part of the head. 35mm for an Ultimaker if the fan is on the left side."))
 setting('extruder_head_size_height', '0.0', float, 'machine', 'hidden').setLabel(_("Printer gantry height (mm)"), _("The height of the gantry holding up the printer head. If an object is higher then this then you cannot print multiple objects one for one. 60mm for an Ultimaker."))
 
-setting('palpeur_enable',              'Palpeur', str,  'palpeur',    _('Palpeur')).setLabel(_("Activer le palpeur "), _("A cocher si vous utilisez le palpeur."))
+setting('printing_surface_name', '', str, 'printing_surface', _('PrintingSurface')).setLabel(_("printing surface height (mm)"), _("Nom de la surface d'impression."))
+setting('printing_surface_height', 0.0, float, 'printing_surface', _('PrintingSurface')).setRange(0.0001).setLabel(_("printing surface height (mm)"), _("Hauteur de la surface d'impression."))
+
+setting('offset_value', 0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Valeur de l'offset (mm)"), _("Valeur calculee de l'offset."))
+setting('offset_input', 0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Entree de l'offset (mm)"), _("Valeur entree de l'offset."))
+setting('palpeur_enable', 'Palpeur', str, 'palpeur', _('Palpeur')).setLabel(_("Activer le palpeur "), _("A cocher si vous utilisez le palpeur."))
 
 validators.warningAbove(settingsDictionary['filament_flow'], 150, _("More flow than 150% is rare and usually not recommended."))
 validators.warningBelow(settingsDictionary['filament_flow'], 50, _("Less flow than 50% is rare and usually not recommended."))
@@ -402,15 +409,12 @@ def getBasePath():
 	"""
 	:return: The path in which the current configuration files are stored. This depends on the used OS.
 	"""
-	printername = xmlconfig.getValue('machine_name', 'Printer')
-	if printername == "DiscoEasy200":
-		printername = "Easy200"
 	if platform.system() == "Windows":
-		basePath = os.path.normpath(os.path.expanduser(('~/.curaByDagoma' + printername).encode()))
+		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma'))
 	elif platform.system() == "Darwin":
-		basePath = os.path.expanduser(('~/Library/Application Support/CuraByDagoma' + printername).encode())
+		basePath = os.path.expanduser('~/Library/Application Support/CuraByDagoma')
 	else:
-		basePath = os.path.expanduser(('~/.curaByDagoma' + printername).encode())
+		basePath = os.path.expanduser('~/.curaByDagoma')
 	if not os.path.isdir(basePath):
 		try:
 			os.makedirs(basePath)
@@ -972,14 +976,6 @@ def getPalpeurGCode():
 	if getProfileSetting('palpeur_enable') == 'Palpeur' or getProfileSetting('palpeur_enable') == 'Enabled':
 		return 'G29'
 
-def getFilamentName():
-	filament_name = 'Unknown'
-	try:
-		filament_name = xmlconfig.getAttribute('name', 'Filament', int(getPreference('filament_index')))
-	except:
-		pass
-	return " " + filament_name
-
 def replaceTagMatch(m):
 	pre = m.group(1)
 	tag = m.group(2)
@@ -989,10 +985,13 @@ def replaceTagMatch(m):
 		return pre + time.strftime('%H:%M:%S')
 
 	if tag == 'filament_name':
-		return getFilamentName()
+		return " " + getPreference('filament_name')
 
 	if tag == 'palpeur' or tag == 'sensor':
 		return getPalpeurGCode()
+
+	if tag == 'z_offset':
+		return pre + str(getProfileSettingFloat('offset_value'))
 
 	if tag == 'date':
 		return pre + time.strftime('%d-%m-%Y')
@@ -1081,6 +1080,7 @@ def getAlterationFileContents(filename, extruderCount = 1):
 
 def printSlicingInfo():
 	print '********* Slicing parameters *********'
+	print "grip_temperature : ", getProfileSetting('grip_temperature')
 	print "print_temperature : ", getProfileSetting('print_temperature')
 	print "nozzle_size : ", getProfileSetting('nozzle_size')
 	print "rectration_enable : ", getProfileSetting('retraction_enable')

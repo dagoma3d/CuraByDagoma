@@ -63,3 +63,9 @@ def getLanguageOptions():
 		['en', 'English'],
 		['fr', 'French']
 	]
+
+def getPrinterOptions():
+	return [
+		['discoeasy200.xml', 'DiscoEasy200'],
+		['neva.xml', 'Neva']
+	]

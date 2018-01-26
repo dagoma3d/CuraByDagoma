@@ -23,19 +23,41 @@ from Cura.util import profile
 from Cura.util import version
 from Cura.util import meshLoader
 from Cura.util import resources
-from Cura.util import xmlconfig
+from xml.dom import minidom
+
+xml_file = profile.getPreference('xml_file')
+configuration = minidom.parse(resources.getPathForXML(xml_file))
+
+def getTags(name, parent = configuration):
+	try:
+		return parent.getElementsByTagName(name)
+	except:
+		return []
+
+def getTag(name, parent = configuration, i = 0):
+	try:
+		return parent.getElementsByTagName(name)[i]
+	except:
+		return None
+
+def getValue(name, parent = configuration, i = 0):
+	try:
+		if type(parent) is str:
+			return getTag(parent).getElementsByTagName(name)[i].childNodes[0].data
+		else:
+			return parent.getElementsByTagName(name)[i].childNodes[0].data
+	except:
+		return None
+
+def getAttribute(name, tag_name, i = 0):
+	try:
+		return configuration.getElementsByTagName(tag_name)[i].getAttribute(name)
+	except:
+		return ''
 
 class mainWindow(wx.Frame):
 	def __init__(self):
-		windowtitle = 'Cura by Dagoma'
-		try:
-			windowtitle = windowtitle + ' ' + xmlconfig.getValue('machine_name', 'Printer')
-		except:
-			pass
-
-		windowtitle = windowtitle + ' 1.0.7'
-
-		super(mainWindow, self).__init__(None, title=windowtitle, pos=(0, 0), size=wx.DisplaySize())
+		super(mainWindow, self).__init__(None, title='Cura by Dagoma 1.0.7', pos=(0, 0), size=wx.DisplaySize())
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
@@ -56,12 +78,7 @@ class mainWindow(wx.Frame):
 				pass
 
 		mruFile = os.path.join(profile.getBasePath(), 'mru_filelist.ini')
-		appname = 'Cura by Dagoma'
-		if 'printername' in locals():
-			appname = appname + ' ' + printername
-		self.config = wx.FileConfig(appName=appname,
-						localFilename=mruFile,
-						style=wx.CONFIG_USE_LOCAL_FILE)
+		self.config = wx.FileConfig(localFilename=mruFile, style=wx.CONFIG_USE_LOCAL_FILE)
 
 		self.ID_MRU_MODEL1, self.ID_MRU_MODEL2, self.ID_MRU_MODEL3, self.ID_MRU_MODEL4, self.ID_MRU_MODEL5, self.ID_MRU_MODEL6, self.ID_MRU_MODEL7, self.ID_MRU_MODEL8, self.ID_MRU_MODEL9, self.ID_MRU_MODEL10 = [wx.NewId() for line in xrange(10)]
 		self.modelFileHistory = wx.FileHistory(10, self.ID_MRU_MODEL1)
@@ -167,7 +184,7 @@ class mainWindow(wx.Frame):
 		self.scene.SetFocus()
 
 	def OnLanguagePreferences(self, e):
-		prefDialog = preferencesDialog.languagePreferencesDialog(self)
+		prefDialog = preferencesDialog.preferencesDialog(self)
 		prefDialog.Centre()
 		prefDialog.Show()
 		prefDialog.Raise()
@@ -289,6 +306,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 	class Brim:
 		def __init__(self):
 			self.platform_adhesion = None
+
+	class PrintingSurface:
+		def __init__(self):
+			self.name = ''
+			self.height = ''
+
+	class Offset:
+		def __init__(self):
+			self.value = ''
+			self.input = ''
 
 	class Palpeur:
 		def __init__(self):
@@ -418,22 +445,22 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.get_palpeur()
 
 	def setProfileSetting(self, sub, var):
-		value = xmlconfig.getValue(var, sub)
+		value = getValue(var, sub)
 		if value is not None:
 			profile.putProfileSetting(var, value)
 
 	def setPreferenceSetting(self, sub, var):
-		value = xmlconfig.getValue(var, sub)
+		value = getValue(var, sub)
 		if value is not None:
 			profile.putPreference(var, value)
 
 	def setMachineSetting(self, sub, var):
-		value = xmlconfig.getValue(var, sub)
+		value = getValue(var, sub)
 		if value is not None:
 			profile.putMachineSetting(var, value)
 
 	def init_Printer(self):
-		printer = xmlconfig.getTag('Printer')
+		printer = getTag('Printer')
 		self.setMachineSetting(printer, 'machine_name')
 		self.setMachineSetting(printer, 'machine_type')
 		self.setMachineSetting(printer, 'machine_width')
@@ -443,6 +470,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setMachineSetting(printer, 'has_heated_bed')
 		self.setMachineSetting(printer, 'machine_center_is_zero')
 		self.setMachineSetting(printer, 'machine_shape')
+		self.setMachineSetting(printer, 'machine_speed_factor')
 		self.setMachineSetting(printer, 'extruder_head_size_min_x')
 		self.setMachineSetting(printer, 'extruder_head_size_min_y')
 		self.setMachineSetting(printer, 'extruder_head_size_max_x')
@@ -452,11 +480,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setProfileSetting(printer, 'retraction_enable')
 
 	def init_Configuration(self):
-		global_config = xmlconfig.getTag('Configuration')
+		global_config = getTag('Configuration')
 		if global_config is not None:
 			config = global_config
 		else:
-			config = xmlconfig.getTag('Config_Adv')
+			config = getTag('Config_Adv')
 
 		self.setProfileSetting(config, 'bottom_thickness')
 		self.setProfileSetting(config, 'layer0_width_factor')
@@ -466,7 +494,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		if global_config is not None:
 			config = global_config
 		else:
-			config = xmlconfig.getTag('Config_Expert')
+			config = getTag('Config_Expert')
 		# Retraction
 		self.setProfileSetting(config, 'retraction_min_travel')
 		self.setProfileSetting(config, 'retraction_combing')
@@ -515,19 +543,19 @@ class normalSettingsPanel(configBase.configPanelBase):
 		if global_config is not None:
 			config = global_config
 		else:
-			config = xmlconfig.getTag('Config_Preferences')
+			config = getTag('Config_Preferences')
 		#Cura Settings
 		self.setPreferenceSetting(config, 'auto_detect_sd')
 
 	def init_GCode(self):
-		gcode_start = xmlconfig.getValue("Gstart", "GCODE")
+		gcode_start = getValue("Gstart", "GCODE")
 		profile.putAlterationSetting('start.gcode', gcode_start)
 
-		gcode_end = xmlconfig.getValue("Gend", "GCODE")
+		gcode_end = getValue("Gend", "GCODE")
 		profile.putAlterationSetting('end.gcode', gcode_end)
 
 	def get_filaments(self):
-		filaments = xmlconfig.getTags('Filament')
+		filaments = getTags('Filament')
 		self.filaments = []
 		choices = []
 		for filament in filaments:
@@ -537,17 +565,17 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				fila.type = name
 			try :
-				if xmlconfig.getTag("grip_temperature", filament) is not None:
-					fila.grip_temperature = xmlconfig.getValue("grip_temperature", filament)
+				if getTag("grip_temperature", filament) is not None:
+					fila.grip_temperature = getValue("grip_temperature", filament)
 				else:
-					fila.grip_temperature = xmlconfig.getValue("print_temperature", filament)
-				fila.print_temperature = xmlconfig.getValue("print_temperature", filament)
-				fila.filament_diameter = xmlconfig.getValue("filament_diameter", filament)
-				fila.filament_flow = xmlconfig.getValue("filament_flow", filament)
-				fila.retraction_speed = xmlconfig.getValue("retraction_speed", filament)
-				fila.retraction_amount = xmlconfig.getValue("retraction_amount", filament)
-				fila.filament_physical_density = xmlconfig.getValue("filament_physical_density", filament)
-				fila.filament_cost_kg = xmlconfig.getValue("filament_cost_kg", filament)
+					fila.grip_temperature = getValue("print_temperature", filament)
+				fila.print_temperature = getValue("print_temperature", filament)
+				fila.filament_diameter = getValue("filament_diameter", filament)
+				fila.filament_flow = getValue("filament_flow", filament)
+				fila.retraction_speed = getValue("retraction_speed", filament)
+				fila.retraction_amount = getValue("retraction_amount", filament)
+				fila.filament_physical_density = getValue("filament_physical_density", filament)
+				fila.filament_cost_kg = getValue("filament_cost_kg", filament)
 				self.filaments.append(fila)
 			except:
 				print 'Some Error in Filament Bloc'
@@ -561,9 +589,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_remplissage(self):
 		bloc_name = _("Filling density :")
-		remplissages = xmlconfig.getTags("Filling")
+		remplissages = getTags("Filling")
 		if len(remplissages) == 0:
-			remplissages = xmlconfig.getTags("Remplissage")
+			remplissages = getTags("Remplissage")
 		choices = []
 		self.remplissages = []
 		for remplissage in remplissages:
@@ -573,7 +601,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(name)
 				rempli.type = name
 				try :
-					rempli.fill_density = xmlconfig.getValue("fill_density", remplissage)
+					rempli.fill_density = getValue("fill_density", remplissage)
 					self.remplissages.append(rempli)
 				except:
 					print 'Some Errors in Remplissage Bloc'
@@ -583,7 +611,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_Precision(self):
 		bloc_name = _("Quality (layer thickness) :")
-		precisions = xmlconfig.getTags("Precision")
+		precisions = getTags("Precision")
 		choices = []
 		self.precisions = []
 		for precision in precisions:
@@ -593,16 +621,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				preci.type = name
 				try :
-					preci.layer_height = xmlconfig.getValue("layer_height", precision)
-					preci.solid_layer_thickness = xmlconfig.getValue("solid_layer_thickness", precision)
-					preci.wall_thickness = xmlconfig.getValue("wall_thickness", precision)
-					preci.print_speed = xmlconfig.getValue("print_speed", precision)
-					preci.temp_preci = xmlconfig.getValue("temp_preci", precision)
-					preci.travel_speed = xmlconfig.getValue("travel_speed", precision)
-					preci.bottom_layer_speed = xmlconfig.getValue("bottom_layer_speed", precision)
-					preci.infill_speed = xmlconfig.getValue("infill_speed", precision)
-					preci.inset0_speed = xmlconfig.getValue("inset0_speed", precision)
-					preci.insetx_speed = xmlconfig.getValue("insetx_speed", precision)
+					preci.layer_height = getValue("layer_height", precision)
+					preci.solid_layer_thickness = getValue("solid_layer_thickness", precision)
+					preci.wall_thickness = getValue("wall_thickness", precision)
+					preci.print_speed = getValue("print_speed", precision)
+					preci.temp_preci = getValue("temp_preci", precision)
+					preci.travel_speed = getValue("travel_speed", precision)
+					preci.bottom_layer_speed = getValue("bottom_layer_speed", precision)
+					preci.infill_speed = getValue("infill_speed", precision)
+					preci.inset0_speed = getValue("inset0_speed", precision)
+					preci.insetx_speed = getValue("insetx_speed", precision)
 					self.precisions.append(preci)
 				except :
 					print 'Some Error in Precision Bloc'
@@ -612,9 +640,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_Tete(self):
 		bloc_name = _("Printhead version :")
-		tetes = xmlconfig.getTags("PrinterHead")
+		tetes = getTags("PrinterHead")
 		if len(tetes) == 0:
-			tetes = xmlconfig.getTags("Tete")
+			tetes = getTags("Tete")
 		choices = []
 		self.tetes = []
 		for tete in tetes:
@@ -624,8 +652,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				tet.type = name
 				try :
-					tet.fan_speed = xmlconfig.getValue("fan_speed", tete)
-					tet.cool_min_layer_time = xmlconfig.getValue("cool_min_layer_time", tete)
+					tet.fan_speed = getValue("fan_speed", tete)
+					tet.cool_min_layer_time = getValue("cool_min_layer_time", tete)
 					self.tetes.append(tet)
 				except :
 					print 'Some Error in Tete Bloc'
@@ -635,7 +663,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_support(self):
 		bloc_name = _("Printing supports :")
-		supports = xmlconfig.getTags("Support")
+		supports = getTags("Support")
 		choices = []
 		self.supports = []
 		for support in supports:
@@ -645,7 +673,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(name)
 				supp.type = name
 				try :
-					supp.support = xmlconfig.getValue("support", support)
+					supp.support = getValue("support", support)
 					self.supports.append(supp)
 				except :
 					print 'Some Error in Supports Bloc'
@@ -655,30 +683,30 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def get_brim(self):
 		bloc_name = _("Improve the adhesion surface")
 		self.printbrim = wx.CheckBox(self, wx.ID_ANY, bloc_name)
-		brim_enable = xmlconfig.getTag("Brim_Enable")
-		brim_disable = xmlconfig.getTag("Brim_Disable")
+		brim_enable = getTag("Brim_Enable")
+		brim_disable = getTag("Brim_Disable")
 		self.brims = []
 		self.brims.append(self.Brim())
-		self.brims[0].platform_adhesion = xmlconfig.getValue("platform_adhesion", brim_enable)
+		self.brims[0].platform_adhesion = getValue("platform_adhesion", brim_enable)
 		self.brims.append(self.Brim())
-		self.brims[1].platform_adhesion = xmlconfig.getValue("platform_adhesion", brim_disable)
+		self.brims[1].platform_adhesion = getValue("platform_adhesion", brim_disable)
 
 	# Fonction qui recupere dans le xml les differentes lignes pour le bloc Palpeur
 	def get_palpeur(self):
 		bloc_name = _("Use the sensor")
 		self.palpeur_chbx = wx.CheckBox(self, wx.ID_ANY, bloc_name)
-		palpeur_enable = xmlconfig.getTags("Sensor_Enable")
+		palpeur_enable = getTags("Sensor_Enable")
 		if len(palpeur_enable) == 0:
-			palpeur_enable = xmlconfig.getTags("Palpeur_Enable")
-			sensor_enabled = xmlconfig.getValue("palpeur", palpeur_enable[0])
+			palpeur_enable = getTags("Palpeur_Enable")
+			sensor_enabled = getValue("palpeur", palpeur_enable[0])
 		else:
-			sensor_enabled = xmlconfig.getValue("value", palpeur_enable[0])
-		palpeur_disable = xmlconfig.getTags("Sensor_Disable")
+			sensor_enabled = getValue("value", palpeur_enable[0])
+		palpeur_disable = getTags("Sensor_Disable")
 		if len(palpeur_disable) == 0:
-			palpeur_disable = xmlconfig.getTags("Palpeur_Disable")
-			sensor_disabled = xmlconfig.getValue("palpeur", palpeur_disable[0])
+			palpeur_disable = getTags("Palpeur_Disable")
+			sensor_disabled = getValue("palpeur", palpeur_disable[0])
 		else:
-			sensor_disabled = xmlconfig.getValue("value", palpeur_disable[0])
+			sensor_disabled = getValue("value", palpeur_disable[0])
 		self.palpeurs = []
 		self.palpeurs.append(self.Palpeur())
 		self.palpeurs[0].palpeur = sensor_enabled
@@ -690,6 +718,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		filament_index = self.combo_box_1.GetSelection()
 		fila = self.filaments[filament_index]
 		profile.putPreference('filament_index', filament_index)
+		profile.putPreference('filament_name', fila.type)
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 		calculated_print_temperature = float(fila.print_temperature)
 		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
@@ -712,8 +741,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		self.color_box.Clear()
 		self.color_box.Append(_("Generic"))
-		filaments = xmlconfig.getTags("Filament")
-		colors = xmlconfig.getTags("Color", filaments[filament_index])
+		filaments = getTags("Filament")
+		colors = getTags("Color", filaments[filament_index])
 		if len(colors) > 0:
 			self.color_box.Enable(True)
 			for color in colors:
@@ -738,11 +767,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		filament_index = int(profile.getPreference('filament_index'))
 		fila = self.filaments[filament_index]
 		if color_index > -1:
-			filaments = xmlconfig.getTags("Filament")
+			filaments = getTags("Filament")
 			colors = filaments[filament_index].getElementsByTagName("Color")
 			color = colors[color_index]
 
-			print_temperature = xmlconfig.getValue("print_temperature", color)
+			print_temperature = getValue("print_temperature", color)
 			if print_temperature is None:
 				print_temperature = float(fila.print_temperature)
 			else:
@@ -752,37 +781,37 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.spin_ctrl_1.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature', str(print_temperature))
 
-			grip_temperature = xmlconfig.getValue("grip_temperature", color)
+			grip_temperature = getValue("grip_temperature", color)
 			if grip_temperature is None:
 				grip_temperature = fila.grip_temperature
 			profile.putProfileSetting('grip_temperature', str(grip_temperature))
 
-			filament_diameter = xmlconfig.getValue("filament_diameter", color)
+			filament_diameter = getValue("filament_diameter", color)
 			if filament_diameter is None:
 				filament_diameter = fila.filament_diameter
 			profile.putProfileSetting('filament_diameter', str(filament_diameter))
 
-			filament_flow = xmlconfig.getValue("filament_flow", color)
+			filament_flow = getValue("filament_flow", color)
 			if filament_flow is None:
 				filament_flow = fila.filament_flow
 			profile.putProfileSetting('filament_flow', str(filament_flow))
 
-			retraction_speed = xmlconfig.getValue("retraction_speed", color)
+			retraction_speed = getValue("retraction_speed", color)
 			if retraction_speed is None:
 				retraction_speed = fila.retraction_speed
 			profile.putProfileSetting('retraction_speed', str(retraction_speed))
 
-			retraction_amount = xmlconfig.getValue("retraction_amount", color)
+			retraction_amount = getValue("retraction_amount", color)
 			if retraction_amount is None:
 				retraction_amount = fila.retraction_amount
 			profile.putProfileSetting('retraction_amount', str(retraction_amount))
 
-			filament_physical_density = xmlconfig.getValue("filament_physical_density", color)
+			filament_physical_density = getValue("filament_physical_density", color)
 			if filament_physical_density is None:
 				filament_physical_density = fila.filament_physical_density
 			profile.putProfileSetting('filament_physical_density', str(filament_physical_density))
 
-			filament_cost_kg = xmlconfig.getValue("filament_cost_kg", color)
+			filament_cost_kg = getValue("filament_cost_kg", color)
 			if filament_cost_kg is None:
 				filament_cost_kg = fila.filament_cost_kg
 			profile.putProfileSetting('filament_cost_kg', str(filament_cost_kg))

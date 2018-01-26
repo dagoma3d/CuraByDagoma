@@ -8,12 +8,12 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2018-01-16 11:32+0100\n"
+"PO-Revision-Date: 2018-01-26 14:12+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "Language-Team: \n"
 "Language: en\n"
 
@@ -2379,11 +2379,17 @@ msgstr ""
 msgid "Configuration Cura by Dagoma %s"
 msgstr ""
 
+msgid "Configuration Cura by Dagoma"
+msgstr ""
+
 msgid "Dagoma would like to thank you for your trust."
 msgstr ""
 
 msgid ""
 "The Cura by Dagoma software is now ready to use with your %s 3D printer."
+msgstr ""
+
+msgid "The Cura by Dagoma software is now ready to use with your 3D printer."
 msgstr ""
 
 msgid "You can reach us from https://dagoma3d.com/pages/contact-us"
@@ -3057,4 +3063,25 @@ msgid "Utility to safe-remove SD cards"
 msgstr ""
 
 msgid "%s: %s (License: %s)"
+msgstr ""
+
+msgid "Printer:"
+msgstr ""
+
+msgid "Offset (mm) :"
+msgstr ""
+
+msgid "3M blue scotch"
+msgstr ""
+
+msgid "Buildtak"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Printing surface :"
+msgstr ""
+
+msgid "Which printer do you use?"
 msgstr ""

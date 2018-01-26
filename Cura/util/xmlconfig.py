@@ -6,7 +6,7 @@ __copyright__ = "Copyright (C) 2017 Orel - Released under terms of the AGPLv3 Li
 from Cura.util import resources
 from xml.dom import minidom
 
-configuration = minidom.parse(resources.getPathForXML('xml_config.xml'))
+configuration = minidom.parse(resources.getPathForXML('neva.xml'))
 
 def getTags(name, parent = configuration):
 	try:

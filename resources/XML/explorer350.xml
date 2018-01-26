@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- XML for Neva - 2017/30/11 -->
+<!-- XML for Explorer350 - 2017/30/11 -->
 <Dagoma>
 	<!-- Filament definitions -->
 	<Filaments>
@@ -330,6 +330,7 @@
 		<has_heated_bed>true</has_heated_bed>
 		<machine_center_is_zero>False</machine_center_is_zero>
 		<machine_shape>Square</machine_shape>
+		<machine_speed_factor>1.0</machine_speed_factor>
 		<nozzle_size>0.4</nozzle_size>
 		<extruder_head_size_min_x>51</extruder_head_size_min_x>
 		<extruder_head_size_min_y>53</extruder_head_size_min_y>

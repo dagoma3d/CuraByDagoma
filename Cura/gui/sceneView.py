@@ -1258,67 +1258,14 @@ class SceneView(openglGui.glGuiPanel):
 		size = [profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')]
 
 		machine = profile.getMachineSetting('machine_name')
-		if machine.startswith('ultimaker'):
+		if machine.startswith('DiscoEasy200') or machine.startswith('DiscoVery200') or machine.startswith('Neva')  or machine.startswith('Explorer350'):
 			if machine not in self._platformMesh:
-				meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine + '_platform.stl'))
+				meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '.stl'))
 				if len(meshes) > 0:
 					self._platformMesh[machine] = meshes[0]
 				else:
 					self._platformMesh[machine] = None
-				if machine == 'ultimaker2':
-					self._platformMesh[machine]._drawOffset = numpy.array([0,-37,145], numpy.float32)
-				else:
-					self._platformMesh[machine]._drawOffset = numpy.array([0,0,2.5], numpy.float32)
-			glColor4f(1,1,1,0.5)
-			self._objectShader.bind()
-			self._renderObject(self._platformMesh[machine], False, False)
-			self._objectShader.unbind()
-
-			#For the Ultimaker 2 render the texture on the back plate to show the Ultimaker2 text.
-			if machine == 'ultimaker2':
-				if not hasattr(self._platformMesh[machine], 'texture'):
-					self._platformMesh[machine].texture = openglHelpers.loadGLTexture('Ultimaker2backplate.png')
-				glBindTexture(GL_TEXTURE_2D, self._platformMesh[machine].texture)
-				glEnable(GL_TEXTURE_2D)
-				glPushMatrix()
-				glColor4f(1,1,1,1)
-
-				glTranslate(0,150,-5)
-				h = 50
-				d = 8
-				w = 100
-				glEnable(GL_BLEND)
-				glBlendFunc(GL_DST_COLOR, GL_ZERO)
-				glBegin(GL_QUADS)
-				glTexCoord2f(1, 0)
-				glVertex3f( w, 0, h)
-				glTexCoord2f(0, 0)
-				glVertex3f(-w, 0, h)
-				glTexCoord2f(0, 1)
-				glVertex3f(-w, 0, 0)
-				glTexCoord2f(1, 1)
-				glVertex3f( w, 0, 0)
-
-				glTexCoord2f(1, 0)
-				glVertex3f(-w, d, h)
-				glTexCoord2f(0, 0)
-				glVertex3f( w, d, h)
-				glTexCoord2f(0, 1)
-				glVertex3f( w, d, 0)
-				glTexCoord2f(1, 1)
-				glVertex3f(-w, d, 0)
-				glEnd()
-				glDisable(GL_TEXTURE_2D)
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-				glPopMatrix()
-		elif machine.startswith('DiscoEasy200') or machine.startswith('Neva')  or machine.startswith('Explorer350'):
-			if machine not in self._platformMesh:
-				meshes = meshLoader.loadMeshes(resources.getPathForMesh('machine_platform.stl'))
-				if len(meshes) > 0:
-					self._platformMesh[machine] = meshes[0]
-				else:
-					self._platformMesh[machine] = None
-				if machine == 'DiscoEasy200':
+				if machine == 'DiscoEasy200' or machine == 'DiscoVery200':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix

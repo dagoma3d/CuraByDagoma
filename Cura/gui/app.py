@@ -95,10 +95,8 @@ class CuraApp(wx.App):
 	def afterSplashCallback(self):
 		#These imports take most of the time and thus should be done after showing the splashscreen
 		from Cura.gui import configWizard
-		from Cura.gui import mainWindow
 		from Cura.util import profile
 		from Cura.util import resources
-
 		# it's important to set up localization at very beginning to install
 		language = profile.getPreference('language')
 		contact_url = 'https://dagoma3d.com/pages/contact-us'
@@ -122,6 +120,7 @@ class CuraApp(wx.App):
 				try:
 					os.remove(newinstallfile)
 					profile.putMachineSetting('machine_name', '')
+					profile.putPreference('printer_index', 0)
 					profile.putPreference('filament_index', 0)
 					profile.putPreference('color_index', -1)
 					profile.putPreference('fill_index', 1)
@@ -137,7 +136,7 @@ class CuraApp(wx.App):
 			exampleFile = os.path.normpath(os.path.join(resources.resourceBasePath, 'example', 'dagoma.stl'))
 			self.loadFiles = [exampleFile]
 
-
+		from Cura.gui import mainWindow
 		self.mainWindow = mainWindow.mainWindow()
 		self.SetTopWindow(self.mainWindow)
 		self.mainWindow.Show()
