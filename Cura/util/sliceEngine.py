@@ -578,6 +578,8 @@ class Engine(object):
 			settings['gcodeFlavor'] = 5
 		if profile.getProfileSetting('spiralize') == 'True':
 			settings['spiralizeMode'] = 1
+			settings['downSkinCount'] = 2
+			settings['minimalLayerTime'] = 5
 		if profile.getProfileSetting('simple_mode') == 'True':
 			settings['simpleMode'] = 1
 		if profile.getProfileSetting('wipe_tower') == 'True' and extruderCount > 1:
