@@ -67,35 +67,35 @@ def getLanguageOptions():
 def getPrinterOptions(internalUse = 'False'):
 	discoeasy200 = {
 		'name': 'DiscoEasy200',
-		'desc': 'DiscoEasy200',
+		'desc': '',
 		'config': 'discoeasy200.xml',
 		'img': 'discoeasy200.png'
 	}
 
 	discovery200 = {
 		'name': 'DiscoVery200',
-		'desc': 'DiscoVery200',
+		'desc': '',
 		'config': 'discovery200.xml',
 		'img': 'discovery200.png'
 	}
 
 	explorer350 = {
 		'name': 'Explorer350',
-		'desc': 'Explorer350',
+		'desc': '',
 		'config': 'explorer350.xml',
 		'img': 'explorer350.png'
 	}
 
 	neva = {
 		'name': 'Neva',
-		'desc': 'Neva (No serial number)',
+		'desc': '(Serial number < 6000)',
 		'config': 'neva.xml',
 		'img': 'neva.png'
 	}
 
 	neva_sn6000 = {
 		'name': 'Neva',
-		'desc': 'Neva (Serial number > 6000)',
+		'desc': '(Serial number >= 6000)',
 		'config': 'neva_sn6000.xml',
 		'img': 'neva.png'
 	}

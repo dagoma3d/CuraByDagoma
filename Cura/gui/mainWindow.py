@@ -93,7 +93,7 @@ class mainWindow(wx.Frame):
 				profile.putPreference('language', selected_language)
 			self.Bind(wx.EVT_MENU, OnLanguageSelect, i)
 		self.settingsMenu.AppendSubMenu(self.languagesMenu, _("Language"))
-		i = self.settingsMenu.Append(-1, _("Printers"))
+		i = self.settingsMenu.Append(-1, _("Printer"))
 		self.Bind(wx.EVT_MENU, self.OnPrinterWindow, i)
 		self.menubar.Append(self.settingsMenu, _("Preferences"))
 

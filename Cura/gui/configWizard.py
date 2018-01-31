@@ -31,19 +31,19 @@ class ConfigurationPage(wx.wizard.WizardPageSimple):
 		printers = resources.getPrinterOptions(profile.getPreference('internal_use'))
 		printersImgs = []
 		printersRadios = []
-		firstLoad = True
+		printersDescs = []
+		firstItem = True
 		for printer in printers:
 			img = wx.Image(resources.getPathForImage(printer.get('img')), wx.BITMAP_TYPE_ANY)
 			bitmap = wx.StaticBitmap(self, -1, wx.BitmapFromImage(img))
 			printersImgs.append(bitmap)
 
-			if firstLoad:
-				radio = wx.RadioButton(self, -1, printer.get('desc'), style=wx.RB_GROUP)
+			if firstItem:
+				radio = wx.RadioButton(self, -1, printer.get('name'), style=wx.RB_GROUP)
 				radio.SetValue(True)
 				profile.putPreference('xml_file', printer.get('config'))
-				firstLoad = False
 			else:
-				radio = wx.RadioButton(self, -1, printer.get('desc'))
+				radio = wx.RadioButton(self, -1, printer.get('name'))
 
 			def OnPrinterSelect(e, config=printer.get('config')):
 				profile.putPreference('xml_file', config)
@@ -51,12 +51,24 @@ class ConfigurationPage(wx.wizard.WizardPageSimple):
 			radio.Bind(wx.EVT_RADIOBUTTON, OnPrinterSelect)
 			printersRadios.append(radio)
 
-		printersSizer = wx.GridSizer(2, len(printers), 0)
+			desc_text = printer.get('desc')
+			if desc_text != '':
+				desc_text = _(desc_text)
+			desc = wx.StaticText(self, -1, desc_text)
+			printersDescs.append(desc)
+
+			firstItem = False
+
+		printersSizer = wx.FlexGridSizer(3, len(printers), 0, 0)
+		printersSizer.SetFlexibleDirection(wx.VERTICAL)
 		for bitmap in printersImgs:
 			printersSizer.Add(bitmap, flag=wx.ALIGN_CENTER)
 
 		for radio in printersRadios:
 			printersSizer.Add(radio, flag=wx.ALIGN_CENTER)
+
+		for desc in printersDescs:
+			printersSizer.Add(desc, flag=wx.ALIGN_CENTER)
 
 		sizer.Add(printersSizer)
 
@@ -85,7 +97,7 @@ class ConfigWizard(wx.wizard.Wizard):
 
 		self.configurationPage = ConfigurationPage(self)
 
-		self.FitToPage(self.configurationPage)
+		#self.FitToPage(self.configurationPage)
 		self.GetPageAreaSizer().Add(self.configurationPage)
 		self.RunWizard(self.configurationPage)
 		if self:

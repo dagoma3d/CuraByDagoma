@@ -33,6 +33,7 @@ class printerWindow(wx.Frame):
 		printers = resources.getPrinterOptions(profile.getPreference('internal_use'))
 		printersImgs = []
 		printersRadios = []
+		printersDescs = []
 		firstItem = True
 		for printer in printers:
 			img = wx.Image(resources.getPathForImage(printer.get('img')), wx.BITMAP_TYPE_ANY)
@@ -40,9 +41,9 @@ class printerWindow(wx.Frame):
 			printersImgs.append(bitmap)
 
 			if firstItem:
-				radio = wx.RadioButton(p, -1, printer.get('desc'), style=wx.RB_GROUP)
+				radio = wx.RadioButton(p, -1, printer.get('name'), style=wx.RB_GROUP)
 			else:
-				radio = wx.RadioButton(p, -1, printer.get('desc'))
+				radio = wx.RadioButton(p, -1, printer.get('name'))
 
 			if printer.get('config') == profile.getPreference('xml_file'):
 				radio.SetValue(True)
@@ -54,17 +55,29 @@ class printerWindow(wx.Frame):
 
 			radio.Bind(wx.EVT_RADIOBUTTON, OnPrinterSelect)
 			printersRadios.append(radio)
+
+			desc_text = printer.get('desc')
+			if desc_text != '':
+				desc_text = _(desc_text)
+			desc = wx.StaticText(p, -1, desc_text)
+			printersDescs.append(desc)
+
 			firstItem = False
 
-		printersSizer = wx.GridSizer(2, len(printers), 0)
+		printersSizer = wx.FlexGridSizer(3, len(printers), 0, 0)
+		printersSizer.SetFlexibleDirection(wx.VERTICAL)
 		for bitmap in printersImgs:
 			printersSizer.Add(bitmap, flag=wx.ALIGN_CENTER)
 
 		for radio in printersRadios:
 			printersSizer.Add(radio, flag=wx.ALIGN_CENTER)
 
+		for desc in printersDescs:
+			printersSizer.Add(desc, flag=wx.ALIGN_CENTER)
+
 		sizer.Add(printersSizer)
 
+		sizer.Add(wx.StaticLine(p, -1), flag=wx.EXPAND|wx.TOP|wx.BOTTOM, border=5)
 		okButton = wx.Button(p, -1, 'Ok')
 		okButton.Bind(wx.EVT_BUTTON, self.OnClose)
 		sizer.Add(okButton, flag=wx.ALIGN_RIGHT)

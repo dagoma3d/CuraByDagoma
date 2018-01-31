@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2018-01-29 18:46+0100\n"
+"PO-Revision-Date: 2018-01-31 17:42+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3437,6 +3437,9 @@ msgstr "Surface d'impression :"
 msgid "Which printer do you use?"
 msgstr "Quelle imprimante utilisez-vous?"
 
+msgid "Printer"
+msgstr "Imprimante"
+
 msgid "Printers"
 msgstr "Imprimantes"
 
@@ -3457,3 +3460,9 @@ msgstr "Ouvrir un modele 3D"
 
 msgid "Warning: Object scaled down."
 msgstr "Avertissement: Echelle de l'objet réduite"
+
+msgid "(Serial number < 6000)"
+msgstr "(Numéro de série < 6000)"
+
+msgid "(Serial number >= 6000)"
+msgstr "(Numéro de série >= 6000)"
