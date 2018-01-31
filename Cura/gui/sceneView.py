@@ -492,7 +492,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._animView = openglGui.animation(self, self._viewTarget.copy(), numpy.array([0,0,0], numpy.float32), 0.5)
 		self._engineResultView.setResult(None)
 		self.viewSelection.setHidden(True)
-		self.printButton.setBottomText('')
+		#self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
 		normalSettingsPanel.button_1.Disable()
@@ -602,10 +602,11 @@ class SceneView(openglGui.glGuiPanel):
 				if cost is not None:
 					text += '\n%s' % (cost)
 					statusbar_text += ' %s' % (cost)
-			self.printButton.setBottomText(text)
-			#mainWindow.statusbar.SetStatusText(statusbar_text, 1)
+			#self.printButton.setBottomText(text)
+			mainWindow.statusbar.SetStatusText(statusbar_text, 1)
 		else:
-			self.printButton.setBottomText('')
+			in_progress = '...'
+			#self.printButton.setBottomText('')
 			#mainWindow.statusbar.SetStatusText('...', 1)
 		self.QueueRefresh()
 
@@ -646,7 +647,7 @@ class SceneView(openglGui.glGuiPanel):
 		if len(self._scene.objects()) == 0:
 			self._engineResultView.setResult(None)
 			self.viewSelection.setHidden(True)
-			self.printButton.setBottomText('')
+			#self.printButton.setBottomText('')
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 			normalSettingsPanel.pausePluginButton.Disable()
 			normalSettingsPanel.button_1.Disable()

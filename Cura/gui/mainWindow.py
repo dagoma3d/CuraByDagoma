@@ -337,6 +337,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.label_4 = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :").decode('utf-8')))
 		self.spin_ctrl_1 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		self.button_1 = wx.Button(self, wx.ID_ANY, _("Prepare the Print"))
+
+		self.offset_label = wx.StaticText(self, wx.ID_ANY, _("Offset (mm) :"))
+		self.offset_ctrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
+
 		# Pause plugin
 		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
 		self.pausePluginPanel = pausePluginPanel.pausePluginPanel(self, callback)
@@ -345,6 +349,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 
 		self.Init_Palpeur_chbx()
+		self.Init_Printing_surface()
+
 		#Refresh ALL Value
 		self.Refresh_Supp()
 		self.Refresh_Preci()
@@ -354,6 +360,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Refresh_SpinCtrl()
 		self.Refresh_Rempli()
 		self.Refresh_Palpeur_chbx()
+		self.Refresh_Printing_surface()
+		self.Refresh_Offset()
 		self.Refresh_Checkboxbrim()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -374,6 +382,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Supp, self.printsupp)
 		self.Bind(wx.EVT_RADIOBOX, self.EVT_Rempl, self.radio_box_2)
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxpalpeur,self.palpeur_chbx)
+		self.Bind(wx.EVT_RADIOBOX, self.EVT_PrtSurf, self.radio_box_3)
+		self.Bind(wx.EVT_TEXT, self.EVT_Offset, self.offset_ctrl)
 		self.Bind(wx.EVT_CHECKBOX, self.EVT_Checkboxbrim, self.printbrim)
 		self.Bind(wx.EVT_BUTTON, self.ClickPreparePrintButton, self.button_1)
 		self.Bind(wx.EVT_BUTTON, self.ClickPauseButton, self.pausePluginButton)
@@ -417,6 +427,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			self.tetes_box.Hide()
 		main_sizer.Add(self.printsupp, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		if printername == "DiscoVery200":
+			main_sizer.Add(self.radio_box_3, flag=wx.EXPAND|wx.BOTTOM, border=5)
+			main_sizer.Add(self.offset_label, flag=wx.EXPAND)
+			main_sizer.Add(self.offset_ctrl, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		else:
+			self.radio_box_3.Hide()
+			self.offset_label.Hide()
+			self.offset_ctrl.Hide()
 		if printername != "Neva":
 			main_sizer.Add(self.palpeur_chbx)
 		else:
@@ -442,6 +460,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.get_Tete()
 		self.get_support()
 		self.get_brim()
+		self.get_printing_surface()
 		self.get_palpeur()
 
 	def setProfileSetting(self, sub, var):
@@ -714,6 +733,38 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.palpeurs.append(self.Palpeur())
 		self.palpeurs[1].palpeur = sensor_disabled
 
+	def get_printing_surface(self):
+		bloc_name = _("Printing surface :")
+
+		printing_surfaces = self.configuration.getElementsByTagName("Printing_surface")
+		if len(printing_surfaces) == 0:
+			printing_surfaces = self.configuration.getElementsByTagName("PrintingSurface")
+		choices = []
+		self.printing_surfaces = []
+
+		for printing_surface in printing_surfaces:
+			if printing_surface.hasAttributes():
+				prtsurf = self.PrintingSurface()
+				name = printing_surface.getAttribute("name")
+				choices.append(_(name))
+				prtsurf.name = name
+				try :
+					prtsurf.height = printing_surface.getElementsByTagName("printing_surface_height")[0].childNodes[0].data
+					self.printing_surfaces.append(prtsurf)
+				except :
+					print 'Some Error in Printing Surface Bloc'
+					pass
+
+		if len(choices) == 0:
+			name = "Generic"
+			choices.append(name)
+			prtsurf = self.PrintingSurface()
+			prtsurf.name = name
+			prtsurf.height = 0.0
+			self.printing_surfaces.append(prtsurf)
+		print choices
+		self.radio_box_3 = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+
 	def Refresh_Fila(self):
 		#print "Refresh fila"
 		filament_index = self.combo_box_1.GetSelection()
@@ -908,6 +959,54 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.palpeur_chbx.SetValue(False)
 		self.palpeur_chbx.Refresh()
 
+	#fonction pour initialiser la checkbox palpeur dans le profil
+	def Init_Printing_surface(self):
+		self.radio_box_3.SetStringSelection(profile.getProfileSetting('printing_surface_name'))
+		self.radio_box_3.Refresh()
+
+	#fonction qui verif si un str est un floatant
+	#
+	#
+	def is_number(self, zeString):
+		try:
+			float(zeString)
+			return True
+		except ValueError:
+			return False
+
+
+	#fonction pour calcul l'offset en fonction
+	#
+	#
+	def calculateZOffset(self):
+		printing_surface_height = float(profile.getProfileSetting('printing_surface_height'))
+		offset_input = float(profile.getProfileSetting('offset_input'))
+		offset_value = offset_input - printing_surface_height
+		profile.putProfileSetting('offset_value', offset_value)
+
+
+	#fonction pour enregistrer les données relative à la surface d'impresion dans le profil
+	#
+	#
+	def Refresh_Printing_surface(self):
+		prtsurf = self.printing_surfaces[self.radio_box_3.GetSelection()]
+		profile.putProfileSetting('printing_surface_name', prtsurf.name)
+		profile.putProfileSetting('printing_surface_height', prtsurf.height)
+		self.calculateZOffset()
+
+
+	#fonction pour enregistrer les données relative à l'offset dans le profil
+	#
+	#
+	def Refresh_Offset(self):
+		valu = self.offset_ctrl.GetValue()
+		if self.is_number(valu) :
+			profile.putProfileSetting('offset_input', self.offset_ctrl.GetValue())
+			self.calculateZOffset()
+		else :
+			self.offset_ctrl.SetValue(profile.getProfileSetting('offset_input'))
+			self.offset_ctrl.Refresh()
+
 	# fonction pour enregistrer les données relative au palpeur dans le profil
 	def Refresh_Palpeur_chbx(self):
 		if self.palpeur_chbx.GetValue():
@@ -971,6 +1070,28 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
+
+	# evenement sur le bloc Printing Surface
+	#
+	#
+	def EVT_PrtSurf(self, event):
+		self.Refresh_Printing_surface()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+
+	# evenement sur le l'input pour l'Offset
+	#
+	#
+	def EVT_Offset(self, event):
+		self.Refresh_Offset()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
 
 	# evenement sur le bloc palpeur
 	def EVT_Checkboxpalpeur(self, event):

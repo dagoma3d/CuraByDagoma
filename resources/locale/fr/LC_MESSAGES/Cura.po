@@ -2843,8 +2843,8 @@ msgstr ""
 msgid "Improve the adhesion surface"
 msgstr "Amélioration de la surface d'adhésion"
 
-msgid "Offset en mm : (réglage de la 1ère couche)"
-msgstr ""
+msgid "Offset in mm : (first layer setting)"
+msgstr "Offset en mm : (réglage de la 1ère couche)"
 
 msgid "Utilisation du palpeur"
 msgstr ""
