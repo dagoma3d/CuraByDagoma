@@ -492,7 +492,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._animView = openglGui.animation(self, self._viewTarget.copy(), numpy.array([0,0,0], numpy.float32), 0.5)
 		self._engineResultView.setResult(None)
 		self.viewSelection.setHidden(True)
-		#self.printButton.setBottomText('')
+		self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
 		normalSettingsPanel.button_1.Disable()
@@ -602,11 +602,10 @@ class SceneView(openglGui.glGuiPanel):
 				if cost is not None:
 					text += '\n%s' % (cost)
 					statusbar_text += ' %s' % (cost)
-			#self.printButton.setBottomText(text)
-			mainWindow.statusbar.SetStatusText(statusbar_text, 1)
+			self.printButton.setBottomText(text)
+			#mainWindow.statusbar.SetStatusText(statusbar_text, 1)
 		else:
-			in_progress = '...'
-			#self.printButton.setBottomText('')
+			self.printButton.setBottomText('')
 			#mainWindow.statusbar.SetStatusText('...', 1)
 		self.QueueRefresh()
 
@@ -647,7 +646,7 @@ class SceneView(openglGui.glGuiPanel):
 		if len(self._scene.objects()) == 0:
 			self._engineResultView.setResult(None)
 			self.viewSelection.setHidden(True)
-			#self.printButton.setBottomText('')
+			self.printButton.setBottomText('')
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 			normalSettingsPanel.pausePluginButton.Disable()
 			normalSettingsPanel.button_1.Disable()
@@ -1272,11 +1271,16 @@ class SceneView(openglGui.glGuiPanel):
 					self._platformMesh[machine] = meshes[0]
 				else:
 					self._platformMesh[machine] = None
-				if machine == 'DiscoEasy200' or machine == 'DiscoVery200':
+				if machine == 'DiscoEasy200':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+				elif machine == 'DiscoVery200':
+					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+					self._platformMesh[machine].processMatrix()
+					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					self._platformMesh[machine]._drawOffset = numpy.array([17.5,272,52], numpy.float32)
 				elif machine == 'Neva':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()

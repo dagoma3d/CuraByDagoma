@@ -762,7 +762,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			prtsurf.name = name
 			prtsurf.height = 0.0
 			self.printing_surfaces.append(prtsurf)
-		print choices
 		self.radio_box_3 = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
 	def Refresh_Fila(self):

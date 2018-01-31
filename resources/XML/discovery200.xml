@@ -280,7 +280,7 @@
 	</Supports>
 
 	<!-- Printing surfaces definitions -->
-  <PrintingSurfaces>
+	<PrintingSurfaces>
 		<PrintingSurface name="3M blue scotch">
 			<printing_surface_height>0.75</printing_surface_height>
 		</PrintingSurface>

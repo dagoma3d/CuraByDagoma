@@ -101,8 +101,8 @@ def getPrinterOptions(internalUse = 'False'):
 	}
 
 	printerOptions = []
-	printerOptions.append(discoeasy200)
 	printerOptions.append(discovery200)
+	printerOptions.append(discoeasy200)
 	if internalUse == 'True':
 		printerOptions.append(explorer350)
 	printerOptions.append(neva)
