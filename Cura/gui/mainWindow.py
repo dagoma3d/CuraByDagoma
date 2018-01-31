@@ -13,10 +13,10 @@ from wx.lib import scrolledpanel
 
 from Cura.gui import configBase
 from Cura.gui import pausePluginPanel
-from Cura.gui import preferencesDialog
 from Cura.gui import configWizard
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
+from Cura.gui import printerWindow
 from Cura.gui.util import dropTarget
 from Cura.gui.tools import pidDebugger
 from Cura.util import profile
@@ -24,36 +24,6 @@ from Cura.util import version
 from Cura.util import meshLoader
 from Cura.util import resources
 from xml.dom import minidom
-
-xml_file = profile.getPreference('xml_file')
-configuration = minidom.parse(resources.getPathForXML(xml_file))
-
-def getTags(name, parent = configuration):
-	try:
-		return parent.getElementsByTagName(name)
-	except:
-		return []
-
-def getTag(name, parent = configuration, i = 0):
-	try:
-		return parent.getElementsByTagName(name)[i]
-	except:
-		return None
-
-def getValue(name, parent = configuration, i = 0):
-	try:
-		if type(parent) is str:
-			return getTag(parent).getElementsByTagName(name)[i].childNodes[0].data
-		else:
-			return parent.getElementsByTagName(name)[i].childNodes[0].data
-	except:
-		return None
-
-def getAttribute(name, tag_name, i = 0):
-	try:
-		return configuration.getElementsByTagName(tag_name)[i].getAttribute(name)
-	except:
-		return ''
 
 class mainWindow(wx.Frame):
 	def __init__(self):
@@ -98,8 +68,6 @@ class mainWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveModel(), i)
 		i = self.fileMenu.Append(1, _("Prepare the Print") + "\tCTRL+P")
 		self.Bind(wx.EVT_MENU, self.OnPreparePrint, i)
-		i = self.fileMenu.Append(-1, _("Preferences") + "...")
-		self.Bind(wx.EVT_MENU, self.OnLanguagePreferences, i)
 
 		# Model MRU list
 		modelHistoryMenu = wx.Menu()
@@ -113,6 +81,22 @@ class mainWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnQuit, i)
 		self.menubar.Append(self.fileMenu, _("File"))
 
+		self.settingsMenu = wx.Menu()
+		self.languagesMenu = wx.Menu()
+		for language in resources.getLanguageOptions():
+			i = self.languagesMenu.Append(-1, _(language[1]), _('You have to reopen the application to load the correct language'), wx.ITEM_RADIO)
+			if profile.getPreference('language') == language[1]:
+				i.Check(True)
+			else:
+				i.Check(False)
+			def OnLanguageSelect(e, selected_language=language[1]):
+				profile.putPreference('language', selected_language)
+			self.Bind(wx.EVT_MENU, OnLanguageSelect, i)
+		self.settingsMenu.AppendSubMenu(self.languagesMenu, _("Language"))
+		i = self.settingsMenu.Append(-1, _("Printers"))
+		self.Bind(wx.EVT_MENU, self.OnPrinterWindow, i)
+		self.menubar.Append(self.settingsMenu, _("Preferences"))
+
 		contact_url = profile.getPreference('contact_url')
 		buy_url = profile.getPreference('buy_url')
 		self.helpMenu = wx.Menu()
@@ -125,6 +109,10 @@ class mainWindow(wx.Frame):
 		self.menubar.Append(self.helpMenu, _("Help"))
 
 		self.SetMenuBar(self.menubar)
+
+		self.statusbar = self.CreateStatusBar(2)
+		self.statusbar.SetStatusText('General info')
+		self.statusbar.SetStatusText('Slicing info', 1)
 
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3DSASH | wx.SP_LIVE_UPDATE)
 		self.splitter.SetMinimumPaneSize(profile.getPreferenceInt('minimum_pane_size'))
@@ -183,13 +171,6 @@ class mainWindow(wx.Frame):
 		self.scene._scene.pushFree()
 		self.scene.SetFocus()
 
-	def OnLanguagePreferences(self, e):
-		prefDialog = preferencesDialog.preferencesDialog(self)
-		prefDialog.Centre()
-		prefDialog.Show()
-		prefDialog.Raise()
-		wx.CallAfter(prefDialog.Show)
-
 	def OnPreparePrint(self, e):
 		profile.printSlicingInfo()
 		self.scene.OnPrintButton(1)
@@ -238,8 +219,25 @@ class mainWindow(wx.Frame):
 		self.scene.loadFiles(filelist)
 
 	def updateProfileToAllControls(self):
+		self.scene.OnViewChange()
+		self.scene.sceneUpdated()
+		if len(self.scene._scene.objects()) > 0:
+			self.normalSettingsPanel.pausePluginButton.Enable()
 		self.scene.updateProfileToControls()
 		self.normalSettingsPanel.updateProfileToControls()
+
+	def reloadSettingPanels(self):
+		self.optionsSizer.Detach(self.normalSettingsPanel)
+		self.normalSettingsPanel.Destroy()
+		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, lambda : self.scene.sceneUpdated())
+		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
+		self.optionsPane.SetSizerAndFit(self.optionsSizer)
+		self.updateProfileToAllControls()
+
+	def OnPrinterWindow(self, e):
+		printerBox = printerWindow.printerWindow(self)
+		printerBox.Centre()
+		printerBox.Show()
 
 	def OnAbout(self, e):
 		aboutBox = aboutWindow.aboutWindow(self)
@@ -433,6 +431,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Layout()
 
 	def loadxml(self):
+		xml_file = profile.getPreference('xml_file')
+		self.configuration = minidom.parse(resources.getPathForXML(xml_file))
 		self.init_Printer()
 		self.init_Configuration()
 		self.init_GCode()
@@ -445,22 +445,22 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.get_palpeur()
 
 	def setProfileSetting(self, sub, var):
-		value = getValue(var, sub)
+		value = sub.getElementsByTagName(var)[0].childNodes[0].data
 		if value is not None:
 			profile.putProfileSetting(var, value)
 
 	def setPreferenceSetting(self, sub, var):
-		value = getValue(var, sub)
+		value = sub.getElementsByTagName(var)[0].childNodes[0].data
 		if value is not None:
 			profile.putPreference(var, value)
 
 	def setMachineSetting(self, sub, var):
-		value = getValue(var, sub)
+		value = sub.getElementsByTagName(var)[0].childNodes[0].data
 		if value is not None:
 			profile.putMachineSetting(var, value)
 
 	def init_Printer(self):
-		printer = getTag('Printer')
+		printer = self.configuration.getElementsByTagName('Printer')[0]
 		self.setMachineSetting(printer, 'machine_name')
 		self.setMachineSetting(printer, 'machine_type')
 		self.setMachineSetting(printer, 'machine_width')
@@ -480,11 +480,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setProfileSetting(printer, 'retraction_enable')
 
 	def init_Configuration(self):
-		global_config = getTag('Configuration')
+		global_config = self.configuration.getElementsByTagName('Configuration')[0]
 		if global_config is not None:
 			config = global_config
 		else:
-			config = getTag('Config_Adv')
+			config = self.configuration.getElementsByTagName('Config_Adv')[0]
 
 		self.setProfileSetting(config, 'bottom_thickness')
 		self.setProfileSetting(config, 'layer0_width_factor')
@@ -494,7 +494,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		if global_config is not None:
 			config = global_config
 		else:
-			config = getTag('Config_Expert')
+			config = self.configuration.getElementsByTagName('Config_Expert')[0]
 		# Retraction
 		self.setProfileSetting(config, 'retraction_min_travel')
 		self.setProfileSetting(config, 'retraction_combing')
@@ -543,19 +543,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 		if global_config is not None:
 			config = global_config
 		else:
-			config = getTag('Config_Preferences')
+			config = self.configuration.getElementsByTagName('Config_Preferences')[0]
 		#Cura Settings
 		self.setPreferenceSetting(config, 'auto_detect_sd')
 
 	def init_GCode(self):
-		gcode_start = getValue("Gstart", "GCODE")
+		gcode = self.configuration.getElementsByTagName("GCODE")[0]
+		gcode_start = gcode.getElementsByTagName("Gstart")[0].childNodes[0].data
 		profile.putAlterationSetting('start.gcode', gcode_start)
 
-		gcode_end = getValue("Gend", "GCODE")
+		gcode_end = gcode.getElementsByTagName("Gend")[0].childNodes[0].data
 		profile.putAlterationSetting('end.gcode', gcode_end)
 
 	def get_filaments(self):
-		filaments = getTags('Filament')
+		filaments = self.configuration.getElementsByTagName('Filament')
 		self.filaments = []
 		choices = []
 		for filament in filaments:
@@ -565,17 +566,17 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				fila.type = name
 			try :
-				if getTag("grip_temperature", filament) is not None:
-					fila.grip_temperature = getValue("grip_temperature", filament)
+				if len(filament.getElementsByTagName("grip_temperature")) > 0 is not None:
+					fila.grip_temperature = filament.getElementsByTagName("grip_temperature")[0].childNodes[0].data
 				else:
-					fila.grip_temperature = getValue("print_temperature", filament)
-				fila.print_temperature = getValue("print_temperature", filament)
-				fila.filament_diameter = getValue("filament_diameter", filament)
-				fila.filament_flow = getValue("filament_flow", filament)
-				fila.retraction_speed = getValue("retraction_speed", filament)
-				fila.retraction_amount = getValue("retraction_amount", filament)
-				fila.filament_physical_density = getValue("filament_physical_density", filament)
-				fila.filament_cost_kg = getValue("filament_cost_kg", filament)
+					fila.grip_temperature = filament.getElementsByTagName("print_temperature")[0].childNodes[0].data
+				fila.print_temperature = filament.getElementsByTagName("print_temperature")[0].childNodes[0].data
+				fila.filament_diameter = filament.getElementsByTagName("filament_diameter")[0].childNodes[0].data
+				fila.filament_flow = filament.getElementsByTagName("filament_flow")[0].childNodes[0].data
+				fila.retraction_speed = filament.getElementsByTagName("retraction_speed")[0].childNodes[0].data
+				fila.retraction_amount = filament.getElementsByTagName("retraction_amount")[0].childNodes[0].data
+				fila.filament_physical_density = filament.getElementsByTagName("filament_physical_density")[0].childNodes[0].data
+				fila.filament_cost_kg = filament.getElementsByTagName("filament_cost_kg")[0].childNodes[0].data
 				self.filaments.append(fila)
 			except:
 				print 'Some Error in Filament Bloc'
@@ -589,9 +590,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_remplissage(self):
 		bloc_name = _("Filling density :")
-		remplissages = getTags("Filling")
+		remplissages = self.configuration.getElementsByTagName("Filling")
 		if len(remplissages) == 0:
-			remplissages = getTags("Remplissage")
+			remplissages = self.configuration.getElementsByTagName("Remplissage")
 		choices = []
 		self.remplissages = []
 		for remplissage in remplissages:
@@ -601,7 +602,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(name)
 				rempli.type = name
 				try :
-					rempli.fill_density = getValue("fill_density", remplissage)
+					rempli.fill_density = remplissage.getElementsByTagName("fill_density")[0].childNodes[0].data
 					self.remplissages.append(rempli)
 				except:
 					print 'Some Errors in Remplissage Bloc'
@@ -611,7 +612,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_Precision(self):
 		bloc_name = _("Quality (layer thickness) :")
-		precisions = getTags("Precision")
+		precisions = self.configuration.getElementsByTagName("Precision")
 		choices = []
 		self.precisions = []
 		for precision in precisions:
@@ -621,16 +622,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				preci.type = name
 				try :
-					preci.layer_height = getValue("layer_height", precision)
-					preci.solid_layer_thickness = getValue("solid_layer_thickness", precision)
-					preci.wall_thickness = getValue("wall_thickness", precision)
-					preci.print_speed = getValue("print_speed", precision)
-					preci.temp_preci = getValue("temp_preci", precision)
-					preci.travel_speed = getValue("travel_speed", precision)
-					preci.bottom_layer_speed = getValue("bottom_layer_speed", precision)
-					preci.infill_speed = getValue("infill_speed", precision)
-					preci.inset0_speed = getValue("inset0_speed", precision)
-					preci.insetx_speed = getValue("insetx_speed", precision)
+					preci.layer_height = precision.getElementsByTagName("layer_height")[0].childNodes[0].data
+					preci.solid_layer_thickness = precision.getElementsByTagName("solid_layer_thickness")[0].childNodes[0].data
+					preci.wall_thickness = precision.getElementsByTagName("wall_thickness")[0].childNodes[0].data
+					preci.print_speed = precision.getElementsByTagName("print_speed")[0].childNodes[0].data
+					preci.temp_preci = precision.getElementsByTagName("temp_preci")[0].childNodes[0].data
+					preci.travel_speed = precision.getElementsByTagName("travel_speed")[0].childNodes[0].data
+					preci.bottom_layer_speed = precision.getElementsByTagName("bottom_layer_speed")[0].childNodes[0].data
+					preci.infill_speed = precision.getElementsByTagName("infill_speed")[0].childNodes[0].data
+					preci.inset0_speed = precision.getElementsByTagName("inset0_speed")[0].childNodes[0].data
+					preci.insetx_speed = precision.getElementsByTagName("insetx_speed")[0].childNodes[0].data
 					self.precisions.append(preci)
 				except :
 					print 'Some Error in Precision Bloc'
@@ -640,9 +641,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_Tete(self):
 		bloc_name = _("Printhead version :")
-		tetes = getTags("PrinterHead")
+		tetes = self.configuration.getElementsByTagName("PrinterHead")
 		if len(tetes) == 0:
-			tetes = getTags("Tete")
+			tetes = self.configuration.getElementsByTagName("Tete")
 		choices = []
 		self.tetes = []
 		for tete in tetes:
@@ -652,8 +653,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				tet.type = name
 				try :
-					tet.fan_speed = getValue("fan_speed", tete)
-					tet.cool_min_layer_time = getValue("cool_min_layer_time", tete)
+					tet.fan_speed = tete.getElementsByTagName("fan_speed")[0].childNodes[0].data
+					tet.cool_min_layer_time = tete.getElementsByTagName("cool_min_layer_time")[0].childNodes[0].data
 					self.tetes.append(tet)
 				except :
 					print 'Some Error in Tete Bloc'
@@ -663,7 +664,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def get_support(self):
 		bloc_name = _("Printing supports :")
-		supports = getTags("Support")
+		supports = self.configuration.getElementsByTagName("Support")
 		choices = []
 		self.supports = []
 		for support in supports:
@@ -673,7 +674,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(name)
 				supp.type = name
 				try :
-					supp.support = getValue("support", support)
+					supp.support = support.getElementsByTagName("support")[0].childNodes[0].data
 					self.supports.append(supp)
 				except :
 					print 'Some Error in Supports Bloc'
@@ -683,30 +684,30 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def get_brim(self):
 		bloc_name = _("Improve the adhesion surface")
 		self.printbrim = wx.CheckBox(self, wx.ID_ANY, bloc_name)
-		brim_enable = getTag("Brim_Enable")
-		brim_disable = getTag("Brim_Disable")
+		brim_enable = self.configuration.getElementsByTagName("Brim_Enable")[0]
+		brim_disable = self.configuration.getElementsByTagName("Brim_Disable")[0]
 		self.brims = []
 		self.brims.append(self.Brim())
-		self.brims[0].platform_adhesion = getValue("platform_adhesion", brim_enable)
+		self.brims[0].platform_adhesion = brim_enable.getElementsByTagName("platform_adhesion")[0].childNodes[0].data
 		self.brims.append(self.Brim())
-		self.brims[1].platform_adhesion = getValue("platform_adhesion", brim_disable)
+		self.brims[1].platform_adhesion = brim_disable.getElementsByTagName("platform_adhesion")[0].childNodes[0].data
 
 	# Fonction qui recupere dans le xml les differentes lignes pour le bloc Palpeur
 	def get_palpeur(self):
 		bloc_name = _("Use the sensor")
 		self.palpeur_chbx = wx.CheckBox(self, wx.ID_ANY, bloc_name)
-		palpeur_enable = getTags("Sensor_Enable")
+		palpeur_enable = self.configuration.getElementsByTagName("Sensor_Enable")
 		if len(palpeur_enable) == 0:
-			palpeur_enable = getTags("Palpeur_Enable")
-			sensor_enabled = getValue("palpeur", palpeur_enable[0])
+			palpeur_enable = self.configuration.getElementsByTagName("Palpeur_Enable")
+			sensor_enabled = palpeur_enable[0].getElementsByTagName("palpeur")[0].childNodes[0].data
 		else:
-			sensor_enabled = getValue("value", palpeur_enable[0])
-		palpeur_disable = getTags("Sensor_Disable")
+			sensor_enabled = palpeur_enable[0].getElementsByTagName("value")[0].childNodes[0].data
+		palpeur_disable = self.configuration.getElementsByTagName("Sensor_Disable")
 		if len(palpeur_disable) == 0:
-			palpeur_disable = getTags("Palpeur_Disable")
-			sensor_disabled = getValue("palpeur", palpeur_disable[0])
+			palpeur_disable = self.configuration.getElementsByTagName("Palpeur_Disable")
+			sensor_disabled = palpeur_disable[0].getElementsByTagName("palpeur")[0].childNodes[0].data
 		else:
-			sensor_disabled = getValue("value", palpeur_disable[0])
+			sensor_disabled = palpeur_disable[0].getElementsByTagName("value")[0].childNodes[0].data
 		self.palpeurs = []
 		self.palpeurs.append(self.Palpeur())
 		self.palpeurs[0].palpeur = sensor_enabled
@@ -741,8 +742,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		self.color_box.Clear()
 		self.color_box.Append(_("Generic"))
-		filaments = getTags("Filament")
-		colors = getTags("Color", filaments[filament_index])
+		filaments = self.configuration.getElementsByTagName("Filament")
+		colors = filaments[filament_index].getElementsByTagName("Color")
 		if len(colors) > 0:
 			self.color_box.Enable(True)
 			for color in colors:
@@ -767,11 +768,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		filament_index = int(profile.getPreference('filament_index'))
 		fila = self.filaments[filament_index]
 		if color_index > -1:
-			filaments = getTags("Filament")
+			filaments = self.configuration.getElementsByTagName("Filament")
 			colors = filaments[filament_index].getElementsByTagName("Color")
 			color = colors[color_index]
 
-			print_temperature = getValue("print_temperature", color)
+			print_temperature = color.getElementsByTagName("print_temperature")[0].childNodes[0].data
 			if print_temperature is None:
 				print_temperature = float(fila.print_temperature)
 			else:
@@ -781,37 +782,37 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.spin_ctrl_1.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature', str(print_temperature))
 
-			grip_temperature = getValue("grip_temperature", color)
+			grip_temperature = color.getElementsByTagName("grip_temperature")[0].childNodes[0].data
 			if grip_temperature is None:
 				grip_temperature = fila.grip_temperature
 			profile.putProfileSetting('grip_temperature', str(grip_temperature))
 
-			filament_diameter = getValue("filament_diameter", color)
+			filament_diameter = color.getElementsByTagName("filament_diameter")[0].childNodes[0].data
 			if filament_diameter is None:
 				filament_diameter = fila.filament_diameter
 			profile.putProfileSetting('filament_diameter', str(filament_diameter))
 
-			filament_flow = getValue("filament_flow", color)
+			filament_flow = color.getElementsByTagName("filament_flow")[0].childNodes[0].data
 			if filament_flow is None:
 				filament_flow = fila.filament_flow
 			profile.putProfileSetting('filament_flow', str(filament_flow))
 
-			retraction_speed = getValue("retraction_speed", color)
+			retraction_speed = color.getElementsByTagName("retraction_speed")[0].childNodes[0].data
 			if retraction_speed is None:
 				retraction_speed = fila.retraction_speed
 			profile.putProfileSetting('retraction_speed', str(retraction_speed))
 
-			retraction_amount = getValue("retraction_amount", color)
+			retraction_amount = color.getElementsByTagName("retraction_amount")[0].childNodes[0].data
 			if retraction_amount is None:
 				retraction_amount = fila.retraction_amount
 			profile.putProfileSetting('retraction_amount', str(retraction_amount))
 
-			filament_physical_density = getValue("filament_physical_density", color)
+			filament_physical_density = color.getElementsByTagName("filament_physical_density")[0].childNodes[0].data
 			if filament_physical_density is None:
 				filament_physical_density = fila.filament_physical_density
 			profile.putProfileSetting('filament_physical_density', str(filament_physical_density))
 
-			filament_cost_kg = getValue("filament_cost_kg", color)
+			filament_cost_kg = color.getElementsByTagName("filament_cost_kg")[0].childNodes[0].data
 			if filament_cost_kg is None:
 				filament_cost_kg = fila.filament_cost_kg
 			profile.putProfileSetting('filament_cost_kg', str(filament_cost_kg))

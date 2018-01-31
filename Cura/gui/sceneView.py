@@ -187,7 +187,7 @@ class SceneView(openglGui.glGuiPanel):
 			if ignored_types:
 				ignored_types = ignored_types.keys()
 				ignored_types.sort()
-				self.notification.message("ignored: " + " ".join("*" + type for type in ignored_types))
+				self.notification.message("Ignored: " + " ".join("*" + type for type in ignored_types))
 			mainWindow.updateProfileToAllControls()
 			# now process all the scene files
 			if scene_filenames:
@@ -208,7 +208,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def showLoadModel(self, button = 1):
 		if button == 1:
-			dlg=wx.FileDialog(self, _("Ouvrir un modele 3D"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
+			dlg=wx.FileDialog(self, _("Open a 3D model"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
 
 			wildcardList = ';'.join(map(lambda s: '*' + s, meshLoader.loadSupportedExtensions() + imageToMesh.supportedExtensions() + ['.g', '.gcode']))
 			wildcardFilter = "All (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
@@ -501,7 +501,7 @@ class SceneView(openglGui.glGuiPanel):
 		if self._focusObj is None:
 			return
 		obj = self._focusObj
-		dlg = wx.NumberEntryDialog(self, _("Combien de copies voulez-vous?"), _("Nombre de copies"), _("Multiplier"), 1, 1, 100)
+		dlg = wx.NumberEntryDialog(self, _("How many copies do you want?"), _("Number of copies"), _("Multiply"), 1, 1, 100)
 		if dlg.ShowModal() != wx.ID_OK:
 			dlg.Destroy()
 			return
@@ -518,7 +518,7 @@ class SceneView(openglGui.glGuiPanel):
 			if n > cnt:
 				break
 		if n <= cnt:
-			self.notification.message("Impossible de creer plus de %d articles" % (n - 1))
+			self.notification.message(_("Unable to create more than %d items") % (n - 1))
 		self._scene.remove(newObj)
 		self._scene.centerAll()
 		self.sceneUpdated()
@@ -588,19 +588,25 @@ class SceneView(openglGui.glGuiPanel):
 			mainWindow.fileMenu.FindItemById(1).Enable(True)
 			self.printButton.setProgressBar(None)
 			text = '%s' % (result.getPrintTime())
+			statusbar_text = text
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
 				meters = result.getFilamentMeters(e)
 				if meters is not None:
 					text += '\n%s' % (meters)
+					statusbar_text += ' %s' % (meters)
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
 					text += '\n%s' % (grams)
+					statusbar_text += ' %s' % (grams)
 				cost = result.getFilamentCost(e)
 				if cost is not None:
 					text += '\n%s' % (cost)
+					statusbar_text += ' %s' % (cost)
 			self.printButton.setBottomText(text)
+			#mainWindow.statusbar.SetStatusText(statusbar_text, 1)
 		else:
 			self.printButton.setBottomText('')
+			#mainWindow.statusbar.SetStatusText('...', 1)
 		self.QueueRefresh()
 
 	def loadScene(self, fileList):
@@ -625,7 +631,7 @@ class SceneView(openglGui.glGuiPanel):
 						self._scene.centerAll()
 					self._selectObject(obj)
 					if obj.getScale()[0] < 1.0:
-						self.notification.message("Warning: Object scaled down.")
+						self.notification.message(_("Warning: Object scaled down."))
 		self.sceneUpdated()
 
 	def _deleteObject(self, obj):

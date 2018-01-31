@@ -460,6 +460,7 @@ class Engine(object):
 
 	def _engineSettings(self, extruderCount):
 		settings = {
+			'nozzleSize': int(profile.getProfileSettingFloat('nozzle_size') * 1000),
 			'layerThickness': int(profile.getProfileSettingFloat('layer_height') * 1000),
 			'initialLayerThickness': int(profile.getProfileSettingFloat('bottom_thickness') * 1000) if profile.getProfileSettingFloat('bottom_thickness') > 0.0 else int(profile.getProfileSettingFloat('layer_height') * 1000),
 			'filamentDiameter': int(profile.getProfileSettingFloat('filament_diameter') * 1000),
@@ -477,6 +478,7 @@ class Engine(object):
 			'infillSpeed': int(profile.getProfileSettingFloat('infill_speed')) if int(profile.getProfileSettingFloat('infill_speed')) > 0 else int(profile.getProfileSettingFloat('print_speed')),
 			'inset0Speed': int(profile.getProfileSettingFloat('inset0_speed')) if int(profile.getProfileSettingFloat('inset0_speed')) > 0 else int(profile.getProfileSettingFloat('print_speed')),
 			'insetXSpeed': int(profile.getProfileSettingFloat('insetx_speed')) if int(profile.getProfileSettingFloat('insetx_speed')) > 0 else int(profile.getProfileSettingFloat('print_speed')),
+			'skinSpeed': int(profile.getProfileSettingFloat('solidarea_speed')) if int(profile.getProfileSettingFloat('solidarea_speed')) > 0 else int(profile.getProfileSettingFloat('print_speed')),
 			'moveSpeed': int(profile.getProfileSettingFloat('travel_speed')),
 			'fanSpeedMin': int(profile.getProfileSettingFloat('fan_speed')) if profile.getProfileSetting('fan_enabled') == 'True' else 0,
 			'fanSpeedMax': int(profile.getProfileSettingFloat('fan_speed_max')) if profile.getProfileSetting('fan_enabled') == 'True' else 0,
@@ -492,7 +494,6 @@ class Engine(object):
 			'retractionAmountExtruderSwitch': int(profile.getProfileSettingFloat('retraction_dual_amount') * 1000),
 			'retractionZHop': int(profile.getProfileSettingFloat('retraction_hop') * 1000),
 			'minimalExtrusionBeforeRetraction': int(profile.getProfileSettingFloat('retraction_minimal_extrusion') * 1000),
-			'enableCombing': 1 if profile.getProfileSetting('retraction_combing') == 'True' else 0,
 			'multiVolumeOverlap': int(profile.getProfileSettingFloat('overlap_dual') * 1000),
 			'objectSink': max(0, int(profile.getProfileSettingFloat('object_sink') * 1000)),
 			'minimalLayerTime': int(profile.getProfileSettingFloat('cool_min_layer_time')),
@@ -508,11 +509,26 @@ class Engine(object):
 			'extruderOffset[3].X': int(profile.getMachineSettingFloat('extruder_offset_x3') * 1000),
 			'extruderOffset[3].Y': int(profile.getMachineSettingFloat('extruder_offset_y3') * 1000),
 			'fixHorrible': 0,
+
+			'acceleration': int(profile.getMachineSettingFloat('machine_acceleration') * 1000),
+			'max_acceleration[0]': int(profile.getMachineSettingFloat('machine_max_acceleration[0]') * 1000),
+			'max_acceleration[1]': int(profile.getMachineSettingFloat('machine_max_acceleration[1]') * 1000),
+			'max_acceleration[2]': int(profile.getMachineSettingFloat('machine_max_acceleration[2]') * 1000),
+			'max_acceleration[3]': int(profile.getMachineSettingFloat('machine_max_acceleration[3]') * 1000),
+			'max_xy_jerk': int(profile.getMachineSettingFloat('machine_max_xy_jerk') * 1000),
+			'max_z_jerk': int(profile.getMachineSettingFloat('machine_max_z_jerk') * 1000),
+			'max_e_jerk': int(profile.getMachineSettingFloat('machine_max_e_jerk') * 1000),
 		}
 		fanFullHeight = int(profile.getProfileSettingFloat('fan_full_height') * 1000)
 		settings['fanFullOnLayerNr'] = (fanFullHeight - settings['initialLayerThickness'] - 1) / settings['layerThickness'] + 1
 		if settings['fanFullOnLayerNr'] < 0:
 			settings['fanFullOnLayerNr'] = 0
+		if profile.getProfileSetting('retraction_combing') == 'All':
+			settings['enableCombing'] = 1
+		elif profile.getProfileSetting('retraction_combing') == 'No Skin':
+			settings['enableCombing'] = 2
+		else:
+			settings['enableCombing'] = 0
 		if profile.getProfileSetting('support_type') == 'Lines':
 			settings['supportType'] = 1
 
@@ -539,12 +555,13 @@ class Engine(object):
 			settings['raftInterfaceThickness'] = int(profile.getProfileSettingFloat('raft_interface_thickness') * 1000)
 			settings['raftInterfaceLinewidth'] = int(profile.getProfileSettingFloat('raft_interface_linewidth') * 1000)
 			settings['raftInterfaceLineSpacing'] = int(profile.getProfileSettingFloat('raft_interface_linewidth') * 1000 * 2.0)
-			settings['raftAirGapLayer0'] = int(profile.getProfileSettingFloat('raft_airgap') * 1000)
+			settings['raftAirGapLayer0'] = int(profile.getProfileSettingFloat('raft_airgap') * 1000 + profile.getProfileSettingFloat('raft_airgap_all') * 1000)
+			settings['raftAirGap'] = int(profile.getProfileSettingFloat('raft_airgap_all') * 1000)
 			settings['raftBaseSpeed'] = int(profile.getProfileSettingFloat('bottom_layer_speed'))
-			settings['raftFanSpeed'] = 100
-			settings['raftSurfaceThickness'] = settings['raftInterfaceThickness']
-			settings['raftSurfaceLinewidth'] = int(profile.calculateEdgeWidth() * 1000)
-			settings['raftSurfaceLineSpacing'] = int(profile.calculateEdgeWidth() * 1000 * 0.9)
+			settings['raftFanSpeed'] = 0
+			settings['raftSurfaceThickness'] = int(profile.getProfileSettingFloat('raft_surface_thickness') * 1000)
+			settings['raftSurfaceLinewidth'] = int(profile.getProfileSettingFloat('raft_surface_linewidth') * 1000)
+			settings['raftSurfaceLineSpacing'] = int(profile.getProfileSettingFloat('raft_surface_linewidth') * 1000)
 			settings['raftSurfaceLayers'] = int(profile.getProfileSettingFloat('raft_surface_layers'))
 			settings['raftSurfaceSpeed'] = int(profile.getProfileSettingFloat('bottom_layer_speed'))
 		else:

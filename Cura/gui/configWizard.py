@@ -26,42 +26,46 @@ class ConfigurationPage(wx.wizard.WizardPageSimple):
 		sizer.Add(title, flag=wx.ALIGN_CENTRE)
 		sizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.TOP|wx.BOTTOM, border=5)
 		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Dagoma would like to thank you for your trust.")))
-		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Which printer do you use?")))
+		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Which printer do you use?")), flag=wx.BOTTOM, border=5)
 
-		discoimg = wx.Image(resources.getPathForImage('discoeasy200.png'), wx.BITMAP_TYPE_ANY)
-		easy200Radio = wx.RadioButton(self, -1, "DiscoEasy200", style=wx.RB_GROUP)
-		easy200Radio.SetValue(True)
-		profile.putPreference('xml_file', "discoeasy200.xml")
-		easy200Radio.Bind(wx.EVT_RADIOBUTTON, self.OnDiscoEasy200Select)
-		discosizer = wx.BoxSizer(wx.HORIZONTAL)
+		printers = resources.getPrinterOptions(profile.getPreference('internal_use'))
+		printersImgs = []
+		printersRadios = []
+		firstLoad = True
+		for printer in printers:
+			img = wx.Image(resources.getPathForImage(printer.get('img')), wx.BITMAP_TYPE_ANY)
+			bitmap = wx.StaticBitmap(self, -1, wx.BitmapFromImage(img))
+			printersImgs.append(bitmap)
 
+			if firstLoad:
+				radio = wx.RadioButton(self, -1, printer.get('desc'), style=wx.RB_GROUP)
+				radio.SetValue(True)
+				profile.putPreference('xml_file', printer.get('config'))
+				firstLoad = False
+			else:
+				radio = wx.RadioButton(self, -1, printer.get('desc'))
 
-		nevaimg = wx.Image(resources.getPathForImage('neva.png'), wx.BITMAP_TYPE_ANY)
-		nevaRadio = wx.RadioButton(self, -1, "Neva")
-		nevaRadio.Bind(wx.EVT_RADIOBUTTON, self.OnNevaSelect)
-		nevasizer = wx.BoxSizer(wx.HORIZONTAL)
+			def OnPrinterSelect(e, config=printer.get('config')):
+				profile.putPreference('xml_file', config)
 
+			radio.Bind(wx.EVT_RADIOBUTTON, OnPrinterSelect)
+			printersRadios.append(radio)
 
-		printersSizer = wx.GridSizer(2, 2, 2)
-		printersSizer.Add(wx.StaticBitmap(self, -1, wx.BitmapFromImage(discoimg)), flag=wx.ALIGN_RIGHT)
-		printersSizer.Add(easy200Radio, flag=wx.ALIGN_CENTER_VERTICAL)
-		printersSizer.Add(wx.StaticBitmap(self, -1, wx.BitmapFromImage(nevaimg)), flag=wx.ALIGN_RIGHT)
-		printersSizer.Add(nevaRadio, flag=wx.ALIGN_CENTER_VERTICAL)
+		printersSizer = wx.GridSizer(2, len(printers), 0)
+		for bitmap in printersImgs:
+			printersSizer.Add(bitmap, flag=wx.ALIGN_CENTER)
+
+		for radio in printersRadios:
+			printersSizer.Add(radio, flag=wx.ALIGN_CENTER)
 
 		sizer.Add(printersSizer)
 
-		sizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.TOP|wx.BOTTOM, border=5)
+		sizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("The Cura by Dagoma software is now ready to use with your 3D printer.")))
 		sizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Feel free to contact us!"), URL=contact_url))
 		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Enjoy!")))
 
 		self.SetSizerAndFit(sizer)
-
-	def OnDiscoEasy200Select(self, e):
-		profile.putPreference('xml_file', "discoeasy200.xml")
-
-	def OnNevaSelect(self, e):
-		profile.putPreference('xml_file', "neva.xml")
 
 	def AllowNext(self):
 		return True

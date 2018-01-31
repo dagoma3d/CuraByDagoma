@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2018-01-26 14:12+0100\n"
+"PO-Revision-Date: 2018-01-29 18:46+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -998,7 +998,7 @@ msgstr "Supprimer tous les objets"
 
 #: Cura/gui/sceneView.py:788
 msgid "Reload all objects"
-msgstr " Réinitialiser les objets"
+msgstr "Réinitialiser les objets"
 
 #: Cura/gui/sceneView.py:911
 msgid "Toolpath to SD"
@@ -3436,3 +3436,24 @@ msgstr "Surface d'impression :"
 
 msgid "Which printer do you use?"
 msgstr "Quelle imprimante utilisez-vous?"
+
+msgid "Printers"
+msgstr "Imprimantes"
+
+msgid "You have to reopen the application to load the correct language"
+msgstr "Vous devez relancer l'application pour charger la langue choisie"
+
+msgid "General info"
+msgstr "Information générale"
+
+msgid "Slicing info"
+msgstr "Information d'impression"
+
+msgid "Unable to create more than %d items"
+msgstr "Impossible de créer plus de %d éléments"
+
+msgid "Open a 3D model"
+msgstr "Ouvrir un modele 3D"
+
+msgid "Warning: Object scaled down."
+msgstr "Avertissement: Echelle de l'objet réduite"

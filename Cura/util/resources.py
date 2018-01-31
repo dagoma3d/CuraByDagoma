@@ -64,8 +64,47 @@ def getLanguageOptions():
 		['fr', 'French']
 	]
 
-def getPrinterOptions():
-	return [
-		['discoeasy200.xml', 'DiscoEasy200'],
-		['neva.xml', 'Neva']
-	]
+def getPrinterOptions(internalUse = 'False'):
+	discoeasy200 = {
+		'name': 'DiscoEasy200',
+		'desc': 'DiscoEasy200',
+		'config': 'discoeasy200.xml',
+		'img': 'discoeasy200.png'
+	}
+
+	discovery200 = {
+		'name': 'DiscoVery200',
+		'desc': 'DiscoVery200',
+		'config': 'discovery200.xml',
+		'img': 'discovery200.png'
+	}
+
+	explorer350 = {
+		'name': 'Explorer350',
+		'desc': 'Explorer350',
+		'config': 'explorer350.xml',
+		'img': 'explorer350.png'
+	}
+
+	neva = {
+		'name': 'Neva',
+		'desc': 'Neva (No serial number)',
+		'config': 'neva.xml',
+		'img': 'neva.png'
+	}
+
+	neva_sn6000 = {
+		'name': 'Neva',
+		'desc': 'Neva (Serial number > 6000)',
+		'config': 'neva_sn6000.xml',
+		'img': 'neva.png'
+	}
+
+	printerOptions = []
+	printerOptions.append(discoeasy200)
+	printerOptions.append(discovery200)
+	if internalUse == 'True':
+		printerOptions.append(explorer350)
+	printerOptions.append(neva)
+	printerOptions.append(neva_sn6000)
+	return printerOptions
