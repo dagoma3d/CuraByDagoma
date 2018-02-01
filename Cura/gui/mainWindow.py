@@ -271,11 +271,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.retraction_amount = '3.5'
 			self.filament_physical_density = '1270'
 			self.filament_cost_kg = '46'
+			self.model_colour = '#FF9B00'
 
 	class Remplissage:
 		def __init__(self):
 			self.type = ''
 			self.fill_density = ''
+			self.spiralize = ''
 
 	class Precision:
 		def __init__(self):
@@ -540,7 +542,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setProfileSetting(config, 'support_xy_distance')
 		self.setProfileSetting(config, 'support_z_distance')
 		# Block Magic
-		self.setProfileSetting(config, 'spiralize')
 		self.setProfileSetting(config, 'simple_mode')
 		# Brim
 		self.setProfileSetting(config, 'brim_line_count')
@@ -596,6 +597,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 				fila.retraction_amount = filament.getElementsByTagName("retraction_amount")[0].childNodes[0].data
 				fila.filament_physical_density = filament.getElementsByTagName("filament_physical_density")[0].childNodes[0].data
 				fila.filament_cost_kg = filament.getElementsByTagName("filament_cost_kg")[0].childNodes[0].data
+				model_colour_tags = filament.getElementsByTagName("model_colour")
+				if len(model_colour_tags) > 0:
+					fila.model_colour = filament.getElementsByTagName("model_colour")[0].childNodes[0].data
+				else:
+					fila.model_colour = '#FF9B00'
 				self.filaments.append(fila)
 			except:
 				print 'Some Error in Filament Bloc'
@@ -621,7 +627,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(name)
 				rempli.type = name
 				try :
-					rempli.fill_density = remplissage.getElementsByTagName("fill_density")[0].childNodes[0].data
+					fill_density_tags = remplissage.getElementsByTagName("fill_density")
+					if len(fill_density_tags) > 0:
+						rempli.fill_density = fill_density_tags[0].childNodes[0].data
+					else:
+						rempli.fill_density = '0'
+					spiralize_tags = remplissage.getElementsByTagName("spiralize")
+					if len(spiralize_tags) > 0:
+						rempli.spiralize = spiralize_tags[0].childNodes[0].data
+					else:
+						rempli.spiralize = 'False'
 					self.remplissages.append(rempli)
 				except:
 					print 'Some Errors in Remplissage Bloc'
@@ -789,6 +804,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('retraction_amount', fila.retraction_amount)
 		profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
 		profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
+		profile.putPreference('model_colour', fila.model_colour)
 
 		self.color_box.Clear()
 		self.color_box.Append(_("Generic"))
@@ -822,50 +838,71 @@ class normalSettingsPanel(configBase.configPanelBase):
 			colors = filaments[filament_index].getElementsByTagName("Color")
 			color = colors[color_index]
 
-			print_temperature = color.getElementsByTagName("print_temperature")[0].childNodes[0].data
-			if print_temperature is None:
-				print_temperature = float(fila.print_temperature)
+			print_temperature_tags = color.getElementsByTagName("print_temperature")
+			if len(print_temperature_tags) > 0:
+				print_temperature = float(print_temperature_tags[0].childNodes[0].data)
 			else:
-				print_temperature = float(print_temperature)
+				print_temperature = float(fila.print_temperature)
 			if not self.spin_ctrl_1.IsEnabled():
 				print_temperature += self.temp_preci
 			self.spin_ctrl_1.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature', str(print_temperature))
 
-			grip_temperature = color.getElementsByTagName("grip_temperature")[0].childNodes[0].data
-			if grip_temperature is None:
+			grip_temperature_tags = color.getElementsByTagName("grip_temperature")
+			if len(grip_temperature_tags) > 0:
+				grip_temperature = print_temperature_tags[0].childNodes[0].data
+			else:
 				grip_temperature = fila.grip_temperature
 			profile.putProfileSetting('grip_temperature', str(grip_temperature))
 
-			filament_diameter = color.getElementsByTagName("filament_diameter")[0].childNodes[0].data
-			if filament_diameter is None:
+			filament_diameter_tags = color.getElementsByTagName("filament_diameter")
+			if len(filament_diameter_tags) > 0:
+				filament_diameter = filament_diameter_tags[0].childNodes[0].data
+			else:
 				filament_diameter = fila.filament_diameter
 			profile.putProfileSetting('filament_diameter', str(filament_diameter))
 
-			filament_flow = color.getElementsByTagName("filament_flow")[0].childNodes[0].data
-			if filament_flow is None:
+			filament_flow_tags = color.getElementsByTagName("filament_flow")
+			if len(filament_flow_tags) > 0:
+				filament_flow = filament_flow_tags[0].childNodes[0].data
+			else:
 				filament_flow = fila.filament_flow
 			profile.putProfileSetting('filament_flow', str(filament_flow))
 
-			retraction_speed = color.getElementsByTagName("retraction_speed")[0].childNodes[0].data
-			if retraction_speed is None:
+			retraction_speed_tags = color.getElementsByTagName("retraction_speed")
+			if len(retraction_speed_tags) > 0:
+				retraction_speed = retraction_speed_tags[0].childNodes[0].data
+			else:
 				retraction_speed = fila.retraction_speed
 			profile.putProfileSetting('retraction_speed', str(retraction_speed))
 
-			retraction_amount = color.getElementsByTagName("retraction_amount")[0].childNodes[0].data
-			if retraction_amount is None:
+			retraction_amount_tags = color.getElementsByTagName("retraction_amount")
+			if len(retraction_amount_tags) > 0:
+				retraction_amount = retraction_amount_tags[0].childNodes[0].data
+			else:
 				retraction_amount = fila.retraction_amount
 			profile.putProfileSetting('retraction_amount', str(retraction_amount))
 
-			filament_physical_density = color.getElementsByTagName("filament_physical_density")[0].childNodes[0].data
-			if filament_physical_density is None:
+			filament_physical_density_tags = color.getElementsByTagName("filament_physical_density")
+			if len(filament_physical_density_tags) > 0:
+				filament_physical_density = filament_physical_density_tags[0].childNodes[0].data
+			else:
 				filament_physical_density = fila.filament_physical_density
 			profile.putProfileSetting('filament_physical_density', str(filament_physical_density))
 
-			filament_cost_kg = color.getElementsByTagName("filament_cost_kg")[0].childNodes[0].data
-			if filament_cost_kg is None:
+			filament_cost_kg_tags = color.getElementsByTagName("filament_cost_kg")
+			if len(filament_cost_kg_tags) > 0:
+				filament_cost_kg = filament_cost_kg_tags[0].childNodes[0].data
+			else:
 				filament_cost_kg = fila.filament_cost_kg
 			profile.putProfileSetting('filament_cost_kg', str(filament_cost_kg))
+
+			model_colour_tags = color.getElementsByTagName("model_colour")
+			if len(model_colour_tags) > 0:
+				model_colour = model_colour_tags[0].childNodes[0].data
+			else:
+				model_colour = fila.model_colour
+			profile.putPreference('model_colour', model_colour)
 		else:
 			print_temperature = float(fila.print_temperature)
 			if not self.spin_ctrl_1.IsEnabled():
@@ -879,6 +916,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('retraction_amount', fila.retraction_amount)
 			profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
 			profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
+			profile.putPreference('model_colour', fila.model_colour)
 
 	def Refresh_SpinCtrl(self):
 		#print 'Refresh Spin'
@@ -889,6 +927,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		rempli = self.remplissages[fill_index]
 		profile.putPreference('fill_index', fill_index)
 		profile.putProfileSetting('fill_density', rempli.fill_density)
+		profile.putProfileSetting('spiralize', rempli.spiralize)
 
 	def Refresh_Preci(self):
 		precision_index = self.radio_box_1.GetSelection()

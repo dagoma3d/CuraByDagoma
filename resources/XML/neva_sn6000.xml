@@ -12,105 +12,172 @@
 			<retraction_amount>3.8</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>33.20</filament_cost_kg>
-			<Color name="Silver"></Color>
-			<Color name="Pearl white"></Color>
-			<Color name="Pearl blue"></Color>
-			<Color name="Cream white"></Color>
-			<Color name="Baby blue"></Color>
-			<Color name="Bronze"></Color>
-			<Color name="Grey"></Color>
-			<Color name="Fluor Yellow"></Color>
-			<Color name="Yellow"></Color>
-			<Color name="Purple"></Color>
-			<Color name="Brown"></Color>
-			<Color name="Black"></Color>
-			<Color name="Gold"></Color>
-			<Color name="Orange"></Color>
-			<Color name="Fluor orange"></Color>
-			<Color name="Peach"></Color>
-			<Color name="Baby green"></Color>
-			<Color name="Glow green"></Color>
-			<Color name="Pink"></Color>
-			<Color name="Red"></Color>
-			<Color name="Fluor green"></Color>
-			<Color name="Dark green"></Color>
-			<Color name="Primary red"></Color>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Silver">
+				<model_colour>#C0C0C0</model_colour>
+			</Color>
+			<Color name="Pearl white">
+				<model_colour>#eeebd9</model_colour>
+			</Color>
+			<Color name="Pearl blue">
+				<model_colour>#4FA1C2</model_colour>
+			</Color>
+			<Color name="Cream white">
+				<model_colour>#FFFAFA</model_colour>
+			</Color>
+			<Color name="Baby blue">
+				<model_colour>#89cff0</model_colour>
+			</Color>
+			<Color name="Bronze">
+				<model_colour>#cd7f32</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
+			<Color name="Fluor Yellow">
+				<model_colour>#ccff00</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Purple">
+				<model_colour>#800080</model_colour>
+			</Color>
+			<Color name="Brown">
+				<model_colour>#964B00</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#000000</model_colour>
+			</Color>
+			<Color name="Gold">
+				<model_colour>#FFD700</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Fluor orange">
+				<model_colour>#FE3917</model_colour>
+			</Color>
+			<Color name="Peach">
+				<model_colour>#FFDAB9</model_colour>
+			</Color>
+			<Color name="Baby green">
+				<model_colour>#B2F187</model_colour>
+			</Color>
+			<Color name="Glow green">
+				<model_colour>#51ff0d</model_colour>
+			</Color>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#ff0000</model_colour>
+			</Color>
+			<Color name="Fluor green">
+				<model_colour>#B4FE00</model_colour>
+			</Color>
+			<Color name="Dark green">
+				<model_colour>#006400</model_colour>
+			</Color>
+			<Color name="Primary red">
+				<model_colour>#ff0000</model_colour>
+			</Color>
 			<Color name="Wood">
 				<print_temperature>205</print_temperature>
 				<filament_physical_density>831.92</filament_physical_density>
 				<filament_cost_kg>49.83</filament_cost_kg>
+				<model_colour>#ff0000</model_colour>
+				<model_colour>#855E42</model_colour>
 			</Color>
 			<Color name="Silver glitter">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#C0C0C0</model_colour>
 			</Color>
 			<Color name="Azure">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#007FFF</model_colour>
 			</Color>
 			<Color name="Electric blue">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#0892d0</model_colour>
 			</Color>
 			<Color name="Ocean blue">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#0077be</model_colour>
 			</Color>
 			<Color name="Desert">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#EDC9AF</model_colour>
 			</Color>
 			<Color name="Lime green">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#32CD32</model_colour>
 			</Color>
 			<Color name="Lemon yellow">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#fff44f</model_colour>
 			</Color>
 			<Color name="Sun yellow">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#FDB813</model_colour>
 			</Color>
 			<Color name="Camouflage">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#78866b</model_colour>
 			</Color>
 			<Color name="Magenta">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#FF00FF</model_colour>
 			</Color>
 			<Color name="Chocolate brown">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#8B4513</model_colour>
 			</Color>
 			<Color name="Baby pink">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#F4C2C2</model_colour>
 			</Color>
 			<Color name="Rubin red">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#CA005D</model_colour>
 			</Color>
 			<Color name="Ivory">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#FFFFF0</model_colour>
 			</Color>
 			<Color name="Violet">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#EE82EE</model_colour>
 			</Color>
 			<Color name="Mustard">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#ffdb58</model_colour>
 			</Color>
 			<Color name="Natural">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#FFFFFF</model_colour>
 			</Color>
 			<Color name="Solid green">
 				<print_temperature>210</print_temperature>
 				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#00FF00</model_colour>
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyPlus">
@@ -122,16 +189,40 @@
 			<retraction_amount>3.4</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>46.53</filament_cost_kg>
-			<Color name="Orange"></Color>
-			<Color name="Red"></Color>
-			<Color name="Black"></Color>
-			<Color name="White"></Color>
-			<Color name="Yellow"></Color>
-			<Color name="Translucent blue"></Color>
-			<Color name="Translucent red"></Color>
-			<Color name="Translucent orange"></Color>
-			<Color name="Translucent yellow"></Color>
-			<Color name="Blue"></Color>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#000000</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Natural">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Translucent blue">
+				<model_colour>#0000FF</model_colour>
+			</Color>
+			<Color name="Translucent red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Translucent orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Translucent yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Blue">
+				<model_colour>#0000ff</model_colour>
+			</Color>
 		</Filament>
 
 		<Filament name="PLA PolyMax">
@@ -143,11 +234,22 @@
 			<retraction_amount>3.4</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>46.53</filament_cost_kg>
-			<Color name="Orange"></Color>
-			<Color name="Red"></Color>
-			<Color name="Black"></Color>
-			<Color name="White"></Color>
-			<Color name="Blue"></Color>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Blue">
+				<model_colour>#0000FF</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#000000</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF000</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
 		</Filament>
 
 		<Filament name="PLA OctoFiber">
@@ -159,26 +261,67 @@
 			<retraction_amount>3.8</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>39.98</filament_cost_kg>
-			<Color name="Gray"></Color>
-			<Color name="Silver"></Color>
-			<Color name="Yellow"></Color>
-			<Color name="Black"></Color>
-			<Color name="Bronze"></Color>
-			<Color name="Orange"></Color>
-			<Color name="Red"></Color>
-			<Color name="Blue"></Color>
-			<Color name="White"></Color>
-			<Color name="Pearl white"></Color>
-			<Color name="Pearl blue"></Color>
-			<Color name="Green"></Color>
-			<Color name="Purple"></Color>
-			<Color name="Brown"></Color>
-			<Color name="Carbon black"></Color>
-			<Color name="Pink"></Color>
-			<Color name="Gold"></Color>
-			<Color name="Dark green"></Color>
-			<Color name="Dark blue"></Color>
-			<Color name="Phosphorescent"></Color>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
+			<Color name="Silver">
+				<model_colour>#C0C0C0</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#000000</model_colour>
+			</Color>
+			<Color name="Bronze">
+				<model_colour>#cd7f32</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#ff0000</model_colour>
+			</Color>
+			<Color name="Blue">
+				<model_colour>#0000ff</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Pearl white">
+				<model_colour>#eeebd9</model_colour>
+			</Color>
+			<Color name="Pearl blue">
+				<model_colour>#4FA1C2</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#00ff00</model_colour>
+			</Color>
+			<Color name="Purple">
+				<model_colour>#800080</model_colour>
+			</Color>
+			<Color name="Brown">
+				<model_colour>#964B00</model_colour>
+			</Color>
+			<Color name="Carbon black">
+				<model_colour>#293542</model_colour>
+			</Color>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Gold">
+				<model_colour>#FFD700</model_colour>
+			</Color>
+			<Color name="Dark green">
+				<model_colour>#006400</model_colour>
+			</Color>
+			<Color name="Dark blue">
+				<model_colour>#000064</model_colour>
+			</Color>
+			<Color name="Phosphorescent">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
 		</Filament>
 		<Filament name="Biosourced PLA OWA Armor">
 			<grip_temperature>225</grip_temperature>
@@ -189,16 +332,36 @@
 			<retraction_amount>3.3</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>46.53</filament_cost_kg>
-			<Color name="Orange"></Color>
-			<Color name="Red"></Color>
-			<Color name="Black"></Color>
-			<Color name="White"></Color>
-			<Color name="Yellow"></Color>
-			<Color name="Green"></Color>
-			<Color name="Light Blue"></Color>
-			<Color name="Dark Blue"></Color>
-			<Color name="Pink"></Color>
-			<Color name="Grey"></Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#000000</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#00FF00</model_colour>
+			</Color>
+			<Color name="Light blue">
+				<model_colour>#ADD8E6</model_colour>
+			</Color>
+			<Color name="Dark Blue">
+				<model_colour>#000064</model_colour>
+			</Color>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
 		</Filament>
 		<Filament name="PLA Filo3D">
 			<grip_temperature>225</grip_temperature>
@@ -209,16 +372,37 @@
 			<retraction_amount>3.2</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>59.6</filament_cost_kg>
-			<Color name="Metallic gray"></Color>
-			<Color name="Orange"></Color>
-			<Color name="Neon green"></Color>
-			<Color name="Dark blue"></Color>
-			<Color name="Fire red"></Color>
-			<Color name="White"></Color>
-			<Color name="Mate black"></Color>
-			<Color name="Lemon yellow"></Color>
-			<Color name="Green"></Color>
-			<Color name="Natural"></Color>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Metallic gray">
+				<model_colour>#808080</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Neon green">
+				<model_colour>#39FF14</model_colour>
+			</Color>
+			<Color name="Dark blue">
+				<model_colour>#000064</model_colour>
+			</Color>
+			<Color name="Fire red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Mate black">
+				<model_colour>#000000</model_colour>
+			</Color>
+			<Color name="Lemon yellow">
+				<model_colour>#eeee00</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#00ff00</model_colour>
+			</Color>
+			<Color name="Natural">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
 		</Filament>
 
 		<Filament name="PLA PolyFlex">
@@ -230,10 +414,19 @@
 			<retraction_amount>8</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>66.53</filament_cost_kg>
-			<Color name="Yellow"></Color>
-			<Color name="Black"></Color>
-			<Color name="Orange"></Color>
-			<Color name="White"></Color>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#000000</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
 		</Filament>
 
 		<Filament name="Other PLA type">
@@ -245,11 +438,15 @@
 			<retraction_amount>3.2</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>46</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
 		</Filament>
 	</Filaments>
 
 	<!-- Filling definitions -->
 	<Fillings>
+		<Filling name="Vase">
+			<spiralize>True</spiralize>
+		</Filling>
 		<Filling name="Hollow (shell)">
 			<fill_density>0</fill_density>
 		</Filling>
@@ -401,7 +598,6 @@
 		<support_fill_rate>20</support_fill_rate>
 		<support_xy_distance>0.7</support_xy_distance>
 		<support_z_distance>0.15</support_z_distance>
-		<spiralize>False</spiralize>
 		<simple_mode>False</simple_mode>
 		<brim_line_count>10</brim_line_count>
 		<raft_margin>5</raft_margin>
