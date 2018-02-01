@@ -1,5 +1,4 @@
 # Cura by Dagoma
----
 ## About
 
 Cura by Dagoma was originally forked from Legacy Cura.
@@ -21,18 +20,15 @@ Windows only :
 ## Packaging
 
 ### Introduction
-
 The slicer binary is built on the fly. It is a full C++ project. The compilation process is based on standard Makefile.
 
 ### MacOS
-
 For MacOS, it is necessary to use virtualenv and virtualwrapper to create a isolated python environment. More details asap.
 
 ### Windows
-
 The needed binaries (eg. PortablePython) are retrieved and used during the packaging process so it must work pretty flawlessly.
 
-## Linux
+### Linux
 For linux, two types of packages can be built:
 - A debian package for Debian based ditributions.
 - A generic tar.gz archive for other distributions.
