@@ -93,7 +93,7 @@ class engineResultView(object):
 			('insetx',     'WALL-INNER', [0,1,0,1]),
 			('openoutline', None,        [1,0,0,1]),
 			('skin',       'SKIN',       [1,1,0,1]),
-			('infill',      None,        [1,1,0,1]),
+			('infill',     'FILL',       [1,1,0,1]),
 			('support',    'SUPPORT',    [0,1,1,1]),
 			('skirt',      'SKIRT',      [0,1,1,1]),
 			('outline',     None,        [0,0,0,1])
