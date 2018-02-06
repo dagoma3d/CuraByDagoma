@@ -618,7 +618,7 @@
 	<!-- Gcodes start and end -->
 	<GCODE>
 		<Gstart>
-;Gcode by Cura-by-dagoma for DiscoVery200 V1.0.7
+;Gcode by Cura by Dagoma {cbd_version} for DiscoVery200
 ;Filament: {filament_name}
 ;M190 S{print_bed_temperature} ;Uncomment to add your own bed temperature line
 ;M109 S{print_temperature} ;Uncomment to add your own temperature line

@@ -302,6 +302,7 @@ setting('printing_window', 'Basic', ['Basic'], 'preference', 'hidden').setLabel(
 setting('window_normal_sash', -310, int, 'preference', 'hidden')
 setting('minimum_pane_size', 310, int, 'preference', 'hidden')
 setting('last_run_version', '', str, 'preference', 'hidden')
+setting('cbd_version', '1.0.7', str, 'preference', 'hidden')
 
 setting('machine_name', '', str, 'machine', 'hidden')
 setting('machine_type', 'unknown', str, 'machine', 'hidden') #Ultimaker, Ultimaker2, RepRap
@@ -998,8 +999,11 @@ def replaceTagMatch(m):
 	if tag == 'time':
 		return pre + time.strftime('%H:%M:%S')
 
+	if tag == 'cbd_version':
+		return ' ' + getPreference('cbd_version')
+
 	if tag == 'filament_name':
-		return " " + getPreference('filament_name')
+		return ' ' + getPreference('filament_name')
 
 	if tag == 'palpeur' or tag == 'sensor':
 		return getPalpeurGCode()

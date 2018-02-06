@@ -621,7 +621,7 @@
 	<!-- Gcodes start and end -->
 	<GCODE>
 		<Gstart>
-;Gcode by Cura-by-dagoma for DiscoEASY200 V1.0.7
+;Gcode by Cura by Dagoma {cbd_version} for DiscoEasy200
 ;Filament: {filament_name}
 G90 ;absolute positioning
 M106 S250 ;fan on for the sensor

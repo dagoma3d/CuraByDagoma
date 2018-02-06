@@ -517,7 +517,7 @@
 	<!-- Gcodes start and end -->
 	<GCODE>
 		<Gstart>
-;Gcode by Cura-by-dagoma for Neva V1.0.7
+;Gcode by Cura by Dagoma {cbd_version} for Neva
 ;Filament: {filament_name}
 G90 ;absolute positioning
 G28

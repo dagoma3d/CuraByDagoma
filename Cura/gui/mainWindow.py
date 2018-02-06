@@ -27,7 +27,9 @@ from xml.dom import minidom
 
 class mainWindow(wx.Frame):
 	def __init__(self):
-		super(mainWindow, self).__init__(None, title='Cura by Dagoma 1.0.7', pos=(0, 0), size=wx.DisplaySize())
+		cbd_version = profile.getPreference('cbd_version')
+		window_title = 'Cura by Dagoma ' + cbd_version
+		super(mainWindow, self).__init__(None, title=window_title, pos=(0, 0), size=wx.DisplaySize())
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
