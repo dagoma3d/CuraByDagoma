@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - One single cura for all dagoma printers.
 - Model color according to the chosen filament.
 
-
 ## [1.0.7] - 2017-12-01
 - Fix crashes when changing a parameter during the slicing process.
 - Add a filament color combo box depending on the chosen filament.
