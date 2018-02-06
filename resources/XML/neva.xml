@@ -62,7 +62,7 @@
 				<model_colour>#00FF00</model_colour>
 			</Color>
 			<Color name="Black">
-				<model_colour>#000000</model_colour>
+				<model_colour>#191919</model_colour>
 			</Color>
 			<Color name="Gold">
 				<model_colour>#FFD700</model_colour>
@@ -166,7 +166,7 @@
 				<model_colour>#FF0000</model_colour>
 			</Color>
 			<Color name="Black">
-				<model_colour>#000000</model_colour>
+				<model_colour>#191919</model_colour>
 			</Color>
 			<Color name="White">
 				<model_colour>#FFFFFF</model_colour>
@@ -213,7 +213,7 @@
 				<model_colour>#FFFF00</model_colour>
 			</Color>
 			<Color name="Black">
-				<model_colour>#000000</model_colour>
+				<model_colour>#191919</model_colour>
 			</Color>
 			<Color name="Bronze">
 				<model_colour>#cd7f32</model_colour>
@@ -293,7 +293,7 @@
 				<model_colour>#FFFFFF</model_colour>
 			</Color>
 			<Color name="Mate black">
-				<model_colour>#000000</model_colour>
+				<model_colour>#191919</model_colour>
 			</Color>
 			<Color name="Lemon yellow">
 				<model_colour>#eeee00</model_colour>
@@ -319,7 +319,7 @@
 				<model_colour>#FFFF00</model_colour>
 			</Color>
 			<Color name="Black">
-				<model_colour>#000000</model_colour>
+				<model_colour>#191919</model_colour>
 			</Color>
 			<Color name="Orange">
 				<model_colour>#FFA500</model_colour>
