@@ -351,10 +351,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.__setProperties()
 		self.__doLayout()
 
-		self.InitSensor()
-		self.InitPrintingSurface()
-
-		#Refresh ALL Value
 		self.RefreshSupport()
 		self.RefreshPrecision()
 		self.RefreshPrintHead()
@@ -453,14 +449,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.initPrinter()
 		self.initConfiguration()
 		self.initGCode()
-		self.getFilaments()
-		self.getFillings()
-		self.getPrecisions()
-		self.getPrintHeads()
-		self.getSupports()
-		self.getBrims()
-		self.getPrintingSurfaces()
-		self.getSensors()
+		self.initFilament()
+		self.initFilling()
+		self.initPrecision()
+		self.initPrintHead()
+		self.initSupport()
+		self.initBrim()
+		self.initPrintingSurface()
+		self.initSensor()
 
 	def setProfileSetting(self, sub, var):
 		value = sub.getElementsByTagName(var)[0].childNodes[0].data
@@ -572,7 +568,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		gcode_end = gcode.getElementsByTagName("Gend")[0].childNodes[0].data
 		profile.putAlterationSetting('end.gcode', gcode_end)
 
-	def getFilaments(self):
+	def initFilament(self):
 		filaments = self.configuration.getElementsByTagName('Filament')
 		self.filaments = []
 		choices = []
@@ -610,7 +606,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.filamentComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 		self.filamentComboBox.SetSelection(int(profile.getPreference('filament_index')))
 
-	def getFillings(self):
+	def initFilling(self):
 		bloc_name = _("Filling density :")
 		remplissages = self.configuration.getElementsByTagName("Filling")
 		if len(remplissages) == 0:
@@ -641,7 +637,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.fillingRadioBox = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 		self.fillingRadioBox.SetSelection(int(profile.getPreference('fill_index')))
 
-	def getPrecisions(self):
+	def initPrecision(self):
 		bloc_name = _("Quality (layer thickness) :")
 		precisions = self.configuration.getElementsByTagName("Precision")
 		choices = []
@@ -670,7 +666,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.precisionRadioBox = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 		self.precisionRadioBox.SetSelection(int(profile.getPreference('precision_index')))
 
-	def getPrintHeads(self):
+	def initPrintHead(self):
 		bloc_name = _("Printhead version :")
 		tetes = self.configuration.getElementsByTagName("PrinterHead")
 		if len(tetes) == 0:
@@ -690,10 +686,22 @@ class normalSettingsPanel(configBase.configPanelBase):
 				except :
 					print 'Some Error in Tete Bloc'
 					pass
+
+		if len(choices) == 0:
+			printerConfiguration = self.configuration.getElementsByTagName("Configuration")[0]
+			name = "Standard printhead"
+			choices.append(name)
+			printhead = self.PrintingSurface()
+			printhead.type = name
+			printhead.fan_speed = printerConfiguration.getElementsByTagName("fan_speed")[0].childNodes[0].data
+			printhead.cool_min_layer_time = printerConfiguration.getElementsByTagName("cool_min_layer_time")[0].childNodes[0].data
+			self.tetes.append(printhead)
+			profile.putPreference('printhead_index', '0')
+
 		self.printHeadRadioBox = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 		self.printHeadRadioBox.SetSelection(int(profile.getPreference('printhead_index')))
 
-	def getSupports(self):
+	def initSupport(self):
 		bloc_name = _("Printing supports :")
 		supports = self.configuration.getElementsByTagName("Support")
 		choices = []
@@ -712,7 +720,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					pass
 		self.supportRadioBox = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
-	def getBrims(self):
+	def initBrim(self):
 		bloc_name = _("Improve the adhesion surface")
 		self.brimCheckBox = wx.CheckBox(self, wx.ID_ANY, bloc_name)
 		brim_enable = self.configuration.getElementsByTagName("Brim_Enable")[0]
@@ -724,7 +732,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.brims[1].platform_adhesion = brim_disable.getElementsByTagName("platform_adhesion")[0].childNodes[0].data
 
 	# Fonction qui recupere dans le xml les differentes lignes pour le bloc Palpeur
-	def getSensors(self):
+	def initSensor(self):
 		bloc_name = _("Use the sensor")
 		self.sensorCheckBox = wx.CheckBox(self, wx.ID_ANY, bloc_name)
 		palpeur_enable = self.configuration.getElementsByTagName("Sensor_Enable")
@@ -745,7 +753,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.palpeurs.append(self.Palpeur())
 		self.palpeurs[1].palpeur = sensor_disabled
 
-	def getPrintingSurfaces(self):
+		isSensorEnabled = profile.getProfileSetting('palpeur_enable') == 'Palpeur' or profile.getProfileSetting('palpeur_enable') == 'Enabled'
+		self.sensorCheckBox.SetValue(isSensorEnabled)
+
+	def initPrintingSurface(self):
 		bloc_name = _("Printing surface :")
 
 		printing_surfaces = self.configuration.getElementsByTagName("Printing_surface")
@@ -774,7 +785,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 			prtsurf.name = name
 			prtsurf.height = 0.0
 			self.printing_surfaces.append(prtsurf)
+
 		self.printingSurfaceRadioBox = wx.RadioBox(self, wx.ID_ANY, bloc_name, choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.printingSurfaceRadioBox.SetStringSelection(profile.getProfileSetting('printing_surface_name'))
 
 	def RefreshFilament(self):
 		#print "Refresh fila"
@@ -986,25 +999,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			profile.putProfileSetting('platform_adhesion', self.brims[1].platform_adhesion)
 
-	def InitSensor(self):
-		if profile.getProfileSetting('palpeur_enable') == 'Palpeur' or profile.getProfileSetting('palpeur_enable') == 'Enabled':
-			self.sensorCheckBox.SetValue(True)
-		else :
-			self.sensorCheckBox.SetValue(False)
-		self.sensorCheckBox.Refresh()
-
-	def InitPrintingSurface(self):
-		self.printingSurfaceRadioBox.SetStringSelection(profile.getProfileSetting('printing_surface_name'))
-		self.printingSurfaceRadioBox.Refresh()
-
-	def is_number(self, zeString):
+	def IsNumber(self, zeString):
 		try:
 			float(zeString)
 			return True
 		except ValueError:
 			return False
 
-	def calculateZOffset(self):
+	def CalculateZOffset(self):
 		printing_surface_height = float(profile.getProfileSetting('printing_surface_height'))
 		offset_input = float(profile.getProfileSetting('offset_input'))
 		offset_value = offset_input - printing_surface_height
@@ -1014,16 +1016,15 @@ class normalSettingsPanel(configBase.configPanelBase):
 		prtsurf = self.printing_surfaces[self.printingSurfaceRadioBox.GetSelection()]
 		profile.putProfileSetting('printing_surface_name', prtsurf.name)
 		profile.putProfileSetting('printing_surface_height', prtsurf.height)
-		self.calculateZOffset()
+		self.CalculateZOffset()
 
 	def RefreshOffset(self):
-		valu = self.offsetTextCtrl.GetValue()
-		if self.is_number(valu) :
-			profile.putProfileSetting('offset_input', self.offsetTextCtrl.GetValue())
-			self.calculateZOffset()
+		value = self.offsetTextCtrl.GetValue()
+		if self.IsNumber(value) :
+			profile.putProfileSetting('offset_input', value)
+			self.CalculateZOffset()
 		else :
 			self.offsetTextCtrl.SetValue(profile.getProfileSetting('offset_input'))
-			self.offsetTextCtrl.Refresh()
 
 	def RefreshSensor(self):
 		if self.sensorCheckBox.GetValue():
@@ -1088,9 +1089,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
-	# evenement sur le bloc Printing Surface
-	#
-	#
 	def OnPrintingSurfaceRadioBoxChanged(self, event):
 		self.RefreshPrintingSurface()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -1098,10 +1096,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
-
-	# evenement sur le l'input pour l'Offset
-	#
-	#
 	def OnOffsetTextCtrlChanged(self, event):
 		self.RefreshOffset()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -1109,15 +1103,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
-
-	# evenement sur le bloc palpeur
 	def OnSensorCheckBoxChanged(self, event):
 		self.RefreshSensor()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
-
 
 	def OnPreparePrintButtonClick(self, event):
 		profile.printSlicingInfo()
