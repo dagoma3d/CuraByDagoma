@@ -85,5 +85,5 @@ class printerWindow(wx.Frame):
 		self.Fit()
 
 	def OnClose(self, e):
-		self.parent.reloadSettingPanels()
+		self.parent.ReloadSettingPanels()
 		self.Destroy()

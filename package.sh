@@ -6,7 +6,7 @@
 #############################
 # CONFIGURATION
 #############################
-export BUILD_VERSION=1.0.7
+export BUILD_VERSION=1.0.8
 
 ##Select the build target
 ##Available options:

@@ -149,7 +149,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.viewSelection.setHidden(False)
 		mainWindow = self.GetParent().GetParent().GetParent()
 		mainWindow.normalSettingsPanel.pausePluginButton.Enable()
-		mainWindow.normalSettingsPanel.button_1.Enable()
+		mainWindow.normalSettingsPanel.printButton.Enable()
 		# only one GCODE file can be active
 		# so if single gcode file, process this
 		# otherwise ignore all gcode files
@@ -159,7 +159,7 @@ class SceneView(openglGui.glGuiPanel):
 			ext = os.path.splitext(filename)[1].lower()
 			if ext == '.g' or ext == '.gcode':
 				gcodeFilename = filename
-				mainWindow.addToModelMRU(filename)
+				mainWindow.AddToModelMRU(filename)
 		if gcodeFilename is not None:
 			self.loadGCodeFile(gcodeFilename)
 		else:
@@ -178,17 +178,17 @@ class SceneView(openglGui.glGuiPanel):
 					ext = os.path.splitext(filename)[1].lower()
 					if ext == '.ini':
 						profile.loadProfile(filename)
-						mainWindow.addToProfileMRU(filename)
+						mainWindow.AddToProfileMRU(filename)
 					elif ext in meshLoader.loadSupportedExtensions() or ext in imageToMesh.supportedExtensions():
 						scene_filenames.append(filename)
-						mainWindow.addToModelMRU(filename)
+						mainWindow.AddToModelMRU(filename)
 					else:
 						ignored_types[ext] = 1
 			if ignored_types:
 				ignored_types = ignored_types.keys()
 				ignored_types.sort()
 				self.notification.message("Ignored: " + " ".join("*" + type for type in ignored_types))
-			mainWindow.updateProfileToAllControls()
+			mainWindow.UpdateProfileToAllControls()
 			# now process all the scene files
 			if scene_filenames:
 				self.loadSceneFiles(scene_filenames)
@@ -495,7 +495,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
-		normalSettingsPanel.button_1.Disable()
+		normalSettingsPanel.printButton.Disable()
 
 	def OnMultiply(self, e):
 		if self._focusObj is None:
@@ -570,7 +570,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def _updateEngineProgress(self, progressValue):
 		mainWindow = self.GetParent().GetParent().GetParent()
-		mainWindow.normalSettingsPanel.button_1.Disable()
+		mainWindow.normalSettingsPanel.printButton.Disable()
 		mainWindow.fileMenu.FindItemById(1).Enable(False)
 		result = self._engine.getResult()
 		finished = result is not None and result.isFinished()
@@ -584,29 +584,29 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setProgressBar(None)
 		self._engineResultView.setResult(result)
 		if finished:
-			mainWindow.normalSettingsPanel.button_1.Enable()
+			mainWindow.normalSettingsPanel.printButton.Enable()
 			mainWindow.fileMenu.FindItemById(1).Enable(True)
 			self.printButton.setProgressBar(None)
 			text = '%s' % (result.getPrintTime())
-			statusbar_text = text
+			statusBarText = text
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
 				meters = result.getFilamentMeters(e)
 				if meters is not None:
 					text += '\n%s' % (meters)
-					statusbar_text += ' %s' % (meters)
+					statusBarText += ' %s' % (meters)
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
 					text += '\n%s' % (grams)
-					statusbar_text += ' %s' % (grams)
+					statusBarText += ' %s' % (grams)
 				cost = result.getFilamentCost(e)
 				if cost is not None:
 					text += '\n%s' % (cost)
-					statusbar_text += ' %s' % (cost)
+					statusBarText += ' %s' % (cost)
 			self.printButton.setBottomText(text)
-			#mainWindow.statusbar.SetStatusText(statusbar_text, 1)
+			#mainWindow.statusBar.SetStatusText(statusBarText, 1)
 		else:
 			self.printButton.setBottomText('')
-			#mainWindow.statusbar.SetStatusText('...', 1)
+			#mainWindow.statusBar.SetStatusText('...', 1)
 		self.QueueRefresh()
 
 	def loadScene(self, fileList):
@@ -649,7 +649,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setBottomText('')
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 			normalSettingsPanel.pausePluginButton.Disable()
-			normalSettingsPanel.button_1.Disable()
+			normalSettingsPanel.printButton.Disable()
 		import gc
 		gc.collect()
 		self.sceneUpdated()
