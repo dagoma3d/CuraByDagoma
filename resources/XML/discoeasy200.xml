@@ -145,6 +145,46 @@
 				<model_colour>#855E42</model_colour>
 			</Color>
 		</Filament>
+		<Filament name="Biosourced PLA OWA Armor">
+			<print_temperature>190</print_temperature>
+			<filament_diameter>1.74</filament_diameter>
+			<filament_flow>99</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#00FF00</model_colour>
+			</Color>
+			<Color name="Light blue">
+				<model_colour>#ADD8E6</model_colour>
+			</Color>
+			<Color name="Dark blue">
+				<model_colour>#000064</model_colour>
+			</Color>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
+		</Filament>
 		<Filament name="PLA OctoFiber">
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.74</filament_diameter>

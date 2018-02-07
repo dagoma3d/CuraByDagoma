@@ -264,6 +264,46 @@
 				<model_colour>#FFFFFF</model_colour>
 			</Color>
 		</Filament>
+		<Filament name="Biosourced PLA OWA Armor">
+			<grip_temperature>225</grip_temperature>
+			<print_temperature>200</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>4.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#00FF00</model_colour>
+			</Color>
+			<Color name="Light blue">
+				<model_colour>#ADD8E6</model_colour>
+			</Color>
+			<Color name="Dark blue">
+				<model_colour>#000064</model_colour>
+			</Color>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
+		</Filament>
 		<Filament name="PLA Filo3D">
 			<grip_temperature>235</grip_temperature>
 			<print_temperature>190</print_temperature>
@@ -514,7 +554,8 @@
 ;Filament: {filament_name}
 G90 ;absolute positioning
 G28
-M109 S100
+M107
+M109 R100
 G29
 M104 S{grip_temperature} ;Temperature for the first layer only
 G0 X0 Y-85
