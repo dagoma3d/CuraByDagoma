@@ -23,7 +23,7 @@ class PrinterConnectionManager(object):
 		if version.isDevVersion():
 			self._groupList.append(dummyConnection.dummyConnectionGroup())
 		self._groupList.append(serialConnection.serialConnectionGroup())
-		self._groupList.append(doodle3dConnect.doodle3dConnectionGroup())
+		#self._groupList.append(doodle3dConnect.doodle3dConnectionGroup())
 
 		#Sort the connections by highest priority first.
 		self._groupList.sort(reverse=True)
