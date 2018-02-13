@@ -5,11 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [1.0.8] - 2017-03-01
+- New unified packaging: It implies a brand new software icon used in the application and in installation info for the various OS.
 - The configuration wizard allows to select the printer.
+- For each printer, the parameters and their behaviors are the very same as the printer-specific version (it implies discovery users have finally an available update for their machine).
 - No more preferences window but a Preferences menu item gathering the ability to change language and printer.
 - Refine xml again.
 - Set the model color to the color chosen by the user.
-- The printhead xml island (introduced in a previous version of Cura by Dagoma when the discoeasy200 printhead v3 was released) is no more needed when not necessary (ie. when a single version of the printhead is available)
+- The printerhead xml island (introduced in a previous version of Cura by Dagoma when the discoeasy200 printer head v3 was released) is no more needed when not necessary (ie. when a single version of the printer head is available).
+- Spiralize mode now available.
 
 ## [1.0.7] - 2017-12-01
 - Fix crashes when changing a parameter during the slicing process.
