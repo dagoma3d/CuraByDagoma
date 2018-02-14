@@ -571,7 +571,7 @@
 		<object_sink>0</object_sink>
 		<fan_enabled>True</fan_enabled>
 		<retraction_min_travel>1.5</retraction_min_travel>
-		<retraction_combing>True</retraction_combing>
+		<retraction_combing>All</retraction_combing>
 		<retraction_minimal_extrusion>0.02</retraction_minimal_extrusion>
 		<retraction_hop>0</retraction_hop>
 		<skirt_line_count>2</skirt_line_count>

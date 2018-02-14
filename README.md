@@ -30,7 +30,18 @@ The needed binaries (eg. PortablePython) are retrieved and used during the packa
 
 ### Linux
 For linux, two types of packages can be built:
-- A debian package for Debian based ditributions.
+- A debian package for Debian based distributions.
 - A generic tar.gz archive for other distributions.
 
 Nothing special is required for linux packaging, it should work natively.
+
+## Engine useful discussions
+
+### About spiralize mode
+
+Bottom layer:
+https://github.com/Ultimaker/CuraEngine/issues/51
+
+Stutter:
+https://github.com/Ultimaker/CuraEngine/issues/214
+https://github.com/Ultimaker/CuraEngine/issues/424
