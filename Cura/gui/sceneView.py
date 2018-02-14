@@ -573,7 +573,7 @@ class SceneView(openglGui.glGuiPanel):
 	def _updateEngineProgress(self, progressValue):
 		mainWindow = self.GetParent().GetParent().GetParent()
 		mainWindow.normalSettingsPanel.printButton.Disable()
-		mainWindow.fileMenu.FindItemById(1).Enable(False)
+		mainWindow.fileMenu.FindItemByPosition(2).Enable(False)
 		result = self._engine.getResult()
 		finished = result is not None and result.isFinished()
 		if not finished:
@@ -587,28 +587,22 @@ class SceneView(openglGui.glGuiPanel):
 		self._engineResultView.setResult(result)
 		if finished:
 			mainWindow.normalSettingsPanel.printButton.Enable()
-			mainWindow.fileMenu.FindItemById(1).Enable(True)
+			mainWindow.fileMenu.FindItemByPosition(2).Enable(True)
 			self.printButton.setProgressBar(None)
 			text = '%s' % (result.getPrintTime())
-			statusBarText = text
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
 				meters = result.getFilamentMeters(e)
 				if meters is not None:
 					text += '\n%s' % (meters)
-					statusBarText += ' %s' % (meters)
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
 					text += '\n%s' % (grams)
-					statusBarText += ' %s' % (grams)
 				cost = result.getFilamentCost(e)
 				if cost is not None:
 					text += '\n%s' % (cost)
-					statusBarText += ' %s' % (cost)
 			self.printButton.setBottomText(text)
-			#mainWindow.statusBar.SetStatusText(statusBarText, 1)
 		else:
 			self.printButton.setBottomText('')
-			#mainWindow.statusBar.SetStatusText('...', 1)
 		self.QueueRefresh()
 
 	def loadScene(self, fileList):

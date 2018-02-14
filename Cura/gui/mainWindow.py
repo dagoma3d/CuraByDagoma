@@ -62,31 +62,33 @@ class mainWindow(wx.Frame):
 		self.config.SetPath("/ProfileMRU")
 		self.profileFileHistory.Load(self.config)
 
+		self.statusBar = self.CreateStatusBar()
+
 		self.menuBar = wx.MenuBar()
 		self.fileMenu = wx.Menu()
-		i = self.fileMenu.Append(-1, _("Open an Object") + "\tCTRL+O")
+		i = self.fileMenu.Append(wx.ID_OPEN, _("Open an Object") + "\tCTRL+O", _("Open a 3d object file."))
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showLoadModel(), i)
-		i = self.fileMenu.Append(-1, _("Save the build plate") + "\tCTRL+S")
+		i = self.fileMenu.Append(wx.ID_SAVEAS, _("Save the build plate") + "\tCTRL+S", _("Save the current build plate as a stl file."))
 		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveModel(), i)
-		i = self.fileMenu.Append(1, _("Prepare the Print") + "\tCTRL+P")
+		i = self.fileMenu.Append(wx.ID_SAVE, _("Prepare the Print") + "\tCTRL+P", _("Save the generated gcode on a sd card or on your computer."))
 		self.Bind(wx.EVT_MENU, self.OnPreparePrint, i)
 
 		# Model MRU list
 		modelHistoryMenu = wx.Menu()
-		self.fileMenu.AppendMenu(wx.NewId(), '&' + _("Recently Opened Objects"), modelHistoryMenu)
+		self.fileMenu.AppendSubMenu(modelHistoryMenu, '&' + _("Recently Opened Objects"))
 		self.modelFileHistory.UseMenu(modelHistoryMenu)
 		self.modelFileHistory.AddFilesToMenu()
 		self.Bind(wx.EVT_MENU_RANGE, self.OnModelMRU, id=self.ID_MRU_MODEL1, id2=self.ID_MRU_MODEL10)
 
 		self.fileMenu.AppendSeparator()
-		i = self.fileMenu.Append(wx.ID_EXIT, _("Quit"))
+		i = self.fileMenu.Append(wx.ID_EXIT, _("Quit"), _("Exit the application."))
 		self.Bind(wx.EVT_MENU, self.OnQuit, i)
 		self.menuBar.Append(self.fileMenu, _("File"))
 
 		self.settingsMenu = wx.Menu()
 		self.languagesMenu = wx.Menu()
 		for language in resources.getLanguageOptions():
-			i = self.languagesMenu.Append(-1, _(language[1]), _('You have to reopen the application to load the correct language'), wx.ITEM_RADIO)
+			i = self.languagesMenu.Append(-1, _(language[1]), _('You have to reopen the application to load the correct language.'), wx.ITEM_RADIO)
 			if profile.getPreference('language') == language[1]:
 				i.Check(True)
 			else:
@@ -95,26 +97,22 @@ class mainWindow(wx.Frame):
 				profile.putPreference('language', selected_language)
 			self.Bind(wx.EVT_MENU, OnLanguageSelect, i)
 		self.settingsMenu.AppendSubMenu(self.languagesMenu, _("Language"))
-		i = self.settingsMenu.Append(-1, _("Printer"))
+		i = self.settingsMenu.Append(wx.ID_ANY, _("Printer"), _("Choose the printer you want to use."))
 		self.Bind(wx.EVT_MENU, self.OnPrinterWindow, i)
 		self.menuBar.Append(self.settingsMenu, _("Preferences"))
 
 		contactUrl = profile.getPreference('contact_url')
 		buyUrl = profile.getPreference('buy_url')
 		self.helpMenu = wx.Menu()
-		i = self.helpMenu.Append(-1, _("Contact us"))
+		i = self.helpMenu.Append(wx.ID_ANY, _("Contact us"), _("Contact us for any further information."))
 		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(contactUrl), i)
-		i = self.helpMenu.Append(-1, _("Buy filament"))
+		i = self.helpMenu.Append(wx.ID_ANY, _("Buy filament"), _("Buy filament on our website."))
 		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(buyUrl), i)
-		i = self.helpMenu.Append(-1, _("About"))
+		i = self.helpMenu.Append(wx.ID_ABOUT, _("About"), _("Display all components used to build this application."))
 		self.Bind(wx.EVT_MENU, self.OnAbout, i)
 		self.menuBar.Append(self.helpMenu, _("Help"))
 
 		self.SetMenuBar(self.menuBar)
-
-		self.statusBar = self.CreateStatusBar(2)
-		self.statusBar.SetStatusText('General info')
-		self.statusBar.SetStatusText('Slicing info', 1)
 
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3DSASH | wx.SP_LIVE_UPDATE)
 		self.splitter.SetMinimumPaneSize(profile.getPreferenceInt('minimum_pane_size'))
