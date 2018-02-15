@@ -460,7 +460,7 @@ class Engine(object):
 
 	def _engineSettings(self, extruderCount):
 		settings = {
-			'nozzleSize': int(profile.getProfileSettingFloat('nozzle_size') * 1000),
+			'nozzleSize': int(profile.getMachineSettingFloat('nozzle_size') * 1000),
 			'layerThickness': int(profile.getProfileSettingFloat('layer_height') * 1000),
 			'initialLayerThickness': int(profile.getProfileSettingFloat('bottom_thickness') * 1000) if profile.getProfileSettingFloat('bottom_thickness') > 0.0 else int(profile.getProfileSettingFloat('layer_height') * 1000),
 			'filamentDiameter': int(profile.getProfileSettingFloat('filament_diameter') * 1000),
@@ -488,7 +488,7 @@ class Engine(object):
 			'supportXYDistance': int(1000 * profile.getProfileSettingFloat('support_xy_distance')),
 			'supportZDistance': int(1000 * profile.getProfileSettingFloat('support_z_distance')),
 			'supportExtruder': 0 if profile.getProfileSetting('support_dual_extrusion') == 'First extruder' else (1 if profile.getProfileSetting('support_dual_extrusion') == 'Second extruder' and profile.minimalExtruderCount() > 1 else -1),
-			'retractionAmount': int(profile.getProfileSettingFloat('retraction_amount') * 1000) if profile.getProfileSetting('retraction_enable') == 'True' else 0,
+			'retractionAmount': int(profile.getProfileSettingFloat('retraction_amount') * 1000) if profile.getMachineSetting('retraction_enable') == 'True' else 0,
 			'retractionSpeed': int(profile.getProfileSettingFloat('retraction_speed')),
 			'retractionMinimalDistance': int(profile.getProfileSettingFloat('retraction_min_travel') * 1000),
 			'retractionAmountExtruderSwitch': int(profile.getProfileSettingFloat('retraction_dual_amount') * 1000),

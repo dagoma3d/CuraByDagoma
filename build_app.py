@@ -9,7 +9,7 @@ if sys.platform.startswith('darwin'):
     build_name = os.environ['BUILD_NAME']
 
     APP = ['Cura/cura.py']
-    DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/locale','resources/XML', 'plugins']
+    DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/locale','resources/xml', 'plugins']
     PLIST = {
         u'CFBundleName': build_name,
         u'postinstall_script': u'rm -rf ~/Library/Application\ Support/CuraByDagoma',

@@ -43,7 +43,7 @@ def getPathForFirmware(name):
 	return getPathForResource(resourceBasePath, 'firmware', name)
 
 def getPathForXML(name):
-	return getPathForResource(resourceBasePath, 'XML', name)
+	return getPathForResource(resourceBasePath, 'xml', name)
 
 def setupLocalization(selectedLanguage = None):
 	#Default to english

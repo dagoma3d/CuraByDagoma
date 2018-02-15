@@ -171,10 +171,10 @@ def _(n):
 
 setting('layer_height',              0.1, float, 'basic',    _('Quality')).setRange(0.0001).setLabel(_("Layer height (mm)"), _("Layer height in millimeters.\nThis is the most important setting to determine the quality of your print. Normal quality prints are 0.1mm, high quality is 0.06mm. You can go up to 0.25mm with an Ultimaker for very fast prints at low quality."))
 setting('wall_thickness',            0.8, float, 'basic',    _('Quality')).setRange(0.0).setLabel(_("Shell thickness (mm)"), _("Thickness of the outside shell in the horizontal direction.\nThis is used in combination with the nozzle size to define the number\nof perimeter lines and the thickness of those perimeter lines."))
-setting('retraction_enable',        True, bool,  'basic',    _('Quality')).setLabel(_("Enable retraction"), _("Retract the filament when the nozzle is moving over a none-printed area. Details about the retraction can be configured in the advanced tab."))
+setting('retraction_enable',        True, bool,  'machine',    _('Quality')).setLabel(_("Enable retraction"), _("Retract the filament when the nozzle is moving over a none-printed area. Details about the retraction can be configured in the advanced tab."))
 setting('solid_layer_thickness',     0.6, float, 'basic',    _('Fill')).setRange(0).setLabel(_("Bottom/Top thickness (mm)"), _("This controls the thickness of the bottom and top layers, the amount of solid layers put down is calculated by the layer thickness and this value.\nHaving this value a multiple of the layer thickness makes sense. And keep it near your wall thickness to make an evenly strong part."))
 setting('fill_density',               20, float, 'basic',    _('Fill')).setRange(0, 100).setLabel(_("Fill Density (%)"), _("This controls how densely filled the insides of your print will be. For a solid part use 100%, for an empty part use 0%. A value around 20% is usually enough.\nThis won't affect the outside of the print and only adjusts how strong the part becomes."))
-setting('nozzle_size',               0.4, float, 'advanced', _('Machine')).setRange(0.1,10).setLabel(_("Nozzle size (mm)"), _("The nozzle size is very important, this is used to calculate the line width of the infill, and used to calculate the amount of outside wall lines and thickness for the wall thickness you entered in the print settings."))
+setting('nozzle_size',               0.4, float, 'machine', _('Machine')).setRange(0.1,10).setLabel(_("Nozzle size (mm)"), _("The nozzle size is very important, this is used to calculate the line width of the infill, and used to calculate the amount of outside wall lines and thickness for the wall thickness you entered in the print settings."))
 setting('print_speed',                50, float, 'basic',    _('Speed and Temperature')).setRange(1).setLabel(_("Print speed (mm/s)"), _("Speed at which printing happens. A well adjusted Ultimaker can reach 150mm/s, but for good quality prints you want to print slower. Printing speed depends on a lot of factors. So you will be experimenting with optimal settings for this."))
 setting('grip_temperature',          220, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("Grip temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
 setting('print_temperature',         220, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("Printing temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
@@ -351,7 +351,7 @@ setting('palpeur_enable', 'Palpeur', str, 'palpeur', _('Palpeur')).setLabel(_("A
 
 validators.warningAbove(settingsDictionary['filament_flow'], 150, _("More flow than 150% is rare and usually not recommended."))
 validators.warningBelow(settingsDictionary['filament_flow'], 50, _("Less flow than 50% is rare and usually not recommended."))
-validators.warningAbove(settingsDictionary['layer_height'], lambda : (float(getProfileSetting('nozzle_size')) * 80.0 / 100.0), _("Thicker layers then %.2fmm (80%% nozzle size) usually give bad results and are not recommended."))
+validators.warningAbove(settingsDictionary['layer_height'], lambda : (float(getMachineSetting('nozzle_size')) * 80.0 / 100.0), _("Thicker layers then %.2fmm (80%% nozzle size) usually give bad results and are not recommended."))
 validators.wallThicknessValidator(settingsDictionary['wall_thickness'])
 validators.warningAbove(settingsDictionary['print_speed'], 150.0, _("It is highly unlikely that your machine can achieve a printing speed above 150mm/s"))
 validators.printSpeedValidator(settingsDictionary['print_speed'])
@@ -364,7 +364,7 @@ validators.warningAbove(settingsDictionary['filament_diameter2'], 3.5, _("Are yo
 validators.warningAbove(settingsDictionary['filament_diameter3'], 3.5, _("Are you sure your filament is that thick? Normal filament is around 3mm or 1.75mm."))
 validators.warningAbove(settingsDictionary['filament_diameter4'], 3.5, _("Are you sure your filament is that thick? Normal filament is around 3mm or 1.75mm."))
 validators.warningAbove(settingsDictionary['travel_speed'], 300.0, _("It is highly unlikely that your machine can achieve a travel speed above 300mm/s"))
-validators.warningAbove(settingsDictionary['bottom_thickness'], lambda : (float(getProfileSetting('nozzle_size')) * 3.0 / 4.0), _("A bottom layer of more then %.2fmm (3/4 nozzle size) usually give bad results and is not recommended."))
+validators.warningAbove(settingsDictionary['bottom_thickness'], lambda : (float(getMachineSetting('nozzle_size')) * 3.0 / 4.0), _("A bottom layer of more then %.2fmm (3/4 nozzle size) usually give bad results and is not recommended."))
 
 #Conditions for multiple extruders
 settingsDictionary['print_temperature2'].addCondition(lambda : int(getMachineSetting('extruder_amount')) > 1)
@@ -549,14 +549,14 @@ def resetProfile():
 		set.setValue(set.getDefault())
 
 	if getMachineSetting('machine_type') == 'ultimaker':
-		putProfileSetting('nozzle_size', '0.4')
-		putProfileSetting('retraction_enable', 'True')
+		putMachineSetting('nozzle_size', '0.4')
+		putMachineSetting('retraction_enable', 'True')
 	elif getMachineSetting('machine_type') == 'ultimaker2':
-		putProfileSetting('nozzle_size', '0.4')
-		putProfileSetting('retraction_enable', 'True')
+		putMachineSetting('nozzle_size', '0.4')
+		putMachineSetting('retraction_enable', 'True')
 	else:
-		putProfileSetting('nozzle_size', '0.4')
-		putProfileSetting('retraction_enable', 'True')
+		putMachineSetting('nozzle_size', '0.4')
+		putMachineSetting('retraction_enable', 'True')
 
 def setProfileFromString(options):
 	"""
@@ -877,7 +877,7 @@ def resetTempOverride():
 #########################################################
 def calculateEdgeWidth():
 	wallThickness = getProfileSettingFloat('wall_thickness')
-	nozzleSize = getProfileSettingFloat('nozzle_size')
+	nozzleSize = getMachineSettingFloat('nozzle_size')
 
 	if getProfileSetting('spiralize') == 'True' or getProfileSetting('simple_mode') == 'True':
 		return wallThickness
@@ -898,7 +898,7 @@ def calculateEdgeWidth():
 
 def calculateLineCount():
 	wallThickness = getProfileSettingFloat('wall_thickness')
-	nozzleSize = getProfileSettingFloat('nozzle_size')
+	nozzleSize = getMachineSettingFloat('nozzle_size')
 
 	if wallThickness < 0.01:
 		return 0
@@ -1100,8 +1100,8 @@ def printSlicingInfo():
 	print '********* Slicing parameters *********'
 	print "grip_temperature : ", getProfileSetting('grip_temperature')
 	print "print_temperature : ", getProfileSetting('print_temperature')
-	print "nozzle_size : ", getProfileSetting('nozzle_size')
-	print "rectration_enable : ", getProfileSetting('retraction_enable')
+	print "nozzle_size : ", getMachineSetting('nozzle_size')
+	print "rectration_enable : ", getMachineSetting('retraction_enable')
 	print "fan_full_height : ", getProfileSetting('fan_full_height')
 	print "fan_speed : ", getProfileSetting('fan_speed')
 	print "fan_speed_max : ", getProfileSetting('fan_speed_max')

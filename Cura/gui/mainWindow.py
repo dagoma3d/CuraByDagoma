@@ -488,8 +488,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.setMachineSetting(printer, 'extruder_head_size_max_x')
 		self.setMachineSetting(printer, 'extruder_head_size_max_y')
 		self.setMachineSetting(printer, 'extruder_head_size_height')
-		self.setProfileSetting(printer, 'nozzle_size')
-		self.setProfileSetting(printer, 'retraction_enable')
+		self.setMachineSetting(printer, 'nozzle_size')
+		self.setMachineSetting(printer, 'retraction_enable')
 
 	def initConfiguration(self):
 		global_config = self.configuration.getElementsByTagName('Configuration')[0]
