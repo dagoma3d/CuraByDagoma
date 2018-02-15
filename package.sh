@@ -136,19 +136,21 @@ function replaceVars
 checkTool git "git: http://git-scm.com/"
 checkTool curl "curl: http://curl.haxx.se/"
 
-# Checkout CuraEngine
-if [ ! -d "CuraEngine" ]; then
-	git clone ${CURA_ENGINE_REPO}
-	if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-fi
+if [ $3 != "0" ]; then
+	# Checkout CuraEngine
+	if [ ! -d "CuraEngine" ]; then
+		git clone ${CURA_ENGINE_REPO}
+		if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
+	fi
 
-# Build CuraEngine
-cd CuraEngine
-git checkout ${CURA_ENGINE_VERSION}
-cd ..
-make -C CuraEngine clean
-make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
-if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+	# Build CuraEngine
+	cd CuraEngine
+	git checkout ${CURA_ENGINE_VERSION}
+	cd ..
+	make -C CuraEngine clean
+	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
+	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+fi
 
 #############################
 # Darwin

@@ -262,7 +262,7 @@ setting('lastFile', os.path.normpath(os.path.join(os.path.dirname(os.path.abspat
 setting('save_profile', 'False', bool, 'preference', 'hidden').setLabel(_("Save profile on slice"), _("When slicing save the profile as [stl_file]_profile.ini next to the model."))
 setting('filament_cost_kg', '46', float, 'advanced', _('Filament')).setLabel(_("Cost (price/kg)"), _("Cost of your filament per kg, to estimate the cost of the final print."))
 setting('filament_cost_meter', '0', float, 'advanced', _('Filament')).setLabel(_("Cost (price/m)"), _("Cost of your filament per meter, to estimate the cost of the final print."))
-setting('auto_detect_sd', 'True', bool, 'preference', 'hidden').setLabel(_("Auto detect SD card drive"), _("Auto detect the SD card. You can disable this because on some systems external hard-drives or USB sticks are detected as SD card."))
+setting('auto_detect_sd', 'True', bool, 'advanced', 'hidden').setLabel(_("Auto detect SD card drive"), _("Auto detect the SD card. You can disable this because on some systems external hard-drives or USB sticks are detected as SD card."))
 setting('check_for_updates', 'False', bool, 'preference', 'hidden').setLabel(_("Check for updates"), _("Check for newer versions of Cura on startup"))
 setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLabel(_("Send usage statistics"), _("Submit anonymous usage information to improve future versions of Cura"))
 setting('filament_index', 0, int, 'preference', 'hidden')
@@ -271,7 +271,7 @@ setting('xml_file', '', str, 'preference', 'hidden')
 setting('color_index', -1, int, 'preference', 'hidden')
 setting('fill_index', 2, int, 'preference', 'hidden')
 setting('precision_index', 0, int, 'preference', 'hidden')
-setting('printhead_index', 0, int, 'preference', 'hidden')
+setting('printerhead_index', 0, int, 'preference', 'hidden')
 setting('internal_use', 'False', bool, 'preference', 'hidden')
 setting('filament_physical_density', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
 
@@ -342,12 +342,12 @@ setting('machine_max_xy_jerk', '20.0', float, 'machine', 'hidden').setLabel(_("X
 setting('machine_max_z_jerk', '0.4', float, 'machine', 'hidden').setLabel(_("Z \"Jerk\""), _("."))
 setting('machine_max_e_jerk', '5.0', float, 'machine', 'hidden').setLabel(_("E \"Jerk\""), _("."))
 
-setting('printing_surface_name', '', str, 'printing_surface', _('PrintingSurface')).setLabel(_("printing surface height (mm)"), _("Nom de la surface d'impression."))
-setting('printing_surface_height', 0.0, float, 'printing_surface', _('PrintingSurface')).setRange(0.0001).setLabel(_("printing surface height (mm)"), _("Hauteur de la surface d'impression."))
+setting('printing_surface_name', '', str, 'printing_surface', _('PrintingSurface')).setLabel(_("Printing surface name"), _("Printing surface name."))
+setting('printing_surface_height', 0.0, float, 'printing_surface', _('PrintingSurface')).setRange(0.0001).setLabel(_("Printing surface height (mm)"), _("Printing surface height."))
 
-setting('offset_value', 0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Valeur de l'offset (mm)"), _("Valeur calculee de l'offset."))
-setting('offset_input', 0.0, float, 'offset', _('Offset')).setRange(0.0001).setLabel(_("Entree de l'offset (mm)"), _("Valeur entree de l'offset."))
-setting('palpeur_enable', 'Palpeur', str, 'palpeur', _('Palpeur')).setLabel(_("Activer le palpeur "), _("A cocher si vous utilisez le palpeur."))
+setting('offset_value', 0.0, float, 'advanced', _('Offset')).setRange(0.0001).setLabel(_("Offset value (mm)"), _("Calculated offset value."))
+setting('offset_input', 0.0, float, 'advanced', _('Offset')).setRange(0.0001).setLabel(_("Offset value (mm)"), _("Input offset value."))
+setting('sensor', 'Sensor', str, 'advanced', _('Sensor')).setLabel(_("Enabled the sensor"), _("To check if you want to use the sensor."))
 
 validators.warningAbove(settingsDictionary['filament_flow'], 150, _("More flow than 150% is rare and usually not recommended."))
 validators.warningBelow(settingsDictionary['filament_flow'], 50, _("Less flow than 50% is rare and usually not recommended."))
@@ -984,11 +984,10 @@ def getGCodeExtension():
 ## Alteration file functions
 #########################################################
 
-# Genere le Gcode pour le palpeur
 def getPalpeurGCode():
-	if getProfileSetting('palpeur_enable') == 'None' or getProfileSetting('palpeur_enable') == 'Disabled':
+	if getProfileSetting('sensor') == 'Disabled':
 		return ';No Sensor'
-	if getProfileSetting('palpeur_enable') == 'Palpeur' or getProfileSetting('palpeur_enable') == 'Enabled':
+	if getProfileSetting('sensor') == 'Enabled':
 		return 'G29'
 
 def replaceTagMatch(m):
@@ -1005,7 +1004,7 @@ def replaceTagMatch(m):
 	if tag == 'filament_name':
 		return ' ' + getPreference('filament_name')
 
-	if tag == 'palpeur' or tag == 'sensor':
+	if tag == 'sensor':
 		return getPalpeurGCode()
 
 	if tag == 'z_offset':
@@ -1127,5 +1126,5 @@ def printSlicingInfo():
 	print "cool_min_layer_time : ", getProfileSetting('cool_min_layer_time')
 	print "support : ", getProfileSetting('support')
 	print "platform_adhesion : ", getProfileSetting('platform_adhesion')
-	print "palpeur_enable : ", getProfileSetting('palpeur_enable')
+	print "sensor : ", getProfileSetting('sensor')
 	print '**************************************'

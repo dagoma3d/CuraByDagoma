@@ -550,39 +550,6 @@
 		</Precision>
 	</Precisions>
 
-	<!-- Support definitions -->
-	<Supports>
-		<Support name="None">
-			<support>None</support>
-		</Support>
-		<Support name="Sides touching the build plate">
-			<support>Touching buildplate</support>
-		</Support>
-		<Support name="Everywhere (including holes)">
-			<support>Everywhere</support>
-		</Support>
-	</Supports>
-
-	<!-- Adhesion surface definitions -->
-	<Brims>
-		<Brim_Enable>
-			<platform_adhesion>Brim</platform_adhesion>
-		</Brim_Enable>
-		<Brim_Disable>
-			<platform_adhesion>None</platform_adhesion>
-		</Brim_Disable>
-	</Brims>
-
-	<!-- Sensor definitions -->
-	<Sensors>
-		<Sensor_Enable>
-			<value>Enabled</value>
-		</Sensor_Enable>
-		<Sensor_Disable>
-			<value>Disabled</value>
-		</Sensor_Disable>
-	</Sensors>
-
 	<!-- Printer head definitions -->
 	<PrinterHeads>
 		<PrinterHead name="Standard printhead (v2)">

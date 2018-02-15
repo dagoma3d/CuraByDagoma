@@ -125,7 +125,7 @@ class CuraApp(wx.App):
 					profile.putPreference('color_index', -1)
 					profile.putPreference('fill_index', 1)
 					profile.putPreference('precision_index', 0)
-					profile.putPreference('printhead_index', 0)
+					profile.putPreference('printerhead_index', 0)
 				except:
 					pass
 

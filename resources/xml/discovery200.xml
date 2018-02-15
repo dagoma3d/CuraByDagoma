@@ -498,19 +498,6 @@
 		</Precision>
 	</Precisions>
 
-	<!-- Support definitions -->
-	<Supports>
-		<Support name="None">
-			<support>None</support>
-		</Support>
-		<Support name="Sides touching the build plate">
-			<support>Touching buildplate</support>
-		</Support>
-		<Support name="Everywhere (including holes)">
-			<support>Everywhere</support>
-		</Support>
-	</Supports>
-
 	<!-- Printing surfaces definitions -->
 	<PrintingSurfaces>
 		<PrintingSurface name="3M blue scotch">
@@ -523,26 +510,6 @@
 			<printing_surface_height>0.0</printing_surface_height>
 		</PrintingSurface>
 	</PrintingSurfaces>
-
-	<!-- Adhesion surface definitions -->
-	<Brims>
-		<Brim_Enable>
-			<platform_adhesion>Brim</platform_adhesion>
-		</Brim_Enable>
-		<Brim_Disable>
-			<platform_adhesion>None</platform_adhesion>
-		</Brim_Disable>
-	</Brims>
-
-	<!-- Sensor definitions -->
-	<Sensors>
-		<Sensor_Enable>
-			<value>Enabled</value>
-		</Sensor_Enable>
-		<Sensor_Disable>
-			<value>Disabled</value>
-		</Sensor_Disable>
-	</Sensors>
 
 	<!-- Printer definition -->
 	<Printer>
@@ -628,9 +595,9 @@ G28 X
 G28 Y
 G01 X20 Y100
 G28 Z
-;bloc palpeur
-;{palpeur}
-;bloc Offset
+;Sensor activation
+;{sensor}
+;Offset
 G92 Z10
 G91		;relative positioning
 G1 Z{z_offset}

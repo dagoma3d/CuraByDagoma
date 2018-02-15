@@ -63,7 +63,7 @@ def _findInTree(t, n):
 def getPossibleSDcardDrives():
 	global _removableCache, _removableCacheUpdateThread
 
-	if profile.getPreference('auto_detect_sd') == 'False':
+	if profile.getProfileSetting('auto_detect_sd') == 'False':
 		return []
 
 	if _removableCacheUpdateThread is None:

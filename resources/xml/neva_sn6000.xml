@@ -223,7 +223,6 @@
 				<model_colour>#0000ff</model_colour>
 			</Color>
 		</Filament>
-
 		<Filament name="PLA PolyMax">
 			<grip_temperature>220</grip_temperature>
 			<print_temperature>210</print_temperature>
@@ -250,7 +249,6 @@
 				<model_colour>#FFFFFF</model_colour>
 			</Color>
 		</Filament>
-
 		<Filament name="PLA OctoFiber">
 			<grip_temperature>225</grip_temperature>
 			<print_temperature>215</print_temperature>
@@ -403,7 +401,6 @@
 				<model_colour>#FFFFFF</model_colour>
 			</Color>
 		</Filament>
-
 		<Filament name="PLA PolyFlex">
 			<grip_temperature>230</grip_temperature>
 			<print_temperature>230</print_temperature>
@@ -427,7 +424,6 @@
 				<model_colour>#FFFFFF</model_colour>
 			</Color>
 		</Filament>
-
 		<Filament name="Other PLA type">
 			<grip_temperature>225</grip_temperature>
 			<print_temperature>195</print_temperature>
@@ -508,39 +504,6 @@
 			<insetx_speed>35</insetx_speed>
 		</Precision>
 	</Precisions>
-
-	<!-- Support definitions -->
-	<Supports>
-		<Support name="None">
-			<support>None</support>
-		</Support>
-		<Support name="Sides touching the build plate">
-			<support>Touching buildplate</support>
-		</Support>
-		<Support name="Everywhere (including holes)">
-			<support>Everywhere</support>
-		</Support>
-	</Supports>
-
-	<!-- Adhesion surface definitions -->
-	<Brims>
-		<Brim_Enable>
-			<platform_adhesion>Brim</platform_adhesion>
-		</Brim_Enable>
-		<Brim_Disable>
-			<platform_adhesion>None</platform_adhesion>
-		</Brim_Disable>
-	</Brims>
-
-	<!-- Sensor definitions -->
-	<Sensors>
-		<Sensor_Enable>
-			<value>Enabled</value>
-		</Sensor_Enable>
-		<Sensor_Disable>
-			<value>Disabled</value>
-		</Sensor_Disable>
-	</Sensors>
 
 	<!-- Printer definition -->
 	<Printer>
