@@ -19,12 +19,14 @@ case "$1" in
 		SCRIPTS_DIR=darwin
 		OS=Darwin
 		BUILD_TARGET=$1
+		BUILD_ENGINE=$2
 		CXX=g++
 		;;
 	win32)
 		SCRIPTS_DIR=win32
 		OS=Windows_NT
 		BUILD_TARGET=$1
+		BUILD_ENGINE=$2
 		CXX=g++
 		export LDFLAGS=--static
 		;;
@@ -32,6 +34,7 @@ case "$1" in
 		SCRIPTS_DIR=linux
 		OS=Linux
 		LINUX_TARGET_NAME="curabydago"
+		BUILD_ENGINE=$3
 		case "$2" in
 		32)
 			BUILD_ARCHITECTURE=i386
@@ -136,7 +139,7 @@ function replaceVars
 checkTool git "git: http://git-scm.com/"
 checkTool curl "curl: http://curl.haxx.se/"
 
-if [ $3 != "0" ]; then
+if [ $BUILD_ENGINE != "0" ]; then
 	# Checkout CuraEngine
 	if [ ! -d "CuraEngine" ]; then
 		git clone ${CURA_ENGINE_REPO}
