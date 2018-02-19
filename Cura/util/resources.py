@@ -93,10 +93,10 @@ def getPrinterOptions(internalUse = 'False'):
 		'img': 'neva.png'
 	}
 
-	neva_sn6000 = {
-		'name': 'Neva',
+	neva_magis = {
+		'name': 'Neva Magis',
 		'desc': '(Serial number >= 6000)',
-		'config': 'neva_sn6000.xml',
+		'config': 'neva_magis.xml',
 		'img': 'neva.png'
 	}
 
@@ -106,5 +106,5 @@ def getPrinterOptions(internalUse = 'False'):
 	if internalUse == 'True':
 		printerOptions.append(explorer350)
 	printerOptions.append(neva)
-	printerOptions.append(neva_sn6000)
+	printerOptions.append(neva_magis)
 	return printerOptions
