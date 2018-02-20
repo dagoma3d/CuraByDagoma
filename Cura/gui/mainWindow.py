@@ -272,6 +272,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.filament_physical_density = '1270'
 			self.filament_cost_kg = '46'
 			self.model_colour = '#FF9B00'
+			self.layer_height = None
+			self.solid_layer_thickness = None
+			self.wall_thickness = None
+			self.print_speed = None
+			self.temp_preci = '0'
+			self.travel_speed = None
+			self.bottom_layer_speed = None
+			self.infill_speed = None
+			self.inset0_speed = None
+			self.insetx_speed = None
 
 	class Filling:
 		def __init__(self):
@@ -488,21 +498,30 @@ class normalSettingsPanel(configBase.configPanelBase):
 				fila.type = name
 			try :
 				if len(filament.getElementsByTagName("grip_temperature")) > 0 is not None:
-					fila.grip_temperature = filament.getElementsByTagName("grip_temperature")[0].childNodes[0].data
+					fila.grip_temperature = filament.getElementsByTagName("grip_temperature")[0].firstChild.nodeValue
 				else:
-					fila.grip_temperature = filament.getElementsByTagName("print_temperature")[0].childNodes[0].data
-				fila.print_temperature = filament.getElementsByTagName("print_temperature")[0].childNodes[0].data
-				fila.filament_diameter = filament.getElementsByTagName("filament_diameter")[0].childNodes[0].data
-				fila.filament_flow = filament.getElementsByTagName("filament_flow")[0].childNodes[0].data
-				fila.retraction_speed = filament.getElementsByTagName("retraction_speed")[0].childNodes[0].data
-				fila.retraction_amount = filament.getElementsByTagName("retraction_amount")[0].childNodes[0].data
-				fila.filament_physical_density = filament.getElementsByTagName("filament_physical_density")[0].childNodes[0].data
-				fila.filament_cost_kg = filament.getElementsByTagName("filament_cost_kg")[0].childNodes[0].data
+					fila.grip_temperature = filament.getElementsByTagName("print_temperature")[0].firstChild.nodeValue
+				fila.print_temperature = filament.getElementsByTagName("print_temperature")[0].firstChild.nodeValue
+				fila.filament_diameter = filament.getElementsByTagName("filament_diameter")[0].firstChild.nodeValue
+				fila.filament_flow = filament.getElementsByTagName("filament_flow")[0].firstChild.nodeValue
+				fila.retraction_speed = filament.getElementsByTagName("retraction_speed")[0].firstChild.nodeValue
+				fila.retraction_amount = filament.getElementsByTagName("retraction_amount")[0].firstChild.nodeValue
+				fila.filament_physical_density = filament.getElementsByTagName("filament_physical_density")[0].firstChild.nodeValue
+				fila.filament_cost_kg = filament.getElementsByTagName("filament_cost_kg")[0].firstChild.nodeValue
 				model_colour_tags = filament.getElementsByTagName("model_colour")
 				if len(model_colour_tags) > 0:
-					fila.model_colour = filament.getElementsByTagName("model_colour")[0].childNodes[0].data
-				else:
-					fila.model_colour = '#FF9B00'
+					fila.model_colour = model_colour_tags[0].firstChild.nodeValue
+				filament_type = fila.type.lower()
+				if 'wood' in filament_type or 'flex' in filament_type:
+					fila.layer_height = filament.getElementsByTagName("layer_height")[0].firstChild.nodeValue
+					fila.solid_layer_thickness = filament.getElementsByTagName("solid_layer_thickness")[0].firstChild.nodeValue
+					fila.wall_thickness = filament.getElementsByTagName("wall_thickness")[0].firstChild.nodeValue
+					fila.print_speed = filament.getElementsByTagName("print_speed")[0].firstChild.nodeValue
+					fila.travel_speed = filament.getElementsByTagName("travel_speed")[0].firstChild.nodeValue
+					fila.bottom_layer_speed = filament.getElementsByTagName("bottom_layer_speed")[0].firstChild.nodeValue
+					fila.infill_speed = filament.getElementsByTagName("infill_speed")[0].firstChild.nodeValue
+					fila.inset0_speed = filament.getElementsByTagName("inset0_speed")[0].firstChild.nodeValue
+					fila.insetx_speed = filament.getElementsByTagName("insetx_speed")[0].firstChild.nodeValue
 				self.filaments.append(fila)
 			except:
 				print 'Some Error in Filament Bloc'
@@ -527,12 +546,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 				try :
 					fill_density_tags = filling.getElementsByTagName("fill_density")
 					if len(fill_density_tags) > 0:
-						new_filling.fill_density = fill_density_tags[0].childNodes[0].data
+						new_filling.fill_density = fill_density_tags[0].firstChild.nodeValue
 					else:
 						new_filling.fill_density = '0'
 					spiralize_tags = filling.getElementsByTagName("spiralize")
 					if len(spiralize_tags) > 0:
-						new_filling.spiralize = spiralize_tags[0].childNodes[0].data
+						new_filling.spiralize = spiralize_tags[0].firstChild.nodeValue
 					else:
 						new_filling.spiralize = 'False'
 					self.fillings.append(new_filling)
@@ -553,16 +572,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				preci.type = name
 				try :
-					preci.layer_height = precision.getElementsByTagName("layer_height")[0].childNodes[0].data
-					preci.solid_layer_thickness = precision.getElementsByTagName("solid_layer_thickness")[0].childNodes[0].data
-					preci.wall_thickness = precision.getElementsByTagName("wall_thickness")[0].childNodes[0].data
-					preci.print_speed = precision.getElementsByTagName("print_speed")[0].childNodes[0].data
-					preci.temp_preci = precision.getElementsByTagName("temp_preci")[0].childNodes[0].data
-					preci.travel_speed = precision.getElementsByTagName("travel_speed")[0].childNodes[0].data
-					preci.bottom_layer_speed = precision.getElementsByTagName("bottom_layer_speed")[0].childNodes[0].data
-					preci.infill_speed = precision.getElementsByTagName("infill_speed")[0].childNodes[0].data
-					preci.inset0_speed = precision.getElementsByTagName("inset0_speed")[0].childNodes[0].data
-					preci.insetx_speed = precision.getElementsByTagName("insetx_speed")[0].childNodes[0].data
+					preci.layer_height = precision.getElementsByTagName("layer_height")[0].firstChild.nodeValue
+					preci.solid_layer_thickness = precision.getElementsByTagName("solid_layer_thickness")[0].firstChild.nodeValue
+					preci.wall_thickness = precision.getElementsByTagName("wall_thickness")[0].firstChild.nodeValue
+					preci.print_speed = precision.getElementsByTagName("print_speed")[0].firstChild.nodeValue
+					preci.temp_preci = precision.getElementsByTagName("temp_preci")[0].firstChild.nodeValue
+					preci.travel_speed = precision.getElementsByTagName("travel_speed")[0].firstChild.nodeValue
+					preci.bottom_layer_speed = precision.getElementsByTagName("bottom_layer_speed")[0].firstChild.nodeValue
+					preci.infill_speed = precision.getElementsByTagName("infill_speed")[0].firstChild.nodeValue
+					preci.inset0_speed = precision.getElementsByTagName("inset0_speed")[0].firstChild.nodeValue
+					preci.insetx_speed = precision.getElementsByTagName("insetx_speed")[0].firstChild.nodeValue
 					self.precisions.append(preci)
 				except :
 					print 'Some Error in Precision Bloc'
@@ -581,8 +600,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				new_printerhead.type = name
 				try :
-					new_printerhead.fan_speed = printerhead.getElementsByTagName("fan_speed")[0].childNodes[0].data
-					new_printerhead.cool_min_layer_time = printerhead.getElementsByTagName("cool_min_layer_time")[0].childNodes[0].data
+					new_printerhead.fan_speed = printerhead.getElementsByTagName("fan_speed")[0].firstChild.nodeValue
+					new_printerhead.cool_min_layer_time = printerhead.getElementsByTagName("cool_min_layer_time")[0].firstChild.nodeValue
 					self.heads.append(new_printerhead)
 				except :
 					print 'Some Error in PrinterHead Bloc'
@@ -594,8 +613,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			choices.append(name)
 			printhead = self.PrintingSurface()
 			printhead.type = name
-			printhead.fan_speed = printerConfiguration.getElementsByTagName("fan_speed")[0].childNodes[0].data
-			printhead.cool_min_layer_time = printerConfiguration.getElementsByTagName("cool_min_layer_time")[0].childNodes[0].data
+			printhead.fan_speed = printerConfiguration.getElementsByTagName("fan_speed")[0].firstChild.nodeValue
+			printhead.cool_min_layer_time = printerConfiguration.getElementsByTagName("cool_min_layer_time")[0].firstChild.nodeValue
 			self.heads.append(printhead)
 			profile.putPreference('printerhead_index', '0')
 
@@ -650,7 +669,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				prtsurf.name = name
 				try :
-					prtsurf.height = printing_surface.getElementsByTagName("printing_surface_height")[0].childNodes[0].data
+					prtsurf.height = printing_surface.getElementsByTagName("printing_surface_height")[0].firstChild.nodeValue
 					self.printing_surfaces.append(prtsurf)
 				except :
 					print 'Some Error in Printing Surface Bloc'
@@ -675,7 +694,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('filament_name', fila.type)
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 		calculated_print_temperature = float(fila.print_temperature)
-		if fila.type == 'Other PLA type' or fila.type == 'Autre PLA':
+		filament_type = fila.type.lower()
+		if 'other' in filament_type:
 			self.warningStaticText.SetLabel(_("This setting must be used with caution!"))
 			self.warningStaticText.SetForegroundColour((169, 68, 66))
 			self.temperatureSpinCtrl.Enable(True)
@@ -693,6 +713,21 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
 		profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
 		profile.putPreference('model_colour', fila.model_colour)
+		if 'wood' in filament_type or 'flex' in filament_type:
+			self.precisionRadioBox.Enable(False)
+		else:
+			self.precisionRadioBox.Enable(True)
+			precision_index = int(profile.getPreference('precision_index'))
+			fila = self.precisions[precision_index]
+		profile.putProfileSetting('layer_height', fila.layer_height)
+		profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
+		profile.putProfileSetting('wall_thickness', fila.wall_thickness)
+		profile.putProfileSetting('print_speed', fila.print_speed)
+		profile.putProfileSetting('travel_speed', fila.travel_speed)
+		profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
+		profile.putProfileSetting('infill_speed', fila.infill_speed)
+		profile.putProfileSetting('inset0_speed', fila.inset0_speed)
+		profile.putProfileSetting('insetx_speed', fila.insetx_speed)
 
 		self.colorComboBox.Clear()
 		self.colorComboBox.Append(_("Generic"))
@@ -728,7 +763,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 			print_temperature_tags = color.getElementsByTagName("print_temperature")
 			if len(print_temperature_tags) > 0:
-				print_temperature = float(print_temperature_tags[0].childNodes[0].data)
+				print_temperature = float(print_temperature_tags[0].firstChild.nodeValue)
 			else:
 				print_temperature = float(fila.print_temperature)
 			if not self.temperatureSpinCtrl.IsEnabled():
@@ -738,56 +773,56 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 			grip_temperature_tags = color.getElementsByTagName("grip_temperature")
 			if len(grip_temperature_tags) > 0:
-				grip_temperature = print_temperature_tags[0].childNodes[0].data
+				grip_temperature = print_temperature_tags[0].firstChild.nodeValue
 			else:
 				grip_temperature = fila.grip_temperature
 			profile.putProfileSetting('grip_temperature', str(grip_temperature))
 
 			filament_diameter_tags = color.getElementsByTagName("filament_diameter")
 			if len(filament_diameter_tags) > 0:
-				filament_diameter = filament_diameter_tags[0].childNodes[0].data
+				filament_diameter = filament_diameter_tags[0].firstChild.nodeValue
 			else:
 				filament_diameter = fila.filament_diameter
 			profile.putProfileSetting('filament_diameter', str(filament_diameter))
 
 			filament_flow_tags = color.getElementsByTagName("filament_flow")
 			if len(filament_flow_tags) > 0:
-				filament_flow = filament_flow_tags[0].childNodes[0].data
+				filament_flow = filament_flow_tags[0].firstChild.nodeValue
 			else:
 				filament_flow = fila.filament_flow
 			profile.putProfileSetting('filament_flow', str(filament_flow))
 
 			retraction_speed_tags = color.getElementsByTagName("retraction_speed")
 			if len(retraction_speed_tags) > 0:
-				retraction_speed = retraction_speed_tags[0].childNodes[0].data
+				retraction_speed = retraction_speed_tags[0].firstChild.nodeValue
 			else:
 				retraction_speed = fila.retraction_speed
 			profile.putProfileSetting('retraction_speed', str(retraction_speed))
 
 			retraction_amount_tags = color.getElementsByTagName("retraction_amount")
 			if len(retraction_amount_tags) > 0:
-				retraction_amount = retraction_amount_tags[0].childNodes[0].data
+				retraction_amount = retraction_amount_tags[0].firstChild.nodeValue
 			else:
 				retraction_amount = fila.retraction_amount
 			profile.putProfileSetting('retraction_amount', str(retraction_amount))
 
 			filament_physical_density_tags = color.getElementsByTagName("filament_physical_density")
 			if len(filament_physical_density_tags) > 0:
-				filament_physical_density = filament_physical_density_tags[0].childNodes[0].data
+				filament_physical_density = filament_physical_density_tags[0].firstChild.nodeValue
 			else:
 				filament_physical_density = fila.filament_physical_density
 			profile.putProfileSetting('filament_physical_density', str(filament_physical_density))
 
 			filament_cost_kg_tags = color.getElementsByTagName("filament_cost_kg")
 			if len(filament_cost_kg_tags) > 0:
-				filament_cost_kg = filament_cost_kg_tags[0].childNodes[0].data
+				filament_cost_kg = filament_cost_kg_tags[0].firstChild.nodeValue
 			else:
 				filament_cost_kg = fila.filament_cost_kg
 			profile.putProfileSetting('filament_cost_kg', str(filament_cost_kg))
 
 			model_colour_tags = color.getElementsByTagName("model_colour")
 			if len(model_colour_tags) > 0:
-				model_colour = model_colour_tags[0].childNodes[0].data
+				model_colour = model_colour_tags[0].firstChild.nodeValue
 			else:
 				model_colour = fila.model_colour
 			profile.putPreference('model_colour', model_colour)
@@ -819,8 +854,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def RefreshPrecision(self):
 		precision_index = self.precisionRadioBox.GetSelection()
-		preci = self.precisions[precision_index]
 		profile.putPreference('precision_index', precision_index)
+		preci = self.precisions[precision_index]
+		filament_index = int(profile.getPreference('filament_index'))
+		filament = self.filaments[filament_index]
+		filament_type = filament.type.lower()
+		if 'wood' in filament_type or 'flex' in filament_type:
+			preci = filament
 		profile.putProfileSetting('layer_height', preci.layer_height)
 		profile.putProfileSetting('solid_layer_thickness', preci.solid_layer_thickness)
 		profile.putProfileSetting('wall_thickness', preci.wall_thickness)
