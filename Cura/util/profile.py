@@ -879,8 +879,8 @@ def calculateEdgeWidth():
 	wallThickness = getProfileSettingFloat('wall_thickness')
 	nozzleSize = getMachineSettingFloat('nozzle_size')
 
-	if getProfileSetting('spiralize') == 'True' or getProfileSetting('simple_mode') == 'True':
-		return wallThickness
+	#if getProfileSetting('spiralize') == 'True' or getProfileSetting('simple_mode') == 'True':
+	#	return wallThickness
 
 	if wallThickness < 0.01:
 		return nozzleSize
