@@ -592,7 +592,6 @@ class Engine(object):
 			settings['gcodeFlavor'] = 5
 		if profile.getProfileSetting('spiralize') == 'True':
 			settings['spiralizeMode'] = 1
-			settings['filamentFlow'] = settings['filamentFlow'] / 2
 			settings['downSkinCount'] = 2
 			settings['minimalLayerTime'] = 5
 		if profile.getProfileSetting('simple_mode') == 'True':
