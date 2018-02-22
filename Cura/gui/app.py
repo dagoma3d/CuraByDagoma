@@ -97,20 +97,6 @@ class CuraApp(wx.App):
 		from Cura.gui import configWizard
 		from Cura.util import profile
 		from Cura.util import resources
-
-		# Is it the first run after installation?
-		if sys.platform.startswith('darwin'):
-			newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
-			if os.path.isfile(newinstallfile):
-				try:
-					os.remove(newinstallfile)
-					configfile = os.path.normpath(os.path.join(profile.getBasePath(), 'current_profile.ini'))
-					os.remove(configfile)
-					configfile = os.path.normpath(os.path.join(profile.getBasePath(), 'preferences.ini'))
-					os.remove(configfile)
-				except:
-					pass
-
 		profile.putPreference('cbd_version', '1.1.0')
 		# it's important to set up localization at very beginning to install
 		language = profile.getPreference('language')
@@ -127,6 +113,22 @@ class CuraApp(wx.App):
 		if self.splash is not None:
 			self.splash.Show(False)
 			self.splash = None
+
+		# Is it the first run after installation?
+		if sys.platform.startswith('darwin'):
+			newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
+			if os.path.isfile(newinstallfile):
+				try:
+					os.remove(newinstallfile)
+					profile.putMachineSetting('machine_name', '')
+					profile.putPreference('printer_index', 0)
+					profile.putPreference('filament_index', 0)
+					profile.putPreference('color_index', -1)
+					profile.putPreference('fill_index', 1)
+					profile.putPreference('precision_index', 0)
+					profile.putPreference('printerhead_index', 0)
+				except:
+					pass
 
 		#If we haven't run it before, run the configuration wizard.
 		if profile.getMachineSetting('machine_name') == '':
