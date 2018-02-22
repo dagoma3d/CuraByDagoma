@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- XML for Neva - 2017/30/11 -->
+<!-- XML for Neva - 2018/21/02 -->
 <Dagoma>
 	<!-- Filament definitions -->
 	<Filaments>
@@ -8,58 +8,43 @@
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>100</filament_flow>
-			<retraction_speed>65</retraction_speed>
-			<retraction_amount>4.5</retraction_amount>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>4</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>33.20</filament_cost_kg>
 			<model_colour>#FF9B00</model_colour>
 			<Color name="Silver">
 				<model_colour>#C0C0C0</model_colour>
 			</Color>
-			<Color name="Silver flake">
-				<model_colour>#C0C0C0</model_colour>
+			<Color name="Pearl white">
+				<model_colour>#eeebd9</model_colour>
 			</Color>
-			<Color name="White">
-				<model_colour>#FFFFFF</model_colour>
-			</Color>
-			<Color name="Clear blue">
-				<model_colour>#00BFFF</model_colour>
-			</Color>
-			<Color name="Electric blue">
-				<model_colour>#0000CD</model_colour>
-			</Color>
-			<Color name="Ocean blue">
-				<model_colour>#1E90FF</model_colour>
-			</Color>
-			<Color name="Capuccino">
-				<model_colour>#be9b7b</model_colour>
-			</Color>
-			<Color name="Chocolate brown">
-				<model_colour>#8B4513</model_colour>
-			</Color>
-			<Color name="Lime green">
-				<model_colour>#32CD32</model_colour>
+			<Color name="Pearl blue">
+				<model_colour>#4FA1C2</model_colour>
 			</Color>
 			<Color name="Cream white">
 				<model_colour>#FFFAFA</model_colour>
 			</Color>
-			<Color name="Lemon yellow">
-				<model_colour>#eeee00</model_colour>
+			<Color name="Baby blue">
+				<model_colour>#89cff0</model_colour>
 			</Color>
-			<Color name="Sunshine yellow">
-				<model_colour>#ffff00</model_colour>
+			<Color name="Bronze">
+				<model_colour>#cd7f32</model_colour>
 			</Color>
-			<Color name="Khaki">
-				<model_colour>#008b45</model_colour>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
+			<Color name="Fluor Yellow">
+				<model_colour>#ccff00</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
 			</Color>
 			<Color name="Purple">
 				<model_colour>#800080</model_colour>
 			</Color>
-			<Color name="Magenta">
-				<model_colour>#FF00FF</model_colour>
-			</Color>
-			<Color name="Mint">
-				<model_colour>#00FF00</model_colour>
+			<Color name="Brown">
+				<model_colour>#964B00</model_colour>
 			</Color>
 			<Color name="Black">
 				<model_colour>#191919</model_colour>
@@ -70,83 +55,140 @@
 			<Color name="Orange">
 				<model_colour>#FFA500</model_colour>
 			</Color>
-			<Color name="Sweet pink">
-				<model_colour>#FFB6C1</model_colour>
-			</Color>
-			<Color name="Cherry red">
-				<model_colour>#DC143C</model_colour>
-			</Color>
-			<Color name="Fire red">
-				<model_colour>#FF0000</model_colour>
-			</Color>
-			<Color name="Glass">
-				<model_colour>#FFFFFF</model_colour>
-			</Color>
-			<Color name="Vanilla">
-				<model_colour>#f3e5ab</model_colour>
-			</Color>
-			<Color name="Anthracite">
-				<model_colour>#4A5054</model_colour>
-			</Color>
-			<Color name="Primary red">
-				<model_colour>#FF0000</model_colour>
-			</Color>
-			<Color name="Primary yellow">
-				<model_colour>#00FF00</model_colour>
-			</Color>
-			<Color name="Pearl white">
-				<model_colour>#eeebd9</model_colour>
-			</Color>
-			<Color name="Pearl gray">
-				<model_colour>#FFFFFD</model_colour>
-			</Color>
-			<Color name="Ivory">
-				<model_colour>#FFFFF0</model_colour>
-			</Color>
-			<Color name="Plum">
-				<model_colour>#8E4585</model_colour>
-			</Color>
-			<Color name="Sand">
-				<model_colour>#c2b280</model_colour>
-			</Color>
-			<Color name="Phosphorescent">
-				<model_colour>#ffffff</model_colour>
-			</Color>
-			<Color name="Neon yellow">
-				<model_colour>#F3F315</model_colour>
-			</Color>
-			<Color name="Neon green">
-				<model_colour>#39FF14</model_colour>
-			</Color>
-			<Color name="Neon orange">
-				<model_colour>#FD5F00</model_colour>
-			</Color>
-			<Color name="Funky pink">
-				<model_colour>#F0A8C0</model_colour>
-			</Color>
-			<Color name="Marron">
-				<model_colour>#800000</model_colour>
-			</Color>
-			<Color name="Fir green">
-				<model_colour>#3C4941</model_colour>
-			</Color>
-			<Color name="Bronze">
-				<model_colour>#cd7f32</model_colour>
+			<Color name="Fluor orange">
+				<model_colour>#FE3917</model_colour>
 			</Color>
 			<Color name="Peach">
 				<model_colour>#FFDAB9</model_colour>
 			</Color>
-			<Color name="Blueberry">
-				<model_colour>#4f86f7</model_colour>
+			<Color name="Baby green">
+				<model_colour>#B2F187</model_colour>
 			</Color>
-			<Color name="Pistachio">
-				<model_colour>#93c572</model_colour>
+			<Color name="Glow green">
+				<model_colour>#51ff0d</model_colour>
 			</Color>
-			<Color name="Wood">
-				<print_temperature>205</print_temperature>
-				<filament_physical_density>831.92</filament_physical_density>
-				<filament_cost_kg>49.83</filament_cost_kg>
-				<model_colour>#855E42</model_colour>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#ff0000</model_colour>
+			</Color>
+			<Color name="Fluor green">
+				<model_colour>#B4FE00</model_colour>
+			</Color>
+			<Color name="Dark green">
+				<model_colour>#006400</model_colour>
+			</Color>
+			<Color name="Primary red">
+				<model_colour>#ff0000</model_colour>
+			</Color>
+			<Color name="Silver glitter">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#C0C0C0</model_colour>
+			</Color>
+			<Color name="Azure">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#007FFF</model_colour>
+			</Color>
+			<Color name="Electric blue">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#0892d0</model_colour>
+			</Color>
+			<Color name="Ocean blue">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#0077be</model_colour>
+			</Color>
+			<Color name="Desert">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#EDC9AF</model_colour>
+			</Color>
+			<Color name="Lime green">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#32CD32</model_colour>
+			</Color>
+			<Color name="Lemon yellow">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#fff44f</model_colour>
+			</Color>
+			<Color name="Sun yellow">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#FDB813</model_colour>
+			</Color>
+			<Color name="Camouflage">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#78866b</model_colour>
+			</Color>
+			<Color name="Magenta">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#FF00FF</model_colour>
+			</Color>
+			<Color name="Chocolate brown">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#8B4513</model_colour>
+			</Color>
+			<Color name="Baby pink">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#F4C2C2</model_colour>
+			</Color>
+			<Color name="Rubin red">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#CA005D</model_colour>
+			</Color>
+			<Color name="Ivory">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#FFFFF0</model_colour>
+			</Color>
+			<Color name="Violet">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#EE82EE</model_colour>
+			</Color>
+			<Color name="Mustard">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#ffdb58</model_colour>
+			</Color>
+			<Color name="Natural">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Solid green">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#00FF00</model_colour>
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyPlus">
@@ -193,9 +235,35 @@
 				<model_colour>#0000ff</model_colour>
 			</Color>
 		</Filament>
-		<Filament name="PLA OctoFiber">
+		<Filament name="PLA PolyMax">
 			<grip_temperature>235</grip_temperature>
 			<print_temperature>210</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>4.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>59.86</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Blue">
+				<model_colour>#0000FF</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF000</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA OctoFiber">
+			<grip_temperature>235</grip_temperature>
+			<print_temperature>215</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>100</filament_flow>
 			<retraction_speed>65</retraction_speed>
@@ -273,6 +341,7 @@
 			<retraction_amount>4.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>46.53</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
 			<Color name="Orange">
 				<model_colour>#FFA500</model_colour>
 			</Color>
@@ -377,9 +446,91 @@
 				<model_colour>#FFFFFF</model_colour>
 			</Color>
 		</Filament>
+		<Filament name="PLA PolyWood">
+			<grip_temperature>205</grip_temperature>
+			<print_temperature>205</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>40</retraction_speed>
+			<retraction_amount>6.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<model_colour>#855E42</model_colour>
+			<layer_height>0.15</layer_height>
+			<solid_layer_thickness>1.05</solid_layer_thickness>
+			<wall_thickness>1.2</wall_thickness>
+			<print_speed>50</print_speed>
+			<travel_speed>60</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>50</infill_speed>
+			<inset0_speed>40</inset0_speed>
+			<insetx_speed>45</insetx_speed>
+		</Filament>
+		<Filament name="PLA Fiberlogy">
+			<grip_temperature>225</grip_temperature>
+			<print_temperature>225</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>55</retraction_speed>
+			<retraction_amount>4.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>41.05</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Beige">
+				<model_colour>#F5F5DC</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="Light blue">
+				<model_colour>#ADD8E6</model_colour>
+			</Color>
+			<Color name="Brown">
+				<model_colour>#964B00</model_colour>
+			</Color>
+			<Color name="Cherry red">
+				<model_colour>#DC143C</model_colour>
+			</Color>
+			<Color name="Anthracite">
+				<model_colour>#4A5054</model_colour>
+			</Color>
+			<Color name="Light gray">
+				<model_colour>#D3D3D3</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#00ff00</model_colour>
+			</Color>
+			<Color name="Light green">
+				<model_colour>#90EE90</model_colour>
+			</Color>
+			<Color name="Navy blue">
+				<model_colour>#000080</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Purple">
+				<model_colour>#800080</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Translucent">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+		</Filament>
 		<Filament name="Other PLA type">
 			<grip_temperature>235</grip_temperature>
-			<print_temperature>195</print_temperature>
+			<print_temperature>205</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
 			<retraction_speed>65</retraction_speed>
