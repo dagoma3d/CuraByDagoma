@@ -120,6 +120,13 @@ class CuraApp(wx.App):
 			if os.path.isfile(newinstallfile):
 				try:
 					os.remove(newinstallfile)
+					profile.putMachineSetting('machine_name', '')
+					profile.putPreference('printer_index', 0)
+					profile.putPreference('filament_index', 0)
+					profile.putPreference('color_index', -1)
+					profile.putPreference('fill_index', 1)
+					profile.putPreference('precision_index', 0)
+					profile.putPreference('printerhead_index', 0)
 					import shutil
 					shutil.rmtree(profile.getBasePath())
 				except:
