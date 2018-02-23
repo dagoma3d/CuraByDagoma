@@ -2414,10 +2414,10 @@ msgstr "Filling density :"
 msgid "Filling density :"
 msgstr ""
 
-msgid "Creux (coque)"
-msgstr "Hollow (shell)"
+msgid "Creux (0%)"
+msgstr "Hollow (0%)"
 
-msgid "Hollow (shell)"
+msgid "Hollow (0%)"
 msgstr ""
 
 msgid "Rempli (17%)"

@@ -510,7 +510,7 @@
 		<Filling name="Vase">
 			<spiralize>True</spiralize>
 		</Filling>
-		<Filling name="Hollow (shell)">
+		<Filling name="Hollow (0%)">
 			<fill_density>0</fill_density>
 		</Filling>
 		<Filling name="Filling (17%)">

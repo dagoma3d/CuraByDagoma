@@ -2762,11 +2762,11 @@ msgstr ""
 msgid "Filling density :"
 msgstr "Remplissage de la pièce :"
 
-msgid "Creux (coque)"
+msgid "Creux (0%)"
 msgstr ""
 
-msgid "Hollow (shell)"
-msgstr "Creux (coque)"
+msgid "Hollow (0%)"
+msgstr "Creux (0%)"
 
 msgid "Rempli (17%)"
 msgstr ""
