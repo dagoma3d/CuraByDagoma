@@ -268,7 +268,7 @@ setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLa
 setting('filament_index', 0, int, 'preference', 'hidden')
 setting('filament_name', '', str, 'preference', 'hidden')
 setting('xml_file', '', str, 'preference', 'hidden')
-setting('color_index', -1, int, 'preference', 'hidden')
+setting('color_label', 'Generic', str, 'preference', 'hidden')
 setting('fill_index', 2, int, 'preference', 'hidden')
 setting('precision_index', 0, int, 'preference', 'hidden')
 setting('printerhead_index', 0, int, 'preference', 'hidden')
