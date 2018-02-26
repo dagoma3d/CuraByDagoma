@@ -95,6 +95,7 @@ class mainWindow(wx.Frame):
 				i.Check(False)
 			def OnLanguageSelect(e, selected_language=language[1]):
 				profile.putPreference('language', selected_language)
+				profile.putPreference('color_index', -1)
 			self.Bind(wx.EVT_MENU, OnLanguageSelect, i)
 		self.settingsMenu.AppendSubMenu(self.languagesMenu, _("Language"))
 		i = self.settingsMenu.Append(wx.ID_ANY, _("Printer"), _("Choose the printer you want to use."))
@@ -282,6 +283,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.infill_speed = None
 			self.inset0_speed = None
 			self.insetx_speed = None
+
+	class Color:
+		def __init__(self):
+			self.label = ''
+			self.name = ''
 
 	class Filling:
 		def __init__(self):
@@ -730,17 +736,21 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('insetx_speed', fila.insetx_speed)
 
 		self.colorComboBox.Clear()
-		self.colorComboBox.Append(_("Generic"))
 		filaments = self.configuration.getElementsByTagName("Filament")
 		colors = filaments[filament_index].getElementsByTagName("Color")
+		sorted_colors = []
 		if len(colors) > 0:
 			self.colorComboBox.Enable(True)
 			for color in colors:
 				if color.hasAttributes():
 					name = _(color.getAttribute("name"))
-					self.colorComboBox.Append(name)
+					sorted_colors.append(name)
 		else:
 			self.colorComboBox.Enable(False)
+		sorted_colors.sort()
+		self.colorComboBox.Append(_("Generic"))
+		for color in sorted_colors:
+			self.colorComboBox.Append(color)
 
 		if not self.alreadyLoaded:
 			color_index = int(profile.getPreference('color_index')) + 1
@@ -759,6 +769,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		if color_index > -1:
 			filaments = self.configuration.getElementsByTagName("Filament")
 			colors = filaments[filament_index].getElementsByTagName("Color")
+			colors.sort(key=lambda color: _(color.getAttribute("name")))
 			color = colors[color_index]
 
 			print_temperature_tags = color.getElementsByTagName("print_temperature")
