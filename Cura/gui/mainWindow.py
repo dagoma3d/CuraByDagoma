@@ -238,11 +238,13 @@ class mainWindow(wx.Frame):
 		printerBox = printerWindow.printerWindow(self)
 		printerBox.Centre()
 		printerBox.Show()
+		printerBox.SetFocus()
 
 	def OnAbout(self, e):
 		aboutBox = aboutWindow.aboutWindow(self)
 		aboutBox.Centre()
 		aboutBox.Show()
+		aboutBox.SetFocus()
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
