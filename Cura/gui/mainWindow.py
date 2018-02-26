@@ -346,10 +346,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		warningStaticTextFont.SetPointSize(10)
 		warningStaticTextFont.SetWeight(wx.FONTWEIGHT_BOLD)
 		self.warningStaticText.SetFont(warningStaticTextFont)
-		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.colorComboBox = wx.Choice(self, wx.ID_ANY, choices = [])
-		else:
-			self.colorComboBox = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+		self.colorComboBox = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
 		self.temperatureText = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :").decode('utf-8')))
 		self.temperatureSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
@@ -532,10 +529,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print 'Some Error in Filament Bloc'
 				pass
 
-		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.filamentComboBox = wx.Choice(self, wx.ID_ANY, choices = choices)
-		else:
-			self.filamentComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+		self.filamentComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 		self.filamentComboBox.SetSelection(int(profile.getPreference('filament_index')))
 
 	def initFilling(self):
