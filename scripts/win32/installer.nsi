@@ -130,7 +130,14 @@ ReserveFile '${NSISDIR}\Plugins\InstallOptions.dll'
 ReserveFile "header.bmp"
 
 Function .onInit
-  !insertmacro MUI_LANGDLL_DISPLAY
+  ;!insertmacro MUI_LANGDLL_DISPLAY
+  Push $R0
+  System::Call 'kernel32::GetUserDefaultUILanguage() i.r10'
+  StrCmp $R0 ${LANG_FRENCH} 0 +3
+  StrCpy $LANGUAGE ${LANG_FRENCH}
+  Goto +2
+  StrCpy $LANGUAGE ${LANG_ENGLISH}
+  Pop $R0
 FunctionEnd
 
 ;--------------------------------
