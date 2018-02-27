@@ -205,6 +205,8 @@ class SceneView(openglGui.glGuiPanel):
 			fileList.append(obj.getOriginFilename())
 		self.OnDeleteAll(None)
 		self.loadScene(fileList)
+		self.viewSelection.setHidden(False)
+		self.GetParent().GetParent().GetParent().normalSettingsPanel.pausePluginButton.Enable()
 
 	def showLoadModel(self, button = 1):
 		if button == 1:
