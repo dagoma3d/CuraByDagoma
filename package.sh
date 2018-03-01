@@ -6,7 +6,7 @@
 #############################
 # CONFIGURATION
 #############################
-export BUILD_VERSION=1.1.0
+export BUILD_VERSION=2.0.0
 
 ##Select the build target
 ##Available options:
@@ -71,8 +71,7 @@ case "$1" in
 esac
 
 ##Which version name are we appending to the final archive
-export BUILD_NAME="Cura-by-Dagoma"
-BUILD_NAME_INSTALL="Cura_by_Dagoma"
+export BUILD_NAME="CuraByDagoma"
 
 ##CuraEngine github repository
 CURA_ENGINE_REPO="https://github.com/Ultimaker/CuraEngine"
@@ -182,7 +181,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 
 	# Archive app
 	cd dist
-	gnutar cfp - ${BUILD_NAME}.app | gzip --best -c > ../../../${BUILD_NAME_INSTALL}.tar.gz
+	gnutar cfp - ${BUILD_NAME}.app | gzip --best -c > ../../../${BUILD_NAME}.tar.gz
 	cd ..
 
 	# Create sparse image for distribution
@@ -199,20 +198,20 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
-	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME_INSTALL}.dmg
+	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME}.dmg
 
 	cd ../..
-	zip ${BUILD_NAME_INSTALL}.dmg.zip ${BUILD_NAME_INSTALL}.dmg
+	zip ${BUILD_NAME}.dmg.zip ${BUILD_NAME}.dmg
 
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f ${BUILD_NAME_INSTALL}.dmg ./packages/
+	mv -f ${BUILD_NAME}.dmg ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f ${BUILD_NAME_INSTALL}.dmg.zip ./dist/
+	mv -f ${BUILD_NAME}.dmg.zip ./dist/
 
 	exit
 fi
@@ -247,23 +246,23 @@ if [[ $BUILD_TARGET == debian* ]]; then
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
-	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${BUILD_NAME})/${BUILD_NAME}-${BUILD_TARGET}.deb
+	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${BUILD_NAME})/${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
 	cp ./utils/debian/README.md .
 	replaceVars README.md
-	zip ${BUILD_NAME}-${BUILD_TARGET}.zip ${BUILD_NAME}-${BUILD_TARGET}.deb README.md
+	zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb.zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb README.md
 	rm README.md
 
 	cd ../..
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.deb ./packages/
+	mv -f scripts/linux/${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.zip ./dist/
+	mv -f scripts/linux/${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb.zip ./dist/
 
 	exit
 fi
@@ -287,21 +286,21 @@ if [[ $BUILD_TARGET == archive* ]]; then
 	cp scripts/linux/utils/archive/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	replaceVars scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	cd scripts/linux/${BUILD_TARGET}
-	tar -czvf ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
-	mv ${BUILD_NAME}-${BUILD_TARGET}.tar.gz ../
+	tar -czvf ${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
+	mv ${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz ../
 	cd ..
-	zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ${BUILD_NAME}-${BUILD_TARGET}.tar.gz
+	zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz.zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz
 
 	cd ../..
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.tar.gz ./packages/
+	mv -f scripts/linux/${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f scripts/linux/${BUILD_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
+	mv -f scripts/linux/${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz.zip ./dist/
 
 	exit
 fi
@@ -399,20 +398,20 @@ if [[ $BUILD_TARGET == win32 ]]; then
 		if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
 		mv scripts/win32/${BUILD_NAME}.exe ./
 		if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
-		mv ./${BUILD_NAME}.exe ./${BUILD_NAME_INSTALL}.exe
-		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${BUILD_NAME_INSTALL}.exe"; exit 1; fi
+		mv ./${BUILD_NAME}.exe ./${BUILD_NAME}.exe
+		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${BUILD_NAME}.exe"; exit 1; fi
 
-		7z a -y ${BUILD_NAME_INSTALL}.exe.zip ${BUILD_NAME_INSTALL}.exe
+		7z a -y ${BUILD_NAME}.exe.zip ${BUILD_NAME}.exe
 
 		if [ ! -d "packages" ]; then
 			mkdir packages
 		fi
-		mv -f ${BUILD_NAME_INSTALL}.exe ./packages/
+		mv -f ${BUILD_NAME}.exe ./packages/
 
 		if [ ! -d "dist" ]; then
 			mkdir dist
 		fi
-		mv -f ${BUILD_NAME_INSTALL}.exe.zip ./dist/
+		mv -f ${BUILD_NAME}.exe.zip ./dist/
 		echo 'Good Job, All Works Well !!! :)'
 	else
 		echo "No makensis"
