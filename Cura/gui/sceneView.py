@@ -336,10 +336,17 @@ class SceneView(openglGui.glGuiPanel):
 					if not buf:
 						break
 					fdst.write(buf)
+		except IOError as e:
+			import sys, traceback
+			traceback.print_exc()
+			if e.errno == 13:
+				self.notification.message(_("Failed to save on the SD card as it might be in read-only mode"))
+			else:
+				self.notification.message(_("Failed to save on the SD card"))
 		except:
 			import sys, traceback
 			traceback.print_exc()
-			self.notification.message(_("Failed to save"))
+			self.notification.message(_("Failed to save on the SD card"))
 		else:
 			if ejectDrive:
 				self.notification.message(_("Saved as %s") % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
