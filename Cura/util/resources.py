@@ -97,7 +97,7 @@ def getPrinterOptions(internalUse = 'False'):
 		'name': 'Neva Magis',
 		'desc': '(Serial number >= 6000)',
 		'config': 'neva_magis.xml',
-		'img': 'neva.png'
+		'img': 'neva_magis.png'
 	}
 
 	printerOptions = []
