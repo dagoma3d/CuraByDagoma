@@ -48,7 +48,7 @@ class printWindowBasic(wx.Frame):
 
 		self.powerWarningText = wx.StaticText(parent=panel,
 			id=-1,
-			label=_("Your computer is maybe running on battery power.\nConnect your computer to AC power or your print might not finish."),
+			label=_("Your computer is maybe running on battery power.\nPlease check that your computer is connected to AC power or your print might not finish."),
 			style=wx.ALIGN_CENTER)
 		self.powerWarningText.SetForegroundColour((169, 68, 66))
 
