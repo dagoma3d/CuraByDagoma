@@ -121,7 +121,7 @@ class CuraApp(wx.App):
 				try:
 					os.remove(newinstallfile)
 					profile.putMachineSetting('machine_name', '')
-					profile.putPreference('printer_index', 0)
+					profile.putPreference('xml_file', '')
 					profile.putPreference('filament_index', 0)
 					profile.putPreference('color_label', 'Generic')
 					profile.putPreference('fill_index', 1)

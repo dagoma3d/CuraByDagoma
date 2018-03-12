@@ -201,7 +201,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 
 	def _serialCommunicationThread(self):
 		if platform.system() == "Darwin" and hasattr(sys, 'frozen'):
-			cmdList = [os.path.join(os.path.dirname(sys.executable), 'Cura'), '--serialCommunication']
+			cmdList = [os.path.join(os.path.dirname(sys.executable), 'CuraByDagoma'), '--serialCommunication']
 			cmdList += [self._portName + ':' + profile.getMachineSetting('serial_baud')]
 		else:
 			cmdList = [sys.executable, '-m', 'Cura.serialCommunication']
