@@ -239,14 +239,16 @@ class mainWindow(wx.Frame):
 		printerBox.Centre()
 		printerBox.Show()
 		if sys.platform.startswith('darwin'):
-			wx.CallAfter(self.StupidMacOSWorkaround)
+			from Cura.gui.util import macosFramesWorkaround as mfw
+			wx.CallAfter(mfw.StupidMacOSWorkaround)
 
 	def OnAbout(self, e):
 		aboutBox = aboutWindow.aboutWindow(self)
 		aboutBox.Centre()
 		aboutBox.Show()
 		if sys.platform.startswith('darwin'):
-			wx.CallAfter(self.StupidMacOSWorkaround)
+			from Cura.gui.util import macosFramesWorkaround as mfw
+			wx.CallAfter(mfw.StupidMacOSWorkaround)
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -260,16 +262,6 @@ class mainWindow(wx.Frame):
 
 	def OnQuit(self, e):
 		self.Close()
-
-	def StupidMacOSWorkaround(self):
-		"""
-		On MacOS for some magical reason opening new frames does not work until you opened a new modal dialog and closed it.
-		If we do this from software, then, as if by magic, the bug which prevents opening extra frames is gone.
-		"""
-		dlg = wx.Dialog(None)
-		wx.PostEvent(dlg, wx.CommandEvent(wx.EVT_CLOSE.typeId))
-		dlg.ShowModal()
-		dlg.Destroy()
 
 class normalSettingsPanel(configBase.configPanelBase):
 

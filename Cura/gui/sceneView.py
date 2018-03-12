@@ -298,27 +298,19 @@ class SceneView(openglGui.glGuiPanel):
 
 	def _openPrintWindowForConnection(self, connection):
 		if connection.window is None or not connection.window:
-			connection.window = printWindow.printWindowBasic(self, connection)
+			mainWindow = self.GetParent().GetParent().GetParent()
+			connection.window = printWindow.printWindowBasic(mainWindow, connection)
 		connection.window.Centre()
 		connection.window.Show()
 		connection.window.Raise()
 		if sys.platform.startswith('darwin'):
-			wx.CallAfter(self.StupidMacOSWorkaround)
+			from Cura.gui.util import macosFramesWorkaround as mfw
+			wx.CallAfter(mfw.StupidMacOSWorkaround)
 		if not connection.loadGCodeData(StringIO.StringIO(self._engine.getResult().getGCode())):
 			if connection.isPrinting():
 				self.notification.message(_("Cannot start print, because other print still running."))
 			else:
 				self.notification.message(_("Failed to start print..."))
-
-	def StupidMacOSWorkaround(self):
-		"""
-		On MacOS for some magical reason opening new frames does not work until you opened a new modal dialog and closed it.
-		If we do this from software, then, as if by magic, the bug which prevents opening extra frames is gone.
-		"""
-		dlg = wx.Dialog(None)
-		wx.PostEvent(dlg, wx.CommandEvent(wx.EVT_CLOSE.typeId))
-		dlg.ShowModal()
-		dlg.Destroy()
 
 	def showSaveGCode(self):
 		if len(self._scene._objectList) < 1:
