@@ -37,6 +37,7 @@ class printWindowBasic(wx.Frame):
 	"""
 	def __init__(self, parent, printerConnection):
 		super(printWindowBasic, self).__init__(parent, -1, style=wx.DEFAULT_DIALOG_STYLE|wx.MINIMIZE_BOX|wx.FRAME_FLOAT_ON_PARENT, title=_("Printing on %s") % (printerConnection.getName()))
+		self._parent = parent
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
@@ -124,7 +125,7 @@ class printWindowBasic(wx.Frame):
 		self._printerConnection.pause(not self._printerConnection.isPaused())
 
 	def OnErrorLog(self, e):
-		LogWindow(self._printerConnection.getErrorLog())
+		LogWindow(self._parent, self._printerConnection.getErrorLog())
 
 	def _doPrinterConnectionUpdate(self, connection, extraInfo = None):
 		wx.CallAfter(self.__doPrinterConnectionUpdate, connection, extraInfo)
@@ -297,10 +298,11 @@ class TemperatureGraph(wx.Panel):
 
 
 class LogWindow(wx.Frame):
-	def __init__(self, logText):
-		super(LogWindow, self).__init__(None, title=_("Log"))
+	def __init__(self, parent, logText):
+		super(LogWindow, self).__init__(parent, title=_("Log"))
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
-		self.textBox = wx.TextCtrl(self, -1, logText, style=wx.TE_MULTILINE | wx.TE_DONTWRAP | wx.TE_READONLY)
+		self.textBox = wx.TextCtrl(self, -1, unicode(logText, errors='ignore'), style=wx.TE_MULTILINE | wx.TE_DONTWRAP | wx.TE_READONLY)
 		self.SetSize((500, 400))
+		self.Centre()
 		self.Show(True)
