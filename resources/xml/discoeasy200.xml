@@ -634,14 +634,14 @@
 ;Gcode by Cura by Dagoma {cbd_version} for DiscoEasy200
 ;Filament: {filament_name}
 G90 ;absolute positioning
-M106 S250 ;fan on for the sensor
+M106 S255 ;fan on for the sensor
 G28 X Y
 G1 X50
-M109 S180
+M109 R90 ;wait for cool down
 G28
-M104 S{print_temperature}
 ;Sensor activation
 ;{sensor}
+M104 S{print_temperature} ;start the heater
 M107 ;start with the fan off
 G1 X100 Y20 F3000
 G1 Z0.5
