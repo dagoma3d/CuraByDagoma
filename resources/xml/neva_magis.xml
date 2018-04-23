@@ -636,10 +636,7 @@ G28
 M107
 M109 R100
 G29
-M104 S{grip_temperature} ;Temperature for the first layer only
-G0 X0 Y-85
-G0 Z0.26
-M109 S{grip_temperature} ;Temperature for the first layer only
+M109 S{grip_temperature} U-55 X55 V-85 Y-85 W0.26 Z0.26 ;Temperature for the first layer only
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
 G1 F200 E6 ;extrude 10mm of feed stock
