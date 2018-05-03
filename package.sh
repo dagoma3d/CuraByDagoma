@@ -86,7 +86,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SCRIPT_DIR
 
 #For building under MacOS we need gnutar instead of tar
-if [ -z `which gnutar` ]; then
+if [ -z `$(which gnutar 2> /dev/null)` ]; then
 	TAR=tar
 else
 	TAR=gnutar
