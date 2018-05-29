@@ -16,6 +16,7 @@ from Cura.gui import pausePluginPanel
 from Cura.gui import configWizard
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
+from Cura.gui import warningWindow
 from Cura.gui import printerWindow
 from Cura.gui.util import dropTarget
 from Cura.gui.tools import pidDebugger
@@ -88,13 +89,19 @@ class mainWindow(wx.Frame):
 		self.settingsMenu = wx.Menu()
 		self.languagesMenu = wx.Menu()
 		for language in resources.getLanguageOptions():
-			i = self.languagesMenu.Append(-1, _(language[1]), _('You have to reopen the application to load the correct language.'), wx.ITEM_RADIO)
+			i = self.languagesMenu.Append(-1, _(language[1]), _('You have to restart the application to load the correct language.'), wx.ITEM_RADIO)
 			if profile.getPreference('language') == language[1]:
 				i.Check(True)
 			else:
 				i.Check(False)
 			def OnLanguageSelect(e, selected_language=language[1]):
 				profile.putPreference('language', selected_language)
+				warningBox = warningWindow.warningWindow(self, _('You have to restart the application to load the correct language.'))
+				warningBox.Centre()
+				warningBox.Show()
+				if sys.platform.startswith('darwin'):
+					from Cura.gui.util import macosFramesWorkaround as mfw
+					wx.CallAfter(mfw.StupidMacOSWorkaround)
 			self.Bind(wx.EVT_MENU, OnLanguageSelect, i)
 		self.settingsMenu.AppendSubMenu(self.languagesMenu, _("Language"))
 		i = self.settingsMenu.Append(wx.ID_ANY, _("Printer"), _("Choose the printer you want to use."))
