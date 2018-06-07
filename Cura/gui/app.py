@@ -97,7 +97,7 @@ class CuraApp(wx.App):
 		from Cura.gui import configWizard
 		from Cura.util import profile
 		from Cura.util import resources
-		profile.putPreference('cbd_version', '2.0.0')
+		profile.putPreference('cbd_version', '2.0.1')
 		# it's important to set up localization at very beginning to install
 		language = profile.getPreference('language')
 		contact_url = 'https://dagoma3d.com/pages/contact-us'
@@ -126,7 +126,7 @@ class CuraApp(wx.App):
 					profile.putPreference('color_label', 'Generic')
 					profile.putPreference('fill_index', 1)
 					profile.putPreference('precision_index', 0)
-					profile.putPreference('printerhead_index', 0)
+					profile.putPreference('printerhead_index', -1)
 				except:
 					pass
 

@@ -17,7 +17,6 @@ from Cura.gui import configWizard
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
 from Cura.gui import warningWindow
-from Cura.gui import printerWindow
 from Cura.gui.util import dropTarget
 from Cura.gui.tools import pidDebugger
 from Cura.util import profile
@@ -242,9 +241,10 @@ class mainWindow(wx.Frame):
 		self.UpdateProfileToAllControls()
 
 	def OnPrinterWindow(self, e):
-		printerBox = printerWindow.printerWindow(self)
-		printerBox.Centre()
-		printerBox.Show()
+		configWizard.ConfigWizard(self, False)
+		#printerBox = configWizard.ConfigWizard(self)
+		#printerBox.Centre()
+		#printerBox.Show()
 		if sys.platform.startswith('darwin'):
 			from Cura.gui.util import macosFramesWorkaround as mfw
 			wx.CallAfter(mfw.StupidMacOSWorkaround)
@@ -359,13 +359,26 @@ class normalSettingsPanel(configBase.configPanelBase):
 		warningStaticTextFont.SetPointSize(10)
 		warningStaticTextFont.SetWeight(wx.FONTWEIGHT_BOLD)
 		self.warningStaticText.SetFont(warningStaticTextFont)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.warning2StaticText = wx.StaticText(self, wx.ID_ANY)
+			warning2StaticTextFont = self.warning2StaticText.GetFont()
+			warning2StaticTextFont.SetPointSize(10)
+			warning2StaticTextFont.SetWeight(wx.FONTWEIGHT_BOLD)
+			self.warning2StaticText.SetFont(warning2StaticTextFont)
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.colorComboBox = wx.Choice(self, wx.ID_ANY, choices = [])
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				self.color2ComboBox = wx.Choice(self, wx.ID_ANY, choices = [])
 		else:
 			self.colorComboBox = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				self.color2ComboBox = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
 		self.temperatureText = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :").decode('utf-8')))
 		self.temperatureSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.temperature2Text = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :").decode('utf-8')))
+			self.temperature2SpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature2'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		self.printButton = wx.Button(self, wx.ID_ANY, _("Prepare the Print"))
 
 		self.offsetStaticText = wx.StaticText(self, wx.ID_ANY, _("Offset (mm) :"))
@@ -381,7 +394,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.RefreshPrecision()
 		self.RefreshPrinterHead()
 		self.RefreshFilament()
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.RefreshFilament2()
 		self.RefreshColor()
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.RefreshColor2()
 		self.RefreshTemperatureSpinCtrl()
 		self.RefreshFilling()
 		self.RefreshSensor()
@@ -394,15 +411,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 		if sys.platform == 'darwin':
 			self.Bind(wx.EVT_CHOICE, self.OnFilamentComboBoxChanged, self.filamentComboBox)
 			self.Bind(wx.EVT_CHOICE, self.OnColorComboBoxChanged, self.colorComboBox)
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				self.Bind(wx.EVT_CHOICE, self.OnFilament2ComboBoxChanged, self.filament2ComboBox)
+				self.Bind(wx.EVT_CHOICE, self.OnColor2ComboBoxChanged, self.color2ComboBox)
 		else:
 			self.Bind(wx.EVT_COMBOBOX, self.OnFilamentComboBoxChanged, self.filamentComboBox)
 			self.Bind(wx.EVT_COMBOBOX, self.OnColorComboBoxChanged, self.colorComboBox)
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				self.Bind(wx.EVT_COMBOBOX, self.OnFilament2ComboBoxChanged, self.filament2ComboBox)
+				self.Bind(wx.EVT_COMBOBOX, self.OnColor2ComboBoxChanged, self.color2ComboBox)
 
 		self.Bind(wx.EVT_TEXT, self.OnTemperatureSpinCtrlChanged, self.temperatureSpinCtrl)
 		self.Bind(wx.EVT_TEXT_ENTER, self.OnTemperatureSpinCtrlChanged, self.temperatureSpinCtrl)
 		self.Bind(wx.EVT_SPINCTRL, self.OnTemperatureSpinCtrlChanged, self.temperatureSpinCtrl)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrecisionRadioBoxChanged, self.precisionRadioBox)
-		self.Bind(wx.EVT_RADIOBOX, self.OnPrinterHeadRadioBoxChanged, self.printerHeadRadioBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnSupportRadioBoxChanged, self.supportRadioBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnFillingRadioBoxChanged, self.fillingRadioBox)
 		self.Bind(wx.EVT_CHECKBOX, self.OnSensorCheckBoxChanged,self.sensorCheckBox)
@@ -425,9 +447,19 @@ class normalSettingsPanel(configBase.configPanelBase):
 		buyUrl = profile.getPreference('buy_url')
 		filamentSizer = wx.BoxSizer(wx.HORIZONTAL)
 		filamentSizer.Add(wx.StaticText(self, wx.ID_ANY, _("Filament")))
-		filamentSizer.Add(wx.StaticText(self, wx.ID_ANY, " ("))
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			filamentSizer.Add(wx.StaticText(self, wx.ID_ANY, " 1 ("))
+		else:
+			filamentSizer.Add(wx.StaticText(self, wx.ID_ANY, " ("))
 		filamentSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Buy filament"), URL=buyUrl))
 		filamentSizer.Add(wx.StaticText(self, wx.ID_ANY, "):"))
+
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			filament2Sizer = wx.BoxSizer(wx.HORIZONTAL)
+			filament2Sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Filament")))
+			filament2Sizer.Add(wx.StaticText(self, wx.ID_ANY, " 2 ("))
+			filament2Sizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Buy filament"), URL=buyUrl))
+			filament2Sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"))
 
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		mainSizer.Add(filamentSizer)
@@ -435,13 +467,18 @@ class normalSettingsPanel(configBase.configPanelBase):
 		mainSizer.Add(self.colorComboBox, flag=wx.EXPAND)
 		mainSizer.Add(self.warningStaticText)
 		mainSizer.Add(self.temperatureText)
-		mainSizer.Add(self.temperatureSpinCtrl, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		mainSizer.Add(self.temperatureSpinCtrl, flag=wx.EXPAND|wx.BOTTOM, border=2)
+		mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			mainSizer.Add(filament2Sizer)
+			mainSizer.Add(self.filament2ComboBox, flag=wx.EXPAND|wx.BOTTOM, border=2)
+			mainSizer.Add(self.color2ComboBox, flag=wx.EXPAND)
+			mainSizer.Add(self.warning2StaticText)
+			mainSizer.Add(self.temperature2Text)
+			mainSizer.Add(self.temperature2SpinCtrl, flag=wx.EXPAND|wx.BOTTOM, border=2)
+			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.fillingRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.precisionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
-		if printerName == "DiscoEasy200":
-			mainSizer.Add(self.printerHeadRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
-		else:
-			self.printerHeadRadioBox.Hide()
 		mainSizer.Add(self.supportRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if printerName == "DiscoVery200":
 			mainSizer.Add(self.printingSurfaceRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
@@ -472,7 +509,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.initFilament()
 		self.initFilling()
 		self.initPrecision()
-		self.initPrinterHead()
 		self.initSupport()
 		self.initAdhesion()
 		self.initPrintingSurface()
@@ -547,9 +583,15 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.filamentComboBox = wx.Choice(self, wx.ID_ANY, choices = choices)
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				self.filament2ComboBox = wx.Choice(self, wx.ID_ANY, choices = choices)
 		else:
 			self.filamentComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				self.filament2ComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 		self.filamentComboBox.SetSelection(int(profile.getPreference('filament_index')))
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.filament2ComboBox.SetSelection(int(profile.getPreference('filament2_index')))
 
 	def initFilling(self):
 		fillings = self.configuration.getElementsByTagName("Filling")
@@ -606,38 +648,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 					pass
 		self.precisionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Quality (layer thickness) :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 		self.precisionRadioBox.SetSelection(int(profile.getPreference('precision_index')))
-
-	def initPrinterHead(self):
-		printerheads = self.configuration.getElementsByTagName("PrinterHead")
-		choices = []
-		self.heads = []
-		for printerhead in printerheads:
-			if printerhead.hasAttributes():
-				new_printerhead = self.PrinterHead()
-				name = printerhead.getAttribute("name")
-				choices.append(_(name))
-				new_printerhead.type = name
-				try :
-					new_printerhead.fan_speed = printerhead.getElementsByTagName("fan_speed")[0].firstChild.nodeValue
-					new_printerhead.cool_min_layer_time = printerhead.getElementsByTagName("cool_min_layer_time")[0].firstChild.nodeValue
-					self.heads.append(new_printerhead)
-				except :
-					print 'Some Error in PrinterHead Bloc'
-					pass
-
-		if len(choices) == 0:
-			printerConfiguration = self.configuration.getElementsByTagName("Configuration")[0]
-			name = "Standard printhead"
-			choices.append(name)
-			printhead = self.PrintingSurface()
-			printhead.type = name
-			printhead.fan_speed = printerConfiguration.getElementsByTagName("fan_speed")[0].firstChild.nodeValue
-			printhead.cool_min_layer_time = printerConfiguration.getElementsByTagName("cool_min_layer_time")[0].firstChild.nodeValue
-			self.heads.append(printhead)
-			profile.putPreference('printerhead_index', '0')
-
-		self.printerHeadRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Printhead version :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
-		self.printerHeadRadioBox.SetSelection(int(profile.getPreference('printerhead_index')))
 
 	def initSupport(self):
 		supports = [
@@ -777,6 +787,79 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.colorComboBox.SetSelection(0)
 			profile.putPreference('color_label', 'Generic')
 
+	def RefreshFilament2(self):
+		#print "Refresh fila"
+		filament_index = self.filament2ComboBox.GetSelection()
+		fila = self.filaments[filament_index]
+		profile.putPreference('filament2_index', filament_index)
+		profile.putPreference('filament2_name', fila.type)
+		profile.putProfileSetting('grip_temperature2', fila.grip_temperature)
+		calculated_print_temperature = float(fila.print_temperature)
+		filament_type = fila.type.lower()
+		if 'other' in filament_type:
+			self.warning2StaticText.SetLabel(_("This setting must be used with caution!"))
+			self.warning2StaticText.SetForegroundColour((169, 68, 66))
+			self.temperature2SpinCtrl.Enable(True)
+		else:
+			calculated_print_temperature += self.temp_preci
+			self.warning2StaticText.SetLabel(_("Filament approved by Dagoma."))
+			self.warning2StaticText.SetForegroundColour((60, 118, 61))
+			self.temperature2SpinCtrl.Enable(False)
+		profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
+		self.temperatureSpinCtrl.SetValue(calculated_print_temperature)
+		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
+		profile.putProfileSetting('filament_flow', fila.filament_flow)
+		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
+		profile.putProfileSetting('retraction_amount', fila.retraction_amount)
+		profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
+		profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
+		profile.putPreference('model_colour', fila.model_colour)
+		if 'wood' in filament_type or 'flex' in filament_type:
+			self.precisionRadioBox.Enable(False)
+		else:
+			self.precisionRadioBox.Enable(True)
+			precision_index = int(profile.getPreference('precision_index'))
+			fila = self.precisions[precision_index]
+		profile.putProfileSetting('layer_height', fila.layer_height)
+		profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
+		profile.putProfileSetting('wall_thickness', fila.wall_thickness)
+		profile.putProfileSetting('print_speed', fila.print_speed)
+		profile.putProfileSetting('travel_speed', fila.travel_speed)
+		profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
+		profile.putProfileSetting('infill_speed', fila.infill_speed)
+		profile.putProfileSetting('inset0_speed', fila.inset0_speed)
+		profile.putProfileSetting('insetx_speed', fila.insetx_speed)
+
+		self.color2ComboBox.Clear()
+		filaments = self.configuration.getElementsByTagName("Filament")
+		colors = filaments[filament_index].getElementsByTagName("Color")
+		self.colors = []
+		if len(colors) > 0:
+			self.color2ComboBox.Enable(True)
+			for color in colors:
+				if color.hasAttributes():
+					current_color = self.Color()
+					current_color.label = color.getAttribute("name")
+					current_color.name = _(current_color.label)
+					self.colors.append(current_color)
+		else:
+			self.color2ComboBox.Enable(False)
+		self.colors.sort(key=lambda color: color.name)
+		generic_color = self.Color()
+		generic_color.label = 'Generic'
+		generic_color.name = _(generic_color.label)
+		self.colors.insert(0, generic_color)
+		for color in self.colors:
+			self.color2ComboBox.Append(color.name)
+
+		if not self.alreadyLoaded:
+			color_label = profile.getPreference('color2_label')
+			self.color2ComboBox.SetStringSelection(_(color_label))
+			self.alreadyLoaded = True
+		else:
+			self.color2ComboBox.SetSelection(0)
+			profile.putPreference('color2_label', 'Generic')
+
 	def RefreshColor(self):
 		#print 'Refresh color'
 		color_index = self.colorComboBox.GetSelection()
@@ -870,6 +953,99 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
 			profile.putPreference('model_colour', fila.model_colour)
 
+	def RefreshColor2(self):
+		#print 'Refresh color'
+		color_index = self.color2ComboBox.GetSelection()
+		color_label = self.colors[color_index].label
+		profile.putPreference('color2_label', color_label)
+		filament_index = int(profile.getPreference('filament_index'))
+		fila = self.filaments[filament_index]
+		if color_index > 0:
+			filaments = self.configuration.getElementsByTagName("Filament")
+			colors = filaments[filament_index].getElementsByTagName("Color")
+			colors.sort(key=lambda color: _(color.getAttribute("name")))
+			color = colors[color_index - 1]
+
+			print_temperature_tags = color.getElementsByTagName("print_temperature")
+			if len(print_temperature_tags) > 0:
+				print_temperature = float(print_temperature_tags[0].firstChild.nodeValue)
+			else:
+				print_temperature = float(fila.print_temperature)
+			if not self.temperatureSpinCtrl.IsEnabled():
+				print_temperature += self.temp_preci
+			self.temperatureSpinCtrl.SetValue(print_temperature)
+			profile.putProfileSetting('print_temperature2', str(print_temperature))
+
+			grip_temperature_tags = color.getElementsByTagName("grip_temperature")
+			if len(grip_temperature_tags) > 0:
+				grip_temperature = print_temperature_tags[0].firstChild.nodeValue
+			else:
+				grip_temperature = fila.grip_temperature
+			profile.putProfileSetting('grip_temperature', str(grip_temperature))
+
+			filament_diameter_tags = color.getElementsByTagName("filament_diameter2")
+			if len(filament_diameter_tags) > 0:
+				filament_diameter = filament_diameter_tags[0].firstChild.nodeValue
+			else:
+				filament_diameter = fila.filament_diameter
+			profile.putProfileSetting('filament_diameter', str(filament_diameter))
+
+			filament_flow_tags = color.getElementsByTagName("filament_flow")
+			if len(filament_flow_tags) > 0:
+				filament_flow = filament_flow_tags[0].firstChild.nodeValue
+			else:
+				filament_flow = fila.filament_flow
+			profile.putProfileSetting('filament_flow', str(filament_flow))
+
+			retraction_speed_tags = color.getElementsByTagName("retraction_speed")
+			if len(retraction_speed_tags) > 0:
+				retraction_speed = retraction_speed_tags[0].firstChild.nodeValue
+			else:
+				retraction_speed = fila.retraction_speed
+			profile.putProfileSetting('retraction_speed', str(retraction_speed))
+
+			retraction_amount_tags = color.getElementsByTagName("retraction_amount")
+			if len(retraction_amount_tags) > 0:
+				retraction_amount = retraction_amount_tags[0].firstChild.nodeValue
+			else:
+				retraction_amount = fila.retraction_amount
+			profile.putProfileSetting('retraction_amount', str(retraction_amount))
+
+			filament_physical_density_tags = color.getElementsByTagName("filament_physical_density")
+			if len(filament_physical_density_tags) > 0:
+				filament_physical_density = filament_physical_density_tags[0].firstChild.nodeValue
+			else:
+				filament_physical_density = fila.filament_physical_density
+			profile.putProfileSetting('filament_physical_density', str(filament_physical_density))
+
+			filament_cost_kg_tags = color.getElementsByTagName("filament_cost_kg")
+			if len(filament_cost_kg_tags) > 0:
+				filament_cost_kg = filament_cost_kg_tags[0].firstChild.nodeValue
+			else:
+				filament_cost_kg = fila.filament_cost_kg
+			profile.putProfileSetting('filament_cost_kg', str(filament_cost_kg))
+
+			model_colour_tags = color.getElementsByTagName("model_colour")
+			if len(model_colour_tags) > 0:
+				model_colour = model_colour_tags[0].firstChild.nodeValue
+			else:
+				model_colour = fila.model_colour
+			profile.putPreference('model_colour2', model_colour)
+		else:
+			print_temperature = float(fila.print_temperature)
+			if not self.temperatureSpinCtrl.IsEnabled():
+				print_temperature += self.temp_preci
+			self.temperatureSpinCtrl.SetValue(print_temperature)
+			profile.putProfileSetting('print_temperature2', str(print_temperature))
+			profile.putProfileSetting('grip_temperature', fila.grip_temperature)
+			profile.putProfileSetting('filament_diameter2', fila.filament_diameter)
+			profile.putProfileSetting('filament_flow', fila.filament_flow)
+			profile.putProfileSetting('retraction_speed', fila.retraction_speed)
+			profile.putProfileSetting('retraction_amount', fila.retraction_amount)
+			profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
+			profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
+			profile.putPreference('model_colour2', fila.model_colour)
+
 	def RefreshTemperatureSpinCtrl(self):
 		#print 'Refresh Spin'
 		profile.putProfileSetting('print_temperature', str(self.temperatureSpinCtrl.GetValue()))
@@ -930,11 +1106,18 @@ class normalSettingsPanel(configBase.configPanelBase):
 			layerWidget.SetValue(str(int(float(heightValue) / float(preci.layer_height))))
 
 	def RefreshPrinterHead(self):
-		printerhead_index = self.printerHeadRadioBox.GetSelection()
-		printerhead = self.heads[printerhead_index]
-		profile.putPreference('printerhead_index', printerhead_index)
-		profile.putProfileSetting('fan_speed', printerhead.fan_speed)
-		profile.putProfileSetting('cool_min_layer_time', printerhead.cool_min_layer_time)
+		printhead_index = int(profile.getPreference('printerhead_index'))
+		tagName = "PrinterHeads"
+		if printhead_index == -1:
+			printhead_index = 0
+			tagName = "Configuration"
+
+		printHeadTag = self.configuration.getElementsByTagName(tagName)[0]
+		fan_speed = printHeadTag.getElementsByTagName("fan_speed")[printhead_index].firstChild.nodeValue
+		cool_min_layer_time = printHeadTag.getElementsByTagName("cool_min_layer_time")[printhead_index].firstChild.nodeValue
+
+		profile.putProfileSetting('fan_speed', fan_speed)
+		profile.putProfileSetting('cool_min_layer_time', cool_min_layer_time)
 
 	def RefreshSupport(self):
 		supp = self.supports[self.supportRadioBox.GetSelection()]
@@ -1001,13 +1184,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
-	def OnPrinterHeadRadioBoxChanged(self, event):
-		self.RefreshPrinterHead()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
-
 	def OnFillingRadioBoxChanged(self, event):
 		self.RefreshFilling()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -1022,8 +1198,22 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
 		event.Skip()
 
+	def OnFilament2ComboBoxChanged(self, event):
+		self.RefreshFilament2()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
 	def OnColorComboBoxChanged(self, event):
 		self.RefreshColor()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def OnColor2ComboBoxChanged(self, event):
+		self.RefreshColor2()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()

@@ -6,7 +6,7 @@
 #############################
 # CONFIGURATION
 #############################
-export BUILD_VERSION=2.0.0
+export BUILD_VERSION=2.0.1
 
 ##Select the build target
 ##Available options:
@@ -74,7 +74,7 @@ esac
 export BUILD_NAME="CuraByDagoma"
 
 ##CuraEngine github repository
-CURA_ENGINE_REPO="https://github.com/Ultimaker/CuraEngine"
+CURA_ENGINE_REPO="https://github.com/dagoma3d/CuraEngine.git"
 
 ## CuraEngine version to build
 ## Four more info, please check https://github.com/daid/LegacyCura/blob/SteamEngine/package.sh
@@ -146,9 +146,9 @@ if [ $BUILD_ENGINE != "0" ]; then
 	fi
 
 	# Build CuraEngine
-	cd CuraEngine
-	git checkout ${CURA_ENGINE_VERSION}
-	cd ..
+	#cd CuraEngine
+	#git checkout ${CURA_ENGINE_VERSION}
+	#cd ..
 	make -C CuraEngine clean
 	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
