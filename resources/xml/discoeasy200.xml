@@ -625,6 +625,7 @@
 		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
 		<auto_detect_sd>True</auto_detect_sd>
+		<wipe_tower_volume>65</wipe_tower_volume>
 	</Configuration>
 
 	<!-- Gcodes start and end -->
@@ -642,23 +643,23 @@ G28
 ;{sensor}
 M104 S{print_temperature} ;start the heater
 M107 ;start with the fan off
-G1 X100 Y20 F3000
 G1 Z0.5
+G1 X100 Y20 F3000
 M109 S{print_temperature}
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
 G1 F200 E10 ;extrude 10mm of feed stock
 G92 E0 ;zero the extruded length again
-G1 Z3
+G1 F240 Z3
 G1 F{travel_speed}
 		</Gstart>
 		<Gend>
-M104 S0
 M106 S255 ;start fan full power
 M140 S0 ;heated bed heater off (if you have it)
 ;Home machine
 G91 ;relative positioning
 G1 E-1 F300 ;retract the filament a bit before lifting the nozzle, to release some of the pressure
+M104 S0
 G1 Z+3 F{travel_speed} ;move Z up a bit and retract filament even more
 G90
 G28 X Y
@@ -675,38 +676,35 @@ G90 ;absolute positioning
 M106 S255 ;fan on for the sensor
 G28 X Y
 G1 X50
-M109 R90 ;wait for cool down
+;M109 T0 R90 ;wait for cool down
+;M109 T1 R90 ;wait for cool down
 G28
 ;Sensor activation
 ;{sensor}
 M104 T0 S{print_temperature} ;start the heater
 M104 T1 S{print_temperature2} ;start the heater
 M107 ;start with the fan off
-G1 X100 Y20 F3000
 G1 Z0.5
+G1 X100 Y20 F3000
 M109 T0 S{print_temperature}
 M109 T1 S{print_temperature2}
 M82 ;set extruder to absolute mode
-T1 ;Switch to the 2nd extruder
-G92 E0 ;zero the extruded length
-G1 F200 E10 ;extrude 10mm of feed stock
-G92 E0 ;zero the extruded length again
-G1 F200 E-{retraction_dual_amount}
 T0 ;Switch to the first extruder
 G92 E0 ;zero the extruded length
 G1 F200 E10 ;extrude 10mm of feed stock
 G92 E0 ;zero the extruded length again
-G1 Z3
+G1 E-2 F300 ;retract the filament
+G1 F240 Z3
 G1 F{travel_speed}
 </Gstart2>
 		<Gend2>
-M104 T0 S0
-M104 T1 S0
 M106 S255 ;start fan full power
 M140 S0 ;heated bed heater off (if you have it)
 ;Home machine
 G91 ;relative positioning
 G1 E-1 F300 ;retract the filament a bit before lifting the nozzle, to release some of the pressure
+M104 T0 S0
+M104 T1 S0
 G1 Z+3 F{travel_speed} ;move Z up a bit and retract filament even more
 G90
 G28 X Y

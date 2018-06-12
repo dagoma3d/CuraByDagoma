@@ -57,6 +57,8 @@ class SceneView(openglGui.glGuiPanel):
 		self._platformTexture = None
 		self._isSimpleMode = True
 		self._printerConnectionManager = printerConnectionManager.PrinterConnectionManager()
+		self._mergeDone = False
+		self._switchColors = False
 
 		self._viewport = None
 		self._modelMatrix = None
@@ -200,6 +202,8 @@ class SceneView(openglGui.glGuiPanel):
 
 	def reloadScene(self, e):
 		# Copy the list before DeleteAll clears it
+		self._mergeDone = False;
+		self._switchColors = False;
 		fileList = []
 		for obj in self._scene.objects():
 			fileList.append(obj.getOriginFilename())
@@ -540,6 +544,8 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def OnSplitObject(self, e):
+		self._mergeDone = False;
+		self._switchColors = False;
 		if self._focusObj is None:
 			return
 		self._scene.remove(self._focusObj)
@@ -566,9 +572,16 @@ class SceneView(openglGui.glGuiPanel):
 		if self._selectedObj is None or self._focusObj is None or self._selectedObj == self._focusObj:
 			if len(self._scene.objects()) == 2:
 				self._scene.merge(self._scene.objects()[0], self._scene.objects()[1])
+				self._mergeDone = True
 				self.sceneUpdated()
 			return
 		self._scene.merge(self._selectedObj, self._focusObj)
+		self._mergeDone = True
+		self.sceneUpdated()
+
+	def OnSwitchColors(self, e):
+		self._switchColors = not self._switchColors
+		self.updateProfileToControls()
 		self.sceneUpdated()
 
 	def sceneUpdated(self):
@@ -645,6 +658,8 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def _deleteObject(self, obj):
+		self._mergeDone = False;
+		self._switchColors = False;
 		if obj == self._selectedObj:
 			self._selectObject(None)
 		if obj == self._focusObj:
@@ -687,6 +702,8 @@ class SceneView(openglGui.glGuiPanel):
 		self._machineSize = numpy.array([profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')])
 		self._objColors[0] = profile.getPreferenceColour('model_colour')
 		self._objColors[1] = profile.getPreferenceColour('model_colour2')
+		if self._switchColors:
+			self._objColors.reverse()
 		self._scene.updateMachineDimensions()
 		self.updateModelSettingsToControls()
 
@@ -816,7 +833,8 @@ class SceneView(openglGui.glGuiPanel):
 			if e.GetButton() == 3:
 					menu = wx.Menu()
 					if self._focusObj is not None:
-
+						if self._mergeDone:
+							self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
 						self.Bind(wx.EVT_MENU, self.OnCenter, menu.Append(-1, _("Center on platform")))
 						self.Bind(wx.EVT_MENU, lambda e: self._deleteObject(self._focusObj), menu.Append(-1, _("Delete object")))
 						self.Bind(wx.EVT_MENU, self.OnMultiply, menu.Append(-1, _("Multiply object")))
