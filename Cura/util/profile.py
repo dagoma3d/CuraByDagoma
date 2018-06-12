@@ -257,6 +257,8 @@ setting('object_center_x', -1, float, 'hidden', 'hidden')
 setting('object_center_y', -1, float, 'hidden', 'hidden')
 setting('start.gcode', '', str, 'alteration', 'alteration')
 setting('end.gcode',  '', str, 'alteration', 'alteration')
+setting('preSwitchExtruder.gcode', '', str, 'alteration', 'alteration')
+setting('postSwitchExtruder.gcode', '', str, 'alteration', 'alteration')
 setting('startMode', 'Normal', ['Simple', 'Normal'], 'preference', 'hidden')
 setting('oneAtATime', 'False', bool, 'preference', 'hidden')
 setting('lastFile', os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..', 'resources', 'example', 'dagoma.stl')), str, 'preference', 'hidden')
@@ -1011,6 +1013,9 @@ def replaceTagMatch(m):
 	if tag == 'filament_name':
 		return ' ' + getPreference('filament_name')
 
+	if tag == 'filament2_name':
+		return ' ' + getPreference('filament2_name')
+
 	if tag == 'sensor':
 		return getPalpeurGCode()
 
@@ -1104,8 +1109,12 @@ def getAlterationFileContents(filename, extruderCount = 1):
 
 def printSlicingInfo():
 	print '********* Slicing parameters *********'
+	print "extruder_amount : ", getMachineSetting('extruder_amount')
 	print "grip_temperature : ", getProfileSetting('grip_temperature')
 	print "print_temperature : ", getProfileSetting('print_temperature')
+	if getMachineSetting('extruder_amount') == 2:
+		print "grip_temperature2 : ", getProfileSetting('grip_temperature2')
+		print "print_temperature2 : ", getProfileSetting('print_temperature2')
 	print "nozzle_size : ", getMachineSetting('nozzle_size')
 	print "rectration_enable : ", getMachineSetting('retraction_enable')
 	print "fan_full_height : ", getProfileSetting('fan_full_height')
@@ -1113,6 +1122,8 @@ def printSlicingInfo():
 	print "fan_speed_max : ", getProfileSetting('fan_speed_max')
 	print "coll_min_feedrate : ", getProfileSetting('cool_min_feedrate')
 	print "filament_diameter : ", getProfileSetting('filament_diameter')
+	if getMachineSetting('extruder_amount') == 2:
+		print "filament_diameter2 : ", getProfileSetting('filament_diameter2')
 	print "filament_flow : ", getProfileSetting('filament_flow')
 	print "retraction_speed : ", getProfileSetting('retraction_speed')
 	print "retraction_amount : ", getProfileSetting('retraction_amount')
