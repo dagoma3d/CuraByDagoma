@@ -439,6 +439,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def __setProperties(self):
 		self.temperatureSpinCtrl.Enable(False)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.temperature2SpinCtrl.Enable(False)
 		self.supportRadioBox.SetSelection(0)
 
 
@@ -827,7 +829,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.warning2StaticText.SetForegroundColour((60, 118, 61))
 			self.temperature2SpinCtrl.Enable(False)
 		profile.putProfileSetting('print_temperature2', str(calculated_print_temperature))
-		self.temperatureSpinCtrl.SetValue(calculated_print_temperature)
+		self.temperature2SpinCtrl.SetValue(calculated_print_temperature)
 		profile.putProfileSetting('filament_diameter2', fila.filament_diameter)
 		profile.putPreference('model_colour2', fila.model_colour)
 		if 'wood' in filament_type or 'flex' in filament_type:
@@ -976,9 +978,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print_temperature = float(print_temperature_tags[0].firstChild.nodeValue)
 			else:
 				print_temperature = float(fila.print_temperature)
-			if not self.temperatureSpinCtrl.IsEnabled():
+			if not self.temperature2SpinCtrl.IsEnabled():
 				print_temperature += self.temp_preci
-			self.temperatureSpinCtrl.SetValue(print_temperature)
+			self.temperature2SpinCtrl.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature2', str(print_temperature))
 
 			grip_temperature_tags = color.getElementsByTagName("grip_temperature")
@@ -1003,9 +1005,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putPreference('model_colour2', model_colour)
 		else:
 			print_temperature = float(fila.print_temperature)
-			if not self.temperatureSpinCtrl.IsEnabled():
+			if not self.temperature2SpinCtrl.IsEnabled():
 				print_temperature += self.temp_preci
-			self.temperatureSpinCtrl.SetValue(print_temperature)
+			self.temperature2SpinCtrl.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature2', str(print_temperature))
 			profile.putProfileSetting('grip_temperature2', fila.grip_temperature)
 			profile.putProfileSetting('filament_diameter2', fila.filament_diameter)
@@ -1047,8 +1049,17 @@ class normalSettingsPanel(configBase.configPanelBase):
 				calculated_print_temperature -= self.temp_preci
 			except:
 				pass
-		self.temp_preci = new_temp_preci
 		self.temperatureSpinCtrl.SetValue(calculated_print_temperature)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			calculated_print_temperature2 = float(profile.getProfileSetting('print_temperature2'))
+			if not self.temperature2SpinCtrl.IsEnabled():
+				calculated_print_temperature2 += new_temp_preci
+				try:
+					calculated_print_temperature2 -= self.temp_preci
+				except:
+					pass
+			self.temperature2SpinCtrl.SetValue(calculated_print_temperature2)
+		self.temp_preci = new_temp_preci
 		profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
 		profile.putProfileSetting('travel_speed', preci.travel_speed)
 		profile.putProfileSetting('bottom_layer_speed', preci.bottom_layer_speed)
@@ -1077,10 +1088,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def RefreshPrinterHead(self):
 		printhead_index = int(profile.getPreference('printerhead_index'))
 		tagName = "PrinterHeads"
+		print printhead_index
 		if printhead_index == -1:
 			printhead_index = 0
 			tagName = "Configuration"
-
+		print printhead_index
 		printHeadTag = self.configuration.getElementsByTagName(tagName)[0]
 		fan_speed = printHeadTag.getElementsByTagName("fan_speed")[printhead_index].firstChild.nodeValue
 		cool_min_layer_time = printHeadTag.getElementsByTagName("cool_min_layer_time")[printhead_index].firstChild.nodeValue

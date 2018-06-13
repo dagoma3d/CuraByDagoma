@@ -90,6 +90,9 @@ class PrintersPanel(wx.Panel):
 					profile.putPreference('printerhead_index', '-1')
 					profile.putMachineSetting('extruder_amount', '1')
 					profile.putProfileSetting('wipe_tower', 'False')
+				else:
+					if int(profile.getPreference('printerhead_index')) == -1:
+						profile.putPreference('printerhead_index', '0')
 
 				self.GetParent().optionsPanel.Show(name == 'DiscoEasy200')
 				self.GetParent().Layout()
