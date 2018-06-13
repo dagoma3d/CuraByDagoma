@@ -693,9 +693,11 @@ M109 T1 S{print_temperature2}
 M82 ;set extruder to absolute mode
 T0 ;Switch to the first extruder
 G92 E0 ;zero the extruded length
+G1 E{post_retraction_amount} F3000
+G92 E0 ;zero the extruded length
 G1 F200 E10 ;extrude 10mm of feed stock
 G92 E0 ;zero the extruded length again
-G1 E-2 F300 ;retract the filament
+G1 E-{retraction_amount} F5000 ;filament retract length
 G1 F240 Z3
 G1 F{travel_speed}
 </Gstart2>
@@ -704,9 +706,15 @@ M106 S255 ;start fan full power
 M140 S0 ;heated bed heater off (if you have it)
 ;Home machine
 G91 ;relative positioning
-G1 E-1 F300 ;retract the filament a bit before lifting the nozzle, to release some of the pressure
+;Retraction
+G92 E0
+G1 E-{retraction_amount} F5000 ;filament retract length
+G92 E0
+G1 E3 F3000
+G1 E-{pre_retraction_amount} F10000M104 T0 S0
 M104 T0 S0
 M104 T1 S0
+;Home machine
 G1 Z+3 F{travel_speed} ;move Z up a bit and retract filament even more
 G90
 G28 X Y

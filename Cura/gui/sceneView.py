@@ -833,8 +833,8 @@ class SceneView(openglGui.glGuiPanel):
 			if e.GetButton() == 3:
 					menu = wx.Menu()
 					if self._focusObj is not None:
-						if self._mergeDone:
-							self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
+						#if self._mergeDone:
+						#	self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
 						self.Bind(wx.EVT_MENU, self.OnCenter, menu.Append(-1, _("Center on platform")))
 						self.Bind(wx.EVT_MENU, lambda e: self._deleteObject(self._focusObj), menu.Append(-1, _("Delete object")))
 						self.Bind(wx.EVT_MENU, self.OnMultiply, menu.Append(-1, _("Multiply object")))
