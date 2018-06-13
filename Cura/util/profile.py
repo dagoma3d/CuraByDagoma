@@ -201,6 +201,8 @@ setting('retraction_min_travel',     1.5, float, 'expert',   _('Retraction')).se
 setting('retraction_combing',      'All',  [_('Off'),_('All'),_('No Skin')], 'expert', _('Retraction')).setLabel(_("Enable combing"), _("Combing is the act of avoiding holes in the print for the head to travel over. If combing is \'Off\' the printer head moves straight from the start point to the end point and it will always retract.  If \'All\', enable combing on all surfaces.  If \'No Skin\', enable combing on all except skin surfaces."))
 setting('retraction_minimal_extrusion',0.02, float,'expert', _('Retraction')).setRange(0).setLabel(_("Minimal extrusion before retracting (mm)"), _("The minimal amount of extrusion that needs to be done before retracting again if a retraction needs to happen before this minimal is reached the retraction is ignored.\nThis avoids retracting a lot on the same piece of filament which flattens the filament and causes grinding issues."))
 setting('retraction_hop',            0.0, float, 'expert',   _('Retraction')).setRange(0).setLabel(_("Z hop when retracting (mm)"), _("When a retraction is done, the head is lifted by this amount to travel over the print. A value of 0.075 works well. This feature has a lot of positive effect on delta towers."))
+setting('switch_default_retraction_amount', 0.0, float, 'expert',   _('Retraction')).setRange(0).setLabel(_("Switch default retraction amount (mm)"), _("Generic retraction amount used when switching extruder"))
+setting('switch_default_retraction_offset', 0.0, float, 'expert',   _('Retraction')).setRange(0).setLabel(_("Switch default retraction offset (mm)"), _("Generic retraction offset used when switching extruder"))
 setting('bottom_thickness',          0.3, float, 'advanced', _('Quality')).setRange(0).setLabel(_("Initial layer thickness (mm)"), _("Layer thickness of the bottom layer. A thicker bottom layer makes sticking to the bed easier. Set to 0.0 to have the bottom layer thickness the same as the other layers."))
 setting('layer0_width_factor',       100, float, 'advanced', _('Quality')).setRange(50, 300).setLabel(_("Initial layer line width (%)"), _("Extra width factor for the extrusion on the first layer, on some printers it's good to have wider extrusion on the first layer to get better bed adhesion."))
 setting('object_sink',               0.0, float, 'advanced', _('Quality')).setRange(0).setLabel(_("Cut off object bottom (mm)"), _("Sinks the object into the platform, this can be used for objects that do not have a flat bottom and thus create a too small first layer."))
@@ -1019,6 +1021,15 @@ def replaceTagMatch(m):
 	if tag == 'sensor':
 		return getPalpeurGCode()
 
+	if tag == 'retraction_amount':
+		return pre + str(getProfileSettingFloat('retraction_amount'))
+
+	if tag == 'pre_retraction_amount':
+		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') - getProfileSettingFloat('retraction_amount'))
+
+	if tag == 'post_retraction_amount':
+		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') + getProfileSettingFloat('switch_default_retraction_offset'))
+
 	if tag == 'z_offset':
 		return pre + str(getProfileSettingFloat('offset_value'))
 
@@ -1112,7 +1123,7 @@ def printSlicingInfo():
 	print "extruder_amount : ", getMachineSetting('extruder_amount')
 	print "grip_temperature : ", getProfileSetting('grip_temperature')
 	print "print_temperature : ", getProfileSetting('print_temperature')
-	if getMachineSetting('extruder_amount') == 2:
+	if int(getMachineSetting('extruder_amount')) == 2:
 		print "grip_temperature2 : ", getProfileSetting('grip_temperature2')
 		print "print_temperature2 : ", getProfileSetting('print_temperature2')
 	print "nozzle_size : ", getMachineSetting('nozzle_size')
@@ -1122,7 +1133,7 @@ def printSlicingInfo():
 	print "fan_speed_max : ", getProfileSetting('fan_speed_max')
 	print "coll_min_feedrate : ", getProfileSetting('cool_min_feedrate')
 	print "filament_diameter : ", getProfileSetting('filament_diameter')
-	if getMachineSetting('extruder_amount') == 2:
+	if int(getMachineSetting('extruder_amount')) == 2:
 		print "filament_diameter2 : ", getProfileSetting('filament_diameter2')
 	print "filament_flow : ", getProfileSetting('filament_flow')
 	print "retraction_speed : ", getProfileSetting('retraction_speed')

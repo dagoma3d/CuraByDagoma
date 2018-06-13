@@ -625,6 +625,8 @@
 		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
 		<auto_detect_sd>True</auto_detect_sd>
+		<switch_default_retraction_amount>47.5</switch_default_retraction_amount>
+		<switch_default_retraction_offset>1</switch_default_retraction_offset>
 		<wipe_tower_volume>65</wipe_tower_volume>
 	</Configuration>
 
@@ -717,20 +719,20 @@ M84 ;shut down motors
 ;START T(n)
 ;This code is added before the T(n)
 G92 E0
-G1 E-4.5 F5000 ;filament retract length
+G1 E-{retraction_amount} F5000 ;filament retract length
 G1 X50 Y150 F5000
 G92 E0
 G1 E3 F3000
-G1 E-43 F10000
+G1 E-{pre_retraction_amount} F10000
 G92 E0
 		</Gpreswitch>
 		<Gpostswitch>
 ;END T(n)
 ;This code is added after the T(n)
 G92 E0
-G1 E47 F3000
+G1 E{post_retraction_amount} F3000
 G92 E0
-G1 E-4.5 F5000 ;filament retract length
+G1 E-{retraction_amount} F5000 ;filament retract length
 		</Gpostswitch>
 	</GCODE>
 </Dagoma>

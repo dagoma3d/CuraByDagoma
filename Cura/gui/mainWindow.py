@@ -1088,11 +1088,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def RefreshPrinterHead(self):
 		printhead_index = int(profile.getPreference('printerhead_index'))
 		tagName = "PrinterHeads"
-		print printhead_index
 		if printhead_index == -1:
 			printhead_index = 0
 			tagName = "Configuration"
-		print printhead_index
 		printHeadTag = self.configuration.getElementsByTagName(tagName)[0]
 		fan_speed = printHeadTag.getElementsByTagName("fan_speed")[printhead_index].firstChild.nodeValue
 		cool_min_layer_time = printHeadTag.getElementsByTagName("cool_min_layer_time")[printhead_index].firstChild.nodeValue
