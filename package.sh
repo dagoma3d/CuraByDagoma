@@ -149,6 +149,9 @@ if [ $BUILD_ENGINE != "0" ]; then
 	#cd CuraEngine
 	#git checkout ${CURA_ENGINE_VERSION}
 	#cd ..
+	cd CuraEngine
+	git pull
+	cd ..
 	make -C CuraEngine clean
 	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
