@@ -359,6 +359,7 @@ setting('printing_surface_height', 0.0, float, 'printing_surface', _('PrintingSu
 setting('offset_value', 0.0, float, 'advanced', _('Offset')).setRange(0.0001).setLabel(_("Offset value (mm)"), _("Calculated offset value."))
 setting('offset_input', 0.0, float, 'advanced', _('Offset')).setRange(0.0001).setLabel(_("Offset value (mm)"), _("Input offset value."))
 setting('sensor', 'Sensor', str, 'advanced', _('Sensor')).setLabel(_("Enabled the sensor"), _("To check if you want to use the sensor."))
+setting('enable_dual_extrusion', True, bool, 'preference', 'hidden')
 
 validators.warningAbove(settingsDictionary['filament_flow'], 150, _("More flow than 150% is rare and usually not recommended."))
 validators.warningBelow(settingsDictionary['filament_flow'], 50, _("Less flow than 50% is rare and usually not recommended."))
@@ -701,6 +702,15 @@ def getPreferenceInt(name):
 		return int(eval(setting, {}, {}))
 	except:
 		return 0
+
+def getPreferenceBool(name):
+	"""
+	Get the bool value of a preference, returns True if the preference is 'True', False otherwise
+	"""
+	setting = getPreference(name)
+	if setting == 'True' or setting == 'true':
+		return True
+	return False
 
 def getPreferenceColour(name):
 	"""

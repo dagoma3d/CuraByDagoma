@@ -151,6 +151,8 @@ class OptionsPanel(wx.Panel):
 		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Which options do you use?")), flag=wx.BOTTOM, border=5)
 		sizer.Add(oSizer)
 
+		self.dualExtrusionChoice.Show(profile.getPreferenceBool('enable_dual_extrusion'))
+
 		self.SetAutoLayout(True)
 		self.SetSizerAndFit(sizer)
 		self.Layout()
