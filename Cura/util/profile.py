@@ -194,9 +194,12 @@ setting('filament_diameter2',          0, float, 'basic',    _('Filament')).setR
 setting('filament_diameter3',          0, float, 'basic',    _('Filament')).setRange(0).setLabel(_("Diameter3 (mm)"), _("Diameter of your filament for the 3th nozzle. Use 0 to use the same diameter as for nozzle 1."))
 setting('filament_diameter4',          0, float, 'basic',    _('Filament')).setRange(0).setLabel(_("Diameter4 (mm)"), _("Diameter of your filament for the 4th nozzle. Use 0 to use the same diameter as for nozzle 1."))
 setting('filament_flow',            100., float, 'basic',    _('Filament')).setRange(5,300).setLabel(_("Flow (%)"), _("Flow compensation, the amount of material extruded is multiplied by this value"))
+setting('filament_flow2',            100., float, 'basic',    _('Filament')).setRange(5,300).setLabel(_("Flow (%)"), _("Flow compensation, the amount of material extruded is multiplied by this value"))
 setting('retraction_speed',         40.0, float, 'advanced', _('Retraction')).setRange(0.1).setLabel(_("Speed (mm/s)"), _("Speed at which the filament is retracted, a higher retraction speed works better. But a very high retraction speed can lead to filament grinding."))
 setting('retraction_amount',         4.5, float, 'advanced', _('Retraction')).setRange(0).setLabel(_("Distance (mm)"), _("Amount of retraction, set at 0 for no retraction at all. A value of 4.5mm seems to generate good results."))
-setting('retraction_dual_amount',   16.5, float, 'advanced', _('Retraction')).setRange(0).setLabel(_("Dual extrusion switch amount (mm)"), _("Amount of retraction when switching nozzle with dual-extrusion, set at 0 for no retraction at all. A value of 16.0mm seems to generate good results."))
+setting('retraction_speed2',         40.0, float, 'advanced', _('Retraction')).setRange(0.1).setLabel(_("Speed (mm/s)"), _("Speed at which the filament is retracted, a higher retraction speed works better. But a very high retraction speed can lead to filament grinding."))
+setting('retraction_amount2',         4.5, float, 'advanced', _('Retraction')).setRange(0).setLabel(_("Distance (mm)"), _("Amount of retraction, set at 0 for no retraction at all. A value of 4.5mm seems to generate good results."))
+setting('retraction_dual_amount',   0.0, float, 'advanced', _('Retraction')).setRange(0).setLabel(_("Dual extrusion switch amount (mm)"), _("Amount of retraction when switching nozzle with dual-extrusion, set at 0 for no retraction at all. A value of 16.0mm seems to generate good results."))
 setting('retraction_min_travel',     1.5, float, 'expert',   _('Retraction')).setRange(0).setLabel(_("Minimum travel (mm)"), _("Minimum amount of travel needed for a retraction to happen at all. To make sure you do not get a lot of retractions in a small area."))
 setting('retraction_combing',      'All',  [_('Off'),_('All'),_('No Skin')], 'expert', _('Retraction')).setLabel(_("Enable combing"), _("Combing is the act of avoiding holes in the print for the head to travel over. If combing is \'Off\' the printer head moves straight from the start point to the end point and it will always retract.  If \'All\', enable combing on all surfaces.  If \'No Skin\', enable combing on all except skin surfaces."))
 setting('retraction_minimal_extrusion',0.02, float,'expert', _('Retraction')).setRange(0).setLabel(_("Minimal extrusion before retracting (mm)"), _("The minimal amount of extrusion that needs to be done before retracting again if a retraction needs to happen before this minimal is reached the retraction is ignored.\nThis avoids retracting a lot on the same piece of filament which flattens the filament and causes grinding issues."))
@@ -261,11 +264,14 @@ setting('start.gcode', '', str, 'alteration', 'alteration')
 setting('end.gcode',  '', str, 'alteration', 'alteration')
 setting('preSwitchExtruder.gcode', '', str, 'alteration', 'alteration')
 setting('postSwitchExtruder.gcode', '', str, 'alteration', 'alteration')
+setting('preSwitchExtruder2.gcode', '', str, 'alteration', 'alteration')
+setting('postSwitchExtruder2.gcode', '', str, 'alteration', 'alteration')
 setting('startMode', 'Normal', ['Simple', 'Normal'], 'preference', 'hidden')
 setting('oneAtATime', 'False', bool, 'preference', 'hidden')
 setting('lastFile', os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..', 'resources', 'example', 'dagoma.stl')), str, 'preference', 'hidden')
 setting('save_profile', 'False', bool, 'preference', 'hidden').setLabel(_("Save profile on slice"), _("When slicing save the profile as [stl_file]_profile.ini next to the model."))
 setting('filament_cost_kg', '46', float, 'advanced', _('Filament')).setLabel(_("Cost (price/kg)"), _("Cost of your filament per kg, to estimate the cost of the final print."))
+setting('filament_cost_kg2', '46', float, 'advanced', _('Filament')).setLabel(_("Cost (price/kg)"), _("Cost of your filament per kg, to estimate the cost of the final print."))
 setting('filament_cost_meter', '0', float, 'advanced', _('Filament')).setLabel(_("Cost (price/m)"), _("Cost of your filament per meter, to estimate the cost of the final print."))
 setting('auto_detect_sd', 'True', bool, 'advanced', 'hidden').setLabel(_("Auto detect SD card drive"), _("Auto detect the SD card. You can disable this because on some systems external hard-drives or USB sticks are detected as SD card."))
 setting('check_for_updates', 'False', bool, 'preference', 'hidden').setLabel(_("Check for updates"), _("Check for newer versions of Cura on startup"))
@@ -282,6 +288,7 @@ setting('precision_index', 0, int, 'preference', 'hidden')
 setting('printerhead_index', -1, int, 'preference', 'hidden')
 setting('internal_use', 'False', bool, 'preference', 'hidden')
 setting('filament_physical_density', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
+setting('filament_physical_density2', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
 
 # Get the os default locale
 default_locale = "en_US"
@@ -1040,6 +1047,15 @@ def replaceTagMatch(m):
 	if tag == 'post_retraction_amount':
 		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') + getProfileSettingFloat('switch_default_retraction_offset'))
 
+	if tag == 'retraction_amount2':
+		return pre + str(getProfileSettingFloat('retraction_amount2'))
+
+	if tag == 'pre_retraction_amount2':
+		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') - getProfileSettingFloat('retraction_amount2'))
+
+	if tag == 'post_retraction_amount2':
+		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') + getProfileSettingFloat('switch_default_retraction_offset'))
+
 	if tag == 'z_offset':
 		return pre + str(getProfileSettingFloat('offset_value'))
 
@@ -1130,26 +1146,30 @@ def getAlterationFileContents(filename, extruderCount = 1):
 
 def printSlicingInfo():
 	print '********* Slicing parameters *********'
-	print "extruder_amount : ", getMachineSetting('extruder_amount')
 	print "grip_temperature : ", getProfileSetting('grip_temperature')
 	print "print_temperature : ", getProfileSetting('print_temperature')
+	print "filament_diameter : ", getProfileSetting('filament_diameter')
+	print "filament_flow : ", getProfileSetting('filament_flow')
+	print "retraction_speed : ", getProfileSetting('retraction_speed')
+	print "retraction_amount : ", getProfileSetting('retraction_amount')
+	print "filament_physical_density : ", getProfileSetting('filament_physical_density')
+	print "filament_cost_kg : ", getProfileSetting('filament_cost_kg')
 	if int(getMachineSetting('extruder_amount')) == 2:
 		print "grip_temperature2 : ", getProfileSetting('grip_temperature2')
 		print "print_temperature2 : ", getProfileSetting('print_temperature2')
+		print "filament_diameter2 : ", getProfileSetting('filament_diameter2')
+		print "filament_flow2 : ", getProfileSetting('filament_flow2')
+		print "retraction_speed2 : ", getProfileSetting('retraction_speed2')
+		print "retraction_amount2 : ", getProfileSetting('retraction_amount2')
+		print "filament_physical_density2 : ", getProfileSetting('filament_physical_density2')
+		print "filament_cost_kg2 : ", getProfileSetting('filament_cost_kg2')
+	print "extruder_amount : ", getMachineSetting('extruder_amount')
 	print "nozzle_size : ", getMachineSetting('nozzle_size')
 	print "rectration_enable : ", getMachineSetting('retraction_enable')
 	print "fan_full_height : ", getProfileSetting('fan_full_height')
 	print "fan_speed : ", getProfileSetting('fan_speed')
 	print "fan_speed_max : ", getProfileSetting('fan_speed_max')
 	print "coll_min_feedrate : ", getProfileSetting('cool_min_feedrate')
-	print "filament_diameter : ", getProfileSetting('filament_diameter')
-	if int(getMachineSetting('extruder_amount')) == 2:
-		print "filament_diameter2 : ", getProfileSetting('filament_diameter2')
-	print "filament_flow : ", getProfileSetting('filament_flow')
-	print "retraction_speed : ", getProfileSetting('retraction_speed')
-	print "retraction_amount : ", getProfileSetting('retraction_amount')
-	print "filament_physical_density : ", getProfileSetting('filament_physical_density')
-	print "filament_cost_kg : ", getProfileSetting('filament_cost_kg')
 	print "fill_density", getProfileSetting('fill_density')
 	print "layer_height ", getProfileSetting('layer_height')
 	print "solid_layer_thickness : ", getProfileSetting('solid_layer_thickness')

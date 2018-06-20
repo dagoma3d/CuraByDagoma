@@ -541,17 +541,23 @@ class normalSettingsPanel(configBase.configPanelBase):
 		gcode = self.configuration.getElementsByTagName("GCODE")[0]
 
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
-			gcode_start = gcode.getElementsByTagName("Gstart2")[0].firstChild.nodeValue
+			gcode_start = gcode.getElementsByTagName("GstartDual")[0].firstChild.nodeValue
 			profile.putAlterationSetting('start.gcode', gcode_start)
 
-			gcode_end = gcode.getElementsByTagName("Gend2")[0].firstChild.nodeValue
+			gcode_end = gcode.getElementsByTagName("GendDual")[0].firstChild.nodeValue
 			profile.putAlterationSetting('end.gcode', gcode_end)
 
-			gcode_preswitch = gcode.getElementsByTagName("Gpreswitch")[0].firstChild.nodeValue
+			gcode_preswitch = gcode.getElementsByTagName("GpreswitchT0")[0].firstChild.nodeValue
 			profile.putAlterationSetting('preSwitchExtruder.gcode', gcode_preswitch)
 
-			gcode_postswitch = gcode.getElementsByTagName("Gpostswitch")[0].firstChild.nodeValue
+			gcode_postswitch = gcode.getElementsByTagName("GpostswitchT0")[0].firstChild.nodeValue
 			profile.putAlterationSetting('postSwitchExtruder.gcode', gcode_postswitch)
+
+			gcode_preswitch = gcode.getElementsByTagName("GpreswitchT1")[0].firstChild.nodeValue
+			profile.putAlterationSetting('preSwitchExtruder2.gcode', gcode_preswitch)
+
+			gcode_postswitch = gcode.getElementsByTagName("GpostswitchT1")[0].firstChild.nodeValue
+			profile.putAlterationSetting('postSwitchExtruder2.gcode', gcode_postswitch)
 		else:
 			gcode_start = gcode.getElementsByTagName("Gstart")[0].firstChild.nodeValue
 			profile.putAlterationSetting('start.gcode', gcode_start)
@@ -561,6 +567,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 			profile.putAlterationSetting('preSwitchExtruder.gcode', '')
 			profile.putAlterationSetting('postSwitchExtruder.gcode', '')
+			profile.putAlterationSetting('preSwitchExtruder2.gcode', '')
+			profile.putAlterationSetting('postSwitchExtruder2.gcode', '')
 
 	def initFilament(self):
 		filaments = self.configuration.getElementsByTagName('Filament')
@@ -831,6 +839,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('print_temperature2', str(calculated_print_temperature))
 		self.temperature2SpinCtrl.SetValue(calculated_print_temperature)
 		profile.putProfileSetting('filament_diameter2', fila.filament_diameter)
+		profile.putProfileSetting('filament_flow2', fila.filament_flow)
+		profile.putProfileSetting('retraction_speed2', fila.retraction_speed)
+		profile.putProfileSetting('retraction_amount2', fila.retraction_amount)
+		profile.putProfileSetting('filament_physical_density2', fila.filament_physical_density)
+		profile.putProfileSetting('filament_cost_kg2', fila.filament_cost_kg)
 		profile.putPreference('model_colour2', fila.model_colour)
 		if 'wood' in filament_type or 'flex' in filament_type:
 			self.precisionRadioBox.Enable(False)
@@ -997,6 +1010,41 @@ class normalSettingsPanel(configBase.configPanelBase):
 				filament_diameter = fila.filament_diameter
 			profile.putProfileSetting('filament_diameter2', str(filament_diameter))
 
+			filament_flow_tags = color.getElementsByTagName("filament_flow")
+			if len(filament_flow_tags) > 0:
+				filament_flow = filament_flow_tags[0].firstChild.nodeValue
+			else:
+				filament_flow = fila.filament_flow
+			profile.putProfileSetting('filament_flow2', str(filament_flow))
+
+			retraction_speed_tags = color.getElementsByTagName("retraction_speed")
+			if len(retraction_speed_tags) > 0:
+				retraction_speed = retraction_speed_tags[0].firstChild.nodeValue
+			else:
+				retraction_speed = fila.retraction_speed
+			profile.putProfileSetting('retraction_speed2', str(retraction_speed))
+
+			retraction_amount_tags = color.getElementsByTagName("retraction_amount")
+			if len(retraction_amount_tags) > 0:
+				retraction_amount = retraction_amount_tags[0].firstChild.nodeValue
+			else:
+				retraction_amount = fila.retraction_amount
+			profile.putProfileSetting('retraction_amount2', str(retraction_amount))
+
+			filament_physical_density_tags = color.getElementsByTagName("filament_physical_density")
+			if len(filament_physical_density_tags) > 0:
+				filament_physical_density = filament_physical_density_tags[0].firstChild.nodeValue
+			else:
+				filament_physical_density = fila.filament_physical_density
+			profile.putProfileSetting('filament_physical_density2', str(filament_physical_density))
+
+			filament_cost_kg_tags = color.getElementsByTagName("filament_cost_kg")
+			if len(filament_cost_kg_tags) > 0:
+				filament_cost_kg = filament_cost_kg_tags[0].firstChild.nodeValue
+			else:
+				filament_cost_kg = fila.filament_cost_kg
+			profile.putProfileSetting('filament_cost_kg2', str(filament_cost_kg))
+
 			model_colour_tags = color.getElementsByTagName("model_colour")
 			if len(model_colour_tags) > 0:
 				model_colour = model_colour_tags[0].firstChild.nodeValue
@@ -1011,6 +1059,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('print_temperature2', str(print_temperature))
 			profile.putProfileSetting('grip_temperature2', fila.grip_temperature)
 			profile.putProfileSetting('filament_diameter2', fila.filament_diameter)
+			profile.putProfileSetting('filament_flow2', fila.filament_flow)
+			profile.putProfileSetting('retraction_speed2', fila.retraction_speed)
+			profile.putProfileSetting('retraction_amount2', fila.retraction_amount)
+			profile.putProfileSetting('filament_physical_density2', fila.filament_physical_density)
+			profile.putProfileSetting('filament_cost_kg2', fila.filament_cost_kg)
 			profile.putPreference('model_colour2', fila.model_colour)
 
 	def RefreshTemperatureSpinCtrl(self):

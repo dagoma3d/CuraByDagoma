@@ -670,7 +670,7 @@ M107 ;stop fan
 ;Shut down motor
 M84 ;shut down motors
 		</Gend>
-		<Gstart2>
+		<GstartDual>
 ;Gcode by Cura by Dagoma {cbd_version} for DiscoEasy200
 ;Filament 1: {filament_name}
 ;Filament 2: {filament2_name}
@@ -684,12 +684,12 @@ G28
 ;Sensor activation
 ;{sensor}
 M104 T0 S{print_temperature} ;start the heater
-M104 T1 S{print_temperature2} ;start the heater
+;M104 T1 S{print_temperature2} ;start the heater
 M107 ;start with the fan off
 G1 Z0.5
 G1 X100 Y20 F3000
 M109 T0 S{print_temperature}
-M109 T1 S{print_temperature2}
+;M109 T1 S{print_temperature2}
 M82 ;set extruder to absolute mode
 T0 ;Switch to the first extruder
 G92 E0 ;zero the extruded length
@@ -700,8 +700,8 @@ G92 E0 ;zero the extruded length again
 G1 E-{retraction_amount} F5000 ;filament retract length
 G1 F240 Z3
 G1 F{travel_speed}
-</Gstart2>
-		<Gend2>
+		</GstartDual>
+		<GendDual>
 M106 S255 ;start fan full power
 M140 S0 ;heated bed heater off (if you have it)
 ;Home machine
@@ -711,7 +711,7 @@ G92 E0
 G1 E-{retraction_amount} F5000 ;filament retract length
 G92 E0
 G1 E3 F3000
-G1 E-{pre_retraction_amount} F10000M104 T0 S0
+G1 E-{pre_retraction_amount} F10000
 M104 T0 S0
 M104 T1 S0
 ;Home machine
@@ -722,8 +722,28 @@ G28 X Y
 M107 ;stop fan
 ;Shut down motor
 M84 ;shut down motors
-		</Gend2>
-		<Gpreswitch>
+		</GendDual>
+		<GpreswitchT0>
+;START T(n)
+;This code is added before the T(n)
+G92 E0
+G1 E-{retraction_amount2} F5000 ;filament retract length
+G1 X50 Y150 F5000
+G92 E0
+G1 E3 F3000
+G1 E-{pre_retraction_amount2} F10000
+G92 E0
+		</GpreswitchT0>
+		<GpostswitchT0>
+;END T(n)
+;This code is added after the T(n)
+M109 T1 R{print_temperature} ;Set the temperature to the correct value
+G92 E0
+G1 E{post_retraction_amount} F3000
+G92 E0
+G1 E-{retraction_amount} F5000 ;filament retract length
+		</GpostswitchT0>
+		<GpreswitchT1>
 ;START T(n)
 ;This code is added before the T(n)
 G92 E0
@@ -733,14 +753,15 @@ G92 E0
 G1 E3 F3000
 G1 E-{pre_retraction_amount} F10000
 G92 E0
-		</Gpreswitch>
-		<Gpostswitch>
+		</GpreswitchT1>
+		<GpostswitchT1>
 ;END T(n)
 ;This code is added after the T(n)
+M109 T0 R{print_temperature2} ;Set the temperature to the correct value
 G92 E0
-G1 E{post_retraction_amount} F3000
+G1 E{post_retraction_amount2} F3000
 G92 E0
-G1 E-{retraction_amount} F5000 ;filament retract length
-		</Gpostswitch>
+G1 E-{retraction_amount2} F5000 ;filament retract length
+		</GpostswitchT1>
 	</GCODE>
 </Dagoma>
