@@ -352,6 +352,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def __init__(self, parent, callback = None):
 		super(normalSettingsPanel, self).__init__(parent, callback)
 		self.alreadyLoaded = False
+		self.alreadyLoaded2 = False
 		self.parent = parent
 		self.loadConfiguration()
 		self.warningStaticText = wx.StaticText(self, wx.ID_ANY)
@@ -853,7 +854,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.color2ComboBox.Clear()
 		filaments = self.configuration.getElementsByTagName("Filament")
 		colors = filaments[filament_index].getElementsByTagName("Color")
-		self.colors = []
+		self.colors2 = []
 		if len(colors) > 0:
 			self.color2ComboBox.Enable(True)
 			for color in colors:
@@ -861,21 +862,21 @@ class normalSettingsPanel(configBase.configPanelBase):
 					current_color = self.Color()
 					current_color.label = color.getAttribute("name")
 					current_color.name = _(current_color.label)
-					self.colors.append(current_color)
+					self.colors2.append(current_color)
 		else:
 			self.color2ComboBox.Enable(False)
-		self.colors.sort(key=lambda color: color.name)
+		self.colors2.sort(key=lambda color: color.name)
 		generic_color = self.Color()
 		generic_color.label = 'Generic'
 		generic_color.name = _(generic_color.label)
-		self.colors.insert(0, generic_color)
-		for color in self.colors:
+		self.colors2.insert(0, generic_color)
+		for color in self.colors2:
 			self.color2ComboBox.Append(color.name)
 
-		if not self.alreadyLoaded:
+		if not self.alreadyLoaded2:
 			color_label = profile.getPreference('color2_label')
 			self.color2ComboBox.SetStringSelection(_(color_label))
-			self.alreadyLoaded = True
+			self.alreadyLoaded2 = True
 		else:
 			self.color2ComboBox.SetSelection(0)
 			profile.putPreference('color2_label', 'Generic')
@@ -976,7 +977,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def RefreshColor2(self):
 		#print 'Refresh color'
 		color_index = self.color2ComboBox.GetSelection()
-		color_label = self.colors[color_index].label
+		color_label = self.colors2[color_index].label
 		profile.putPreference('color2_label', color_label)
 		filament_index = int(profile.getPreference('filament2_index'))
 		fila = self.filaments[filament_index]
