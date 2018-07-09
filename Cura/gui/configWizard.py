@@ -14,22 +14,6 @@ import wx.lib.hyperlink as hl
 from Cura.util import profile
 from Cura.util import resources
 
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-__copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
-
-import os
-import platform
-import sys
-
-import wx
-import wx.wizard
-import wx.lib.hyperlink as hl
-
-from Cura.util import profile
-from Cura.util import resources
-
 class wxPrinter():
 	def __init__(self, image = None, name = None, description = None):
 		self.image = image

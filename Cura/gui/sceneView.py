@@ -338,7 +338,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.notification.message(_("Save in progress..."))
 			size = float(len(data))
 			fsrc = StringIO.StringIO(data)
-			print 'Save in : ', targetFilename # Dagoma
+			print 'Save in : ', targetFilename.encode('utf-8') # Dagoma
 			with open(targetFilename, 'wb') as fdst:
 				while 1:
 					buf = fsrc.read(16*1024)
