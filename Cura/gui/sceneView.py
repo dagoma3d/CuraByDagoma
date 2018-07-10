@@ -1295,6 +1295,8 @@ class SceneView(openglGui.glGuiPanel):
 		size = [profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')]
 
 		machine = profile.getMachineSetting('machine_name')
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			machine += '_dual'
 		if machine.startswith('DiscoEasy200') or machine.startswith('DiscoVery200') or machine.startswith('Neva')  or machine.startswith('Explorer350'):
 			if machine not in self._platformMesh:
 				meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '.stl'))
@@ -1302,11 +1304,32 @@ class SceneView(openglGui.glGuiPanel):
 					self._platformMesh[machine] = meshes[0]
 				else:
 					self._platformMesh[machine] = None
+
 				if machine == 'DiscoEasy200':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+				elif machine == 'DiscoEasy200_dual':
+					if int(profile.getMachineSetting('extruder_amount')) == 2:
+						self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+						self._platformMesh[machine].processMatrix()
+						#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+						self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+
+						meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '_t0.stl'))
+						self._platformMesh[machine + '_t0'] = meshes[0]
+						self._platformMesh[machine + '_t0']._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+						self._platformMesh[machine + '_t0'].processMatrix()
+						#print 'self._platformMesh[machine + '_bed']._matrix', self._platformMesh[machine]._matrix
+						self._platformMesh[machine + '_t0']._drawOffset = numpy.array([-105,285,58], numpy.float32)
+
+						meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '_t1.stl'))
+						self._platformMesh[machine + '_t1'] = meshes[0]
+						self._platformMesh[machine + '_t1']._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+						self._platformMesh[machine + '_t1'].processMatrix()
+						#print 'self._platformMesh[machine + '_bed']._matrix', self._platformMesh[machine]._matrix
+						self._platformMesh[machine + '_t1']._drawOffset = numpy.array([-105,285,58], numpy.float32)
 				elif machine == 'DiscoVery200':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
@@ -1327,6 +1350,11 @@ class SceneView(openglGui.glGuiPanel):
 			glColor4f(1,1,1,0.5)
 			self._objectShader.bind()
 			self._renderObject(self._platformMesh[machine], False, False)
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				glColor4f(self._objColors[0][0], self._objColors[0][1], self._objColors[0][2], 0.5)
+				self._renderObject(self._platformMesh[machine + '_t0'], False, False)
+				glColor4f(self._objColors[1][0], self._objColors[1][1], self._objColors[1][2], 0.5)
+				self._renderObject(self._platformMesh[machine + '_t1'], False, False)
 			self._objectShader.unbind()
 		else:
 			glColor4f(0,0,0,1)
