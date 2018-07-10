@@ -237,22 +237,19 @@ class ConfigWizard(wx.wizard.Wizard):
 		super(ConfigWizard, self).__init__(parent, -1, _("Configuration wizard"))
 
 		self.parent = parent
-		self.firstTime = firstTime
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
 
 		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
 		self.Bind(wx.wizard.EVT_WIZARD_FINISHED, self.OnPageFinished)
-		wx.EVT_CLOSE(self, self.OnClose)
 
 		self.configurationPage = ConfigurationPage(self, firstTime)
 
 		#self.FitToPage(self.configurationPage)
 		self.GetPageAreaSizer().Add(self.configurationPage)
 		self.RunWizard(self.configurationPage)
-		if self:
-			self.Destroy()
+		self.Destroy()
 
 	def OnPageChanged(self, e):
 		prev_btn = self.FindWindowById(wx.ID_BACKWARD)
@@ -292,20 +289,9 @@ class ConfigWizard(wx.wizard.Wizard):
 			if int(printerhead_index) == -1:
 				printerhead_index = '0'
 
-		#print name
-		#print xml_file
-		#print printerhead_index
-		#print extruder_amount
-		#print wipe_tower
 		profile.putPreference('xml_file', xml_file)
 		profile.putPreference('printerhead_index', printerhead_index)
 		profile.putMachineSetting('extruder_amount', extruder_amount)
 		profile.putProfileSetting('wipe_tower', wipe_tower)
 		if self.parent is not None:
 			self.parent.ReloadSettingPanels()
-
-	def OnClose(self, e):
-		if self.firstTime:
-			sys.exit()
-		elif self:
-			self.Destroy()
