@@ -24,6 +24,8 @@ class PrintersPanel(wx.Panel):
 	def __init__(self, parent, isWizard = False):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
 
+		self.xml_file = profile.getPreference('xml_file')
+		self.name = profile.getMachineSetting('machine_name')
 		printers = self.getPrinters(isWizard)
 
 		pSizer = wx.FlexGridSizer(3, len(printers), 0, 0)
@@ -61,22 +63,17 @@ class PrintersPanel(wx.Panel):
 
 			if isWizard and firstItem:
 				radio.SetValue(True)
-				profile.putPreference('xml_file', printer.get('config'))
+				self.xml_file = printer.get('config')
+				self.name = printer.get('name')
 			else:
-				if printer.get('config') == profile.getPreference('xml_file'):
+				if printer.get('config') == self.xml_file:
 					radio.SetValue(True)
 				else:
 					radio.SetValue(False)
 
 			def OnPrinterSelect(e, config = printer.get('config'), name = printer.get('name')):
-				profile.putPreference('xml_file', config)
-				if name != 'DiscoEasy200':
-					profile.putPreference('printerhead_index', '-1')
-					profile.putMachineSetting('extruder_amount', '1')
-					profile.putProfileSetting('wipe_tower', 'False')
-				else:
-					if int(profile.getPreference('printerhead_index')) == -1:
-						profile.putPreference('printerhead_index', '0')
+				self.xml_file = config
+				self.name = name
 
 				self.GetParent().optionsPanel.Show(name == 'DiscoEasy200')
 				self.GetParent().Layout()
@@ -100,6 +97,10 @@ class PrintersPanel(wx.Panel):
 class OptionsPanel(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
+
+		self.printerhead_index = profile.getPreference('printerhead_index')
+		self.extruder_amount = profile.getMachineSetting('extruder_amount')
+		self.wipe_tower = profile.getProfileSetting('wipe_tower')
 
 		oSizer = wx.FlexGridSizer(2, 2, 0, 0)
 		oSizer.Add(wx.StaticText(self, wx.ID_ANY, _('Printhead version :') + ' '))
@@ -142,16 +143,16 @@ class OptionsPanel(wx.Panel):
 		self.Layout()
 
 	def OnPrinterHeadChanged(self, event):
-		profile.putPreference('printerhead_index', str(self.printerHeadChoice.GetSelection()))
+		self.printerhead_index = str(self.printerHeadChoice.GetSelection())
 		event.Skip()
 
 	def OnDualExtrusionChanged(self, event):
 		if self.dualExtrusionChoice.GetSelection() == 0:
-			profile.putMachineSetting('extruder_amount', '2')
-			profile.putProfileSetting('wipe_tower', 'True')
+			self.extruder_amount = '2'
+			self.wipe_tower = 'True'
 		else:
-			profile.putMachineSetting('extruder_amount', '1')
-			profile.putProfileSetting('wipe_tower', 'False')
+			self.extruder_amount = '1'
+			self.wipe_tower = 'False'
 		event.Skip()
 
 class TitlePanel(wx.Panel):
@@ -205,7 +206,7 @@ class ConfigurationPage(wx.wizard.WizardPageSimple):
 			titlePanel = TitlePanel(self, _("Configuration Cura by Dagoma"), _("Dagoma would like to thank you for your trust."))
 		else:
 			titlePanel = TitlePanel(self, _("Configuration Cura by Dagoma"))
-		printersPanel = PrintersPanel(self, firstTime)
+		self.printersPanel = PrintersPanel(self, firstTime)
 		self.optionsPanel = OptionsPanel(self)
 		if firstTime:
 			welcomePanel = WelcomePanel(self)
@@ -213,7 +214,7 @@ class ConfigurationPage(wx.wizard.WizardPageSimple):
 		# Main sizer
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer.Add(titlePanel, flag=wx.EXPAND)
-		sizer.Add(printersPanel, flag=wx.EXPAND)
+		sizer.Add(self.printersPanel, flag=wx.EXPAND)
 		sizer.Add(self.optionsPanel, flag=wx.EXPAND)
 		if firstTime:
 			sizer.Add(welcomePanel, flag=wx.EXPAND)
@@ -236,6 +237,7 @@ class ConfigWizard(wx.wizard.Wizard):
 		super(ConfigWizard, self).__init__(parent, -1, _("Configuration wizard"))
 
 		self.parent = parent
+		self.firstTime = firstTime
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
@@ -277,11 +279,34 @@ class ConfigWizard(wx.wizard.Wizard):
 
 	def OnPageFinished(self, e):
 		print "Configuration wizard finished..."
+		name = self.configurationPage.printersPanel.name
+		xml_file = self.configurationPage.printersPanel.xml_file
+		printerhead_index = self.configurationPage.optionsPanel.printerhead_index
+		extruder_amount = self.configurationPage.optionsPanel.extruder_amount
+		wipe_tower = self.configurationPage.optionsPanel.wipe_tower
+		if name != 'DiscoEasy200':
+			printerhead_index = '-1'
+			extruder_amount = '1'
+			wipe_tower = 'False'
+		else:
+			if int(printerhead_index) == -1:
+				printerhead_index = '0'
+
+		#print name
+		#print xml_file
+		#print printerhead_index
+		#print extruder_amount
+		#print wipe_tower
+		profile.putPreference('xml_file', xml_file)
+		profile.putPreference('printerhead_index', printerhead_index)
+		profile.putMachineSetting('extruder_amount', extruder_amount)
+		profile.putProfileSetting('wipe_tower', wipe_tower)
 		if self.parent is not None:
 			self.parent.ReloadSettingPanels()
 
 	def OnClose(self, e):
-		print "Configuration wizard finished..."
-		if self.parent is not None:
-			self.parent.ReloadSettingPanels()
-		self.Destroy()
+		if self.firstTime:
+			import sys
+			sys.exit()
+		elif self:
+			self.Destroy()

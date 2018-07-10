@@ -753,7 +753,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('filament_index', filament_index)
 		profile.putPreference('filament_name', fila.type)
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
-		calculated_print_temperature = int(fila.print_temperature)
+		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
 		if 'other' in filament_type:
 			self.warningStaticText.SetLabel(_("This setting must be used with caution!"))
@@ -826,7 +826,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('filament2_index', filament_index)
 		profile.putPreference('filament2_name', fila.type)
 		profile.putProfileSetting('grip_temperature2', fila.grip_temperature)
-		calculated_print_temperature = int(fila.print_temperature)
+		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
 		if 'other' in filament_type:
 			self.warning2StaticText.SetLabel(_("This setting must be used with caution!"))
@@ -896,9 +896,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 			print_temperature_tags = color.getElementsByTagName("print_temperature")
 			if len(print_temperature_tags) > 0:
-				print_temperature = int(print_temperature_tags[0].firstChild.nodeValue)
+				print_temperature = int(float(print_temperature_tags[0].firstChild.nodeValue))
 			else:
-				print_temperature = int(fila.print_temperature)
+				print_temperature = int(float(fila.print_temperature))
 			if not self.temperatureSpinCtrl.IsEnabled():
 				print_temperature += self.temp_preci
 			self.temperatureSpinCtrl.SetValue(print_temperature)
@@ -960,7 +960,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				model_colour = fila.model_colour
 			profile.putPreference('model_colour', model_colour)
 		else:
-			print_temperature = int(fila.print_temperature)
+			print_temperature = int(float(fila.print_temperature))
 			if not self.temperatureSpinCtrl.IsEnabled():
 				print_temperature += self.temp_preci
 			self.temperatureSpinCtrl.SetValue(print_temperature)
@@ -989,9 +989,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 			print_temperature_tags = color.getElementsByTagName("print_temperature")
 			if len(print_temperature_tags) > 0:
-				print_temperature = int(print_temperature_tags[0].firstChild.nodeValue)
+				print_temperature = int(float(print_temperature_tags[0].firstChild.nodeValue))
 			else:
-				print_temperature = int(fila.print_temperature)
+				print_temperature = int(float(fila.print_temperature))
 			if not self.temperature2SpinCtrl.IsEnabled():
 				print_temperature += self.temp_preci
 			self.temperature2SpinCtrl.SetValue(print_temperature)
@@ -1053,7 +1053,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				model_colour = fila.model_colour
 			profile.putPreference('model_colour2', model_colour)
 		else:
-			print_temperature = int(fila.print_temperature)
+			print_temperature = int(float(fila.print_temperature))
 			if not self.temperature2SpinCtrl.IsEnabled():
 				print_temperature += self.temp_preci
 			self.temperature2SpinCtrl.SetValue(print_temperature)
@@ -1095,8 +1095,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('solid_layer_thickness', preci.solid_layer_thickness)
 		profile.putProfileSetting('wall_thickness', preci.wall_thickness)
 		profile.putProfileSetting('print_speed', preci.print_speed)
-		new_temp_preci = int(preci.temp_preci)
-		calculated_print_temperature = int(profile.getProfileSetting('print_temperature'))
+		new_temp_preci = int(float(preci.temp_preci))
+		calculated_print_temperature = int(float(profile.getProfileSetting('print_temperature')))
 		if not self.temperatureSpinCtrl.IsEnabled():
 			calculated_print_temperature += new_temp_preci
 			try:
@@ -1105,7 +1105,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				pass
 		self.temperatureSpinCtrl.SetValue(calculated_print_temperature)
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
-			calculated_print_temperature2 = int(profile.getProfileSetting('print_temperature2'))
+			calculated_print_temperature2 = int(float(profile.getProfileSetting('print_temperature2')))
 			if not self.temperature2SpinCtrl.IsEnabled():
 				calculated_print_temperature2 += new_temp_preci
 				try:
