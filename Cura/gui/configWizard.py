@@ -306,7 +306,6 @@ class ConfigWizard(wx.wizard.Wizard):
 
 	def OnClose(self, e):
 		if self.firstTime:
-			import sys
 			sys.exit()
 		elif self:
 			self.Destroy()
