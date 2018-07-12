@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2018-06-12 16:27+0200\n"
+"PO-Revision-Date: 2018-07-12 12:34+0200\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3519,6 +3519,9 @@ msgstr "Double extrusion :"
 
 msgid "Which options do you use?"
 msgstr "Quelles options utilisez-vous?"
+
+msgid "Which option(s) do you use?"
+msgstr "Quelle(s) option(s) utilisez-vous?"
 
 msgid "Switch colors"
 msgstr "Intervertir les couleurs"
