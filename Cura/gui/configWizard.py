@@ -103,17 +103,20 @@ class OptionsPanel(wx.Panel):
 		self.extruder_amount = profile.getMachineSetting('extruder_amount')
 		self.wipe_tower = profile.getProfileSetting('wipe_tower')
 
-		oSizer = wx.FlexGridSizer(2, 2, 0, 0)
-		oSizer.Add(wx.StaticText(self, wx.ID_ANY, _('Printhead version :') + ' '))
-		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.printerHeadChoice = wx.Choice(self, wx.ID_ANY, choices = [_('Standard printhead (v2)'), _('New printhead (v3)')])
+		if profile.getPreference('printerhead_choice') == 'True':
+			oSizer = wx.FlexGridSizer(2, 2, 0, 0)
+			oSizer.Add(wx.StaticText(self, wx.ID_ANY, _('Printhead version :') + ' '))
+			if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
+				self.printerHeadChoice = wx.Choice(self, wx.ID_ANY, choices = [_('Standard printhead (v2)'), _('New printhead (v3)')])
+			else:
+				self.printerHeadChoice = wx.ComboBox(self, wx.ID_ANY, choices = [_('Standard printhead (v2)'), _('New printhead (v3)')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+			if int(profile.getPreference('printerhead_index')) == 1:
+				self.printerHeadChoice.SetSelection(1)
+			else:
+				self.printerHeadChoice.SetSelection(0)
+			oSizer.Add(self.printerHeadChoice)
 		else:
-			self.printerHeadChoice = wx.ComboBox(self, wx.ID_ANY, choices = [_('Standard printhead (v2)'), _('New printhead (v3)')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
-		if int(profile.getPreference('printerhead_index')) == 1:
-			self.printerHeadChoice.SetSelection(1)
-		else:
-			self.printerHeadChoice.SetSelection(0)
-		oSizer.Add(self.printerHeadChoice)
+			oSizer = wx.FlexGridSizer(1, 2, 0, 0)
 		oSizer.Add(wx.StaticText(self, wx.ID_ANY, _('Dual extrusion :') + ' '))
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.dualExtrusionChoice = wx.Choice(self, wx.ID_ANY, choices = [_('Yes'), _('No')])
@@ -126,15 +129,17 @@ class OptionsPanel(wx.Panel):
 		oSizer.Add(self.dualExtrusionChoice)
 
 		if sys.platform == 'darwin':
-			self.Bind(wx.EVT_CHOICE, self.OnPrinterHeadChanged, self.printerHeadChoice)
+			if profile.getPreference('printerhead_choice') == 'True':
+				self.Bind(wx.EVT_CHOICE, self.OnPrinterHeadChanged, self.printerHeadChoice)
 			self.Bind(wx.EVT_CHOICE, self.OnDualExtrusionChanged, self.dualExtrusionChoice)
 		else:
-			self.Bind(wx.EVT_COMBOBOX, self.OnPrinterHeadChanged, self.printerHeadChoice)
+			if profile.getPreference('printerhead_choice') == 'True':
+				self.Bind(wx.EVT_COMBOBOX, self.OnPrinterHeadChanged, self.printerHeadChoice)
 			self.Bind(wx.EVT_COMBOBOX, self.OnDualExtrusionChanged, self.dualExtrusionChoice)
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.TOP|wx.BOTTOM, border=5)
-		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Which options do you use?")), flag=wx.BOTTOM, border=5)
+		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Which option(s) do you use?")), flag=wx.BOTTOM, border=5)
 		sizer.Add(oSizer)
 
 		self.dualExtrusionChoice.Show(profile.getPreferenceBool('enable_dual_extrusion'))
@@ -287,7 +292,7 @@ class ConfigWizard(wx.wizard.Wizard):
 			extruder_amount = '1'
 			wipe_tower = 'False'
 		else:
-			if int(printerhead_index) == -1:
+			if int(printerhead_index) == -1 and profile.getPreference('printerhead_choice') == 'True':
 				printerhead_index = '0'
 
 		profile.putPreference('xml_file', xml_file)
