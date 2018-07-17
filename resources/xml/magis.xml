@@ -629,7 +629,7 @@
 	<!-- Gcodes start and end -->
 	<GCODE>
 		<Gstart>
-;Gcode by Cura by Dagoma {cbd_version} for Neva
+;Gcode by Cura by Dagoma {cbd_version} for Magis
 ;Filament: {filament_name}
 G90 ;absolute positioning
 G28
