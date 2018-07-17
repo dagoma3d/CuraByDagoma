@@ -389,12 +389,12 @@ class Engine(object):
 		k = 0
 		the_move = ''
 		for line in original_lines:
-			if line.startswith(';START T(n)'):
+			if line.startswith(';MOVE TO WIPE TOWER T(n)'):
 				j = i
 			if line.startswith(';TYPE:WIPE-TOWER'):
 				k = i
 				the_move = lines.pop(k - 1)
-				lines.insert(j, the_move)
+				lines.insert(j+1, the_move)
 			lines.append(line)
 			i += 1
 
