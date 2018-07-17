@@ -373,6 +373,40 @@ class Engine(object):
 			f.close()
 			os.unlink(tempfilename)
 
+	def moveBeforeSwitch(self):
+		import tempfile
+		f = tempfile.NamedTemporaryFile(prefix='CuraPluginTemp', delete=False)
+		tempfilename = f.name
+		f.write(self._result.getGCode())
+		f.close()
+
+		with open(tempfilename, "r") as f:
+			original_lines = f.readlines()
+
+		lines = [];
+		i = 0
+		j = 0
+		k = 0
+		the_move = ''
+		for line in original_lines:
+			if line.startswith(';START T(n)'):
+				j = i
+			if line.startswith(';TYPE:WIPE-TOWER'):
+				k = i
+				the_move = lines.pop(k - 1)
+				lines.insert(j, the_move)
+			lines.append(line)
+			i += 1
+
+		with open(tempfilename, "w") as f:
+			f.writelines(lines)
+
+		if tempfilename is not None:
+			f = open(tempfilename, "r")
+			self._result.setGCode(f.read())
+			f.close()
+			os.unlink(tempfilename)
+
 	def _watchProcess(self, commandList, oldThread, engineModelData, modelHash):
 		if oldThread is not None:
 			if self._process is not None:
@@ -414,6 +448,9 @@ class Engine(object):
 			# so we need to reset the default one for layers next to the third one.
 			if profile.getMachineSetting('machine_name') == 'Neva':
 				self.improveAdhesion()
+
+			if int(profile.getMachineSetting('extruder_amount')) > 1:
+				self.moveBeforeSwitch()
 
 			self._result.setFinished(True)
 			self._callback(1.0)
