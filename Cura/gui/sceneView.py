@@ -66,7 +66,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.tempMatrix = None
 
 		self.openFileButton      = openglGui.glButton(self, 4, _(" "), (0,0), self.showLoadModel)
-		self.printButton         = openglGui.glButton(self, 6, _(" "), (-1.6,-1.3), self.OnPrintButton)
+		self.printButton         = openglGui.glButton(self, None, _(" "), (-1,-1), self.OnPrintButton)
 		self.printButton.setDisabled(True)
 		self.printButton.setHidden(True)
 
@@ -616,17 +616,20 @@ class SceneView(openglGui.glGuiPanel):
 			mainWindow.normalSettingsPanel.printButton.Enable()
 			mainWindow.fileMenu.FindItemByPosition(2).Enable(True)
 			self.printButton.setProgressBar(None)
-			text = '%s' % (result.getPrintTime())
+			text = '%s\n' % (result.getPrintTime())
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
-				meters = result.getFilamentMeters(e)
-				if meters is not None:
-					text += '\n%s' % (meters)
+				#meters = result.getFilamentMeters(e)
+				#if meters is not None:
+				#	text += '%s\n' % (meters)
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
-					text += '\n%s' % (grams)
+					if int(profile.getMachineSetting('extruder_amount')) > 1:
+						text += 'Filament %s: ' % (e + 1)
+					text += '%s' % grams
 				cost = result.getFilamentCost(e)
 				if cost is not None:
-					text += '\n%s' % (cost)
+					text += ' - %s\n' % (cost)
+				#print '%s | %s' % (grams, cost)
 			self.printButton.setBottomText(text)
 		else:
 			self.printButton.setBottomText('')
@@ -965,13 +968,13 @@ class SceneView(openglGui.glGuiPanel):
 	def OnPaint(self,e):
 		connectionGroup = self._printerConnectionManager.getAvailableGroup()
 		if len(removableStorage.getPossibleSDcardDrives()) > 0 and (connectionGroup is None or connectionGroup.getPriority() < 0):
-			self.printButton._imageID = 2
+			self.printButton._imageID = None
 			self.printButton._tooltip = _(" ")
 		elif connectionGroup is not None:
 			self.printButton._imageID = connectionGroup.getIconID()
 			self.printButton._tooltip = _("Print with %s") % (connectionGroup.getName())
 		else:
-			self.printButton._imageID = 3
+			self.printButton._imageID = None
 			self.printButton._tooltip = _(" ")
 
 		if self._animView is not None:

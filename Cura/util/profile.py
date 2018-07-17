@@ -273,6 +273,7 @@ setting('save_profile', 'False', bool, 'preference', 'hidden').setLabel(_("Save 
 setting('filament_cost_kg', '46', float, 'advanced', _('Filament')).setLabel(_("Cost (price/kg)"), _("Cost of your filament per kg, to estimate the cost of the final print."))
 setting('filament_cost_kg2', '46', float, 'advanced', _('Filament')).setLabel(_("Cost (price/kg)"), _("Cost of your filament per kg, to estimate the cost of the final print."))
 setting('filament_cost_meter', '0', float, 'advanced', _('Filament')).setLabel(_("Cost (price/m)"), _("Cost of your filament per meter, to estimate the cost of the final print."))
+setting('filament_cost_meter2', '0', float, 'advanced', _('Filament')).setLabel(_("Cost (price/m)"), _("Cost of your filament per meter, to estimate the cost of the final print."))
 setting('auto_detect_sd', 'True', bool, 'advanced', 'hidden').setLabel(_("Auto detect SD card drive"), _("Auto detect the SD card. You can disable this because on some systems external hard-drives or USB sticks are detected as SD card."))
 setting('check_for_updates', 'False', bool, 'preference', 'hidden').setLabel(_("Check for updates"), _("Check for newer versions of Cura on startup"))
 setting('submit_slice_information', 'False', bool, 'preference', 'hidden').setLabel(_("Send usage statistics"), _("Submit anonymous usage information to improve future versions of Cura"))

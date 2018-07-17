@@ -71,19 +71,25 @@ class EngineResult(object):
 
 	def getFilamentWeight(self, e=0):
 		#Calculates the weight of the filament in kg
-		radius = profile.getProfileSettingFloat('filament_diameter') / 2
+		filament_diameter_name = 'filament_diameter' if e == 0 else 'filament_diameter2'
+		filament_physical_density_name = 'filament_physical_density' if e == 0 else 'filament_physical_density2'
+		radius = profile.getProfileSettingFloat(filament_diameter_name) / 2
 		volumeM3 = (self._filamentMM[e] * (math.pi * radius * radius)) / (1000*1000*1000)
-		return volumeM3 * profile.getProfileSettingFloat('filament_physical_density')
+		return volumeM3 * profile.getProfileSettingFloat(filament_physical_density_name)
 
 	def getFilamentCost(self, e=0):
-		cost_kg = profile.getProfileSettingFloat('filament_cost_kg')
-		cost_meter = profile.getProfileSettingFloat('filament_cost_meter')
+		filament_cost_kg_name = 'filament_cost_kg' if e == 0 else 'filament_cost_kg2'
+		filament_cost_meter_name = 'filament_cost_meter' if e == 0 else 'filament_cost_meter2'
+		cost_kg = profile.getProfileSettingFloat(filament_cost_kg_name)
+		cost_meter = profile.getProfileSettingFloat(filament_cost_meter_name)
+		if self.getFilamentWeight(e) == 0.0:
+			return None
 		if cost_kg > 0.0 and cost_meter > 0.0:
-			return "%.2f %s / %.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("currency"), self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
+			return "%.2f%s / %.2f%s" % (self.getFilamentWeight(e) * cost_kg, _("currency"), self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
 		elif cost_kg > 0.0:
-			return "%.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("currency"))
+			return "%.2f%s" % (self.getFilamentWeight(e) * cost_kg, _("currency"))
 		elif cost_meter > 0.0:
-			return "%.2f %s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
+			return "%.2f%s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
 		return None
 
 	def getPrintTime(self):
@@ -98,12 +104,12 @@ class EngineResult(object):
 	def getFilamentMeters(self, e=0):
 		if self._filamentMM[e] == 0.0:
 			return None
-		return '%0.2f %s' % (float(self._filamentMM[e]) / 1000.0, _("meters"))
+		return '%0.2f%s' % (float(self._filamentMM[e]) / 1000.0, _("meters"))
 
 	def getFilamentGrams(self, e=0):
 		if self._filamentMM[e] == 0.0:
 			return None
-		return '%0.0f %s' % (self.getFilamentWeight(e) * 1000.0, _("grams"))
+		return '%0.0f%s' % (self.getFilamentWeight(e) * 1000.0, _("grams"))
 
 	def getLog(self):
 		return self._engineLog
