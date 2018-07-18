@@ -733,6 +733,9 @@ M84 ;shut down motors
 G92 E0
 G1 E-{retraction_amount2} F5000 ;filament retract length
 ;MOVE TO WIPE TOWER T(n)
+G91
+G0 F6000 X-{wipe_tower_center_x} Y{wipe_tower_center_y}
+G90
 G92 E0
 G1 E3 F3000
 G1 E-{pre_retraction_amount2} F10000
@@ -744,6 +747,9 @@ G92 E0
 M109 T1 R{print_temperature} ;Set the temperature to the correct value
 G92 E0
 G1 E{post_retraction_amount} F3000
+G91
+G0 F6000 X{wipe_tower_center_x} Y-{wipe_tower_center_y}
+G90
 G92 E0
 G1 E-{retraction_amount} F5000 ;filament retract length
 		</GpostswitchT0>
@@ -753,6 +759,9 @@ G1 E-{retraction_amount} F5000 ;filament retract length
 G92 E0
 G1 E-{retraction_amount} F5000 ;filament retract length
 ;MOVE TO WIPE TOWER T(n)
+G91
+G0 F6000 X-{wipe_tower_center_x} Y{wipe_tower_center_y}
+G90
 G92 E0
 G1 E3 F3000
 G1 E-{pre_retraction_amount} F10000
@@ -764,6 +773,9 @@ G92 E0
 M109 T0 R{print_temperature2} ;Set the temperature to the correct value
 G92 E0
 G1 E{post_retraction_amount2} F3000
+G91
+G0 F6000 X{wipe_tower_center_x} Y-{wipe_tower_center_y}
+G90
 G92 E0
 G1 E-{retraction_amount2} F5000 ;filament retract length
 		</GpostswitchT1>

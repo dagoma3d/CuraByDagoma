@@ -385,6 +385,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.offsetStaticText = wx.StaticText(self, wx.ID_ANY, _("Offset (mm) :"))
 		self.offsetTextCtrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
 
+		self.wipeTowerStaticText = wx.StaticText(self, wx.ID_ANY, _("Wipe tower volume (mm3) :"))
+		self.wipeTowerTextCtrl = wx.TextCtrl(self, -1, profile.getProfileSetting('wipe_tower_volume'))
+
 		# Pause plugin
 		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
 		self.pausePluginPanel = pausePluginPanel.pausePluginPanel(self, callback)
@@ -405,6 +408,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.RefreshSensor()
 		self.RefreshPrintingSurface()
 		self.RefreshOffset()
+		self.RefreshWipeTower()
 		self.RefreshAdhesion()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -434,6 +438,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_CHECKBOX, self.OnSensorCheckBoxChanged,self.sensorCheckBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
 		self.Bind(wx.EVT_TEXT, self.OnOffsetTextCtrlChanged, self.offsetTextCtrl)
+		self.Bind(wx.EVT_TEXT, self.OnWipeTowerTextCtrlChanged, self.wipeTowerTextCtrl)
 		self.Bind(wx.EVT_CHECKBOX, self.OnAdhesionCheckBoxChanged, self.adhesionCheckBox)
 		self.Bind(wx.EVT_BUTTON, self.OnPreparePrintButtonClick, self.printButton)
 		self.Bind(wx.EVT_BUTTON, self.OnPauseButtonClick, self.pausePluginButton)
@@ -494,6 +499,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.printingSurfaceRadioBox.Hide()
 			self.offsetStaticText.Hide()
 			self.offsetTextCtrl.Hide()
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			mainSizer.Add(self.wipeTowerStaticText, flag=wx.EXPAND)
+			mainSizer.Add(self.wipeTowerTextCtrl, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		else:
+			self.wipeTowerStaticText.Hide()
+			self.wipeTowerTextCtrl.Hide()
 		if printerName != "Neva":
 			mainSizer.Add(self.sensorCheckBox)
 		else:
@@ -1189,6 +1200,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else :
 			self.offsetTextCtrl.SetValue(profile.getProfileSetting('offset_input'))
 
+	def RefreshWipeTower(self):
+		value = self.wipeTowerTextCtrl.GetValue()
+		if self.IsNumber(value) :
+			profile.putProfileSetting('wipe_tower_volume', value)
+		else :
+			self.wipeTowerTextCtrl.SetValue(profile.getProfileSetting('wipe_tower_volume'))
+
 	def RefreshSensor(self):
 		if self.sensorCheckBox.GetValue():
 			sensor = self.sensors[0].sensor
@@ -1275,6 +1293,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnOffsetTextCtrlChanged(self, event):
 		self.RefreshOffset()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def OnWipeTowerTextCtrlChanged(self, event):
+		self.RefreshWipeTower()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
