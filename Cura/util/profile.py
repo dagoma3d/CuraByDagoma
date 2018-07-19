@@ -1041,11 +1041,11 @@ def replaceTagMatch(m):
 		return getPalpeurGCode()
 
 	if tag == 'wipe_tower_center_x':
-		wipe_tower_half_size = round(math.sqrt(getProfileSettingFloat('wipe_tower_volume') / (getProfileSettingFloat('layer_height') * 2)), 3)
+		wipe_tower_half_size = round(math.sqrt(getProfileSettingFloat('wipe_tower_volume') / getProfileSettingFloat('layer_height')) / 2, 3)
 		return pre + str(wipe_tower_half_size)
 
 	if tag == 'wipe_tower_center_y':
-		wipe_tower_half_size = round(math.sqrt(getProfileSettingFloat('wipe_tower_volume') / (getProfileSettingFloat('layer_height') * 2)), 3)
+		wipe_tower_half_size = round(math.sqrt(getProfileSettingFloat('wipe_tower_volume') / getProfileSettingFloat('layer_height')) / 2, 3)
 		return pre + str(wipe_tower_half_size)
 
 	if tag == 'retraction_amount':
