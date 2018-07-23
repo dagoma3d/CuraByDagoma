@@ -121,6 +121,7 @@ class CuraApp(wx.App):
 				try:
 					os.remove(newinstallfile)
 					profile.putMachineSetting('machine_name', '')
+					profile.putMachineSetting('extruder_amount', '1')
 					profile.putPreference('xml_file', '')
 					profile.putPreference('filament_index', 0)
 					profile.putPreference('color_label', 'Generic')
