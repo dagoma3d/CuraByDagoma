@@ -125,7 +125,7 @@ class CuraApp(wx.App):
 					profile.putPreference('xml_file', '')
 					profile.putPreference('filament_index', 0)
 					profile.putPreference('color_label', 'Generic')
-					profile.putPreference('fill_index', 1)
+					profile.putPreference('fill_index', 2)
 					profile.putPreference('precision_index', 0)
 					profile.putPreference('printerhead_index', -1)
 				except:
