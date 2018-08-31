@@ -627,20 +627,24 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.filamentComboBox = wx.Choice(self, wx.ID_ANY, choices = choices)
 		else:
 			self.filamentComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
-		try:
-			self.filamentComboBox.SetSelection(int(profile.getPreference('filament_index')))
-		except:
-			self.filamentComboBox.SetSelection(0)
+
+		filament_selection_index = int(profile.getPreference('filament_index'))
+		if filament_selection_index >= len(filaments):
+			filament_selection_index = 0
+			profile.putPreference('filament_index', '0')
+		self.filamentComboBox.SetSelection(filament_selection_index)
 
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 				self.filament2ComboBox = wx.Choice(self, wx.ID_ANY, choices = choices)
 			else:
 				self.filament2ComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
-			try:
-				self.filament2ComboBox.SetSelection(int(profile.getPreference('filament2_index')))
-			except:
-				self.filament2ComboBox.SetSelection(0)
+
+			filament2_selection_index = int(profile.getPreference('filament2_index'))
+			if filament2_selection_index >= len(filaments):
+				filament2_selection_index = 0
+				profile.putPreference('filament2_index', '0')
+			self.filament2ComboBox.SetSelection(filament2_selection_index)
 
 	def initFilling(self):
 		fillings = self.configuration.getElementsByTagName("Filling")
@@ -668,10 +672,15 @@ class normalSettingsPanel(configBase.configPanelBase):
 					print 'Some Errors in Filling Bloc'
 					pass
 		self.fillingRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filling density :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
-		try:
-			self.fillingRadioBox.SetSelection(int(profile.getPreference('fill_index')))
-		except:
-			self.fillingRadioBox.SetSelection(0)
+
+		fill_selection_index = int(profile.getPreference('fill_index'))
+		if fill_selection_index >= len(fillings):
+			if len(fillings) >= 3:
+				fill_selection_index = 2
+			else:
+				fill_selection_index = 0
+			profile.putPreference('fill_index', '0')
+		self.fillingRadioBox.SetSelection(fill_selection_index)
 
 	def initPrecision(self):
 		precisions = self.configuration.getElementsByTagName("Precision")
@@ -699,10 +708,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 					print 'Some Error in Precision Bloc'
 					pass
 		self.precisionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Quality (layer thickness) :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
-		try:
-			self.precisionRadioBox.SetSelection(int(profile.getPreference('precision_index')))
-		except:
-			self.precisionRadioBox.SetSelection(0)
+
+		precision_selection_index = int(profile.getPreference('precision_index'))
+		if precision_selection_index >= len(precisions):
+			precision_selection_index = 0
+			profile.putPreference('precision_index', '0')
+		self.precisionRadioBox.SetSelection(precision_selection_index)
 
 	def initSupport(self):
 		supports = [
@@ -801,16 +812,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			self.precisionRadioBox.Enable(True)
 			precision_index = int(profile.getPreference('precision_index'))
-			precision = self.precisions[precision_index]
-		profile.putProfileSetting('layer_height', precision.layer_height)
-		profile.putProfileSetting('solid_layer_thickness', precision.solid_layer_thickness)
-		profile.putProfileSetting('wall_thickness', precision.wall_thickness)
-		profile.putProfileSetting('print_speed', precision.print_speed)
-		profile.putProfileSetting('travel_speed', precision.travel_speed)
-		profile.putProfileSetting('bottom_layer_speed', precision.bottom_layer_speed)
-		profile.putProfileSetting('infill_speed', precision.infill_speed)
-		profile.putProfileSetting('inset0_speed', precision.inset0_speed)
-		profile.putProfileSetting('insetx_speed', precision.insetx_speed)
+			fila = self.precisions[precision_index]
+		profile.putProfileSetting('layer_height', fila.layer_height)
+		profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
+		profile.putProfileSetting('wall_thickness', fila.wall_thickness)
+		profile.putProfileSetting('print_speed', fila.print_speed)
+		profile.putProfileSetting('travel_speed', fila.travel_speed)
+		profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
+		profile.putProfileSetting('infill_speed', fila.infill_speed)
+		profile.putProfileSetting('inset0_speed', fila.inset0_speed)
+		profile.putProfileSetting('insetx_speed', fila.insetx_speed)
 
 		self.colorComboBox.Clear()
 		filaments = self.configuration.getElementsByTagName("Filament")
