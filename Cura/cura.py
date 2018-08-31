@@ -10,6 +10,38 @@ __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AG
 
 from optparse import OptionParser
 
+import sys
+import os
+
+# Is it the first run after installation
+if sys.platform.startswith('darwin'):
+	try:
+		#Foundation import can crash on some MacOS installs
+		from Foundation import *
+	except:
+		pass
+
+	if hasattr(sys, 'frozen'):
+		try:
+			myResourceBasePath = NSBundle.mainBundle().resourcePath()
+		except:
+			myResourceBasePath = os.path.join(os.path.dirname(__file__), "../../../../../")
+	else:
+		myResourceBasePath = os.path.join(os.path.dirname(__file__), "../../resources")
+
+	newinstallfile = os.path.normpath(os.path.join(myResourceBasePath, 'new'))
+	if os.path.isfile(newinstallfile):
+		try:
+			os.remove(newinstallfile)
+			current_profile_inifile = os.path.expanduser('~/Library/Application Support/CuraByDagoma/current_profile.ini')
+			if os.path.isfile(current_profile_inifile):
+				os.remove(current_profile_inifile)
+			preferences_inifile = os.path.expanduser('~/Library/Application Support/CuraByDagoma/preferences.ini')
+			if os.path.isfile(preferences_inifile):
+				os.remove(preferences_inifile)
+		except:
+			pass
+
 from Cura.util import profile
 
 def main():

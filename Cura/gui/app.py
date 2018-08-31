@@ -114,23 +114,6 @@ class CuraApp(wx.App):
 			self.splash.Show(False)
 			self.splash = None
 
-		# Is it the first run after installation?
-		if sys.platform.startswith('darwin'):
-			newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
-			if os.path.isfile(newinstallfile):
-				try:
-					os.remove(newinstallfile)
-					profile.putMachineSetting('machine_name', '')
-					profile.putMachineSetting('extruder_amount', '1')
-					profile.putPreference('xml_file', '')
-					profile.putPreference('filament_index', 0)
-					profile.putPreference('color_label', 'Generic')
-					profile.putPreference('fill_index', 2)
-					profile.putPreference('precision_index', 0)
-					profile.putPreference('printerhead_index', -1)
-				except:
-					pass
-
 		#If we haven't run it before, run the configuration wizard.
 		if profile.getMachineSetting('machine_name') == '':
 			configWizard.ConfigWizard()
