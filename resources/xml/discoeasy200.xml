@@ -505,6 +505,12 @@
 		<Filling name="Hollow (0%)">
 			<fill_density>0</fill_density>
 		</Filling>
+		<Filling name="Filling (5%)">
+			<fill_density>5</fill_density>
+		</Filling>
+		<Filling name="Filling (10%)">
+			<fill_density>10</fill_density>
+		</Filling>
 		<Filling name="Filling (17%)">
 			<fill_density>17</fill_density>
 		</Filling>
@@ -629,8 +635,11 @@
 		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
 		<auto_detect_sd>True</auto_detect_sd>
-		<switch_default_retraction_amount>47.5</switch_default_retraction_amount>
+		<start_retraction_amount>47</start_retraction_amount>
+		<switch_default_retraction_amount>60</switch_default_retraction_amount>
+		<!-- TODO: Put these offset on filament properties -->
 		<switch_default_retraction_offset>1</switch_default_retraction_offset>
+		<switch_default_retraction_offset2>1</switch_default_retraction_offset2>
 		<wipe_tower_volume>65</wipe_tower_volume>
 	</Configuration>
 
@@ -697,7 +706,7 @@ M109 T0 S{print_temperature}
 M82 ;set extruder to absolute mode
 T0 ;Switch to the first extruder
 G92 E0 ;zero the extruded length
-G1 E{post_retraction_amount} F3000
+G1 E{start_retraction_amount} F3000
 G92 E0 ;zero the extruded length
 G1 F200 E10 ;extrude 10mm of feed stock
 G92 E0 ;zero the extruded length again

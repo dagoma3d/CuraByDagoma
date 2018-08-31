@@ -627,14 +627,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.filamentComboBox = wx.Choice(self, wx.ID_ANY, choices = choices)
 		else:
 			self.filamentComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
-		self.filamentComboBox.SetSelection(int(profile.getPreference('filament_index')))
+		try:
+			self.filamentComboBox.SetSelection(int(profile.getPreference('filament_index')))
+		except:
+			self.filamentComboBox.SetSelection(0)
 
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 				self.filament2ComboBox = wx.Choice(self, wx.ID_ANY, choices = choices)
 			else:
 				self.filament2ComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
-			self.filament2ComboBox.SetSelection(int(profile.getPreference('filament2_index')))
+			try:
+				self.filament2ComboBox.SetSelection(int(profile.getPreference('filament2_index')))
+			except:
+				self.filament2ComboBox.SetSelection(0)
 
 	def initFilling(self):
 		fillings = self.configuration.getElementsByTagName("Filling")
@@ -662,7 +668,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 					print 'Some Errors in Filling Bloc'
 					pass
 		self.fillingRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filling density :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
-		self.fillingRadioBox.SetSelection(int(profile.getPreference('fill_index')))
+		try:
+			self.fillingRadioBox.SetSelection(int(profile.getPreference('fill_index')))
+		except:
+			self.fillingRadioBox.SetSelection(0)
 
 	def initPrecision(self):
 		precisions = self.configuration.getElementsByTagName("Precision")
@@ -690,7 +699,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 					print 'Some Error in Precision Bloc'
 					pass
 		self.precisionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Quality (layer thickness) :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
-		self.precisionRadioBox.SetSelection(int(profile.getPreference('precision_index')))
+		try:
+			self.precisionRadioBox.SetSelection(int(profile.getPreference('precision_index')))
+		except:
+			self.precisionRadioBox.SetSelection(0)
 
 	def initSupport(self):
 		supports = [
