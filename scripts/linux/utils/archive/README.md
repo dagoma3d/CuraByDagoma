@@ -1,5 +1,5 @@
-# Cura-by-dagoma
-Cura-by-dagoma is a fork of Legacy Cura made by Dagoma for the Dagoma printers.
+# Cura-by-Dagoma
+Cura-by-Dagoma is a fork of Legacy Cura made by Dagoma for the Dagoma printers.
 
 # Specifications
 Package: curabydago
