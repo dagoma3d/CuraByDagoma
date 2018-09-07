@@ -67,7 +67,7 @@ def getLanguageOptions():
 def getPrinterOptions(internalUse = 'False'):
 	discoeasy200 = {
 		'name': 'DiscoEasy200',
-		'desc': '',
+		'desc': '(or updated DiscoVery200)',
 		'config': 'discoeasy200.xml',
 		'img': 'discoeasy200.png'
 	}
