@@ -574,11 +574,11 @@
 		<machine_shape>Circular</machine_shape>
 		<machine_speed_factor>0.7</machine_speed_factor>
 		<nozzle_size>0.4</nozzle_size>
-		<extruder_head_size_min_x>17</extruder_head_size_min_x>
-		<extruder_head_size_min_y>40</extruder_head_size_min_y>
-		<extruder_head_size_max_x>17</extruder_head_size_max_x>
-		<extruder_head_size_max_y>70</extruder_head_size_max_y>
-		<extruder_head_size_height>10</extruder_head_size_height>
+		<extruder_head_size_min_x>36</extruder_head_size_min_x>
+		<extruder_head_size_min_y>42</extruder_head_size_min_y>
+		<extruder_head_size_max_x>36</extruder_head_size_max_x>
+		<extruder_head_size_max_y>42</extruder_head_size_max_y>
+		<extruder_head_size_height>0</extruder_head_size_height>
 		<retraction_enable>True</retraction_enable>
 	</Printer>
 
