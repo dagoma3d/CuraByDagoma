@@ -133,7 +133,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._engine._result.setFinished(True)
 		self._engineResultView.setResult(self._engine._result)
 		self.printButton.setBottomText('')
-		self.viewSelection.setValue(4)
+		self.viewSelection.setValue(1)
 		self.printButton.setDisabled(False)
 		# self.youMagineButton.setDisabled(True) Dagoma
 		self.OnViewChange()
