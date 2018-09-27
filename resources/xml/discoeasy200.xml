@@ -577,8 +577,8 @@
 	<Printer>
 		<machine_name>DiscoEasy200</machine_name>
 		<machine_type>RepRap</machine_type>
-		<machine_width>211</machine_width>
-		<machine_depth>211</machine_depth>
+		<machine_width>205</machine_width>
+		<machine_depth>205</machine_depth>
 		<machine_height>205</machine_height>
 		<has_heated_bed>False</has_heated_bed>
 		<machine_center_is_zero>False</machine_center_is_zero>
@@ -604,7 +604,7 @@
 		<retraction_minimal_extrusion>0.02</retraction_minimal_extrusion>
 		<retraction_hop>0</retraction_hop>
 		<skirt_line_count>2</skirt_line_count>
-		<skirt_gap>3</skirt_gap>
+		<skirt_gap>1</skirt_gap>
 		<skirt_minimal_length>150</skirt_minimal_length>
 		<fan_full_height>0.5</fan_full_height>
 		<fan_speed_max>100</fan_speed_max>
