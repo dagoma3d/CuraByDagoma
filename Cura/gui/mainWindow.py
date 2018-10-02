@@ -455,7 +455,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.pausePluginButton.Disable()
 		self.printButton.Disable()
 
-		buyUrl = profile.getPreference('buy_url')
+		buyUrl = profile.getPreference('buy_url') + "&utm_campaign=achat_filament_" + profile.getMachineSetting('machine_name').lower()
 		filamentSizer = wx.BoxSizer(wx.HORIZONTAL)
 		filamentSizer.Add(wx.StaticText(self, wx.ID_ANY, _("Filament")))
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
@@ -505,7 +505,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			self.wipeTowerStaticText.Hide()
 			self.wipeTowerTextCtrl.Hide()
-		if printerName != "Neva":
+		if not printerName in ["Neva", "Magis"]:
 			mainSizer.Add(self.sensorCheckBox)
 		else:
 			self.sensorCheckBox.Hide()

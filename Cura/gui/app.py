@@ -104,7 +104,7 @@ class CuraApp(wx.App):
 		buy_url = 'https://dagoma3d.com/collections/shop'
 		if language == 'French':
 			contact_url = 'https://dagoma.fr/heroes/diagnostique-en-ligne.html'
-			buy_url = 'https://dagoma.fr/boutique/filaments.html'
+			buy_url = 'https://dagoma.fr/boutique/filaments.html?utm_source=cura'
 
 		resources.setupLocalization(language)
 		profile.putPreference('contact_url', contact_url)

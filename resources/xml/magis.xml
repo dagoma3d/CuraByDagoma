@@ -563,7 +563,7 @@
 
 	<!-- Printer definition -->
 	<Printer>
-		<machine_name>Neva</machine_name>
+		<machine_name>Magis</machine_name>
 		<machine_type>RepRap</machine_type>
 		<machine_width>195.55</machine_width>
 		<machine_depth>195.55</machine_depth>
