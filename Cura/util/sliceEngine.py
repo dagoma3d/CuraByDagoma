@@ -375,6 +375,7 @@ class Engine(object):
 
 	def moveBeforeSwitch(self):
 		import tempfile
+		import re
 		f = tempfile.NamedTemporaryFile(prefix='CuraPluginTemp', delete=False)
 		tempfilename = f.name
 		f.write(self._result.getGCode())
@@ -387,13 +388,18 @@ class Engine(object):
 		i = 0
 		j = 0
 		k = 0
+		the_z_hop = 0
 		the_move = ''
 		for line in original_lines:
+			m = re.search('G0 F6000 X[0-9.]+ Y[0-9.]+ Z[0-9.]+', line)
+			if m is not None:
+				the_z_hop = float(m.group(0).split('Z')[1]) + 0.2
 			if line.startswith(';MOVE TO WIPE TOWER T(n)'):
 				j = i
 			if line.startswith(';TYPE:WIPE-TOWER'):
 				k = i
-				the_move = lines.pop(k - 1)
+				the_move = lines.pop(k - 1).rstrip()
+				the_move += " Z%.3f\n" % the_z_hop
 				lines.insert(j+1, the_move)
 			lines.append(line)
 			i += 1
