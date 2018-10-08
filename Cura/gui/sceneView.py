@@ -1338,11 +1338,17 @@ class SceneView(openglGui.glGuiPanel):
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([17.5,272,52], numpy.float32)
-				elif machine in ['Neva', 'Magis']:
+				elif machine == 'Neva':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-153,103,53], numpy.float32)
+				elif machine == 'Magis':
+					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+					self._platformMesh[machine].processMatrix()
+					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					self._platformMesh[machine]._drawOffset = numpy.array([-153.02630615,103.5,643], numpy.float32)
+					#print self._platformMesh[machine]._drawOffset
 				elif machine == 'Explorer350':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
