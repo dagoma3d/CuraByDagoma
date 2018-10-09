@@ -641,6 +641,7 @@
 		<switch_default_retraction_offset>0</switch_default_retraction_offset>
 		<switch_default_retraction_offset2>0</switch_default_retraction_offset2>
 		<wipe_tower_volume>65</wipe_tower_volume>
+		<wipe_tower_z_offset>0</wipe_tower_z_offset>
 	</Configuration>
 
 	<!-- Gcodes start and end -->
@@ -738,7 +739,7 @@ G92 E0
 G1 E-{retraction_amount2} F5000 ;filament retract length
 ;MOVE TO WIPE TOWER T(n)
 G91
-G0 F6000 X-{wipe_tower_center_x} Y{wipe_tower_center_y} Z-0.2
+G0 F6000 X-{wipe_tower_center_x} Y{wipe_tower_center_y} Z-{wipe_tower_z_offset}
 G90
 G92 E0
 G1 E3 F3000
@@ -764,7 +765,7 @@ G92 E0
 G1 E-{retraction_amount} F5000 ;filament retract length
 ;MOVE TO WIPE TOWER T(n)
 G91
-G0 F6000 X-{wipe_tower_center_x} Y{wipe_tower_center_y} Z-0.2
+G0 F6000 X-{wipe_tower_center_x} Y{wipe_tower_center_y} Z-{wipe_tower_z_offset}
 G90
 G92 E0
 G1 E3 F3000

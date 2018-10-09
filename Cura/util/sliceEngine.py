@@ -393,7 +393,7 @@ class Engine(object):
 		for line in original_lines:
 			m = re.search('G0 F6000 X[0-9.]+ Y[0-9.]+ Z[0-9.]+', line)
 			if m is not None:
-				the_z_hop = float(m.group(0).split('Z')[1]) + 0.2
+				the_z_hop = float(m.group(0).split('Z')[1]) + profile.getProfileSettingFloat('wipe_tower_z_offset')
 			if line.startswith(';MOVE TO WIPE TOWER T(n)'):
 				j = i
 			if line.startswith(';TYPE:WIPE-TOWER'):
