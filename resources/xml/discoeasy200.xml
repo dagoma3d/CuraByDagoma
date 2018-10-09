@@ -641,7 +641,7 @@
 		<switch_default_retraction_offset>0</switch_default_retraction_offset>
 		<switch_default_retraction_offset2>0</switch_default_retraction_offset2>
 		<wipe_tower_volume>65</wipe_tower_volume>
-		<wipe_tower_z_hop>0.2</wipe_tower_z_hop>
+		<wipe_tower_z_hop>0</wipe_tower_z_hop>
 	</Configuration>
 
 	<!-- Gcodes start and end -->
