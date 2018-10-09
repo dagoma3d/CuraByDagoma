@@ -398,7 +398,7 @@ class Engine(object):
 				j = i
 			if line.startswith(';TYPE:WIPE-TOWER'):
 				k = i
-				the_move = lines.pop(k - 1).rstrip()
+				the_move = lines.pop(k - 1).rstrip().split(' Z')[0]
 				the_move += " Z%.3f\n" % the_z_hop
 				lines.insert(j+1, the_move)
 			lines.append(line)
