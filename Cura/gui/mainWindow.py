@@ -329,7 +329,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	class Support:
 		def __init__(self):
-			self.support = None
+			self.name = 'None'
+			self.support = 'None'
+
+	class SupportDualExtrusion:
+		def __init__(self):
+			self.name = 'Both'
+			self.support_dual_extrusion = 'Both'
 
 	class Adhesion:
 		def __init__(self, platform_adhesion = 'None'):
@@ -404,6 +410,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.RefreshFilament2()
 			self.RefreshColor2()
 			self.RefreshTemperature2SpinCtrl()
+			self.RefreshSupportDualExtrusion()
 		self.RefreshFilling()
 		self.RefreshSensor()
 		self.RefreshPrintingSurface()
@@ -434,6 +441,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.Bind(wx.EVT_SPINCTRL, self.OnTemperature2SpinCtrlChanged, self.temperature2SpinCtrl)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrecisionRadioBoxChanged, self.precisionRadioBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnSupportRadioBoxChanged, self.supportRadioBox)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.Bind(wx.EVT_RADIOBOX, self.OnSupportDualExtrusionRadioBoxChanged, self.supportExtruderDualExtrusionRadioBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnFillingRadioBoxChanged, self.fillingRadioBox)
 		self.Bind(wx.EVT_CHECKBOX, self.OnSensorCheckBoxChanged,self.sensorCheckBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
@@ -491,6 +500,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		mainSizer.Add(self.fillingRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.precisionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.supportRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			mainSizer.Add(self.supportExtruderDualExtrusionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if printerName == "DiscoVery200":
 			mainSizer.Add(self.printingSurfaceRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 			mainSizer.Add(self.offsetStaticText, flag=wx.EXPAND)
@@ -527,6 +538,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.initFilling()
 		self.initPrecision()
 		self.initSupport()
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.initSupportDualExtrusion()
 		self.initAdhesion()
 		self.initPrintingSurface()
 		self.initSensor()
@@ -628,10 +641,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			self.filamentComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
-		filament_selection_index = int(profile.getPreference('filament_index'))
+		filament_selection_index = profile.getPreferenceInt('filament_index')
 		if filament_selection_index >= len(filaments):
 			filament_selection_index = 0
-			profile.putPreference('filament_index', '0')
+			profile.putPreference('filament_index', 0)
 		self.filamentComboBox.SetSelection(filament_selection_index)
 
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
@@ -640,10 +653,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 			else:
 				self.filament2ComboBox = wx.ComboBox(self, wx.ID_ANY, choices = choices , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
-			filament2_selection_index = int(profile.getPreference('filament2_index'))
+			filament2_selection_index = profile.getPreferenceInt('filament2_index')
 			if filament2_selection_index >= len(filaments):
 				filament2_selection_index = 0
-				profile.putPreference('filament2_index', '0')
+				profile.putPreference('filament2_index', 0)
 			self.filament2ComboBox.SetSelection(filament2_selection_index)
 
 	def initFilling(self):
@@ -673,13 +686,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 					pass
 		self.fillingRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filling density :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
-		fill_selection_index = int(profile.getPreference('fill_index'))
+		fill_selection_index = profile.getPreferenceInt('fill_index')
 		if fill_selection_index >= len(fillings):
 			if len(fillings) >= 3:
 				fill_selection_index = 2
 			else:
 				fill_selection_index = 0
-			profile.putPreference('fill_index', '0')
+			profile.putPreference('fill_index', 0)
 		self.fillingRadioBox.SetSelection(fill_selection_index)
 
 	def initPrecision(self):
@@ -709,10 +722,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 					pass
 		self.precisionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Quality (layer thickness) :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
-		precision_selection_index = int(profile.getPreference('precision_index'))
+		precision_selection_index = profile.getPreferenceInt('precision_index')
 		if precision_selection_index >= len(precisions):
 			precision_selection_index = 0
-			profile.putPreference('precision_index', '0')
+			profile.putPreference('precision_index', 0)
 		self.precisionRadioBox.SetSelection(precision_selection_index)
 
 	def initSupport(self):
@@ -727,7 +740,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			supp = self.Support()
 			name = _(support.get("name"))
 			choices.append(name)
-			supp.type = name
+			supp.name = name
 			try :
 				supp.support = support.get("value")
 				self.supports.append(supp)
@@ -735,6 +748,30 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print 'Some Error in Supports Bloc'
 				pass
 		self.supportRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Printing supports :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+
+	def initSupportDualExtrusion(self):
+		support_dual_extrusions = [
+			{'name': 'Both', 'value': 'Both'},
+			{'name': 'E0', 'value': 'First extruder'},
+			{'name': 'E1', 'value': 'Second extruder'}
+		]
+		choices = []
+		self.support_dual_extrusions = []
+		for support_dual_extrusion in support_dual_extrusions:
+			suppDualExtrusion = self.SupportDualExtrusion()
+			name = support_dual_extrusion.get("name")
+			choices.append(_(name))
+			suppDualExtrusion.name = name
+			try :
+				suppDualExtrusion.support_dual_extrusion = support_dual_extrusion.get("value")
+				self.support_dual_extrusions.append(suppDualExtrusion)
+			except :
+				print 'Some Error in Support extruders Bloc'
+				pass
+
+		self.supportExtruderDualExtrusionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Support extruder :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		support_dual_extrusion_index = profile.getPreferenceInt('support_dual_extrusion_index')
+		self.supportExtruderDualExtrusionRadioBox.SetSelection(support_dual_extrusion_index)
 
 	def initAdhesion(self):
 		self.adhesionCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Improve the adhesion surface"))
@@ -778,7 +815,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.printing_surfaces.append(prtsurf)
 
 		self.printingSurfaceRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Printing surface :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
-		self.printingSurfaceRadioBox.SetStringSelection(profile.getProfileSetting('printing_surface_name'))
+		printing_surface_name_index = profile.getPreferenceInt('printing_surface_name_index')
+		if printing_surface_name_index >= len(printing_surfaces):
+			printing_surface_name_index = 0
+			profile.putPreference('printing_surface_name_index', 0)
+		self.printingSurfaceRadioBox.SetSelection(printing_surface_name_index)
 
 	def RefreshFilament(self):
 		#print "Refresh fila"
@@ -811,7 +852,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.precisionRadioBox.Enable(False)
 		else:
 			self.precisionRadioBox.Enable(True)
-			precision_index = int(profile.getPreference('precision_index'))
+			precision_index = profile.getPreferenceInt('precision_index')
 			fila = self.precisions[precision_index]
 		profile.putProfileSetting('layer_height', fila.layer_height)
 		profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
@@ -920,7 +961,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		color_index = self.colorComboBox.GetSelection()
 		color_label = self.colors[color_index].label
 		profile.putPreference('color_label', color_label)
-		filament_index = int(profile.getPreference('filament_index'))
+		filament_index = profile.getPreferenceInt('filament_index')
 		fila = self.filaments[filament_index]
 		if color_index > 0:
 			filaments = self.configuration.getElementsByTagName("Filament")
@@ -1013,7 +1054,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		color_index = self.color2ComboBox.GetSelection()
 		color_label = self.colors2[color_index].label
 		profile.putPreference('color2_label', color_label)
-		filament_index = int(profile.getPreference('filament2_index'))
+		filament_index = profile.getPreferenceInt('filament2_index')
 		fila = self.filaments[filament_index]
 		if color_index > 0:
 			filaments = self.configuration.getElementsByTagName("Filament")
@@ -1120,7 +1161,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		precision_index = self.precisionRadioBox.GetSelection()
 		profile.putPreference('precision_index', precision_index)
 		preci = self.precisions[precision_index]
-		filament_index = int(profile.getPreference('filament_index'))
+		filament_index = profile.getPreferenceInt('filament_index')
 		filament = self.filaments[filament_index]
 		filament_type = filament.type.lower()
 		if 'wood' in filament_type or 'flex' in filament_type:
@@ -1174,7 +1215,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			layerWidget.SetValue(str(int(float(heightValue) / float(preci.layer_height))))
 
 	def RefreshPrinterHead(self):
-		printhead_index = int(profile.getPreference('printerhead_index'))
+		printhead_index = profile.getPreferenceInt('printerhead_index')
 		tagName = "PrinterHeads"
 		if printhead_index == -1:
 			printhead_index = 0
@@ -1189,6 +1230,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def RefreshSupport(self):
 		supp = self.supports[self.supportRadioBox.GetSelection()]
 		profile.putProfileSetting('support', supp.support)
+
+	def RefreshSupportDualExtrusion(self):
+		support_dual_extrusion_index = self.supportExtruderDualExtrusionRadioBox.GetSelection()
+		profile.putPreference('support_dual_extrusion_index', support_dual_extrusion_index)
+		suppDualExtrusion = self.support_dual_extrusions[support_dual_extrusion_index]
+		profile.putProfileSetting('support_dual_extrusion', suppDualExtrusion.support_dual_extrusion)
 
 	def RefreshAdhesion(self):
 		if self.adhesionCheckBox.GetValue():
@@ -1210,7 +1257,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('offset_value', offset_value)
 
 	def RefreshPrintingSurface(self):
-		prtsurf = self.printing_surfaces[self.printingSurfaceRadioBox.GetSelection()]
+		printing_surface_name_index = self.printingSurfaceRadioBox.GetSelection()
+		profile.putPreference('printing_surface_name_index', printing_surface_name_index)
+		prtsurf = self.printing_surfaces[printing_surface_name_index]
 		profile.putProfileSetting('printing_surface_name', prtsurf.name)
 		profile.putProfileSetting('printing_surface_height', prtsurf.height)
 		self.CalculateZOffset()
@@ -1239,6 +1288,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnSupportRadioBoxChanged(self, event):
 		self.RefreshSupport()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def OnSupportDualExtrusionRadioBoxChanged(self, event):
+		self.RefreshSupportDualExtrusion()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
