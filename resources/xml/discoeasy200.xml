@@ -642,6 +642,7 @@
 		<switch_default_retraction_offset2>0</switch_default_retraction_offset2>
 		<wipe_tower_volume>65</wipe_tower_volume>
 		<wipe_tower_z_hop>0</wipe_tower_z_hop>
+		<wipe_tower_shape>Wall</wipe_tower_shape>
 		<overlap_dual>0.15</overlap_dual>
 	</Configuration>
 

@@ -376,6 +376,8 @@ class Engine(object):
 	def moveBeforeSwitch(self):
 		import tempfile
 		import re
+
+		wipe_tower_z_hop = profile.getProfileSettingFloat('wipe_tower_z_hop')
 		f = tempfile.NamedTemporaryFile(prefix='CuraPluginTemp', delete=False)
 		tempfilename = f.name
 		f.write(self._result.getGCode())
@@ -391,15 +393,19 @@ class Engine(object):
 		the_z_hop = 0
 		the_move = ''
 		for line in original_lines:
-			m = re.search('G0 F6000 X[0-9.]+ Y[0-9.]+ Z[0-9.]+', line)
-			if m is not None:
-				the_z_hop = float(m.group(0).split('Z')[1]) + profile.getProfileSettingFloat('wipe_tower_z_hop')
+			if wipe_tower_z_hop > 0.0:
+				m = re.search('G0 F6000 X[0-9.]+ Y[0-9.]+ Z[0-9.]+', line)
+				if m is not None:
+					the_z_hop = float(m.group(0).split('Z')[1]) + wipe_tower_z_hop
 			if line.startswith(';MOVE TO WIPE TOWER T(n)'):
 				j = i
 			if line.startswith(';TYPE:WIPE-TOWER'):
 				k = i
-				the_move = lines.pop(k - 1).rstrip().split(' Z')[0]
-				the_move += " Z%.3f\n" % the_z_hop
+				if wipe_tower_z_hop > 0.0:
+					the_move = lines.pop(k - 1).rstrip().split(' Z')[0]
+					the_move += " Z%.3f\n" % the_z_hop
+				else:
+					the_move = lines.pop(k - 1)
 				lines.insert(j+1, the_move)
 			lines.append(line)
 			i += 1
@@ -655,6 +661,8 @@ class Engine(object):
 			settings['simpleMode'] = 1
 		if profile.getProfileSetting('wipe_tower') == 'True' and extruderCount > 1:
 			settings['wipeTowerSize'] = int(math.sqrt(profile.getProfileSettingFloat('wipe_tower_volume') * 1000 * 1000 * 1000 / settings['layerThickness']))
+			settings['wipeTowerShape'] = 1 if profile.getProfileSetting('wipe_tower_shape') == 'Donut' else (0 if profile.getProfileSetting('wipe_tower_shape') == 'Wall' else -1)
+			print settings['wipeTowerShape']
 		if profile.getProfileSetting('ooze_shield') == 'True':
 			settings['enableOozeShield'] = 1
 		return settings
