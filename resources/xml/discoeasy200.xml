@@ -637,12 +637,13 @@
 		<auto_detect_sd>True</auto_detect_sd>
 		<start_retraction_amount>47</start_retraction_amount>
 		<switch_default_retraction_amount>60</switch_default_retraction_amount>
-		<!-- TODO: Put these offset on filament properties -->
+		<!-- TODO: Put these offset on filament properties or remove them -->
 		<switch_default_retraction_offset>0</switch_default_retraction_offset>
 		<switch_default_retraction_offset2>0</switch_default_retraction_offset2>
 		<wipe_tower_volume>65</wipe_tower_volume>
 		<wipe_tower_z_hop>0</wipe_tower_z_hop>
 		<wipe_tower_shape>Wall</wipe_tower_shape>
+		<wipe_tower_skirt_line_count>6</wipe_tower_skirt_line_count>
 		<overlap_dual>0.15</overlap_dual>
 	</Configuration>
 

@@ -582,6 +582,7 @@ class Engine(object):
 			'max_z_jerk': int(profile.getMachineSettingFloat('machine_max_z_jerk') * 1000),
 			'max_e_jerk': int(profile.getMachineSettingFloat('machine_max_e_jerk') * 1000),
 		}
+
 		fanFullHeight = int(profile.getProfileSettingFloat('fan_full_height') * 1000)
 		settings['fanFullOnLayerNr'] = (fanFullHeight - settings['initialLayerThickness'] - 1) / settings['layerThickness'] + 1
 		if settings['fanFullOnLayerNr'] < 0:
@@ -660,9 +661,9 @@ class Engine(object):
 		if profile.getProfileSetting('simple_mode') == 'True':
 			settings['simpleMode'] = 1
 		if profile.getProfileSetting('wipe_tower') == 'True' and extruderCount > 1:
-			settings['wipeTowerSize'] = int(math.sqrt(profile.getProfileSettingFloat('wipe_tower_volume') * 1000 * 1000 * 1000 / settings['layerThickness']))
+			settings['wipeTowerVolume'] = int(profile.getProfileSettingFloat('wipe_tower_volume'))
 			settings['wipeTowerShape'] = 1 if profile.getProfileSetting('wipe_tower_shape') == 'Donut' else (0 if profile.getProfileSetting('wipe_tower_shape') == 'Wall' else -1)
-			print settings['wipeTowerShape']
+			settings['wipeTowerSkirtLineCount'] = int(profile.getProfileSettingFloat('wipe_tower_skirt_line_count'))
 		if profile.getProfileSetting('ooze_shield') == 'True':
 			settings['enableOozeShield'] = 1
 		return settings
