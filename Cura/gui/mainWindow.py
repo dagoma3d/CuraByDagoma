@@ -391,8 +391,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.offsetStaticText = wx.StaticText(self, wx.ID_ANY, _("Offset (mm) :"))
 		self.offsetTextCtrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
 
-		self.wipeTowerStaticText = wx.StaticText(self, wx.ID_ANY, _("Wipe tower volume (mm3) :"))
-		self.wipeTowerTextCtrl = wx.TextCtrl(self, -1, profile.getProfileSetting('wipe_tower_volume'))
+		if int(profile.getMachineSetting('extruder_amount')) == 2 and profile.getPreferenceBool('wipe_tower_volume_choice'):
+			self.wipeTowerStaticText = wx.StaticText(self, wx.ID_ANY, _("Wipe tower volume (mm3) :"))
+			self.wipeTowerTextCtrl = wx.TextCtrl(self, -1, profile.getProfileSetting('wipe_tower_volume'))
+
+		if profile.getPreferenceBool('nozzle_size_choice'):
+			self.nozzleSizeStaticText = wx.StaticText(self, wx.ID_ANY, _("Nozzle size (mm) :"))
+			self.nozzleSizeTextCtrl = wx.TextCtrl(self, -1, str(profile.getMachineSettingFloat('nozzle_size')))
 
 		# Pause plugin
 		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
@@ -400,6 +405,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.__setProperties()
 		self.__doLayout()
 
+		if profile.getPreferenceBool('nozzle_size_choice'):
+			self.RefreshNozzleSize()
 		self.RefreshSupport()
 		self.RefreshPrecision()
 		self.RefreshPrinterHead()
@@ -415,7 +422,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.RefreshSensor()
 		self.RefreshPrintingSurface()
 		self.RefreshOffset()
-		self.RefreshWipeTower()
+		if int(profile.getMachineSetting('extruder_amount')) == 2 and profile.getPreferenceBool('wipe_tower_volume_choice'):
+			self.RefreshWipeTower()
 		self.RefreshAdhesion()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -447,7 +455,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_CHECKBOX, self.OnSensorCheckBoxChanged,self.sensorCheckBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
 		self.Bind(wx.EVT_TEXT, self.OnOffsetTextCtrlChanged, self.offsetTextCtrl)
-		self.Bind(wx.EVT_TEXT, self.OnWipeTowerTextCtrlChanged, self.wipeTowerTextCtrl)
+		if profile.getPreferenceBool('nozzle_size_choice'):
+			self.Bind(wx.EVT_TEXT, self.OnNozzleSizeTextCtrlChanged, self.nozzleSizeTextCtrl)
+		if int(profile.getMachineSetting('extruder_amount')) == 2 and profile.getPreferenceBool('wipe_tower_volume_choice'):
+			self.Bind(wx.EVT_TEXT, self.OnWipeTowerTextCtrlChanged, self.wipeTowerTextCtrl)
 		self.Bind(wx.EVT_CHECKBOX, self.OnAdhesionCheckBoxChanged, self.adhesionCheckBox)
 		self.Bind(wx.EVT_BUTTON, self.OnPreparePrintButtonClick, self.printButton)
 		self.Bind(wx.EVT_BUTTON, self.OnPauseButtonClick, self.pausePluginButton)
@@ -482,6 +493,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 			filament2Sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"))
 
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
+		if profile.getPreferenceBool('nozzle_size_choice'):
+			mainSizer.Add(self.nozzleSizeStaticText)
+			mainSizer.Add(self.nozzleSizeTextCtrl, flag=wx.EXPAND|wx.BOTTOM, border=2)
+			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(filamentSizer)
 		mainSizer.Add(self.filamentComboBox, flag=wx.EXPAND|wx.BOTTOM, border=2)
 		mainSizer.Add(self.colorComboBox, flag=wx.EXPAND)
@@ -510,12 +525,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.printingSurfaceRadioBox.Hide()
 			self.offsetStaticText.Hide()
 			self.offsetTextCtrl.Hide()
-		if int(profile.getMachineSetting('extruder_amount')) == 2:
+		if int(profile.getMachineSetting('extruder_amount')) == 2 and profile.getPreferenceBool('wipe_tower_volume_choice'):
 			mainSizer.Add(self.wipeTowerStaticText, flag=wx.EXPAND)
 			mainSizer.Add(self.wipeTowerTextCtrl, flag=wx.EXPAND|wx.BOTTOM, border=5)
-		else:
-			self.wipeTowerStaticText.Hide()
-			self.wipeTowerTextCtrl.Hide()
 		if not printerName in ["Neva", "Magis"]:
 			mainSizer.Add(self.sensorCheckBox)
 		else:
@@ -549,18 +561,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 		for paramNode in printer.childNodes:
 			if paramNode.nodeType == paramNode.ELEMENT_NODE:
 				paramName = paramNode.nodeName
-				paramValue = paramNode.firstChild.nodeValue
-				if paramValue is not None:
-					profile.putMachineSetting(paramName, paramValue)
+				if not paramName == 'nozzle_size':
+					paramValue = paramNode.firstChild.nodeValue
+					if paramValue is not None:
+						profile.putMachineSetting(paramName, paramValue)
 
 	def initConfiguration(self):
 		config = self.configuration.getElementsByTagName('Configuration')[0]
 		for paramNode in config.childNodes:
 			if paramNode.nodeType == paramNode.ELEMENT_NODE:
 				paramName = paramNode.nodeName
-				paramValue = paramNode.firstChild.nodeValue
-				if paramValue is not None:
-					profile.putProfileSetting(paramName, paramValue)
+				if not paramName == 'wipe_tower_volume':
+					paramValue = paramNode.firstChild.nodeValue
+					if paramValue is not None:
+						profile.putProfileSetting(paramName, paramValue)
 
 	def initGCode(self):
 		gcode = self.configuration.getElementsByTagName("GCODE")[0]
@@ -1272,6 +1286,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else :
 			self.offsetTextCtrl.SetValue(profile.getProfileSetting('offset_input'))
 
+	def RefreshNozzleSize(self):
+		value = self.nozzleSizeTextCtrl.GetValue()
+		if self.IsNumber(value) :
+			profile.putMachineSetting('nozzle_size', value)
+		else :
+			self.nozzleSizeTextCtrl.SetValue(str(profile.getMachineSettingFloat('nozzle_size')))
+
 	def RefreshWipeTower(self):
 		value = self.wipeTowerTextCtrl.GetValue()
 		if self.IsNumber(value) :
@@ -1372,6 +1393,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnOffsetTextCtrlChanged(self, event):
 		self.RefreshOffset()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def OnNozzleSizeTextCtrlChanged(self, event):
+		self.RefreshNozzleSize()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
