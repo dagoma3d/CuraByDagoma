@@ -24,8 +24,6 @@ class pausePluginPanel(wx.Panel):
 		addLayerButton = wx.Button(self, id=-1, label="+", style=wx.BU_EXACTFIT)
 		addLayerButtonToolTip = wx.ToolTip(_("Add a pause at the layer selected in the 3D view"))
 		addLayerButton.SetToolTip(addLayerButtonToolTip)
-		lPauseTitleToolTip = wx.ToolTip(_("If you don't have any pause button on your printer...\nJust push the X endstop to resume your print!"))
-		lPauseTitle.SetToolTip(lPauseTitleToolTip)
 		sb = wx.StaticBox(self)
 
 		boxsizer = wx.StaticBoxSizer(sb, wx.VERTICAL)

@@ -401,6 +401,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		# Pause plugin
 		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
+		pausePluginButtonToolTip = wx.ToolTip(_("If you don't have any pause button on your printer...\nJust push the X endstop to resume your print!"))
+		self.pausePluginButton.SetToolTip(pausePluginButtonToolTip)
 		self.pausePluginPanel = pausePluginPanel.pausePluginPanel(self, callback)
 		self.__setProperties()
 		self.__doLayout()
