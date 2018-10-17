@@ -766,8 +766,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def initSupportDualExtrusion(self):
 		support_dual_extrusions = [
 			{'name': 'Both', 'value': 'Both'},
-			{'name': 'E0', 'value': 'First extruder'},
-			{'name': 'E1', 'value': 'Second extruder'}
+			{'name': 'Filament 1', 'value': 'First extruder'},
+			{'name': 'Filament 2', 'value': 'Second extruder'}
 		]
 		choices = []
 		self.support_dual_extrusions = []
@@ -783,7 +783,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print 'Some Error in Support extruders Bloc'
 				pass
 
-		self.supportExtruderDualExtrusionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Extruder for support :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.supportExtruderDualExtrusionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filament for support :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 		support_dual_extrusion_index = profile.getPreferenceInt('support_dual_extrusion_index')
 		self.supportExtruderDualExtrusionRadioBox.SetSelection(support_dual_extrusion_index)
 
