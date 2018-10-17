@@ -662,7 +662,15 @@ class Engine(object):
 			settings['simpleMode'] = 1
 		if profile.getProfileSetting('wipe_tower') == 'True' and extruderCount > 1:
 			settings['wipeTowerVolume'] = int(profile.getProfileSettingFloat('wipe_tower_volume'))
-			settings['wipeTowerShape'] = 1 if profile.getProfileSetting('wipe_tower_shape') == 'Donut' else (0 if profile.getProfileSetting('wipe_tower_shape') == 'Wall' else -1)
+			wipe_tower_shape = profile.getProfileSetting('wipe_tower_shape').lower()
+			if wipe_tower_shape == 'rectangle':
+				settings['wipeTowerShape'] = 2
+			elif wipe_tower_shape == 'donut':
+				settings['wipeTowerShape'] = 1
+			elif wipe_tower_shape == 'wall':
+				settings['wipeTowerShape'] = 0
+			else:
+				settings['wipeTowerShape'] = -1
 			settings['wipeTowerSkirtLineCount'] = int(profile.getProfileSettingFloat('wipe_tower_skirt_line_count'))
 		if profile.getProfileSetting('ooze_shield') == 'True':
 			settings['enableOozeShield'] = 1
