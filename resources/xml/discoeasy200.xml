@@ -505,9 +505,6 @@
 		<Filling name="Hollow (0%)">
 			<fill_density>0</fill_density>
 		</Filling>
-		<Filling name="Filling (5%)">
-			<fill_density>5</fill_density>
-		</Filling>
 		<Filling name="Filling (10%)">
 			<fill_density>10</fill_density>
 		</Filling>
