@@ -783,7 +783,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print 'Some Error in Support extruders Bloc'
 				pass
 
-		self.supportExtruderDualExtrusionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filament for support :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.supportExtruderDualExtrusionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filament(s) for support :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 		support_dual_extrusion_index = profile.getPreferenceInt('support_dual_extrusion_index')
 		self.supportExtruderDualExtrusionRadioBox.SetSelection(support_dual_extrusion_index)
 
