@@ -727,6 +727,11 @@ M104 S0
 G1 Z+3 F{travel_speed} ;move Z up a bit and retract filament even more
 G90
 G28 X Y
+;Retract the filament
+G90
+G92 E0
+G1 E3 F3000
+G1 E-60 F10000
 ;Forced ventilation
 M107 ;stop fan
 ;Shut down motor
