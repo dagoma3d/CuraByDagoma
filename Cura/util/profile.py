@@ -1029,10 +1029,53 @@ def getPalpeurGCode():
 	if getProfileSetting('sensor') == 'Enabled':
 		return 'G29'
 
+def moveToWipeTowerCenter():
+	layer_height = getProfileSettingFloat('layer_height')
+	wipe_tower_volume = getProfileSettingFloat('wipe_tower_volume')
+	wipe_tower_shape = getProfileSetting('wipe_tower_shape').lower()
+
+	wipe_tower_half_size = 0
+	if wipe_tower_shape in ["wall", "rectangle"]:
+		wipe_tower_half_size = 0
+	elif wipe_tower_shape == 'donut':
+		wipe_tower_half_size = round(math.sqrt((4 * wipe_tower_volume) / (3 * math.pi * layer_height)) / 2, 3)
+	else:
+		wipe_tower_half_size = round(math.sqrt(wipe_tower_volume / layer_height) / 2, 3)
+
+	wipe_tower_z_hop = getProfileSettingFloat('wipe_tower_z_hop')
+	if wipe_tower_half_size == 0:
+		if wipe_tower_z_hop == 0:
+			return ";No move to wipe tower center"
+		else:
+			return "G91\nG0 F6000 Z-" + str(wipe_tower_z_hop) + "\nG90"
+	else:
+		if wipe_tower_z_hop == 0:
+			return "G91\nG0 F6000 X-" + str(wipe_tower_half_size) + " Y" + str(wipe_tower_half_size) + "\nG90"
+		else:
+			return "G91\nG0 F6000 X-" + str(wipe_tower_half_size) + " Y" + str(wipe_tower_half_size) + " Z-" + str(wipe_tower_z_hop) + "\nG90"
+
+def moveFromWipeTowerCenter():
+	layer_height = getProfileSettingFloat('layer_height')
+	wipe_tower_volume = getProfileSettingFloat('wipe_tower_volume')
+	wipe_tower_shape = getProfileSetting('wipe_tower_shape').lower()
+
+	wipe_tower_half_size = 0
+	if wipe_tower_shape in ["wall", "rectangle"]:
+		wipe_tower_half_size = 0
+	elif wipe_tower_shape == 'donut':
+		wipe_tower_half_size = round(math.sqrt((4 * wipe_tower_volume) / (3 * math.pi * layer_height)) / 2, 3)
+	else:
+		wipe_tower_half_size = round(math.sqrt(wipe_tower_volume / layer_height) / 2, 3)
+
+	wipe_tower_z_hop = getProfileSettingFloat('wipe_tower_z_hop')
+	if wipe_tower_half_size == 0:
+		return ";No move from wipe tower center"
+	else:
+		return "G91\nG0 F6000 X" + str(wipe_tower_half_size) + " Y-" + str(wipe_tower_half_size) + "\nG90"
+
 def replaceTagMatch(m):
 	pre = m.group(1)
 	tag = m.group(2)
-
 
 	if tag == 'time':
 		return pre + time.strftime('%H:%M:%S')
@@ -1049,20 +1092,11 @@ def replaceTagMatch(m):
 	if tag == 'sensor':
 		return getPalpeurGCode()
 
-	if tag == 'wipe_tower_center_x':
-		if getProfileSetting('wipe_tower_shape') == 'Wall':
-			return pre + str(0.0)
-		wipe_tower_half_size = round(math.sqrt(getProfileSettingFloat('wipe_tower_volume') / getProfileSettingFloat('layer_height')) / 2, 3)
-		return pre + str(wipe_tower_half_size)
+	if tag == 'move_to_wipe_tower_center':
+		return moveToWipeTowerCenter()
 
-	if tag == 'wipe_tower_center_y':
-		if getProfileSetting('wipe_tower_shape') == 'Wall':
-			return pre + str(0.0)
-		wipe_tower_half_size = round(math.sqrt(getProfileSettingFloat('wipe_tower_volume') / getProfileSettingFloat('layer_height')) / 2, 3)
-		return pre + str(wipe_tower_half_size)
-
-	if tag == 'wipe_tower_z_hop':
-		return pre + "Z-" + str(getProfileSettingFloat('wipe_tower_z_hop'))
+	if tag == 'move_from_wipe_tower_center':
+		return moveFromWipeTowerCenter()
 
 	if tag == 'retraction_amount':
 		return pre + str(getProfileSettingFloat('retraction_amount'))
