@@ -651,6 +651,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 			except:
 				print 'Some Error in Filament Bloc'
 				pass
+		if int(profile.getMachineSetting('extruder_amount')) == 1:
+			del choices[-1]
+			del filaments[-1]
 
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.filamentComboBox = wx.Choice(self, wx.ID_ANY, choices = choices)
