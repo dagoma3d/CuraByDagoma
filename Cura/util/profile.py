@@ -192,7 +192,7 @@ setting('wipe_tower',              False, bool,  'basic',    _('Dual extrusion')
 setting('wipe_tower_volume_choice',      True, bool, 'preference', 'hidden')
 setting('wipe_tower_volume',          65, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower volume per layer (mm3)"), _("The amount of material put in the wipe/prime tower.\nThis is done in volume because in general you want to extrude a\ncertain amount of volume to get the extruder going, independent on the layer height.\nThis means that with thinner layers, your tower gets bigger."))
 setting('wipe_tower_z_hop',        0.2, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower z-hop"), _("The z-hop to apply before moving to the wipe/prime tower."))
-setting('wipe_tower_shape',        'Square', [_('Donut'), _('Square'), _('Wall'), _('Rectangle')], 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower shape"), _("The shape of the wipe/prime tower."))
+setting('wipe_tower_shape',        'Square', [_('Crenel'), _('Donut'), _('Square'), _('Wall'), _('Rectangle')], 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower shape"), _("The shape of the wipe/prime tower."))
 setting('wipe_tower_skirt_line_count', 6, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower skirt line count"), _("Number of skirt lines of the wipe/prime tower."))
 setting('ooze_shield',             False, bool,  'basic',    _('Dual extrusion')).setLabel(_("Ooze shield"), _("The ooze shield is a 1 line thick shell around the object which stands a few mm from the object.\nThis shield catches any oozing from the unused nozzle in dual-extrusion."))
 setting('filament_diameter',        2.85, float, 'basic',    _('Filament')).setRange(1).setLabel(_("Diameter (mm)"), _("Diameter of your filament, as accurately as possible.\nIf you cannot measure this value you will have to calibrate it, a higher number means less extrusion, a smaller number generates more extrusion."))
@@ -1034,7 +1034,7 @@ def moveToWipeTowerCenter():
 	wipe_tower_shape = getProfileSetting('wipe_tower_shape').lower()
 
 	wipe_tower_half_size = 0
-	if wipe_tower_shape in ["wall", "rectangle"]:
+	if wipe_tower_shape in ["crenel", "wall", "rectangle"]:
 		wipe_tower_half_size = 0
 	elif wipe_tower_shape == 'donut':
 		wipe_tower_half_size = round(math.sqrt((4 * wipe_tower_volume) / (3 * math.pi * layer_height)) / 2, 3)
@@ -1059,7 +1059,7 @@ def moveFromWipeTowerCenter():
 	wipe_tower_shape = getProfileSetting('wipe_tower_shape').lower()
 
 	wipe_tower_half_size = 0
-	if wipe_tower_shape in ["wall", "rectangle"]:
+	if wipe_tower_shape in ["crenel", "wall", "rectangle"]:
 		wipe_tower_half_size = 0
 	elif wipe_tower_shape == 'donut':
 		wipe_tower_half_size = round(math.sqrt((4 * wipe_tower_volume) / (3 * math.pi * layer_height)) / 2, 3)

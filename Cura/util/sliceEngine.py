@@ -663,7 +663,9 @@ class Engine(object):
 		if profile.getProfileSetting('wipe_tower') == 'True' and extruderCount > 1:
 			settings['wipeTowerVolume'] = int(profile.getProfileSettingFloat('wipe_tower_volume'))
 			wipe_tower_shape = profile.getProfileSetting('wipe_tower_shape').lower()
-			if wipe_tower_shape == 'rectangle':
+			if wipe_tower_shape == 'crenel':
+				settings['wipeTowerShape'] = 3
+			elif wipe_tower_shape == 'rectangle':
 				settings['wipeTowerShape'] = 2
 			elif wipe_tower_shape == 'donut':
 				settings['wipeTowerShape'] = 1

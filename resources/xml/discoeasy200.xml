@@ -647,7 +647,7 @@
 		<switch_default_retraction_offset>1</switch_default_retraction_offset>
 		<wipe_tower_volume>65</wipe_tower_volume>
 		<wipe_tower_z_hop>0</wipe_tower_z_hop>
-		<wipe_tower_shape>Rectangle</wipe_tower_shape>
+		<wipe_tower_shape>Crenel</wipe_tower_shape>
 		<wipe_tower_skirt_line_count>6</wipe_tower_skirt_line_count>
 		<overlap_dual>0.15</overlap_dual>
 	</Configuration>

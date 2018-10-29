@@ -704,7 +704,10 @@ class SceneView(openglGui.glGuiPanel):
 		self._scene.updateSizeOffsets(True)
 		self._machineSize = numpy.array([profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')])
 		self._objColors[0] = profile.getPreferenceColour('model_colour')
-		self._objColors[1] = profile.getPreferenceColour('model_colour2')
+		if int(profile.getMachineSetting('extruder_amount')) > 1:
+			self._objColors[1] = profile.getPreferenceColour('model_colour2')
+		else:
+			self._objColors[1] = profile.getPreferenceColour('model_colour')
 		if self._switchColors:
 			self._objColors.reverse()
 		self._scene.updateMachineDimensions()
