@@ -213,7 +213,6 @@ setting('retraction_hop',            0.0, float, 'expert',   _('Retraction')).se
 setting('start_retraction_amount', 0.0, float, 'expert',   _('Retraction')).setRange(0).setLabel(_("Start retraction amount (mm)"), _("Generic retraction amount used in gcode start"))
 setting('switch_default_retraction_amount', 0.0, float, 'expert',   _('Retraction')).setRange(0).setLabel(_("Switch default retraction amount (mm)"), _("Generic retraction amount used when switching extruder"))
 setting('switch_default_retraction_offset', 0.0, float, 'expert',   _('Retraction')).setRange(0).setLabel(_("Switch default retraction offset (mm)"), _("Generic retraction offset used when switching extruder"))
-setting('switch_default_retraction_offset2', 0.0, float, 'expert',   _('Retraction')).setRange(0).setLabel(_("Switch default retraction offset (mm)"), _("Generic retraction offset used when switching extruder"))
 setting('bottom_thickness',          0.3, float, 'advanced', _('Quality')).setRange(0).setLabel(_("Initial layer thickness (mm)"), _("Layer thickness of the bottom layer. A thicker bottom layer makes sticking to the bed easier. Set to 0.0 to have the bottom layer thickness the same as the other layers."))
 setting('layer0_width_factor',       100, float, 'advanced', _('Quality')).setRange(50, 300).setLabel(_("Initial layer line width (%)"), _("Extra width factor for the extrusion on the first layer, on some printers it's good to have wider extrusion on the first layer to get better bed adhesion."))
 setting('object_sink',               0.0, float, 'advanced', _('Quality')).setRange(0).setLabel(_("Cut off object bottom (mm)"), _("Sinks the object into the platform, this can be used for objects that do not have a flat bottom and thus create a too small first layer."))
@@ -1104,11 +1103,17 @@ def replaceTagMatch(m):
 	if tag == 'start_retraction_amount':
 		return pre + str(getProfileSettingFloat('start_retraction_amount'))
 
+	if tag == 'switch_default_retraction_offset':
+		return pre + str(getProfileSettingFloat('switch_default_retraction_offset'))
+
+	if tag == 'switch_default_retraction_amount':
+		return pre + str(getProfileSettingFloat('switch_default_retraction_amount'))
+
 	if tag == 'pre_retraction_amount':
 		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') - getProfileSettingFloat('retraction_amount'))
 
 	if tag == 'post_retraction_amount':
-		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') + getProfileSettingFloat('switch_default_retraction_offset'))
+		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') + getProfileSettingFloat('retraction_amount'))
 
 	if tag == 'retraction_amount2':
 		return pre + str(getProfileSettingFloat('retraction_amount2'))
@@ -1117,7 +1122,7 @@ def replaceTagMatch(m):
 		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') - getProfileSettingFloat('retraction_amount2'))
 
 	if tag == 'post_retraction_amount2':
-		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') + getProfileSettingFloat('switch_default_retraction_offset2'))
+		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') + getProfileSettingFloat('retraction_amount2'))
 
 	if tag == 'z_offset':
 		return pre + str(getProfileSettingFloat('offset_value'))
