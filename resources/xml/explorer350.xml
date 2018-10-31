@@ -603,7 +603,7 @@
 	<!-- Gcodes start and end -->
 	<GCODE>
 		<Gstart>
-;Gcode by Cura by Dagoma {cbd_version} for Explorer350
+;Gcode by Cura by Dagoma {app_version} for Explorer350
 ;Filament: {filament_name}
 ;START
 M117 Initialization

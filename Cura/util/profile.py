@@ -329,7 +329,6 @@ setting('printing_window', 'Basic', ['Basic'], 'preference', 'hidden').setLabel(
 setting('window_normal_sash', -310, int, 'preference', 'hidden')
 setting('minimum_pane_size', 310, int, 'preference', 'hidden')
 setting('last_run_version', '', str, 'preference', 'hidden')
-setting('cbd_version', '', str, 'preference', 'hidden')
 
 setting('machine_name', '', str, 'machine', 'hidden')
 setting('machine_type', 'unknown', str, 'machine', 'hidden') #Ultimaker, Ultimaker2, RepRap
@@ -453,12 +452,13 @@ def getBasePath():
 	"""
 	:return: The path in which the current configuration files are stored. This depends on the used OS.
 	"""
+	import Cura.appversion as appv
 	if platform.system() == "Windows":
-		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma'))
+		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma/' + appv.__version__))
 	elif platform.system() == "Darwin":
-		basePath = os.path.expanduser('~/Library/Application Support/CuraByDagoma')
+		basePath = os.path.expanduser('~/Library/Application Support/CuraByDagoma/' + appv.__version__)
 	else:
-		basePath = os.path.expanduser('~/.curaByDagoma')
+		basePath = os.path.expanduser('~/.curaByDagoma/' + appv.__version__)
 	if not os.path.isdir(basePath):
 		try:
 			os.makedirs(basePath)
@@ -1079,8 +1079,9 @@ def replaceTagMatch(m):
 	if tag == 'time':
 		return pre + time.strftime('%H:%M:%S')
 
-	if tag == 'cbd_version':
-		return ' ' + getPreference('cbd_version')
+	if tag == 'app_version':
+		import Cura.appversion as appv
+		return ' ' + appv.__version__
 
 	if tag == 'filament_name':
 		return ' ' + getPreference('filament_name')

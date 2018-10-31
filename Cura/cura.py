@@ -31,12 +31,13 @@ if sys.platform.startswith('darwin'):
 
 	newinstallfile = os.path.normpath(os.path.join(myResourceBasePath, 'new'))
 	if os.path.isfile(newinstallfile):
+		import Cura.appversion as appv
 		try:
 			os.remove(newinstallfile)
-			current_profile_inifile = os.path.expanduser('~/Library/Application Support/CuraByDagoma/current_profile.ini')
+			current_profile_inifile = os.path.expanduser('~/Library/Application Support/CuraByDagoma/' + appv.__version__ + '/current_profile.ini')
 			if os.path.isfile(current_profile_inifile):
 				os.remove(current_profile_inifile)
-			preferences_inifile = os.path.expanduser('~/Library/Application Support/CuraByDagoma/preferences.ini')
+			preferences_inifile = os.path.expanduser('~/Library/Application Support/CuraByDagoma/' + appv.__version__ + '/preferences.ini')
 			if os.path.isfile(preferences_inifile):
 				os.remove(preferences_inifile)
 		except:

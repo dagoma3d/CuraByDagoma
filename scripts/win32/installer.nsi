@@ -145,7 +145,7 @@ FunctionEnd
 ; The stuff to install
 Section "${BUILD_NAME}"
   ;Try to delete Profile
-  RMDir /r "$PROFILE\.curaByDagoma"
+  RMDir /r "$PROFILE\.curaByDagoma\${BUILD_VERSION}"
 
   SectionIn RO
 
@@ -239,5 +239,5 @@ Section "Uninstall"
   RMDir /r "$SMPROGRAMS\${BUILD_NAME}"
   RMDir /r "$INSTDIR"
   ;Try to delete Profile
-  RMDir /r "$PROFILE\.curaByDagoma"
+  RMDir /r "$PROFILE\.curaByDagoma\${BUILD_VERSION}"
 SectionEnd

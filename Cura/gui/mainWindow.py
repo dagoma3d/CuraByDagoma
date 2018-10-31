@@ -27,8 +27,8 @@ from xml.dom import minidom
 
 class mainWindow(wx.Frame):
 	def __init__(self):
-		cbdVersion = profile.getPreference('cbd_version')
-		windowTitle = 'Cura by Dagoma ' + cbdVersion
+		import Cura.appversion as appv
+		windowTitle = 'Cura by Dagoma ' + appv.__version__
 		super(mainWindow, self).__init__(None, title=windowTitle, pos=(0, 0), size=wx.DisplaySize())
 
 		wx.EVT_CLOSE(self, self.OnClose)
