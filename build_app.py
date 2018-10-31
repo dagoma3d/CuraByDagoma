@@ -16,7 +16,7 @@ if sys.platform.startswith('darwin'):
         u'CFBundleDisplayName': build_name,
         u'CFBundleShortVersionString': release_version,
         u'CFBundleVersion': build_version,
-        u'CFBundleIdentifier': u'com.dagoma.'+ build_name + build_version,
+        u'CFBundleIdentifier': u'com.Dagoma.'+ build_name + build_version,
         u'LSMinimumSystemVersion': u'10.9',
         u'LSApplicationCategoryType': u'public.app-category.graphics-design',
         u'CFBundleDocumentTypes': [
