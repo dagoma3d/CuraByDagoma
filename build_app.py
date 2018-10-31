@@ -5,7 +5,7 @@ import os
 if sys.platform.startswith('darwin'):
     from setuptools import setup
 
-	release_version = os.environ['RELEASE_VERSION']
+    release_version = os.environ['RELEASE_VERSION']
     build_version = os.environ['BUILD_VERSION']
     build_name = os.environ['BUILD_NAME']
 
