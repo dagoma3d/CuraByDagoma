@@ -10,7 +10,7 @@ if sys.platform.startswith('darwin'):
     build_name = os.environ['BUILD_NAME']
 
     APP = ['Cura/cura.py']
-    DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/locale','resources/xml', 'plugins']
+    DATA_FILES = ['Cura/LICENSE', 'resources/example', 'resources/images', 'resources/locale', 'resources/meshes', 'resources/printers', 'resources/xml', 'plugins']
     PLIST = {
         u'CFBundleName': build_name,
         u'CFBundleDisplayName': build_name,

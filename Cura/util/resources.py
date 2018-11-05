@@ -66,7 +66,7 @@ def getLanguageOptions():
 
 def getPrinters():
 	printers = []
-	printers_file = open(os.path.normpath(os.path.join(resourceBasePath, 'printers.txt')), 'r')
+	printers_file = open(os.path.normpath(os.path.join(resourceBasePath, 'printers', 'list.txt')), 'r')
 	for line in printers_file:
 		if not line.startswith('#'):
 			sline = line.split(';')
