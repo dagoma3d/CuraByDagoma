@@ -109,11 +109,14 @@ class mainWindow(wx.Frame):
 
 		contactUrl = profile.getPreference('contact_url')
 		buyUrl = profile.getPreference('buy_url')
+		helpUrl = "https://dagoma.fr/start/logiciels/cura-by-dagoma.html"
 		self.helpMenu = wx.Menu()
 		i = self.helpMenu.Append(wx.ID_ANY, _("Contact us"), _("Contact us for any further information."))
 		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(contactUrl), i)
 		i = self.helpMenu.Append(wx.ID_ANY, _("Buy filament"), _("Buy filament on our website."))
 		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(buyUrl), i)
+		i = self.helpMenu.Append(wx.ID_HELP, _("Online help"), _("Online help to fine tune your settings."))
+		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(helpUrl), i)
 		i = self.helpMenu.Append(wx.ID_ABOUT, _("About"), _("Display all components used to build this application."))
 		self.Bind(wx.EVT_MENU, self.OnAbout, i)
 		self.menuBar.Append(self.helpMenu, _("Help"))
@@ -463,6 +466,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.printButton.Disable()
 
 		buyUrl = profile.getPreference('buy_url') + "&utm_campaign=achat_filament_" + profile.getMachineSetting('machine_name').lower()
+		helpUrl = "https://dagoma.fr/start/logiciels/cura-by-dagoma.html?utm_source=cura&utm_campaign=aide_" + profile.getMachineSetting('machine_name').lower()
 		filamentSizer = wx.BoxSizer(wx.HORIZONTAL)
 		filamentSizer.Add(wx.StaticText(self, wx.ID_ANY, _("Filament")))
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
@@ -495,6 +499,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			mainSizer.Add(self.temperature2Text)
 			mainSizer.Add(self.temperature2SpinCtrl, flag=wx.EXPAND|wx.BOTTOM, border=2)
 			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
+		mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Fine tune your settings"), URL=helpUrl), flag=wx.EXPAND|wx.BOTTOM, border=2)
+		mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.fillingRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.precisionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.supportRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
