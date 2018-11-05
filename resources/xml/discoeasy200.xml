@@ -433,6 +433,8 @@
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>70</filament_cost_kg>
 			<model_colour>#FFFFFF</model_colour>
+			<support_xy_distance>0.4</support_xy_distance>
+			<support_z_distance>0</support_z_distance>
 		</Filament>
 		<Filament name="PLA Fiberlogy">
 			<print_temperature>210</print_temperature>
@@ -644,7 +646,6 @@
 		<start_retraction_amount>47</start_retraction_amount>
 		<switch_default_retraction_amount>60</switch_default_retraction_amount>
 		<switch_default_retraction_offset>1</switch_default_retraction_offset>
-		<wipe_tower_volume>65</wipe_tower_volume>
 		<wipe_tower_z_hop>0</wipe_tower_z_hop>
 		<wipe_tower_shape>Crenel</wipe_tower_shape>
 		<wipe_tower_skirt_line_count>6</wipe_tower_skirt_line_count>

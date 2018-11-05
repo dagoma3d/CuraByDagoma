@@ -298,6 +298,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.infill_speed = None
 			self.inset0_speed = None
 			self.insetx_speed = None
+			self.support_xy_distance = None
+			self.support_z_distance = None
 
 	class Color:
 		def __init__(self):
@@ -559,10 +561,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		for paramNode in config.childNodes:
 			if paramNode.nodeType == paramNode.ELEMENT_NODE:
 				paramName = paramNode.nodeName
-				if not paramName == 'wipe_tower_volume':
-					paramValue = paramNode.firstChild.nodeValue
-					if paramValue is not None:
-						profile.putProfileSetting(paramName, paramValue)
+				paramValue = paramNode.firstChild.nodeValue
+				if paramValue is not None:
+					profile.putProfileSetting(paramName, paramValue)
 
 	def initGCode(self):
 		gcode = self.configuration.getElementsByTagName("GCODE")[0]
@@ -622,6 +623,18 @@ class normalSettingsPanel(configBase.configPanelBase):
 				model_colour_tags = filament.getElementsByTagName("model_colour")
 				if len(model_colour_tags) > 0:
 					fila.model_colour = model_colour_tags[0].firstChild.nodeValue
+				support_xy_distance_tags = filament.getElementsByTagName("support_xy_distance")
+				if len(support_xy_distance_tags) > 0:
+					fila.support_xy_distance = support_xy_distance_tags[0].firstChild.nodeValue
+				else:
+					support_xy_distance_tags = self.configuration.getElementsByTagName('Configuration')[0].getElementsByTagName("support_xy_distance")
+					fila.support_xy_distance = support_xy_distance_tags[0].firstChild.nodeValue
+				support_z_distance_tags = filament.getElementsByTagName("support_z_distance")
+				if len(support_z_distance_tags) > 0:
+					fila.support_z_distance = support_z_distance_tags[0].firstChild.nodeValue
+				else:
+					support_z_distance_tags = self.configuration.getElementsByTagName('Configuration')[0].getElementsByTagName("support_z_distance")
+					fila.support_z_distance = support_z_distance_tags[0].firstChild.nodeValue
 				filament_type = fila.type.lower()
 				if 'wood' in filament_type or 'flex' in filament_type:
 					fila.layer_height = filament.getElementsByTagName("layer_height")[0].firstChild.nodeValue
@@ -850,6 +863,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
 		profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
 		profile.putPreference('model_colour', fila.model_colour)
+		profile.putProfileSetting('support_xy_distance', fila.support_xy_distance)
+		profile.putProfileSetting('support_z_distance', fila.support_z_distance)
 		if 'wood' in filament_type or 'flex' in filament_type:
 			self.precisionRadioBox.Enable(False)
 		else:
@@ -923,6 +938,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('filament_physical_density2', fila.filament_physical_density)
 		profile.putProfileSetting('filament_cost_kg2', fila.filament_cost_kg)
 		profile.putPreference('model_colour2', fila.model_colour)
+		profile.putProfileSetting('support_xy_distance', fila.support_xy_distance)
+		profile.putProfileSetting('support_z_distance', fila.support_z_distance)
 		if 'wood' in filament_type or 'flex' in filament_type:
 			self.precisionRadioBox.Enable(False)
 		else:
