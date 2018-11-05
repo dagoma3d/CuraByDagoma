@@ -174,7 +174,6 @@ setting('wall_thickness',            0.8, float, 'basic',    _('Quality')).setRa
 setting('retraction_enable',        True, bool,  'machine',    _('Quality')).setLabel(_("Enable retraction"), _("Retract the filament when the nozzle is moving over a none-printed area. Details about the retraction can be configured in the advanced tab."))
 setting('solid_layer_thickness',     0.6, float, 'basic',    _('Fill')).setRange(0).setLabel(_("Bottom/Top thickness (mm)"), _("This controls the thickness of the bottom and top layers, the amount of solid layers put down is calculated by the layer thickness and this value.\nHaving this value a multiple of the layer thickness makes sense. And keep it near your wall thickness to make an evenly strong part."))
 setting('fill_density',               20, float, 'basic',    _('Fill')).setRange(0, 100).setLabel(_("Fill Density (%)"), _("This controls how densely filled the insides of your print will be. For a solid part use 100%, for an empty part use 0%. A value around 20% is usually enough.\nThis won't affect the outside of the print and only adjusts how strong the part becomes."))
-setting('nozzle_size_choice',      False, bool, 'preference', 'hidden')
 setting('nozzle_size',               0.4, float, 'machine', _('Machine')).setRange(0.1,10).setLabel(_("Nozzle size (mm)"), _("The nozzle size is very important, this is used to calculate the line width of the infill, and used to calculate the amount of outside wall lines and thickness for the wall thickness you entered in the print settings."))
 setting('print_speed',                50, float, 'basic',    _('Speed and Temperature')).setRange(1).setLabel(_("Print speed (mm/s)"), _("Speed at which printing happens. A well adjusted Ultimaker can reach 150mm/s, but for good quality prints you want to print slower. Printing speed depends on a lot of factors. So you will be experimenting with optimal settings for this."))
 setting('grip_temperature',          220, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("Grip temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
@@ -189,7 +188,6 @@ setting('platform_adhesion',      'None', [_('None'), _('Brim'), _('Raft')], 'ba
 setting('support_dual_extrusion',  'Both', [_('Both'), _('First extruder'), _('Second extruder')], 'basic', _('Support')).setLabel(_("Support dual extrusion"), _("Which extruder to use for support material, for break-away support you can use both extruders.\nBut if one of the materials is more expensive then the other you could select an extruder to use for support material. This causes more extruder switches.\nYou can also use the 2nd extruder for soluble support materials."))
 setting('support_dual_extrusion_index', 0, int, 'preference', 'hidden')
 setting('wipe_tower',              False, bool,  'basic',    _('Dual extrusion')).setLabel(_("Wipe&prime tower"), _("The wipe-tower is a tower printed on every layer when switching between nozzles.\nThe old nozzle is wiped off on the tower before the new nozzle is used to print the 2nd color."))
-setting('wipe_tower_volume_choice',      True, bool, 'preference', 'hidden')
 setting('wipe_tower_volume',          65, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower volume per layer (mm3)"), _("The amount of material put in the wipe/prime tower.\nThis is done in volume because in general you want to extrude a\ncertain amount of volume to get the extruder going, independent on the layer height.\nThis means that with thinner layers, your tower gets bigger."))
 setting('wipe_tower_z_hop',        0.2, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower z-hop"), _("The z-hop to apply before moving to the wipe/prime tower."))
 setting('wipe_tower_shape',        'Square', [_('Crenel'), _('Donut'), _('Square'), _('Wall'), _('Rectangle')], 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower shape"), _("The shape of the wipe/prime tower."))
@@ -293,8 +291,6 @@ setting('color_label', 'Generic', str, 'preference', 'hidden')
 setting('color2_label', 'Generic', str, 'preference', 'hidden')
 setting('fill_index', 2, int, 'preference', 'hidden')
 setting('precision_index', 0, int, 'preference', 'hidden')
-setting('printerhead_choice', 'False', bool, 'preference', 'hidden')
-setting('printerhead_index', -1, int, 'preference', 'hidden')
 setting('filament_physical_density', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
 setting('filament_physical_density2', '1270', float, 'advanced', _('Filament')).setRange(500.0, 3000.0).setLabel(_("Density (kg/m3)"), _("Weight of the filament per m3. Around 1240 for PLA. And around 1040 for ABS. This value is used to estimate the weight if the filament used for the print."))
 
@@ -374,7 +370,6 @@ setting('printing_surface_height', 0.0, float, 'printing_surface', _('PrintingSu
 setting('offset_value', 0.0, float, 'advanced', _('Offset')).setRange(0.0001).setLabel(_("Offset value (mm)"), _("Calculated offset value."))
 setting('offset_input', 0.0, float, 'advanced', _('Offset')).setRange(0.0001).setLabel(_("Offset value (mm)"), _("Input offset value."))
 setting('sensor', 'Sensor', str, 'advanced', _('Sensor')).setLabel(_("Enabled the sensor"), _("To check if you want to use the sensor."))
-setting('enable_dual_extrusion', True, bool, 'preference', 'hidden')
 
 validators.warningAbove(settingsDictionary['filament_flow'], 150, _("More flow than 150% is rare and usually not recommended."))
 validators.warningBelow(settingsDictionary['filament_flow'], 50, _("Less flow than 50% is rare and usually not recommended."))
@@ -830,6 +825,13 @@ def getMachineSettingFloat(name, index = None):
 		return float(eval(setting, {}, {}))
 	except:
 		return 0.0
+
+def getMachineSettingInt(name, index = None):
+	try:
+		setting = getMachineSetting(name, index).replace(',', '.')
+		return int(eval(setting, {}, {}))
+	except:
+		return -1
 
 def getMachineSetting(name, index = None):
 	if name in tempOverride:

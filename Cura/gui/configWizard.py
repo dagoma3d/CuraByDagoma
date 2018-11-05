@@ -76,9 +76,7 @@ class PrintersPanel(wx.Panel):
 				self.xml_file = config
 				self.name = name
 
-				self.GetParent().optionsPanel.Show(name == 'DiscoEasy200')
-				self.GetParent().Layout()
-				self.GetParent().Fit()
+				self.GetParent().optionsPanel.UpdateDisplay(name)
 
 			radio.Bind(wx.EVT_RADIOBUTTON, OnPrinterSelect)
 			wx_printer.name = radio
@@ -99,58 +97,56 @@ class OptionsPanel(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
 
-		self.printerhead_index = profile.getPreference('printerhead_index')
-		self.extruder_amount = profile.getMachineSetting('extruder_amount')
+		self.extruder_amount = profile.getMachineSettingInt('extruder_amount')
 		self.wipe_tower = profile.getProfileSetting('wipe_tower')
+		self.nozzle_size = profile.getMachineSettingFloat('nozzle_size')
 
-		if profile.getPreference('printerhead_choice') == 'True':
-			oSizer = wx.FlexGridSizer(2, 2, 0, 0)
-			oSizer.Add(wx.StaticText(self, wx.ID_ANY, _('Printhead version :') + ' '))
-			if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-				self.printerHeadChoice = wx.Choice(self, wx.ID_ANY, choices = [_('Standard printhead (v2)'), _('New printhead (v3)')])
-			else:
-				self.printerHeadChoice = wx.ComboBox(self, wx.ID_ANY, choices = [_('Standard printhead (v2)'), _('New printhead (v3)')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
-			if int(profile.getPreference('printerhead_index')) == 1:
-				self.printerHeadChoice.SetSelection(1)
-			else:
-				self.printerHeadChoice.SetSelection(0)
-			oSizer.Add(self.printerHeadChoice)
-		else:
-			oSizer = wx.FlexGridSizer(1, 2, 0, 0)
-		oSizer.Add(wx.StaticText(self, wx.ID_ANY, _('Dual extrusion :') + ' '))
+		self.oSizer = wx.FlexGridSizer(2, 2, 0, 0)
+
+		self.dualExtrusionChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('Dual extrusion :') + ' ')
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
 			self.dualExtrusionChoice = wx.Choice(self, wx.ID_ANY, choices = [_('Yes'), _('No')])
 		else:
 			self.dualExtrusionChoice = wx.ComboBox(self, wx.ID_ANY, choices = [_('Yes'), _('No')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
-		if int(profile.getMachineSetting('extruder_amount')) == 1:
+		if self.extruder_amount == 1:
 			self.dualExtrusionChoice.SetSelection(1)
 		else:
 			self.dualExtrusionChoice.SetSelection(0)
-		oSizer.Add(self.dualExtrusionChoice)
+
+		self.nozzleSizeChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('Nozzle size :') + ' ')
+		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
+			self.nozzleSizeChoice = wx.Choice(self, wx.ID_ANY, choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')])
+		else:
+			self.nozzleSizeChoice = wx.ComboBox(self, wx.ID_ANY, choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+		if self.nozzle_size == 0.4:
+			self.nozzleSizeChoice.SetSelection(0)
+		elif self.nozzle_size == 0.6:
+			self.nozzleSizeChoice.SetSelection(1)
+		elif self.nozzle_size == 0.8:
+			self.nozzleSizeChoice.SetSelection(2)
+		else:
+			self.nozzleSizeChoice.SetSelection(0)
+
+		self.oSizer.Add(self.dualExtrusionChoiceLabel)
+		self.oSizer.Add(self.dualExtrusionChoice)
+		self.oSizer.Add(self.nozzleSizeChoiceLabel)
+		self.oSizer.Add(self.nozzleSizeChoice)
 
 		if sys.platform == 'darwin':
-			if profile.getPreference('printerhead_choice') == 'True':
-				self.Bind(wx.EVT_CHOICE, self.OnPrinterHeadChanged, self.printerHeadChoice)
 			self.Bind(wx.EVT_CHOICE, self.OnDualExtrusionChanged, self.dualExtrusionChoice)
+			self.Bind(wx.EVT_CHOICE, self.OnNozzleSizeChanged, self.nozzleSizeChoice)
 		else:
-			if profile.getPreference('printerhead_choice') == 'True':
-				self.Bind(wx.EVT_COMBOBOX, self.OnPrinterHeadChanged, self.printerHeadChoice)
 			self.Bind(wx.EVT_COMBOBOX, self.OnDualExtrusionChanged, self.dualExtrusionChoice)
+			self.Bind(wx.EVT_COMBOBOX, self.OnNozzleSizeChanged, self.nozzleSizeChoice)
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.TOP|wx.BOTTOM, border=5)
 		sizer.Add(wx.StaticText(self, wx.ID_ANY, _("Which option(s) do you use?")), flag=wx.BOTTOM, border=5)
-		sizer.Add(oSizer)
-
-		self.dualExtrusionChoice.Show(profile.getPreferenceBool('enable_dual_extrusion'))
+		sizer.Add(self.oSizer)
 
 		self.SetAutoLayout(True)
 		self.SetSizerAndFit(sizer)
 		self.Layout()
-
-	def OnPrinterHeadChanged(self, event):
-		self.printerhead_index = str(self.printerHeadChoice.GetSelection())
-		event.Skip()
 
 	def OnDualExtrusionChanged(self, event):
 		if self.dualExtrusionChoice.GetSelection() == 0:
@@ -160,6 +156,26 @@ class OptionsPanel(wx.Panel):
 			self.extruder_amount = '1'
 			self.wipe_tower = 'False'
 		event.Skip()
+
+	def OnNozzleSizeChanged(self, event):
+		if self.nozzleSizeChoice.GetSelection() == 0:
+			self.nozzle_size = 0.4
+		elif self.nozzleSizeChoice.GetSelection() == 1:
+			self.nozzle_size = 0.6
+		elif self.nozzleSizeChoice.GetSelection() == 2:
+			self.nozzle_size = 0.8
+		else:
+			self.nozzle_size = 0.4
+		event.Skip()
+
+	def UpdateDisplay(self, name):
+		self.Show(name in ['DiscoEasy200', 'Magis'])
+		self.dualExtrusionChoiceLabel.Show(name in ['DiscoEasy200'])
+		self.dualExtrusionChoice.Show(name in ['DiscoEasy200'])
+		self.nozzleSizeChoiceLabel.Show(name in ['Magis'])
+		self.nozzleSizeChoice.Show(name in ['Magis'])
+		self.GetParent().Layout()
+		self.GetParent().Fit()
 
 class TitlePanel(wx.Panel):
 	def __init__(self, parent, title, subtitle = None):
@@ -191,19 +207,6 @@ class WelcomePanel(wx.Panel):
 		self.SetSizer(sizer)
 		self.Layout()
 
-class ConfirmationPanel(wx.Panel):
-	def __init__(self, parent):
-		wx.Panel.__init__(self, parent, wx.ID_ANY)
-
-		self.okButton = wx.Button(self, wx.ID_ANY, 'Ok')
-
-		sizer = wx.BoxSizer(wx.VERTICAL)
-		sizer.Add(self.okButton, flag=wx.ALIGN_RIGHT)
-
-		self.SetAutoLayout(True)
-		self.SetSizer(sizer)
-		self.Layout()
-
 class ConfigurationPage(wx.wizard.WizardPageSimple):
 	def __init__(self, parent, firstTime):
 		wx.wizard.WizardPageSimple.__init__(self, parent)
@@ -229,8 +232,7 @@ class ConfigurationPage(wx.wizard.WizardPageSimple):
 		self.SetSizerAndFit(sizer)
 		self.Layout()
 
-		if profile.getMachineSetting('machine_name') != 'DiscoEasy200':
-			self.optionsPanel.Hide()
+		self.optionsPanel.UpdateDisplay(self.printersPanel.name)
 
 	def AllowNext(self):
 		return True
@@ -284,20 +286,19 @@ class ConfigWizard(wx.wizard.Wizard):
 		print "Configuration wizard finished..."
 		name = self.configurationPage.printersPanel.name
 		xml_file = self.configurationPage.printersPanel.xml_file
-		printerhead_index = self.configurationPage.optionsPanel.printerhead_index
 		extruder_amount = self.configurationPage.optionsPanel.extruder_amount
 		wipe_tower = self.configurationPage.optionsPanel.wipe_tower
-		if name != 'DiscoEasy200':
-			printerhead_index = '-1'
+		nozzle_size = self.configurationPage.optionsPanel.nozzle_size
+		if name not in ['DiscoEasy200']:
 			extruder_amount = '1'
 			wipe_tower = 'False'
-		else:
-			if int(printerhead_index) == -1 and profile.getPreference('printerhead_choice') == 'True':
-				printerhead_index = '0'
+
+		if name not in ['Magis']:
+			nozzle_size = '0.4'
 
 		profile.putPreference('xml_file', xml_file)
-		profile.putPreference('printerhead_index', printerhead_index)
 		profile.putMachineSetting('extruder_amount', extruder_amount)
 		profile.putProfileSetting('wipe_tower', wipe_tower)
+		profile.putMachineSetting('nozzle_size', nozzle_size)
 		if self.parent is not None:
 			self.parent.ReloadSettingPanels()
