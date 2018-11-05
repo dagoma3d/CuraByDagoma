@@ -64,47 +64,12 @@ def getLanguageOptions():
 		['fr', 'French']
 	]
 
-def getPrinterOptions(internalUse = 'False'):
-	discoeasy200 = {
-		'name': 'DiscoEasy200',
-		'desc': '(or updated DiscoVery200)',
-		'config': 'discoeasy200.xml',
-		'img': 'discoeasy200.png'
-	}
-
-	discovery200 = {
-		'name': 'DiscoVery200',
-		'desc': '',
-		'config': 'discovery200.xml',
-		'img': 'discovery200.png'
-	}
-
-	explorer350 = {
-		'name': 'Explorer350',
-		'desc': '',
-		'config': 'explorer350.xml',
-		'img': 'explorer350.png'
-	}
-
-	neva = {
-		'name': 'Neva',
-		'desc': '(Serial number < 6000)',
-		'config': 'neva.xml',
-		'img': 'neva.png'
-	}
-
-	magis = {
-		'name': 'Magis',
-		'desc': '(Serial number >= 6000)',
-		'config': 'magis.xml',
-		'img': 'magis.png'
-	}
-
-	printerOptions = []
-	printerOptions.append(discovery200)
-	printerOptions.append(discoeasy200)
-	if internalUse == 'True':
-		printerOptions.append(explorer350)
-	printerOptions.append(neva)
-	printerOptions.append(magis)
-	return printerOptions
+def getPrinters():
+	printers = []
+	printers_file = open(os.path.normpath(os.path.join(resourceBasePath, 'printers.txt')), 'r')
+	for line in printers_file:
+		if not line.startswith('#'):
+			sline = line.split(';')
+			printer = { 'name': sline[0], 'desc': sline[1], 'config': sline[2], 'img':sline[3].rstrip() }
+			printers.append(printer)
+	return printers

@@ -48,7 +48,7 @@ class PrintersPanel(wx.Panel):
 
 	def getPrinters(self, isWizard):
 		# Build printers array
-		printers = resources.getPrinterOptions(profile.getPreference('internal_use'))
+		printers = resources.getPrinters()
 		wxPrinters = []
 		firstItem = True
 		for printer in printers:

@@ -1,0 +1,5 @@
+DiscoVery200;;discovery200.xml;discovery200.png
+DiscoEasy200;(or updated DiscoVery200);discoeasy200.xml;discoeasy200.png
+#Explorer350;;explorer350.xml;explorer350.png
+Neva;(Serial number < 6000);neva.xml;neva.png
+Magis;(Serial number >= 6000);magis.xml;magis.png
