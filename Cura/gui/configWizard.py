@@ -169,9 +169,9 @@ class OptionsPanel(wx.Panel):
 		event.Skip()
 
 	def UpdateDisplay(self, name):
-		self.Show(name in ['DiscoEasy200', 'Magis'])
-		self.dualExtrusionChoiceLabel.Show(name in ['DiscoEasy200'])
-		self.dualExtrusionChoice.Show(name in ['DiscoEasy200'])
+		self.Show(name in ['DiscoEasy200', 'DiscoUltimate', 'Magis'])
+		self.dualExtrusionChoiceLabel.Show(name in ['DiscoEasy200', 'DiscoUltimate'])
+		self.dualExtrusionChoice.Show(name in ['DiscoEasy200', 'DiscoUltimate'])
 		self.nozzleSizeChoiceLabel.Show(name in ['Magis'])
 		self.nozzleSizeChoice.Show(name in ['Magis'])
 		self.GetParent().Layout()
@@ -289,7 +289,7 @@ class ConfigWizard(wx.wizard.Wizard):
 		extruder_amount = self.configurationPage.optionsPanel.extruder_amount
 		wipe_tower = self.configurationPage.optionsPanel.wipe_tower
 		nozzle_size = self.configurationPage.optionsPanel.nozzle_size
-		if name not in ['DiscoEasy200']:
+		if name not in ['DiscoEasy200', 'DiscoUltimate']:
 			extruder_amount = '1'
 			wipe_tower = 'False'
 
