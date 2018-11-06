@@ -70,6 +70,15 @@ def getPrinters():
 	for line in printers_file:
 		if not line.startswith('#'):
 			sline = line.split(';')
-			printer = { 'name': sline[0], 'desc': sline[1], 'config': sline[2], 'img':sline[3].rstrip() }
-			printers.append(printer)
+			name = sline[0].rstrip()
+			desc = ''
+			if len(sline) > 1:
+				desc = sline[1].rstrip()
+			config = name.lower() + '.xml'
+			img = name.lower() + '.png'
+			if not os.path.isfile(getPathForImage(img)):
+				img = 'default.png'
+			if os.path.isfile(getPathForImage(config)):
+				printer = { 'name': name, 'desc': desc, 'config': config, 'img': img }
+				printers.append(printer)
 	return printers

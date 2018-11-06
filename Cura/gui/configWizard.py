@@ -24,7 +24,6 @@ class PrintersPanel(wx.Panel):
 	def __init__(self, parent, isWizard = False):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
 
-		self.xml_file = profile.getPreference('xml_file')
 		self.name = profile.getMachineSetting('machine_name')
 		printers = self.getPrinters(isWizard)
 
@@ -63,7 +62,6 @@ class PrintersPanel(wx.Panel):
 
 			if isWizard and firstItem:
 				radio.SetValue(True)
-				self.xml_file = printer.get('config')
 				self.name = printer.get('name')
 			else:
 				if printer.get('name') == self.name:
@@ -71,8 +69,7 @@ class PrintersPanel(wx.Panel):
 				else:
 					radio.SetValue(False)
 
-			def OnPrinterSelect(e, config = printer.get('config'), name = printer.get('name')):
-				self.xml_file = config
+			def OnPrinterSelect(e, name = printer.get('name')):
 				self.name = name
 
 				self.GetParent().optionsPanel.UpdateDisplay(name)
@@ -284,19 +281,15 @@ class ConfigWizard(wx.wizard.Wizard):
 		extruder_amount = self.configurationPage.optionsPanel.extruder_amount
 		wipe_tower = self.configurationPage.optionsPanel.wipe_tower
 		nozzle_size = self.configurationPage.optionsPanel.nozzle_size
-		xml_file = self.configurationPage.printersPanel.xml_file
 
 		if name in ['DiscoEasy200', 'DiscoUltimate']:
 			profile.putMachineSetting('extruder_amount', extruder_amount)
 			profile.putProfileSetting('wipe_tower', wipe_tower)
 
-		if name in ['Magis']:
-			if not nozzle_size == 0.4:
-				profile.putPreference('xml_file', name.lower() + '_' + str(nozzle_size) + '.xml')
-			else:
-				profile.putPreference('xml_file', xml_file)
-		else:
-			profile.putPreference('xml_file', xml_file)
+		xml_file = name.lower() + '.xml'
+		if name in ['Magis'] and not nozzle_size == 0.4:
+				xml_file = name.lower() + '_' + str(nozzle_size) + '.xml'
+		profile.putPreference('xml_file', xml_file)
 
 		if self.parent is not None:
 			self.parent.ReloadSettingPanels()
