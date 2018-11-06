@@ -336,6 +336,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.name = 'Both'
 			self.support_dual_extrusion = 'Both'
 
+	class WipeTowerVolume:
+		def __init__(self):
+			self.name = 'Normal'
+			self.wipe_tower_volume = '65'
+
 	class Adhesion:
 		def __init__(self, platform_adhesion = 'None'):
 			self.platform_adhesion = platform_adhesion
@@ -390,10 +395,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.offsetStaticText = wx.StaticText(self, wx.ID_ANY, _("Offset (mm) :"))
 		self.offsetTextCtrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
 
-		if int(profile.getMachineSetting('extruder_amount')) == 2:
-			self.wipeTowerStaticText = wx.StaticText(self, wx.ID_ANY, _("Wipe tower volume (mm3) :"))
-			self.wipeTowerTextCtrl = wx.TextCtrl(self, -1, profile.getProfileSetting('wipe_tower_volume'))
-
 		# Pause plugin
 		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
 		pausePluginButtonToolTip = wx.ToolTip(_("If you don't have any pause button on your printer...\nJust push the X endstop to resume your print!"))
@@ -412,12 +413,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.RefreshColor2()
 			self.RefreshTemperature2SpinCtrl()
 			self.RefreshSupportDualExtrusion()
+			self.RefreshWipeTowerVolume()
 		self.RefreshFilling()
 		self.RefreshSensor()
 		self.RefreshPrintingSurface()
 		self.RefreshOffset()
-		if int(profile.getMachineSetting('extruder_amount')) == 2:
-			self.RefreshWipeTower()
 		self.RefreshAdhesion()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -445,12 +445,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_RADIOBOX, self.OnSupportRadioBoxChanged, self.supportRadioBox)
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			self.Bind(wx.EVT_RADIOBOX, self.OnSupportDualExtrusionRadioBoxChanged, self.supportExtruderDualExtrusionRadioBox)
+			self.Bind(wx.EVT_RADIOBOX, self.OnWipeTowerVolumeRadioBoxChanged, self.wipeTowerVolumeRadioBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnFillingRadioBoxChanged, self.fillingRadioBox)
 		self.Bind(wx.EVT_CHECKBOX, self.OnSensorCheckBoxChanged,self.sensorCheckBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
 		self.Bind(wx.EVT_TEXT, self.OnOffsetTextCtrlChanged, self.offsetTextCtrl)
-		if int(profile.getMachineSetting('extruder_amount')) == 2:
-			self.Bind(wx.EVT_TEXT, self.OnWipeTowerTextCtrlChanged, self.wipeTowerTextCtrl)
 		self.Bind(wx.EVT_CHECKBOX, self.OnAdhesionCheckBoxChanged, self.adhesionCheckBox)
 		self.Bind(wx.EVT_BUTTON, self.OnPreparePrintButtonClick, self.printButton)
 		self.Bind(wx.EVT_BUTTON, self.OnPauseButtonClick, self.pausePluginButton)
@@ -517,8 +516,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.offsetStaticText.Hide()
 			self.offsetTextCtrl.Hide()
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
-			mainSizer.Add(self.wipeTowerStaticText, flag=wx.EXPAND)
-			mainSizer.Add(self.wipeTowerTextCtrl, flag=wx.EXPAND|wx.BOTTOM, border=5)
+			mainSizer.Add(self.wipeTowerVolumeRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if not printerName in ["Neva", "Magis"]:
 			mainSizer.Add(self.sensorCheckBox)
 		else:
@@ -543,6 +541,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.initSupport()
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			self.initSupportDualExtrusion()
+			self.initWipeTowerVolume()
 		self.initAdhesion()
 		self.initPrintingSurface()
 		self.initSensor()
@@ -788,6 +787,30 @@ class normalSettingsPanel(configBase.configPanelBase):
 		support_dual_extrusion_index = profile.getPreferenceInt('support_dual_extrusion_index')
 		self.supportExtruderDualExtrusionRadioBox.SetSelection(support_dual_extrusion_index)
 
+	def initWipeTowerVolume(self):
+		wipe_tower_volumes = [
+			{'name': 'Thin (20 mm3)', 'value': '20'},
+			{'name': 'Standard (65 mm3)', 'value': '65'},
+			{'name': 'Thick (125 mm3)', 'value': '125'}
+		]
+		choices = []
+		self.wipe_tower_volumes = []
+		for wipe_tower_volume in wipe_tower_volumes:
+			wipeTowerVolume = self.WipeTowerVolume()
+			name = wipe_tower_volume.get("name")
+			choices.append(_(name))
+			wipeTowerVolume.name = name
+			try :
+				wipeTowerVolume.wipe_tower_volume = wipe_tower_volume.get("value")
+				self.wipe_tower_volumes.append(wipeTowerVolume)
+			except :
+				print 'Some Error in Wipe tower volume Bloc'
+				pass
+
+		self.wipeTowerVolumeRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Wipe wall :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		wipe_tower_volume_index = profile.getPreferenceInt('wipe_tower_volume_index')
+		self.wipeTowerVolumeRadioBox.SetSelection(wipe_tower_volume_index)
+
 	def initAdhesion(self):
 		self.adhesionCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Improve the adhesion surface"))
 		self.adhesions = []
@@ -854,6 +877,27 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.warningStaticText.SetLabel(_("Filament approved by Dagoma."))
 			self.warningStaticText.SetForegroundColour((60, 118, 61))
 			self.temperatureSpinCtrl.Enable(False)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			filament2_index = self.filament2ComboBox.GetSelection()
+			filament2_type = self.filaments[filament2_index].type.lower()
+			if 'support' in filament_type:
+				if 'support' in filament2_type:
+					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
+					profile.putPreference('support_dual_extrusion_index', 0)
+					profile.putProfileSetting('support_dual_extrusion', 'Both')
+				else:
+					self.supportExtruderDualExtrusionRadioBox.SetSelection(1)
+					profile.putPreference('support_dual_extrusion_index', 1)
+					profile.putProfileSetting('support_dual_extrusion', 'First extruder')
+			else:
+				if 'support' in filament2_type:
+					self.supportExtruderDualExtrusionRadioBox.SetSelection(2)
+					profile.putPreference('support_dual_extrusion_index', 2)
+					profile.putProfileSetting('support_dual_extrusion', 'Second extruder')
+				else:
+					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
+					profile.putPreference('support_dual_extrusion_index', 0)
+					profile.putProfileSetting('support_dual_extrusion', 'Both')
 		profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
 		self.temperatureSpinCtrl.SetValue(calculated_print_temperature)
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
@@ -929,6 +973,27 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.warning2StaticText.SetLabel(_("Filament approved by Dagoma."))
 			self.warning2StaticText.SetForegroundColour((60, 118, 61))
 			self.temperature2SpinCtrl.Enable(False)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			filament1_index = self.filamentComboBox.GetSelection()
+			filament1_type = self.filaments[filament1_index].type.lower()
+			if 'support' in filament_type:
+				if 'support' in filament1_type:
+					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
+					profile.putPreference('support_dual_extrusion_index', 0)
+					profile.putProfileSetting('support_dual_extrusion', 'Both')
+				else:
+					self.supportExtruderDualExtrusionRadioBox.SetSelection(2)
+					profile.putPreference('support_dual_extrusion_index', 2)
+					profile.putProfileSetting('support_dual_extrusion', 'Second extruder')
+			else:
+				if 'support' in filament1_type:
+					self.supportExtruderDualExtrusionRadioBox.SetSelection(1)
+					profile.putPreference('support_dual_extrusion_index', 1)
+					profile.putProfileSetting('support_dual_extrusion', 'First extruder')
+				else:
+					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
+					profile.putPreference('support_dual_extrusion_index', 0)
+					profile.putProfileSetting('support_dual_extrusion', 'Both')
 		profile.putProfileSetting('print_temperature2', str(calculated_print_temperature))
 		self.temperature2SpinCtrl.SetValue(calculated_print_temperature)
 		profile.putProfileSetting('filament_diameter2', fila.filament_diameter)
@@ -1243,6 +1308,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 		suppDualExtrusion = self.support_dual_extrusions[support_dual_extrusion_index]
 		profile.putProfileSetting('support_dual_extrusion', suppDualExtrusion.support_dual_extrusion)
 
+	def RefreshWipeTowerVolume(self):
+		wipe_tower_volume_index = self.wipeTowerVolumeRadioBox.GetSelection()
+		profile.putPreference('wipe_tower_volume_index', wipe_tower_volume_index)
+		wipeTowerVolume = self.wipe_tower_volumes[wipe_tower_volume_index]
+		profile.putProfileSetting('wipe_tower_volume', wipeTowerVolume.wipe_tower_volume)
+
 	def RefreshAdhesion(self):
 		if self.adhesionCheckBox.GetValue():
 			profile.putProfileSetting('platform_adhesion', self.adhesions[0].platform_adhesion)
@@ -1278,13 +1349,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else :
 			self.offsetTextCtrl.SetValue(profile.getProfileSetting('offset_input'))
 
-	def RefreshWipeTower(self):
-		value = self.wipeTowerTextCtrl.GetValue()
-		if self.IsNumber(value) :
-			profile.putProfileSetting('wipe_tower_volume', value)
-		else :
-			self.wipeTowerTextCtrl.SetValue(profile.getProfileSetting('wipe_tower_volume'))
-
 	def RefreshSensor(self):
 		if self.sensorCheckBox.GetValue():
 			sensor = self.sensors[0].sensor
@@ -1301,6 +1365,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnSupportDualExtrusionRadioBoxChanged(self, event):
 		self.RefreshSupportDualExtrusion()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def OnWipeTowerVolumeRadioBoxChanged(self, event):
+		self.RefreshWipeTowerVolume()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
@@ -1378,13 +1449,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnOffsetTextCtrlChanged(self, event):
 		self.RefreshOffset()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
-
-	def OnWipeTowerTextCtrlChanged(self, event):
-		self.RefreshWipeTower()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
