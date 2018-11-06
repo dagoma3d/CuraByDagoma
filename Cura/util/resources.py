@@ -76,9 +76,9 @@ def getPrinters():
 				desc = sline[1].rstrip()
 			config = name.lower() + '.xml'
 			img = name.lower() + '.png'
-			if not os.path.isfile(getPathForImage(img)):
+			if not os.path.isfile(os.path.join(resourceBasePath, 'images', img)):
 				img = 'default.png'
-			if os.path.isfile(getPathForImage(config)):
+			if os.path.isfile(os.path.join(resourceBasePath, 'xml', config)):
 				printer = { 'name': name, 'desc': desc, 'config': config, 'img': img }
 				printers.append(printer)
 	return printers
