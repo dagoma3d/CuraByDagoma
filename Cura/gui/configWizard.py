@@ -65,7 +65,6 @@ class PrintersPanel(wx.Panel):
 				radio.SetValue(True)
 				self.xml_file = printer.get('config')
 				self.name = printer.get('name')
-				profile.putPreference('xml_file', self.xml_file)
 			else:
 				if printer.get('config') == self.xml_file:
 					radio.SetValue(True)
