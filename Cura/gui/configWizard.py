@@ -66,7 +66,7 @@ class PrintersPanel(wx.Panel):
 				self.xml_file = printer.get('config')
 				self.name = printer.get('name')
 			else:
-				if printer.get('config') == self.xml_file:
+				if printer.get('name') == self.name:
 					radio.SetValue(True)
 				else:
 					radio.SetValue(False)
@@ -117,9 +117,8 @@ class OptionsPanel(wx.Panel):
 			self.nozzleSizeChoice = wx.Choice(self, wx.ID_ANY, choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')])
 		else:
 			self.nozzleSizeChoice = wx.ComboBox(self, wx.ID_ANY, choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
-		if self.nozzle_size == 0.4:
-			self.nozzleSizeChoice.SetSelection(0)
-		elif self.nozzle_size == 0.6:
+
+		if self.nozzle_size == 0.6:
 			self.nozzleSizeChoice.SetSelection(1)
 		elif self.nozzle_size == 0.8:
 			self.nozzleSizeChoice.SetSelection(2)
@@ -157,9 +156,7 @@ class OptionsPanel(wx.Panel):
 		event.Skip()
 
 	def OnNozzleSizeChanged(self, event):
-		if self.nozzleSizeChoice.GetSelection() == 0:
-			self.nozzle_size = 0.4
-		elif self.nozzleSizeChoice.GetSelection() == 1:
+		if self.nozzleSizeChoice.GetSelection() == 1:
 			self.nozzle_size = 0.6
 		elif self.nozzleSizeChoice.GetSelection() == 2:
 			self.nozzle_size = 0.8
@@ -284,20 +281,22 @@ class ConfigWizard(wx.wizard.Wizard):
 	def OnPageFinished(self, e):
 		print "Configuration wizard finished..."
 		name = self.configurationPage.printersPanel.name
-		xml_file = self.configurationPage.printersPanel.xml_file
 		extruder_amount = self.configurationPage.optionsPanel.extruder_amount
 		wipe_tower = self.configurationPage.optionsPanel.wipe_tower
 		nozzle_size = self.configurationPage.optionsPanel.nozzle_size
-		if name not in ['DiscoEasy200', 'DiscoUltimate']:
-			extruder_amount = '1'
-			wipe_tower = 'False'
+		xml_file = self.configurationPage.printersPanel.xml_file
 
-		if name not in ['Magis']:
-			nozzle_size = '0.4'
+		if name in ['DiscoEasy200', 'DiscoUltimate']:
+			profile.putMachineSetting('extruder_amount', extruder_amount)
+			profile.putProfileSetting('wipe_tower', wipe_tower)
 
-		profile.putPreference('xml_file', xml_file)
-		profile.putMachineSetting('extruder_amount', extruder_amount)
-		profile.putProfileSetting('wipe_tower', wipe_tower)
-		profile.putMachineSetting('nozzle_size', nozzle_size)
+		if name in ['Magis']:
+			if not nozzle_size == 0.4:
+				profile.putPreference('xml_file', name.lower() + '_' + str(nozzle_size) + '.xml')
+			else:
+				profile.putPreference('xml_file', xml_file)
+		else:
+			profile.putPreference('xml_file', xml_file)
+
 		if self.parent is not None:
 			self.parent.ReloadSettingPanels()
