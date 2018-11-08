@@ -238,6 +238,8 @@ class ConfigWizard(wx.wizard.Wizard):
 		super(ConfigWizard, self).__init__(parent, -1, _("Configuration wizard"))
 
 		self.parent = parent
+		if firstTime:
+			profile.putPreference('xml_file', 'discovery200.xml')
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
@@ -288,7 +290,7 @@ class ConfigWizard(wx.wizard.Wizard):
 
 		xml_file = name.lower() + '.xml'
 		if name in ['Magis'] and not nozzle_size == 0.4:
-				xml_file = name.lower() + '_' + str(nozzle_size) + '.xml'
+			xml_file = name.lower() + '_' + str(nozzle_size) + '.xml'
 		profile.putPreference('xml_file', xml_file)
 
 		if self.parent is not None:
