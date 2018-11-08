@@ -568,6 +568,19 @@
 		</Precision>
 	</Precisions>
 
+	<!-- Wipe tower definitions -->
+	<WipeTowers>
+		<WipeTower name="Small (30 mm3)">
+			<wipe_tower_volume>30</wipe_tower_volume>
+		</WipeTower>
+		<WipeTower name="Standard (65 mm3)">
+			<wipe_tower_volume>65</wipe_tower_volume>
+		</WipeTower>
+		<WipeTower name="Large (125 mm3)">
+			<wipe_tower_volume>125</wipe_tower_volume>
+		</WipeTower>
+	</WipeTowers>
+
 	<!-- Printer head definitions -->
 	<!--
 	<PrinterHeads>

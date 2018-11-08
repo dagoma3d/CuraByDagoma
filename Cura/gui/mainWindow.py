@@ -788,27 +788,26 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.supportExtruderDualExtrusionRadioBox.SetSelection(support_dual_extrusion_index)
 
 	def initWipeTowerVolume(self):
-		wipe_tower_volumes = [
-			{'name': 'Thin (20 mm3)', 'value': '20'},
-			{'name': 'Standard (65 mm3)', 'value': '65'},
-			{'name': 'Thick (125 mm3)', 'value': '125'}
-		]
+		wipe_tower_volumes = self.configuration.getElementsByTagName("WipeTower")
 		choices = []
 		self.wipe_tower_volumes = []
 		for wipe_tower_volume in wipe_tower_volumes:
 			wipeTowerVolume = self.WipeTowerVolume()
-			name = wipe_tower_volume.get("name")
+			name = wipe_tower_volume.getAttribute("name")
 			choices.append(_(name))
 			wipeTowerVolume.name = name
 			try :
-				wipeTowerVolume.wipe_tower_volume = wipe_tower_volume.get("value")
+				wipeTowerVolume.wipe_tower_volume = wipe_tower_volume.getElementsByTagName("wipe_tower_volume")[0].firstChild.nodeValue
 				self.wipe_tower_volumes.append(wipeTowerVolume)
 			except :
 				print 'Some Error in Wipe tower volume Bloc'
 				pass
 
-		self.wipeTowerVolumeRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Wipe wall :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.wipeTowerVolumeRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Wipe volume :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 		wipe_tower_volume_index = profile.getPreferenceInt('wipe_tower_volume_index')
+		if wipe_tower_volume_index >= len(wipe_tower_volumes):
+			wipe_tower_volume_index = 0
+			profile.putPreference('wipe_tower_volume_index', 0)
 		self.wipeTowerVolumeRadioBox.SetSelection(wipe_tower_volume_index)
 
 	def initAdhesion(self):
