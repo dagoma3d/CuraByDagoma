@@ -4,13 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.1.0] - 2018-07-01
+## [2.1.0] - 2018-11-12
 - Change the way printer options are handled.
-- Introduce the dual-extrusion feature.
+- Introduce the dual-extrusion feature and all the stuff around.
 - More information for the end user when he changes the application language.
 - Add nozzle warmup progress bar to gcode start.
 - Improves printers profiles and make them more flexible to use independently.
-- Fix various bugs (gcode loading, linux + Wayland,...)
+- Fix various bugs (gcode loading, linux + Wayland,...).
+- Introduce specific profiles for different nozzle sizes.
+- The ini folder is now dependent of the software version.
+- Add the Disco Ultimate printer.
+- Make printer addition easier.
+- Add some filaments.
 
 ## [2.0.0] - 2018-03-01
 - New unified packaging: It implies a brand new software icon used in the application and in installation info for the various OS.
