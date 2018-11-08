@@ -189,7 +189,7 @@ setting('support_dual_extrusion',  'Both', [_('Both'), _('First extruder'), _('S
 setting('support_dual_extrusion_index', 0, int, 'preference', 'hidden')
 setting('wipe_tower',              False, bool,  'basic',    _('Dual extrusion')).setLabel(_("Wipe&prime tower"), _("The wipe-tower is a tower printed on every layer when switching between nozzles.\nThe old nozzle is wiped off on the tower before the new nozzle is used to print the 2nd color."))
 setting('wipe_tower_volume',          65, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower volume per layer (mm3)"), _("The amount of material put in the wipe/prime tower.\nThis is done in volume because in general you want to extrude a\ncertain amount of volume to get the extruder going, independent on the layer height.\nThis means that with thinner layers, your tower gets bigger."))
-setting('wipe_tower_volume_index', 0, int, 'preference', 'hidden')
+setting('wipe_tower_volume_index', 1, int, 'preference', 'hidden')
 setting('wipe_tower_z_hop',        0.2, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower z-hop"), _("The z-hop to apply before moving to the wipe/prime tower."))
 setting('wipe_tower_shape',        'Square', [_('Crenel'), _('Donut'), _('Square'), _('Wall'), _('Rectangle')], 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower shape"), _("The shape of the wipe/prime tower."))
 setting('wipe_tower_skirt_line_count', 6, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower skirt line count"), _("Number of skirt lines of the wipe/prime tower."))
