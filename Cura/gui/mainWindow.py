@@ -1296,8 +1296,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 		# Speed
 		filament1_index = self.filamentComboBox.GetSelection()
 		filament1_type = self.filaments[filament1_index].type.lower()
-		filament2_index = self.filament2ComboBox.GetSelection()
-		filament2_type = self.filaments[filament2_index].type.lower()
+		filament2_type = ''
+		try:
+			filament2_index = self.filament2ComboBox.GetSelection()
+			filament2_type = self.filaments[filament2_index].type.lower()
+		except:
+			pass
 		if not 'support' in filament1_type and not 'support' in filament2_type:
 			profile.putProfileSetting('infill_speed', preci.infill_speed)
 			profile.putProfileSetting('inset0_speed', preci.inset0_speed)
