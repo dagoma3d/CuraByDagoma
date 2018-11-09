@@ -563,6 +563,18 @@
 			<inset0_speed>25</inset0_speed>
 			<insetx_speed>35</insetx_speed>
 		</Precision>
+		<Precision name="Very thin (0.05mm)">
+			<layer_height>0.05</layer_height>
+			<solid_layer_thickness>1</solid_layer_thickness>
+			<wall_thickness>1.2</wall_thickness>
+			<print_speed>35</print_speed>
+			<temp_preci>0</temp_preci>
+			<travel_speed>50</travel_speed>
+			<bottom_layer_speed>15</bottom_layer_speed>
+			<infill_speed>40</infill_speed>
+			<inset0_speed>25</inset0_speed>
+			<insetx_speed>35</insetx_speed>
+		</Precision>
 	</Precisions>
 
 	<!-- Wipe tower definitions -->
