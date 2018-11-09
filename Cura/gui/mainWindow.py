@@ -1299,6 +1299,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def RefreshSupport(self):
 		supp = self.supports[self.supportRadioBox.GetSelection()]
+		self.supportExtruderDualExtrusionRadioBox.Enable(supp.support != 'None')
 		profile.putProfileSetting('support', supp.support)
 
 	def RefreshSupportDualExtrusion(self):
