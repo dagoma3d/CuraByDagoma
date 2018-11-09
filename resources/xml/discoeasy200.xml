@@ -424,6 +424,21 @@
 			<inset0_speed>40</inset0_speed>
 			<insetx_speed>45</insetx_speed>
 		</Filament>
+		<Filament name="Support PVA classe-2 Chromatik">
+			<print_temperature>180</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>65</retraction_speed>
+			<retraction_amount>5.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>80</filament_cost_kg>
+			<model_colour>#eeebd9</model_colour>
+			<infill_speed>40</infill_speed>
+			<inset0_speed>40</inset0_speed>
+			<insetx_speed>40</insetx_speed>
+			<support_xy_distance>0.6</support_xy_distance>
+			<support_z_distance>0</support_z_distance>
+		</Filament>
 		<Filament name="Poly Support">
 			<print_temperature>215</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
@@ -433,7 +448,10 @@
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>70</filament_cost_kg>
 			<model_colour>#FFFFFF</model_colour>
-			<support_xy_distance>0.4</support_xy_distance>
+			<infill_speed>40</infill_speed>
+			<inset0_speed>40</inset0_speed>
+			<insetx_speed>40</insetx_speed>
+			<support_xy_distance>0.6</support_xy_distance>
 			<support_z_distance>0</support_z_distance>
 		</Filament>
 		<Filament name="PLA Fiberlogy">

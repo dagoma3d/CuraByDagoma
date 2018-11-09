@@ -642,6 +642,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					fila.print_speed = filament.getElementsByTagName("print_speed")[0].firstChild.nodeValue
 					fila.travel_speed = filament.getElementsByTagName("travel_speed")[0].firstChild.nodeValue
 					fila.bottom_layer_speed = filament.getElementsByTagName("bottom_layer_speed")[0].firstChild.nodeValue
+				if 'wood' in filament_type or 'flex' in filament_type or 'support' in filament_type:
 					fila.infill_speed = filament.getElementsByTagName("infill_speed")[0].firstChild.nodeValue
 					fila.inset0_speed = filament.getElementsByTagName("inset0_speed")[0].firstChild.nodeValue
 					fila.insetx_speed = filament.getElementsByTagName("insetx_speed")[0].firstChild.nodeValue
@@ -920,6 +921,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('print_speed', fila.print_speed)
 		profile.putProfileSetting('travel_speed', fila.travel_speed)
 		profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
+
+		if 'support' in filament_type:
+			fila = self.filaments[filament_index]
 		profile.putProfileSetting('infill_speed', fila.infill_speed)
 		profile.putProfileSetting('inset0_speed', fila.inset0_speed)
 		profile.putProfileSetting('insetx_speed', fila.insetx_speed)
@@ -1008,6 +1012,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.precisionRadioBox.Enable(False)
 		else:
 			self.precisionRadioBox.Enable(True)
+			precision_index = profile.getPreferenceInt('precision_index')
+			fila = self.precisions[precision_index]
+		profile.putProfileSetting('layer_height', fila.layer_height)
+		profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
+		profile.putProfileSetting('wall_thickness', fila.wall_thickness)
+		profile.putProfileSetting('print_speed', fila.print_speed)
+		profile.putProfileSetting('travel_speed', fila.travel_speed)
+		profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
+
+		if 'support' in filament_type:
+			fila = self.filaments[filament_index]
+		profile.putProfileSetting('infill_speed', fila.infill_speed)
+		profile.putProfileSetting('inset0_speed', fila.inset0_speed)
+		profile.putProfileSetting('insetx_speed', fila.insetx_speed)
 
 		self.color2ComboBox.Clear()
 		filaments = self.configuration.getElementsByTagName("Filament")
@@ -1276,9 +1294,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('travel_speed', preci.travel_speed)
 		profile.putProfileSetting('bottom_layer_speed', preci.bottom_layer_speed)
 		# Speed
-		profile.putProfileSetting('infill_speed', preci.infill_speed)
-		profile.putProfileSetting('inset0_speed', preci.inset0_speed)
-		profile.putProfileSetting('insetx_speed', preci.insetx_speed)
+		filament1_index = self.filamentComboBox.GetSelection()
+		filament1_type = self.filaments[filament1_index].type.lower()
+		filament2_index = self.filament2ComboBox.GetSelection()
+		filament2_type = self.filaments[filament2_index].type.lower()
+		if not 'support' in filament1_type and not 'support' in filament2_type:
+			profile.putProfileSetting('infill_speed', preci.infill_speed)
+			profile.putProfileSetting('inset0_speed', preci.inset0_speed)
+			profile.putProfileSetting('insetx_speed', preci.insetx_speed)
 
 		# Refresh layer heights according to quality...
 		for panel in self.pausePluginPanel.panelList:
@@ -1299,7 +1322,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def RefreshSupport(self):
 		supp = self.supports[self.supportRadioBox.GetSelection()]
-		self.supportExtruderDualExtrusionRadioBox.Enable(supp.support != 'None')
+		try:
+			self.supportExtruderDualExtrusionRadioBox.Enable(supp.support != 'None')
+		except:
+			pass
 		profile.putProfileSetting('support', supp.support)
 
 	def RefreshSupportDualExtrusion(self):
