@@ -791,10 +791,10 @@ M84 ;shut down motors
 ;This code is added before the T(0)
 G92 E0
 G1 E-{retraction_amount2} F10000 ;filament retract length
-;MOVE TO WIPE TOWER T(0)
-;{move_to_wipe_tower_center}
 G92 E0
 G1 E-{switch_default_retraction_amount} F10000
+;MOVE TO WIPE TOWER T(0)
+;{move_to_wipe_tower_center}
 G92 E0
 		</GpreswitchT0>
 		<GpostswitchT0>
@@ -805,19 +805,20 @@ G92 E0
 G1 E{retraction_amount} F3000
 G92 E0
 G1 E{switch_default_retraction_amount} F3000
-;{move_from_wipe_tower_center}
 G92 E0
 G1 E-{switch_default_retraction_offset} F10000 ;filament retract length
+;{move_from_wipe_tower_center}
+G92 E0
 		</GpostswitchT0>
 		<GpreswitchT1>
 ;START T(1)
 ;This code is added before the T(1)
 G92 E0
 G1 E-{retraction_amount} F10000 ;filament retract length
-;MOVE TO WIPE TOWER T(1)
-;{move_to_wipe_tower_center}
 G92 E0
 G1 E-{switch_default_retraction_amount} F10000
+;MOVE TO WIPE TOWER T(1)
+;{move_to_wipe_tower_center}
 G92 E0
 		</GpreswitchT1>
 		<GpostswitchT1>
@@ -828,9 +829,10 @@ G92 E0
 G1 E{retraction_amount2} F3000
 G92 E0
 G1 E{switch_default_retraction_amount} F3000
-;{move_from_wipe_tower_center}
 G92 E0
 G1 E-{switch_default_retraction_offset} F10000 ;filament retract length
+;{move_from_wipe_tower_center}
+G92 E0
 		</GpostswitchT1>
 	</GCODE>
 </Dagoma>
