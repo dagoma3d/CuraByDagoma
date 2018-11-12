@@ -7,7 +7,7 @@
 # CONFIGURATION
 #############################
 export RELEASE_VERSION=2.1.0
-export BUILD_VERSION=${RELEASE_VERSION}a4
+export BUILD_VERSION=${RELEASE_VERSION}a5
 
 ##Select the build target
 ##Available options:
