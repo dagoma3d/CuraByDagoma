@@ -716,7 +716,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				else:
 					fill_selection_index = 1
 				profile.putPreference('fill_index', 1)
-				self.fillingRadioBox.EnableItem(0, False)
+			self.fillingRadioBox.EnableItem(0, False)
 		self.fillingRadioBox.SetSelection(fill_selection_index)
 
 	def initPrecision(self):
