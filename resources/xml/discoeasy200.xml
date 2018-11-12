@@ -775,19 +775,19 @@ M107 ;stop fan
 M84 ;shut down motors
 		</GendDual>
 		<GpreswitchT0>
-;START T(n)
-;This code is added before the T(n)
+;START T(0)
+;This code is added before the T(0)
 G92 E0
 G1 E-{retraction_amount2} F10000 ;filament retract length
-;MOVE TO WIPE TOWER T(n)
+;MOVE TO WIPE TOWER T(0)
 ;{move_to_wipe_tower_center}
 G92 E0
 G1 E-{switch_default_retraction_amount} F10000
 G92 E0
 		</GpreswitchT0>
 		<GpostswitchT0>
-;END T(n)
-;This code is added after the T(n)
+;END T(0)
+;This code is added after the T(0)
 M109 R{print_temperature} ;Set the temperature to the correct value
 G92 E0
 G1 E{retraction_amount} F3000
@@ -798,19 +798,19 @@ G92 E0
 G1 E-{switch_default_retraction_offset} F10000 ;filament retract length
 		</GpostswitchT0>
 		<GpreswitchT1>
-;START T(n)
-;This code is added before the T(n)
+;START T(1)
+;This code is added before the T(1)
 G92 E0
 G1 E-{retraction_amount} F10000 ;filament retract length
-;MOVE TO WIPE TOWER T(n)
+;MOVE TO WIPE TOWER T(1)
 ;{move_to_wipe_tower_center}
 G92 E0
 G1 E-{switch_default_retraction_amount} F10000
 G92 E0
 		</GpreswitchT1>
 		<GpostswitchT1>
-;END T(n)
-;This code is added after the T(n)
+;END T(1)
+;This code is added after the T(1)
 M109 R{print_temperature2} ;Set the temperature to the correct value
 G92 E0
 G1 E{retraction_amount2} F3000

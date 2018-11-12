@@ -397,7 +397,7 @@ class Engine(object):
 				m = re.search('G0 F6000 X[0-9.]+ Y[0-9.]+ Z[0-9.]+', line)
 				if m is not None:
 					the_z_hop = float(m.group(0).split('Z')[1]) + wipe_tower_z_hop
-			if line.startswith(';MOVE TO WIPE TOWER T(n)'):
+			if line.startswith(';MOVE TO WIPE TOWER'):
 				j = i
 			if line.startswith(';TYPE:WIPE-TOWER'):
 				k = i
