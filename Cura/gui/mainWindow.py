@@ -707,7 +707,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 				fill_selection_index = 2
 			else:
 				fill_selection_index = 0
-			profile.putPreference('fill_index', 0)
+			profile.putPreference('fill_index', fill_selection_index)
+
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			if fill_selection_index == 0:
+				if len(fillings) >= 3:
+					fill_selection_index = 2
+				else:
+					fill_selection_index = 1
+				profile.putPreference('fill_index', 1)
+				self.fillingRadioBox.EnableItem(0, False)
 		self.fillingRadioBox.SetSelection(fill_selection_index)
 
 	def initPrecision(self):
