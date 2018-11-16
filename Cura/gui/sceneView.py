@@ -1315,27 +1315,39 @@ class SceneView(openglGui.glGuiPanel):
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
-					self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+					if machine == 'DiscoEasy200':
+						self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+					elif machine == 'DiscoUltimate':
+						self._platformMesh[machine]._drawOffset = numpy.array([-105,285,62], numpy.float32)
 				elif machine in ['DiscoEasy200_dual', 'DiscoUltimate_dual']:
 					if int(profile.getMachineSetting('extruder_amount')) == 2:
 						self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 						self._platformMesh[machine].processMatrix()
 						#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
-						self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						if machine == 'DiscoEasy200_dual':
+							self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						elif machine == 'DiscoUltimate_dual':
+							self._platformMesh[machine]._drawOffset = numpy.array([-105,285,62], numpy.float32)
 
 						meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '_t0.stl'))
 						self._platformMesh[machine + '_t0'] = meshes[0]
 						self._platformMesh[machine + '_t0']._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 						self._platformMesh[machine + '_t0'].processMatrix()
 						#print 'self._platformMesh[machine + '_bed']._matrix', self._platformMesh[machine]._matrix
-						self._platformMesh[machine + '_t0']._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						if machine == 'DiscoEasy200_dual':
+							self._platformMesh[machine + '_t0']._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						elif machine == 'DiscoUltimate_dual':
+							self._platformMesh[machine + '_t0']._drawOffset = numpy.array([-105,285,62], numpy.float32)
 
 						meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '_t1.stl'))
 						self._platformMesh[machine + '_t1'] = meshes[0]
 						self._platformMesh[machine + '_t1']._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 						self._platformMesh[machine + '_t1'].processMatrix()
 						#print 'self._platformMesh[machine + '_bed']._matrix', self._platformMesh[machine]._matrix
-						self._platformMesh[machine + '_t1']._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						if machine == 'DiscoEasy200_dual':
+							self._platformMesh[machine + '_t1']._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						elif machine == 'DiscoUltimate_dual':
+							self._platformMesh[machine + '_t1']._drawOffset = numpy.array([-105,285,62], numpy.float32)
 				elif machine == 'DiscoVery200':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
