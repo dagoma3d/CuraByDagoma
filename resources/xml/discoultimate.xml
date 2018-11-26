@@ -685,7 +685,7 @@
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
 		<auto_detect_sd>True</auto_detect_sd>
 		<start_retraction_amount>47</start_retraction_amount>
-		<switch_default_retraction_amount>60</switch_default_retraction_amount>
+		<switch_default_retraction_amount>45</switch_default_retraction_amount>
 		<switch_default_retraction_offset>1</switch_default_retraction_offset>
 		<wipe_tower_z_hop>0</wipe_tower_z_hop>
 		<wipe_tower_shape>Crenel</wipe_tower_shape>
@@ -801,13 +801,9 @@ G92 E0
 		<GpostswitchT0>
 ;END T(0)
 ;This code is added after the T(0)
-M109 R{print_temperature} ;Set the temperature to the correct value
-G92 E0
-G1 E{retraction_amount} F3000
+;{set_target_temperature}
 G92 E0
 G1 E{switch_default_retraction_amount} F3000
-G92 E0
-G1 E-{retraction_amount} F10000 ;filament retract length
 ;{move_from_wipe_tower_center}
 G92 E0
 		</GpostswitchT0>
@@ -825,13 +821,9 @@ G92 E0
 		<GpostswitchT1>
 ;END T(1)
 ;This code is added after the T(1)
-M109 R{print_temperature2} ;Set the temperature to the correct value
-G92 E0
-G1 E{retraction_amount2} F3000
+;{set_target_temperature2}
 G92 E0
 G1 E{switch_default_retraction_amount} F3000
-G92 E0
-G1 E-{retraction_amount2} F10000 ;filament retract length
 ;{move_from_wipe_tower_center}
 G92 E0
 		</GpostswitchT1>

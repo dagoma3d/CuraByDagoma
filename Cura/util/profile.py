@@ -1100,6 +1100,22 @@ def replaceTagMatch(m):
 	if tag == 'move_from_wipe_tower_center':
 		return moveFromWipeTowerCenter()
 
+	if tag == 'set_target_temperature':
+		print_temperature = getProfileSettingFloat('print_temperature')
+		print_temperature2 = getProfileSettingFloat('print_temperature2')
+		if print_temperature == print_temperature2:
+			return ";No temperature change"
+		else:
+			return "M104 S" + str(print_temperature)
+
+	if tag == 'set_target_temperature2':
+		print_temperature = getProfileSettingFloat('print_temperature')
+		print_temperature2 = getProfileSettingFloat('print_temperature2')
+		if print_temperature == print_temperature2:
+			return ";No temperature change"
+		else:
+			return "M104 S" + str(print_temperature2)
+
 	if tag == 'retraction_amount':
 		return pre + str(getProfileSettingFloat('retraction_amount'))
 
