@@ -1036,7 +1036,7 @@ def moveToWipeTowerCenter():
 	wipe_tower_shape = getProfileSetting('wipe_tower_shape').lower()
 
 	wipe_tower_half_size = 0
-	if wipe_tower_shape in ["crenel", "wall", "rectangle"]:
+	if wipe_tower_shape in ["corner", "dumbbell", "crenel", "wall", "rectangle"]:
 		wipe_tower_half_size = 0
 	elif wipe_tower_shape == 'donut':
 		wipe_tower_half_size = round(math.sqrt((4 * wipe_tower_volume) / (3 * math.pi * layer_height)) / 2, 3)
@@ -1061,7 +1061,7 @@ def moveFromWipeTowerCenter():
 	wipe_tower_shape = getProfileSetting('wipe_tower_shape').lower()
 
 	wipe_tower_half_size = 0
-	if wipe_tower_shape in ["crenel", "wall", "rectangle"]:
+	if wipe_tower_shape in ["corner", "dumbbell", "crenel", "wall", "rectangle"]:
 		wipe_tower_half_size = 0
 	elif wipe_tower_shape == 'donut':
 		wipe_tower_half_size = round(math.sqrt((4 * wipe_tower_volume) / (3 * math.pi * layer_height)) / 2, 3)
