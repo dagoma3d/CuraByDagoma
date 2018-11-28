@@ -585,8 +585,12 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def OnSwitchColors(self, e):
-		self._switchColors = not self._switchColors
-		self.updateProfileToControls()
+		#self._switchColors = not self._switchColors
+		#self.updateProfileToControls()
+		if self._selectedObj is not None:
+			self._selectedObj._meshList.reverse()
+		elif self._focusObj is not None:
+			self._focusObj._meshList.reverse()
 		self.sceneUpdated()
 
 	def sceneUpdated(self):
@@ -853,6 +857,8 @@ class SceneView(openglGui.glGuiPanel):
 						self.Bind(wx.EVT_MENU, self.OnSplitObject, menu.Append(-1, _("Split object into parts")))
 					if ((self._selectedObj != self._focusObj and self._focusObj is not None and self._selectedObj is not None) or len(self._scene.objects()) == 2) and int(profile.getMachineSetting('extruder_amount')) > 1:
 						self.Bind(wx.EVT_MENU, self.OnMergeObjects, menu.Append(-1, _("Dual extrusion merge")))
+					if (self._focusObj is not None or self._selectedObj is not None) and self._mergeDone:
+						self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
 					if len(self._scene.objects()) > 0:
 						self.Bind(wx.EVT_MENU, self.OnDeleteAll, menu.Append(-1, _("Delete all objects")))
 						self.Bind(wx.EVT_MENU, self.reloadScene, menu.Append(-1, _("Reload all objects")))
