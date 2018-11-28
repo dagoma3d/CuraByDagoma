@@ -1116,6 +1116,12 @@ def replaceTagMatch(m):
 		else:
 			return "M104 S" + str(print_temperature2)
 
+	if tag == 'check_filrunout2':
+		if getProfileSetting('wipe_tower') == 'True':
+			return ";Filrunout 2 is enabled"
+		else:
+			return "M131 E1"
+
 	if tag == 'retraction_amount':
 		return pre + str(getProfileSettingFloat('retraction_amount'))
 

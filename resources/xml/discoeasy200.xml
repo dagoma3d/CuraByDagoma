@@ -686,6 +686,7 @@
 		<Gstart>
 ;Gcode by Cura by Dagoma {app_version} for DiscoEasy200
 ;Filament: {filament_name}
+M131 E1 ;Disable filrunout 2, just in case the user has a bicolor printer
 G90 ;absolute positioning
 M106 S255 ;fan on for the sensor
 G28 X Y
@@ -725,6 +726,7 @@ M84 ;shut down motors
 ;Gcode by Cura by Dagoma {app_version} for DiscoEasy200
 ;Filament 1: {filament_name}
 ;Filament 2: {filament2_name}
+;{check_filrunout2}
 G90 ;absolute positioning
 M106 S255 ;fan on for the sensor
 G28 X Y
