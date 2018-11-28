@@ -58,6 +58,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._isSimpleMode = True
 		self._printerConnectionManager = printerConnectionManager.PrinterConnectionManager()
 		self._mergeDone = False
+		profile.putProfileSetting('wipe_tower', False)
 		self._switchColors = False
 
 		self._viewport = None
@@ -202,8 +203,9 @@ class SceneView(openglGui.glGuiPanel):
 
 	def reloadScene(self, e):
 		# Copy the list before DeleteAll clears it
-		self._mergeDone = False;
-		self._switchColors = False;
+		self._mergeDone = False
+		profile.putProfileSetting('wipe_tower', False)
+		self._switchColors = False
 		fileList = []
 		for obj in self._scene.objects():
 			fileList.append(obj.getOriginFilename())
@@ -544,8 +546,9 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def OnSplitObject(self, e):
-		self._mergeDone = False;
-		self._switchColors = False;
+		self._mergeDone = False
+		profile.putProfileSetting('wipe_tower', False)
+		self._switchColors = False
 		if self._focusObj is None:
 			return
 		self._scene.remove(self._focusObj)
@@ -573,10 +576,12 @@ class SceneView(openglGui.glGuiPanel):
 			if len(self._scene.objects()) == 2:
 				self._scene.merge(self._scene.objects()[0], self._scene.objects()[1])
 				self._mergeDone = True
+				profile.putProfileSetting('wipe_tower', True)
 				self.sceneUpdated()
 			return
 		self._scene.merge(self._selectedObj, self._focusObj)
 		self._mergeDone = True
+		profile.putProfileSetting('wipe_tower', True)
 		self.sceneUpdated()
 
 	def OnSwitchColors(self, e):
@@ -661,8 +666,9 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def _deleteObject(self, obj):
-		self._mergeDone = False;
-		self._switchColors = False;
+		self._mergeDone = False
+		profile.putProfileSetting('wipe_tower', False)
+		self._switchColors = False
 		if obj == self._selectedObj:
 			self._selectObject(None)
 		if obj == self._focusObj:

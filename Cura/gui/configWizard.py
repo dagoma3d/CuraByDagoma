@@ -94,7 +94,6 @@ class OptionsPanel(wx.Panel):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
 
 		self.extruder_amount = profile.getMachineSettingInt('extruder_amount')
-		self.wipe_tower = profile.getProfileSetting('wipe_tower')
 		self.nozzle_size = profile.getMachineSettingFloat('nozzle_size')
 
 		self.oSizer = wx.FlexGridSizer(2, 2, 0, 0)
@@ -146,10 +145,8 @@ class OptionsPanel(wx.Panel):
 	def OnDualExtrusionChanged(self, event):
 		if self.dualExtrusionChoice.GetSelection() == 0:
 			self.extruder_amount = '2'
-			self.wipe_tower = 'True'
 		else:
 			self.extruder_amount = '1'
-			self.wipe_tower = 'False'
 		event.Skip()
 
 	def OnNozzleSizeChanged(self, event):
@@ -281,12 +278,10 @@ class ConfigWizard(wx.wizard.Wizard):
 		print "Configuration wizard finished..."
 		name = self.configurationPage.printersPanel.name
 		extruder_amount = self.configurationPage.optionsPanel.extruder_amount
-		wipe_tower = self.configurationPage.optionsPanel.wipe_tower
 		nozzle_size = self.configurationPage.optionsPanel.nozzle_size
 
 		if name in ['DiscoEasy200', 'DiscoUltimate']:
 			profile.putMachineSetting('extruder_amount', extruder_amount)
-			profile.putProfileSetting('wipe_tower', wipe_tower)
 
 		xml_file = name.lower() + '.xml'
 		if name in ['Magis'] and not nozzle_size == 0.4:
