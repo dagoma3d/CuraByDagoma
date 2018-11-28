@@ -1302,7 +1302,7 @@ class SceneView(openglGui.glGuiPanel):
 				m.vbo = openglHelpers.GLVBO(GL_TRIANGLES, m.vertexes, m.normal)
 			if brightness != 0:
 				glColor4fv(map(lambda idx: idx * brightness, self._objColors[n]))
-				n += 1
+				n = (n + 1) % len(self._objColors)
 			m.vbo.render()
 		glPopMatrix()
 
