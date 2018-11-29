@@ -698,7 +698,7 @@
 		<Gstart>
 ;Gcode by Cura by Dagoma {app_version} for DiscoUltimate
 ;Filament: {filament_name}
-M131 E1 ;Disable filrunout 2, just in case the user has a bicolor printer
+D131 E1 ;Disable filrunout 2, just in case the user has a bicolor printer
 G90 ;absolute positioning
 M106 S255 ;fan on for the sensor
 G28 X Y

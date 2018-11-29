@@ -1120,7 +1120,7 @@ def replaceTagMatch(m):
 		if getProfileSetting('wipe_tower') == 'True':
 			return ";Filrunout 2 is enabled"
 		else:
-			return "M131 E1"
+			return "D131 E1"
 
 	if tag == 'retraction_amount':
 		return pre + str(getProfileSettingFloat('retraction_amount'))
