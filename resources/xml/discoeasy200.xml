@@ -672,7 +672,7 @@
 		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
 		<auto_detect_sd>True</auto_detect_sd>
-		<global_retraction_amount>47</global_retraction_amount>
+		<start_retraction_amount>47</start_retraction_amount>
 		<switch_default_retraction_amount>45</switch_default_retraction_amount>
 		<switch_default_retraction_offset>1</switch_default_retraction_offset>
 		<wipe_tower_z_hop>0</wipe_tower_z_hop>
@@ -702,8 +702,6 @@ G1 X100 Y20 F3000
 M109 S{print_temperature}
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
-G1 E{global_retraction_amount} F3000
-G92 E0 ;zero the extruded length
 G1 F200 E10 ;extrude 10mm of feed stock
 G92 E0 ;zero the extruded length again
 G1 F240 Z3
@@ -719,8 +717,6 @@ M104 S0
 G1 Z+3 F{travel_speed} ;move Z up a bit and retract filament even more
 G90
 G28 X Y
-G1 E3 F3000
-G1 E-{global_retraction_amount} F10000
 ;Forced ventilation
 M107 ;stop fan
 ;Shut down motor
@@ -747,7 +743,7 @@ M109 S{print_temperature}
 T0 ;Just ensure we use the first extruder when starting the print
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
-G1 E{global_retraction_amount} F3000
+G1 E{start_retraction_amount} F3000
 G92 E0 ;zero the extruded length
 G1 F200 E10 ;extrude 10mm of feed stock
 G92 E0 ;zero the extruded length again
@@ -775,7 +771,7 @@ G28 X Y
 G90
 G92 E0
 G1 E3 F3000
-G1 E-{global_retraction_amount} F10000
+G1 E-60 F10000
 ;Forced ventilation
 M107 ;stop fan
 ;Shut down motor
