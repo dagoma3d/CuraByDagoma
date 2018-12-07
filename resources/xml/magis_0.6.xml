@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- XML for Magis - 2018/21/02 -->
+<!-- XML for Magis - 07/12/2018 -->
 <Dagoma>
 	<!-- Filament definitions -->
 	<Filaments>
@@ -153,6 +153,29 @@
 			<Color name="Solid green">
 				<print_temperature>215</print_temperature>
 				<model_colour>#00FF00</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA Glitter Chromatik">
+			<grip_temperature>220</grip_temperature>
+			<print_temperature>200</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>65</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>39.8</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Blue">
+				<model_colour>#4FA1C2</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#ff0000</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#006400</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#C0C0C0</model_colour>
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyPlus">
