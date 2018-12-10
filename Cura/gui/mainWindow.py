@@ -567,13 +567,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def initGCode(self):
 		gcode = self.configuration.getElementsByTagName("GCODE")[0]
 
+		gcode_start = gcode.getElementsByTagName("Gstart")[0].firstChild.nodeValue
+		profile.putAlterationSetting('start.gcode', gcode_start)
+
+		gcode_end = gcode.getElementsByTagName("Gend")[0].firstChild.nodeValue
+		profile.putAlterationSetting('end.gcode', gcode_end)
+
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
-			gcode_start = gcode.getElementsByTagName("GstartDual")[0].firstChild.nodeValue
-			profile.putAlterationSetting('start.gcode', gcode_start)
-
-			gcode_end = gcode.getElementsByTagName("GendDual")[0].firstChild.nodeValue
-			profile.putAlterationSetting('end.gcode', gcode_end)
-
 			gcode_preswitch = gcode.getElementsByTagName("GpreswitchT0")[0].firstChild.nodeValue
 			profile.putAlterationSetting('preSwitchExtruder.gcode', gcode_preswitch)
 
@@ -586,12 +586,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			gcode_postswitch = gcode.getElementsByTagName("GpostswitchT1")[0].firstChild.nodeValue
 			profile.putAlterationSetting('postSwitchExtruder2.gcode', gcode_postswitch)
 		else:
-			gcode_start = gcode.getElementsByTagName("Gstart")[0].firstChild.nodeValue
-			profile.putAlterationSetting('start.gcode', gcode_start)
-
-			gcode_end = gcode.getElementsByTagName("Gend")[0].firstChild.nodeValue
-			profile.putAlterationSetting('end.gcode', gcode_end)
-
 			profile.putAlterationSetting('preSwitchExtruder.gcode', '')
 			profile.putAlterationSetting('postSwitchExtruder.gcode', '')
 			profile.putAlterationSetting('preSwitchExtruder2.gcode', '')

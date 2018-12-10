@@ -159,9 +159,9 @@ class OptionsPanel(wx.Panel):
 		event.Skip()
 
 	def UpdateDisplay(self, name):
-		self.Show(name in ['DiscoEasy200', 'DiscoUltimate', 'Magis'])
-		self.dualExtrusionChoiceLabel.Show(name in ['DiscoEasy200', 'DiscoUltimate'])
-		self.dualExtrusionChoice.Show(name in ['DiscoEasy200', 'DiscoUltimate'])
+		self.Show(name in ['DiscoEasy200', 'DiscoUltimate', 'Magis', 'Perso2020'])
+		self.dualExtrusionChoiceLabel.Show(name in ['DiscoEasy200', 'DiscoUltimate', 'Perso2020'])
+		self.dualExtrusionChoice.Show(name in ['DiscoEasy200', 'DiscoUltimate', 'Perso2020'])
 		self.nozzleSizeChoiceLabel.Show(name in ['Magis'])
 		self.nozzleSizeChoice.Show(name in ['Magis'])
 		self.GetParent().Layout()
@@ -280,12 +280,11 @@ class ConfigWizard(wx.wizard.Wizard):
 		extruder_amount = self.configurationPage.optionsPanel.extruder_amount
 		nozzle_size = self.configurationPage.optionsPanel.nozzle_size
 
-		if name in ['DiscoEasy200', 'DiscoUltimate']:
-			profile.putMachineSetting('extruder_amount', extruder_amount)
-
 		xml_file = name.lower() + '.xml'
 		if name in ['Magis'] and not nozzle_size == 0.4:
 			xml_file = name.lower() + '_' + str(nozzle_size) + '.xml'
+		if name in ['DiscoEasy200', 'DiscoUltimate', 'Perso2020'] and int(extruder_amount) == 2:
+			xml_file = name.lower() + '_dual.xml'
 		profile.putPreference('xml_file', xml_file)
 
 		if self.parent is not None:

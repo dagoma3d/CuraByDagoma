@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2018-12-08
+- Separate the config files according to printer options.
+
 ## [2.1.0] - 2018-11-12
 - Change the way printer options are handled.
 - Introduce the dual-extrusion feature and all the stuff around.
@@ -15,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - The ini folder is now dependent of the software version.
 - Add the Disco Ultimate printer.
 - Make printer addition easier.
-- Add some filaments.
+- Add some filaments and enhance print parameters.
 
 ## [2.0.0] - 2018-03-01
 - New unified packaging: It implies a brand new software icon used in the application and in installation info for the various OS.
