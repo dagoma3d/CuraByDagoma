@@ -529,6 +529,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.SetSizerAndFit(mainSizer)
 		self.Layout()
 
+	def setParameterToObject(self, paramName, destObject, parentTag, alternativeParentTag = None):
+		param_tags = parenTag.getElementsByTagName(paramName)
+		if len(param_tags) > 0:
+			setattr(destObject, paramName, param_tags[0].firstChild.nodeValue)
+		elif alternativeParentTag is not None:
+			param_tags = alternativeParentTag.getElementsByTagName(paramName)
+			setattr(destObject, paramName, param_tags[0].firstChild.nodeValue)
+
 	def loadConfiguration(self):
 		xmlFile = profile.getPreference('xml_file')
 		self.configuration = minidom.parse(resources.getPathForXML(xmlFile))
@@ -628,18 +636,33 @@ class normalSettingsPanel(configBase.configPanelBase):
 				else:
 					support_z_distance_tags = self.configuration.getElementsByTagName('Configuration')[0].getElementsByTagName("support_z_distance")
 					fila.support_z_distance = support_z_distance_tags[0].firstChild.nodeValue
-				filament_type = fila.type.lower()
-				if 'wood' in filament_type or 'flex' in filament_type:
-					fila.layer_height = filament.getElementsByTagName("layer_height")[0].firstChild.nodeValue
-					fila.solid_layer_thickness = filament.getElementsByTagName("solid_layer_thickness")[0].firstChild.nodeValue
-					fila.wall_thickness = filament.getElementsByTagName("wall_thickness")[0].firstChild.nodeValue
-					fila.print_speed = filament.getElementsByTagName("print_speed")[0].firstChild.nodeValue
-					fila.travel_speed = filament.getElementsByTagName("travel_speed")[0].firstChild.nodeValue
-					fila.bottom_layer_speed = filament.getElementsByTagName("bottom_layer_speed")[0].firstChild.nodeValue
-				if 'wood' in filament_type or 'flex' in filament_type or 'support' in filament_type:
-					fila.infill_speed = filament.getElementsByTagName("infill_speed")[0].firstChild.nodeValue
-					fila.inset0_speed = filament.getElementsByTagName("inset0_speed")[0].firstChild.nodeValue
-					fila.insetx_speed = filament.getElementsByTagName("insetx_speed")[0].firstChild.nodeValue
+				layer_height_tags = filament.getElementsByTagName("layer_height")
+				if len(layer_height_tags) > 0:
+					fila.layer_height = layer_height_tags[0].firstChild.nodeValue
+				solid_layer_thickness_tags = filament.getElementsByTagName("solid_layer_thickness")
+				if len(solid_layer_thickness_tags) > 0:
+					fila.solid_layer_thickness = solid_layer_thickness_tags[0].firstChild.nodeValue
+				wall_thickness_tags = filament.getElementsByTagName("wall_thickness")
+				if len(wall_thickness_tags) > 0:
+					fila.wall_thickness = wall_thickness_tags[0].firstChild.nodeValue
+				print_speed_tags = filament.getElementsByTagName("print_speed")
+				if len(print_speed_tags) > 0:
+					fila.print_speed = print_speed_tags[0].firstChild.nodeValue
+				travel_speed_tags = filament.getElementsByTagName("travel_speed")
+				if len(travel_speed_tags) > 0:
+					fila.travel_speed = travel_speed_tags[0].firstChild.nodeValue
+				bottom_layer_speed_tags = filament.getElementsByTagName("bottom_layer_speed")
+				if len(bottom_layer_speed_tags) > 0:
+					fila.bottom_layer_speed = bottom_layer_speed_tags[0].firstChild.nodeValue
+				infill_speed_tags = filament.getElementsByTagName("infill_speed")
+				if len(infill_speed_tags) > 0:
+					fila.infill_speed = infill_speed_tags[0].firstChild.nodeValue
+				inset0_speed_tags = filament.getElementsByTagName("inset0_speed")
+				if len(inset0_speed_tags) > 0:
+					fila.inset0_speed = inset0_speed_tags[0].firstChild.nodeValue
+				insetx_speed_tags = filament.getElementsByTagName("insetx_speed")
+				if len(insetx_speed_tags) > 0:
+					fila.insetx_speed = insetx_speed_tags[0].firstChild.nodeValue
 				self.filaments.append(fila)
 			except:
 				print 'Some Error in Filament Bloc'
@@ -871,6 +894,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
+		if 'wood' in filament_type or 'flex' in filament_type:
+			self.precisionRadioBox.Enable(False)
+		else:
+			self.precisionRadioBox.Enable(True)
 		if 'other' in filament_type:
 			self.warningStaticText.SetLabel(_("This setting must be used with caution!"))
 			self.warningStaticText.SetForegroundColour((169, 68, 66))
@@ -884,6 +911,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			filament2_index = self.filament2ComboBox.GetSelection()
 			filament2_type = self.filaments[filament2_index].type.lower()
 			if 'support' in filament_type:
+				profile.putProfileSetting('wipe_tower', True)
 				if 'support' in filament2_type:
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
 					profile.putPreference('support_dual_extrusion_index', 0)
@@ -894,10 +922,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 					profile.putProfileSetting('support_dual_extrusion', 'First extruder')
 			else:
 				if 'support' in filament2_type:
+					profile.putProfileSetting('wipe_tower', True)
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(2)
 					profile.putPreference('support_dual_extrusion_index', 2)
 					profile.putProfileSetting('support_dual_extrusion', 'Second extruder')
 				else:
+					profile.putProfileSetting('wipe_tower', False)
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
 					profile.putPreference('support_dual_extrusion_index', 0)
 					profile.putProfileSetting('support_dual_extrusion', 'Both')
@@ -912,24 +942,24 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('model_colour', fila.model_colour)
 		profile.putProfileSetting('support_xy_distance', fila.support_xy_distance)
 		profile.putProfileSetting('support_z_distance', fila.support_z_distance)
-		if 'wood' in filament_type or 'flex' in filament_type:
-			self.precisionRadioBox.Enable(False)
-		else:
-			self.precisionRadioBox.Enable(True)
-			precision_index = profile.getPreferenceInt('precision_index')
-			fila = self.precisions[precision_index]
-		profile.putProfileSetting('layer_height', fila.layer_height)
-		profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
-		profile.putProfileSetting('wall_thickness', fila.wall_thickness)
-		profile.putProfileSetting('print_speed', fila.print_speed)
-		profile.putProfileSetting('travel_speed', fila.travel_speed)
-		profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
-
-		if 'support' in filament_type:
-			fila = self.filaments[filament_index]
-		profile.putProfileSetting('infill_speed', fila.infill_speed)
-		profile.putProfileSetting('inset0_speed', fila.inset0_speed)
-		profile.putProfileSetting('insetx_speed', fila.insetx_speed)
+		if fila.layer_height is not None:
+			profile.putProfileSetting('layer_height', fila.layer_height)
+		if fila.solid_layer_thickness is not None:
+			profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
+		if fila.wall_thickness is not None:
+			profile.putProfileSetting('wall_thickness', fila.wall_thickness)
+		if fila.print_speed is not None:
+			profile.putProfileSetting('print_speed', fila.print_speed)
+		if fila.travel_speed is not None:
+			profile.putProfileSetting('travel_speed', fila.travel_speed)
+		if fila.bottom_layer_speed is not None:
+			profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
+		if fila.infill_speed is not None:
+			profile.putProfileSetting('infill_speed', fila.infill_speed)
+		if fila.inset0_speed is not None:
+			profile.putProfileSetting('inset0_speed', fila.inset0_speed)
+		if fila.insetx_speed is not None:
+			profile.putProfileSetting('insetx_speed', fila.insetx_speed)
 
 		self.colorComboBox.Clear()
 		filaments = self.configuration.getElementsByTagName("Filament")
@@ -970,6 +1000,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('grip_temperature2', fila.grip_temperature)
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
+		if 'wood' in filament_type or 'flex' in filament_type:
+			self.precisionRadioBox.Enable(False)
+		else:
+			self.precisionRadioBox.Enable(True)
 		if 'other' in filament_type:
 			self.warning2StaticText.SetLabel(_("This setting must be used with caution!"))
 			self.warning2StaticText.SetForegroundColour((169, 68, 66))
@@ -983,6 +1017,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			filament1_index = self.filamentComboBox.GetSelection()
 			filament1_type = self.filaments[filament1_index].type.lower()
 			if 'support' in filament_type:
+				profile.putProfileSetting('wipe_tower', True)
 				if 'support' in filament1_type:
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
 					profile.putPreference('support_dual_extrusion_index', 0)
@@ -993,10 +1028,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 					profile.putProfileSetting('support_dual_extrusion', 'Second extruder')
 			else:
 				if 'support' in filament1_type:
+					profile.putProfileSetting('wipe_tower', True)
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(1)
 					profile.putPreference('support_dual_extrusion_index', 1)
 					profile.putProfileSetting('support_dual_extrusion', 'First extruder')
 				else:
+					profile.putProfileSetting('wipe_tower', False)
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
 					profile.putPreference('support_dual_extrusion_index', 0)
 					profile.putProfileSetting('support_dual_extrusion', 'Both')
@@ -1011,24 +1048,24 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('model_colour2', fila.model_colour)
 		profile.putProfileSetting('support_xy_distance', fila.support_xy_distance)
 		profile.putProfileSetting('support_z_distance', fila.support_z_distance)
-		if 'wood' in filament_type or 'flex' in filament_type:
-			self.precisionRadioBox.Enable(False)
-		else:
-			self.precisionRadioBox.Enable(True)
-			precision_index = profile.getPreferenceInt('precision_index')
-			fila = self.precisions[precision_index]
-		profile.putProfileSetting('layer_height', fila.layer_height)
-		profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
-		profile.putProfileSetting('wall_thickness', fila.wall_thickness)
-		profile.putProfileSetting('print_speed', fila.print_speed)
-		profile.putProfileSetting('travel_speed', fila.travel_speed)
-		profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
-
-		if 'support' in filament_type:
-			fila = self.filaments[filament_index]
-		profile.putProfileSetting('infill_speed', fila.infill_speed)
-		profile.putProfileSetting('inset0_speed', fila.inset0_speed)
-		profile.putProfileSetting('insetx_speed', fila.insetx_speed)
+		if fila.layer_height is not None:
+			profile.putProfileSetting('layer_height', fila.layer_height)
+		if fila.solid_layer_thickness is not None:
+			profile.putProfileSetting('solid_layer_thickness', fila.solid_layer_thickness)
+		if fila.wall_thickness is not None:
+			profile.putProfileSetting('wall_thickness', fila.wall_thickness)
+		if fila.print_speed is not None:
+			profile.putProfileSetting('print_speed', fila.print_speed)
+		if fila.travel_speed is not None:
+			profile.putProfileSetting('travel_speed', fila.travel_speed)
+		if fila.bottom_layer_speed is not None:
+			profile.putProfileSetting('bottom_layer_speed', fila.bottom_layer_speed)
+		if fila.infill_speed is not None:
+			profile.putProfileSetting('infill_speed', fila.infill_speed)
+		if fila.inset0_speed is not None:
+			profile.putProfileSetting('inset0_speed', fila.inset0_speed)
+		if fila.insetx_speed is not None:
+			profile.putProfileSetting('insetx_speed', fila.insetx_speed)
 
 		self.color2ComboBox.Clear()
 		filaments = self.configuration.getElementsByTagName("Filament")
