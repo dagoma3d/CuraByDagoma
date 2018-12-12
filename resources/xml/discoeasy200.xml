@@ -30,9 +30,6 @@
 			<Color name="Bronze">
 				<model_colour>#cd7f32</model_colour>
 			</Color>
-			<Color name="Grey">
-				<model_colour>#808080</model_colour>
-			</Color>
 			<Color name="Fluor yellow">
 				<model_colour>#ccff00</model_colour>
 			</Color>
