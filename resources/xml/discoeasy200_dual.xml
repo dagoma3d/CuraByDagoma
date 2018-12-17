@@ -304,37 +304,6 @@
 				<model_colour>#FFFFFF</model_colour>
 			</Color>
 		</Filament>
-		<Filament name="PLA PolyFlex">
-			<print_temperature>230</print_temperature>
-			<filament_diameter>1.75</filament_diameter>
-			<filament_flow>115</filament_flow>
-			<retraction_speed>50</retraction_speed>
-			<retraction_amount>8</retraction_amount>
-			<filament_physical_density>1270</filament_physical_density>
-			<filament_cost_kg>66.53</filament_cost_kg>
-			<model_colour>#FF9B00</model_colour>
-			<layer_height>0.15</layer_height>
-			<solid_layer_thickness>1.05</solid_layer_thickness>
-			<wall_thickness>1.2</wall_thickness>
-			<print_speed>35</print_speed>
-			<travel_speed>50</travel_speed>
-			<bottom_layer_speed>15</bottom_layer_speed>
-			<infill_speed>40</infill_speed>
-			<inset0_speed>25</inset0_speed>
-			<insetx_speed>35</insetx_speed>
-			<Color name="Yellow">
-				<model_colour>#FFFF00</model_colour>
-			</Color>
-			<Color name="Black">
-				<model_colour>#191919</model_colour>
-			</Color>
-			<Color name="Orange">
-				<model_colour>#FFA500</model_colour>
-			</Color>
-			<Color name="White">
-				<model_colour>#FFFFFF</model_colour>
-			</Color>
-		</Filament>
 		<Filament name="PLA PolyWood">
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.75</filament_diameter>

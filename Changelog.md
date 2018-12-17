@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Separate the config files according to printer options.
 - Remove some filaments in Neva/Magis configuration.
 - Hide diameter option for Magis.
+- Remove flex filament for dual extrusion option.
 
 ## [2.1.0] - 2018-11-12
 - Change the way printer options are handled.
