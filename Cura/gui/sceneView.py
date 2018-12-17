@@ -46,7 +46,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._objectLoadShader = None
 		self._focusObj = None
 		self._selectedObj = None
-		self._objColor = None
+		self._objColors = [None,None]
 		self._mouseX = -1
 		self._mouseY = -1
 		self._mouseState = None
@@ -57,6 +57,9 @@ class SceneView(openglGui.glGuiPanel):
 		self._platformTexture = None
 		self._isSimpleMode = True
 		self._printerConnectionManager = printerConnectionManager.PrinterConnectionManager()
+		self._mergeDone = False
+		profile.putProfileSetting('wipe_tower', False)
+		self._switchColors = False
 
 		self._viewport = None
 		self._modelMatrix = None
@@ -64,7 +67,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.tempMatrix = None
 
 		self.openFileButton      = openglGui.glButton(self, 4, _(" "), (0,0), self.showLoadModel)
-		self.printButton         = openglGui.glButton(self, 6, _(" "), (-1.6,-1.3), self.OnPrintButton)
+		self.printButton         = openglGui.glButton(self, None, _(" "), (-1,-1), self.OnPrintButton)
 		self.printButton.setDisabled(True)
 		self.printButton.setHidden(True)
 
@@ -131,7 +134,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._engine._result.setFinished(True)
 		self._engineResultView.setResult(self._engine._result)
 		self.printButton.setBottomText('')
-		self.viewSelection.setValue(4)
+		self.viewSelection.setValue(1)
 		self.printButton.setDisabled(False)
 		# self.youMagineButton.setDisabled(True) Dagoma
 		self.OnViewChange()
@@ -149,7 +152,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.viewSelection.setHidden(False)
 		mainWindow = self.GetParent().GetParent().GetParent()
 		mainWindow.normalSettingsPanel.pausePluginButton.Enable()
-		mainWindow.normalSettingsPanel.button_1.Enable()
+		mainWindow.normalSettingsPanel.printButton.Enable()
 		# only one GCODE file can be active
 		# so if single gcode file, process this
 		# otherwise ignore all gcode files
@@ -159,7 +162,7 @@ class SceneView(openglGui.glGuiPanel):
 			ext = os.path.splitext(filename)[1].lower()
 			if ext == '.g' or ext == '.gcode':
 				gcodeFilename = filename
-				mainWindow.addToModelMRU(filename)
+				mainWindow.AddToModelMRU(filename)
 		if gcodeFilename is not None:
 			self.loadGCodeFile(gcodeFilename)
 		else:
@@ -178,17 +181,17 @@ class SceneView(openglGui.glGuiPanel):
 					ext = os.path.splitext(filename)[1].lower()
 					if ext == '.ini':
 						profile.loadProfile(filename)
-						mainWindow.addToProfileMRU(filename)
+						mainWindow.AddToProfileMRU(filename)
 					elif ext in meshLoader.loadSupportedExtensions() or ext in imageToMesh.supportedExtensions():
 						scene_filenames.append(filename)
-						mainWindow.addToModelMRU(filename)
+						mainWindow.AddToModelMRU(filename)
 					else:
 						ignored_types[ext] = 1
 			if ignored_types:
 				ignored_types = ignored_types.keys()
 				ignored_types.sort()
-				self.notification.message("ignored: " + " ".join("*" + type for type in ignored_types))
-			mainWindow.updateProfileToAllControls()
+				self.notification.message("Ignored: " + " ".join("*" + type for type in ignored_types))
+			mainWindow.UpdateProfileToAllControls()
 			# now process all the scene files
 			if scene_filenames:
 				self.loadSceneFiles(scene_filenames)
@@ -200,15 +203,20 @@ class SceneView(openglGui.glGuiPanel):
 
 	def reloadScene(self, e):
 		# Copy the list before DeleteAll clears it
+		self._mergeDone = False
+		profile.putProfileSetting('wipe_tower', False)
+		self._switchColors = False
 		fileList = []
 		for obj in self._scene.objects():
 			fileList.append(obj.getOriginFilename())
 		self.OnDeleteAll(None)
 		self.loadScene(fileList)
+		self.viewSelection.setHidden(False)
+		self.GetParent().GetParent().GetParent().normalSettingsPanel.pausePluginButton.Enable()
 
 	def showLoadModel(self, button = 1):
 		if button == 1:
-			dlg=wx.FileDialog(self, _("Ouvrir un modele 3D"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
+			dlg=wx.FileDialog(self, _("Open a 3D model"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
 
 			wildcardList = ';'.join(map(lambda s: '*' + s, meshLoader.loadSupportedExtensions() + imageToMesh.supportedExtensions() + ['.g', '.gcode']))
 			wildcardFilter = "All (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
@@ -296,9 +304,14 @@ class SceneView(openglGui.glGuiPanel):
 
 	def _openPrintWindowForConnection(self, connection):
 		if connection.window is None or not connection.window:
-			connection.window = printWindow.printWindowBasic(self, connection)
+			mainWindow = self.GetParent().GetParent().GetParent()
+			connection.window = printWindow.printWindowBasic(mainWindow, connection)
+		connection.window.Centre()
 		connection.window.Show()
 		connection.window.Raise()
+		if sys.platform.startswith('darwin'):
+			from Cura.gui.util import macosFramesWorkaround as mfw
+			wx.CallAfter(mfw.StupidMacOSWorkaround)
 		if not connection.loadGCodeData(StringIO.StringIO(self._engine.getResult().getGCode())):
 			if connection.isPrinting():
 				self.notification.message(_("Cannot start print, because other print still running."))
@@ -327,17 +340,24 @@ class SceneView(openglGui.glGuiPanel):
 			self.notification.message(_("Save in progress..."))
 			size = float(len(data))
 			fsrc = StringIO.StringIO(data)
-			print 'Save in : ', targetFilename # Dagoma
+			print 'Save in : ', targetFilename.encode('utf-8') # Dagoma
 			with open(targetFilename, 'wb') as fdst:
 				while 1:
 					buf = fsrc.read(16*1024)
 					if not buf:
 						break
 					fdst.write(buf)
+		except IOError as e:
+			import sys, traceback
+			traceback.print_exc()
+			if e.errno == 13:
+				self.notification.message(_("Failed to save on the SD card as it might be in read-only mode"))
+			else:
+				self.notification.message(_("Failed to save on the SD card"))
 		except:
 			import sys, traceback
 			traceback.print_exc()
-			self.notification.message(_("Failed to save"))
+			self.notification.message(_("Failed to save on the SD card"))
 		else:
 			if ejectDrive:
 				self.notification.message(_("Saved as %s") % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
@@ -497,13 +517,13 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
-		normalSettingsPanel.button_1.Disable()
+		normalSettingsPanel.printButton.Disable()
 
 	def OnMultiply(self, e):
 		if self._focusObj is None:
 			return
 		obj = self._focusObj
-		dlg = wx.NumberEntryDialog(self, _("Combien de copies voulez-vous?"), _("Nombre de copies"), _("Multiplier"), 1, 1, 100)
+		dlg = wx.NumberEntryDialog(self, _("How many copies do you want?"), _("Number of copies"), _("Multiply"), 1, 1, 100)
 		if dlg.ShowModal() != wx.ID_OK:
 			dlg.Destroy()
 			return
@@ -520,12 +540,15 @@ class SceneView(openglGui.glGuiPanel):
 			if n > cnt:
 				break
 		if n <= cnt:
-			self.notification.message("Impossible de creer plus de %d articles" % (n - 1))
+			self.notification.message(_("Unable to create more than %d items") % (n - 1))
 		self._scene.remove(newObj)
 		self._scene.centerAll()
 		self.sceneUpdated()
 
 	def OnSplitObject(self, e):
+		self._mergeDone = False
+		profile.putProfileSetting('wipe_tower', False)
+		self._switchColors = False
 		if self._focusObj is None:
 			return
 		self._scene.remove(self._focusObj)
@@ -552,9 +575,22 @@ class SceneView(openglGui.glGuiPanel):
 		if self._selectedObj is None or self._focusObj is None or self._selectedObj == self._focusObj:
 			if len(self._scene.objects()) == 2:
 				self._scene.merge(self._scene.objects()[0], self._scene.objects()[1])
+				self._mergeDone = True
+				profile.putProfileSetting('wipe_tower', True)
 				self.sceneUpdated()
 			return
 		self._scene.merge(self._selectedObj, self._focusObj)
+		self._mergeDone = True
+		profile.putProfileSetting('wipe_tower', True)
+		self.sceneUpdated()
+
+	def OnSwitchColors(self, e):
+		#self._switchColors = not self._switchColors
+		#self.updateProfileToControls()
+		if self._selectedObj is not None:
+			self._selectedObj._meshList.reverse()
+		elif self._focusObj is not None:
+			self._focusObj._meshList.reverse()
 		self.sceneUpdated()
 
 	def sceneUpdated(self):
@@ -572,8 +608,8 @@ class SceneView(openglGui.glGuiPanel):
 
 	def _updateEngineProgress(self, progressValue):
 		mainWindow = self.GetParent().GetParent().GetParent()
-		mainWindow.normalSettingsPanel.button_1.Disable()
-		mainWindow.fileMenu.FindItemById(1).Enable(False)
+		mainWindow.normalSettingsPanel.printButton.Disable()
+		mainWindow.fileMenu.FindItemByPosition(2).Enable(False)
 		result = self._engine.getResult()
 		finished = result is not None and result.isFinished()
 		if not finished:
@@ -586,20 +622,23 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setProgressBar(None)
 		self._engineResultView.setResult(result)
 		if finished:
-			mainWindow.normalSettingsPanel.button_1.Enable()
-			mainWindow.fileMenu.FindItemById(1).Enable(True)
+			mainWindow.normalSettingsPanel.printButton.Enable()
+			mainWindow.fileMenu.FindItemByPosition(2).Enable(True)
 			self.printButton.setProgressBar(None)
-			text = '%s' % (result.getPrintTime())
+			text = '%s\n' % (result.getPrintTime())
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
-				meters = result.getFilamentMeters(e)
-				if meters is not None:
-					text += '\n%s' % (meters)
+				#meters = result.getFilamentMeters(e)
+				#if meters is not None:
+				#	text += '%s\n' % (meters)
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
-					text += '\n%s' % (grams)
+					if int(profile.getMachineSetting('extruder_amount')) > 1:
+						text += 'Filament %s: ' % (e + 1)
+					text += '%s' % grams
 				cost = result.getFilamentCost(e)
 				if cost is not None:
-					text += '\n%s' % (cost)
+					text += ' - %s\n' % (cost)
+				#print '%s | %s' % (grams, cost)
 			self.printButton.setBottomText(text)
 		else:
 			self.printButton.setBottomText('')
@@ -627,10 +666,13 @@ class SceneView(openglGui.glGuiPanel):
 						self._scene.centerAll()
 					self._selectObject(obj)
 					if obj.getScale()[0] < 1.0:
-						self.notification.message("Warning: Object scaled down.")
+						self.notification.message(_("Warning: Object scaled down."))
 		self.sceneUpdated()
 
 	def _deleteObject(self, obj):
+		self._mergeDone = False
+		profile.putProfileSetting('wipe_tower', False)
+		self._switchColors = False
 		if obj == self._selectedObj:
 			self._selectObject(None)
 		if obj == self._focusObj:
@@ -645,7 +687,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setBottomText('')
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 			normalSettingsPanel.pausePluginButton.Disable()
-			normalSettingsPanel.button_1.Disable()
+			normalSettingsPanel.printButton.Disable()
 		import gc
 		gc.collect()
 		self.sceneUpdated()
@@ -671,7 +713,13 @@ class SceneView(openglGui.glGuiPanel):
 			self.sceneUpdated()
 		self._scene.updateSizeOffsets(True)
 		self._machineSize = numpy.array([profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')])
-		self._objColor = profile.getPreferenceColour('model_colour')
+		self._objColors[0] = profile.getPreferenceColour('model_colour')
+		if int(profile.getMachineSetting('extruder_amount')) > 1:
+			self._objColors[1] = profile.getPreferenceColour('model_colour2')
+		else:
+			self._objColors[1] = profile.getPreferenceColour('model_colour')
+		if self._switchColors:
+			self._objColors.reverse()
 		self._scene.updateMachineDimensions()
 		self.updateModelSettingsToControls()
 
@@ -801,13 +849,16 @@ class SceneView(openglGui.glGuiPanel):
 			if e.GetButton() == 3:
 					menu = wx.Menu()
 					if self._focusObj is not None:
-
+						#if self._mergeDone:
+						#	self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
 						self.Bind(wx.EVT_MENU, self.OnCenter, menu.Append(-1, _("Center on platform")))
 						self.Bind(wx.EVT_MENU, lambda e: self._deleteObject(self._focusObj), menu.Append(-1, _("Delete object")))
 						self.Bind(wx.EVT_MENU, self.OnMultiply, menu.Append(-1, _("Multiply object")))
 						self.Bind(wx.EVT_MENU, self.OnSplitObject, menu.Append(-1, _("Split object into parts")))
 					if ((self._selectedObj != self._focusObj and self._focusObj is not None and self._selectedObj is not None) or len(self._scene.objects()) == 2) and int(profile.getMachineSetting('extruder_amount')) > 1:
 						self.Bind(wx.EVT_MENU, self.OnMergeObjects, menu.Append(-1, _("Dual extrusion merge")))
+					if (self._focusObj is not None or self._selectedObj is not None) and self._mergeDone:
+						self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
 					if len(self._scene.objects()) > 0:
 						self.Bind(wx.EVT_MENU, self.OnDeleteAll, menu.Append(-1, _("Delete all objects")))
 						self.Bind(wx.EVT_MENU, self.reloadScene, menu.Append(-1, _("Reload all objects")))
@@ -932,13 +983,13 @@ class SceneView(openglGui.glGuiPanel):
 	def OnPaint(self,e):
 		connectionGroup = self._printerConnectionManager.getAvailableGroup()
 		if len(removableStorage.getPossibleSDcardDrives()) > 0 and (connectionGroup is None or connectionGroup.getPriority() < 0):
-			self.printButton._imageID = 2
+			self.printButton._imageID = None
 			self.printButton._tooltip = _(" ")
 		elif connectionGroup is not None:
 			self.printButton._imageID = connectionGroup.getIconID()
 			self.printButton._tooltip = _("Print with %s") % (connectionGroup.getName())
 		else:
-			self.printButton._imageID = 3
+			self.printButton._imageID = None
 			self.printButton._tooltip = _(" ")
 
 		if self._animView is not None:
@@ -1245,11 +1296,13 @@ class SceneView(openglGui.glGuiPanel):
 
 		glMultMatrixf(openglHelpers.convert3x3MatrixTo4x4(obj.getMatrix()))
 
+		n = 0
 		for m in obj._meshList:
 			if m.vbo is None:
 				m.vbo = openglHelpers.GLVBO(GL_TRIANGLES, m.vertexes, m.normal)
 			if brightness != 0:
-				glColor4fv(map(lambda idx: idx * brightness, self._objColor))
+				glColor4fv(map(lambda idx: idx * brightness, self._objColors[n]))
+				n = (n + 1) % len(self._objColors)
 			m.vbo.render()
 		glPopMatrix()
 
@@ -1260,76 +1313,69 @@ class SceneView(openglGui.glGuiPanel):
 		size = [profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')]
 
 		machine = profile.getMachineSetting('machine_name')
-		if machine.startswith('ultimaker'):
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			machine += '_dual'
+		if machine.startswith('DiscoUltimate') or machine.startswith('DiscoEasy200') or machine.startswith('DiscoVery200') or machine.startswith('Neva') or machine.startswith('Magis') or machine.startswith('Explorer350'):
 			if machine not in self._platformMesh:
-				meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine + '_platform.stl'))
+				meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '.stl'))
 				if len(meshes) > 0:
 					self._platformMesh[machine] = meshes[0]
 				else:
 					self._platformMesh[machine] = None
-				if machine == 'ultimaker2':
-					self._platformMesh[machine]._drawOffset = numpy.array([0,-37,145], numpy.float32)
-				else:
-					self._platformMesh[machine]._drawOffset = numpy.array([0,0,2.5], numpy.float32)
-			glColor4f(1,1,1,0.5)
-			self._objectShader.bind()
-			self._renderObject(self._platformMesh[machine], False, False)
-			self._objectShader.unbind()
 
-			#For the Ultimaker 2 render the texture on the back plate to show the Ultimaker2 text.
-			if machine == 'ultimaker2':
-				if not hasattr(self._platformMesh[machine], 'texture'):
-					self._platformMesh[machine].texture = openglHelpers.loadGLTexture('Ultimaker2backplate.png')
-				glBindTexture(GL_TEXTURE_2D, self._platformMesh[machine].texture)
-				glEnable(GL_TEXTURE_2D)
-				glPushMatrix()
-				glColor4f(1,1,1,1)
-
-				glTranslate(0,150,-5)
-				h = 50
-				d = 8
-				w = 100
-				glEnable(GL_BLEND)
-				glBlendFunc(GL_DST_COLOR, GL_ZERO)
-				glBegin(GL_QUADS)
-				glTexCoord2f(1, 0)
-				glVertex3f( w, 0, h)
-				glTexCoord2f(0, 0)
-				glVertex3f(-w, 0, h)
-				glTexCoord2f(0, 1)
-				glVertex3f(-w, 0, 0)
-				glTexCoord2f(1, 1)
-				glVertex3f( w, 0, 0)
-
-				glTexCoord2f(1, 0)
-				glVertex3f(-w, d, h)
-				glTexCoord2f(0, 0)
-				glVertex3f( w, d, h)
-				glTexCoord2f(0, 1)
-				glVertex3f( w, d, 0)
-				glTexCoord2f(1, 1)
-				glVertex3f(-w, d, 0)
-				glEnd()
-				glDisable(GL_TEXTURE_2D)
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-				glPopMatrix()
-		elif machine.startswith('DiscoEasy200') or machine.startswith('Neva')  or machine.startswith('Explorer350'):
-			if machine not in self._platformMesh:
-				meshes = meshLoader.loadMeshes(resources.getPathForMesh('machine_platform.stl'))
-				if len(meshes) > 0:
-					self._platformMesh[machine] = meshes[0]
-				else:
-					self._platformMesh[machine] = None
-				if machine == 'DiscoEasy200':
+				if machine in ['DiscoEasy200', 'DiscoUltimate']:
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
-					self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+					if machine == 'DiscoEasy200':
+						self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+					elif machine == 'DiscoUltimate':
+						self._platformMesh[machine]._drawOffset = numpy.array([-105,285,62], numpy.float32)
+				elif machine in ['DiscoEasy200_dual', 'DiscoUltimate_dual']:
+					if int(profile.getMachineSetting('extruder_amount')) == 2:
+						self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+						self._platformMesh[machine].processMatrix()
+						#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+						if machine == 'DiscoEasy200_dual':
+							self._platformMesh[machine]._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						elif machine == 'DiscoUltimate_dual':
+							self._platformMesh[machine]._drawOffset = numpy.array([-105,285,62], numpy.float32)
+
+						meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '_t0.stl'))
+						self._platformMesh[machine + '_t0'] = meshes[0]
+						self._platformMesh[machine + '_t0']._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+						self._platformMesh[machine + '_t0'].processMatrix()
+						#print 'self._platformMesh[machine + '_bed']._matrix', self._platformMesh[machine]._matrix
+						if machine == 'DiscoEasy200_dual':
+							self._platformMesh[machine + '_t0']._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						elif machine == 'DiscoUltimate_dual':
+							self._platformMesh[machine + '_t0']._drawOffset = numpy.array([-105,285,62], numpy.float32)
+
+						meshes = meshLoader.loadMeshes(resources.getPathForMesh(machine.lower() + '_t1.stl'))
+						self._platformMesh[machine + '_t1'] = meshes[0]
+						self._platformMesh[machine + '_t1']._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+						self._platformMesh[machine + '_t1'].processMatrix()
+						#print 'self._platformMesh[machine + '_bed']._matrix', self._platformMesh[machine]._matrix
+						if machine == 'DiscoEasy200_dual':
+							self._platformMesh[machine + '_t1']._drawOffset = numpy.array([-105,285,58], numpy.float32)
+						elif machine == 'DiscoUltimate_dual':
+							self._platformMesh[machine + '_t1']._drawOffset = numpy.array([-105,285,62], numpy.float32)
+				elif machine == 'DiscoVery200':
+					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+					self._platformMesh[machine].processMatrix()
+					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					self._platformMesh[machine]._drawOffset = numpy.array([17.5,272,52], numpy.float32)
 				elif machine == 'Neva':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-153,103,53], numpy.float32)
+				elif machine == 'Magis':
+					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
+					self._platformMesh[machine].processMatrix()
+					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					self._platformMesh[machine]._drawOffset = numpy.array([-153.02630615,103.5,643], numpy.float32)
+					#print self._platformMesh[machine]._drawOffset
 				elif machine == 'Explorer350':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
 					self._platformMesh[machine].processMatrix()
@@ -1340,6 +1386,11 @@ class SceneView(openglGui.glGuiPanel):
 			glColor4f(1,1,1,0.5)
 			self._objectShader.bind()
 			self._renderObject(self._platformMesh[machine], False, False)
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				glColor4f(self._objColors[0][0], self._objColors[0][1], self._objColors[0][2], 0.5)
+				self._renderObject(self._platformMesh[machine + '_t0'], False, False)
+				glColor4f(self._objColors[1][0], self._objColors[1][1], self._objColors[1][2], 0.5)
+				self._renderObject(self._platformMesh[machine + '_t1'], False, False)
 			self._objectShader.unbind()
 		else:
 			glColor4f(0,0,0,1)

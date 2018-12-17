@@ -93,8 +93,8 @@ with open(filename, "w") as f:
 				pauseState = 0
 				f.write(";TYPE:CUSTOM\n")
 				#Retract
-				if profile.getMachineSetting('machine_name') == 'Neva':
-					f.write("M600 L0 P18\n")
+				if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
+					f.write("M600 U-55 X55 Y-92 Z60\n")
 				else:
 					f.write("M600 L0 PA\n")
 

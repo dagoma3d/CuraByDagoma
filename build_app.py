@@ -5,18 +5,18 @@ import os
 if sys.platform.startswith('darwin'):
     from setuptools import setup
 
+    release_version = os.environ['RELEASE_VERSION']
     build_version = os.environ['BUILD_VERSION']
     build_name = os.environ['BUILD_NAME']
-    machine_name = os.environ['MACHINE_NAME']
 
     APP = ['Cura/cura.py']
-    DATA_FILES = ['Cura/LICENSE', 'resources/images', 'resources/meshes', 'resources/example', 'resources/locale','resources/XML', 'plugins']
+    DATA_FILES = ['Cura/LICENSE', 'resources/example', 'resources/images', 'resources/locale', 'resources/meshes', 'resources/printers', 'resources/xml', 'plugins']
     PLIST = {
         u'CFBundleName': build_name,
-        u'postinstall_script': u'rm -rf ~/Library/Application\ Support/CuraByDagoma' + machine_name,
-        u'CFBundleShortVersionString': build_version,
+        u'CFBundleDisplayName': build_name,
+        u'CFBundleShortVersionString': release_version,
         u'CFBundleVersion': build_version,
-        u'CFBundleIdentifier': u'com.dagoma.'+ build_name + '-' + build_version,
+        u'CFBundleIdentifier': u'com.Dagoma.'+ build_name + build_version,
         u'LSMinimumSystemVersion': u'10.9',
         u'LSApplicationCategoryType': u'public.app-category.graphics-design',
         u'CFBundleDocumentTypes': [

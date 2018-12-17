@@ -28,7 +28,7 @@ class validFloat(object):
 		self.setting._validators.append(self)
 		self.minValue = minValue
 		self.maxValue = maxValue
-	
+
 	def validate(self):
 		try:
 			f = float(eval(self.setting.getValue().replace(',','.'), {}, {}))
@@ -51,7 +51,7 @@ class validInt(object):
 		self.setting._validators.append(self)
 		self.minValue = minValue
 		self.maxValue = maxValue
-	
+
 	def validate(self):
 		try:
 			f = int(eval(self.setting.getValue(), {}, {}))
@@ -72,7 +72,7 @@ class warningAbove(object):
 		self.setting._validators.append(self)
 		self.minValueForWarning = minValueForWarning
 		self.warningMessage = warningMessage
-	
+
 	def validate(self):
 		try:
 			f = float(eval(self.setting.getValue().replace(',','.'), {}, {}))
@@ -120,12 +120,12 @@ class wallThicknessValidator(object):
 	def __init__(self, setting):
 		self.setting = setting
 		self.setting._validators.append(self)
-	
+
 	def validate(self):
 		from Cura.util import profile
 		try:
 			wallThickness = profile.getProfileSettingFloat('wall_thickness')
-			nozzleSize = profile.getProfileSettingFloat('nozzle_size')
+			nozzleSize = profile.getMachineSettingFloat('nozzle_size')
 			if wallThickness < 0.01:
 				return SUCCESS, ''
 			if wallThickness <= nozzleSize * 0.5:
@@ -136,7 +136,7 @@ class wallThicknessValidator(object):
 				return SUCCESS, ''
 			if nozzleSize <= 0:
 				return ERROR, 'Incorrect nozzle size'
-			
+
 			lineCount = int(wallThickness / nozzleSize)
 			lineWidth = wallThickness / lineCount
 			lineWidthAlt = wallThickness / (lineCount + 1)
@@ -160,18 +160,18 @@ class printSpeedValidator(object):
 	def validate(self):
 		from Cura.util import profile
 		try:
-			nozzleSize = profile.getProfileSettingFloat('nozzle_size')
+			nozzleSize = profile.getMachineSettingFloat('nozzle_size')
 			layerHeight = profile.getProfileSettingFloat('layer_height')
 			printSpeed = profile.getProfileSettingFloat('print_speed')
-			
+
 			printVolumePerMM = layerHeight * nozzleSize
 			printVolumePerSecond = printVolumePerMM * printSpeed
 			#Using 10mm3 per second with a 0.4mm nozzle (normal max according to Joergen Geerds)
 			maxPrintVolumePerSecond = 10 / (math.pi*(0.2*0.2)) * (math.pi*(nozzleSize/2*nozzleSize/2))
-			
+
 			if printVolumePerSecond > maxPrintVolumePerSecond:
 				return WARNING, 'You are trying to print more then %.1fmm^3 of filament per second. This might cause filament slipping. (You are printing at %0.1fmm^3 per second)' % (maxPrintVolumePerSecond, printVolumePerSecond)
-			
+
 			return SUCCESS, ''
 		except ValueError:
 			#We already have an error by the int/float validator in this case.

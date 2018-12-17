@@ -95,17 +95,15 @@ class CuraApp(wx.App):
 	def afterSplashCallback(self):
 		#These imports take most of the time and thus should be done after showing the splashscreen
 		from Cura.gui import configWizard
-		from Cura.gui import mainWindow
 		from Cura.util import profile
 		from Cura.util import resources
-
 		# it's important to set up localization at very beginning to install
 		language = profile.getPreference('language')
 		contact_url = 'https://dagoma3d.com/pages/contact-us'
 		buy_url = 'https://dagoma3d.com/collections/shop'
 		if language == 'French':
 			contact_url = 'https://dagoma.fr/heroes/diagnostique-en-ligne.html'
-			buy_url = 'https://dagoma.fr/boutique/filaments.html'
+			buy_url = 'https://dagoma.fr/boutique/filaments.html?utm_source=cura'
 
 		resources.setupLocalization(language)
 		profile.putPreference('contact_url', contact_url)
@@ -115,21 +113,6 @@ class CuraApp(wx.App):
 			self.splash.Show(False)
 			self.splash = None
 
-		# Is it the first run after installation?
-		if sys.platform.startswith('darwin'):
-			newinstallfile = os.path.normpath(os.path.join(resources.resourceBasePath, 'new'))
-			if os.path.isfile(newinstallfile):
-				try:
-					os.remove(newinstallfile)
-					profile.putMachineSetting('machine_name', '')
-					profile.putPreference('filament_index', 0)
-					profile.putPreference('color_index', -1)
-					profile.putPreference('fill_index', 1)
-					profile.putPreference('precision_index', 0)
-					profile.putPreference('printhead_index', 0)
-				except:
-					pass
-
 		#If we haven't run it before, run the configuration wizard.
 		if profile.getMachineSetting('machine_name') == '':
 			configWizard.ConfigWizard()
@@ -137,7 +120,7 @@ class CuraApp(wx.App):
 			exampleFile = os.path.normpath(os.path.join(resources.resourceBasePath, 'example', 'dagoma.stl'))
 			self.loadFiles = [exampleFile]
 
-
+		from Cura.gui import mainWindow
 		self.mainWindow = mainWindow.mainWindow()
 		self.SetTopWindow(self.mainWindow)
 		self.mainWindow.Show()
@@ -146,17 +129,8 @@ class CuraApp(wx.App):
 		setFullScreenCapable(self.mainWindow)
 
 		if sys.platform.startswith('darwin'):
-			wx.CallAfter(self.StupidMacOSWorkaround)
-
-	def StupidMacOSWorkaround(self):
-		"""
-		On MacOS for some magical reason opening new frames does not work until you opened a new modal dialog and closed it.
-		If we do this from software, then, as if by magic, the bug which prevents opening extra frames is gone.
-		"""
-		dlg = wx.Dialog(None)
-		wx.PostEvent(dlg, wx.CommandEvent(wx.EVT_CLOSE.typeId))
-		dlg.ShowModal()
-		dlg.Destroy()
+			from Cura.gui.util import macosFramesWorkaround as mfw
+			wx.CallAfter(mfw.StupidMacOSWorkaround)
 
 if platform.system() == "Darwin": #Mac magic. Dragons live here. THis sets full screen options.
 	try:

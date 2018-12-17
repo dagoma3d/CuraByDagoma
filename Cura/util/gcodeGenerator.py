@@ -19,7 +19,7 @@ class gcodeGenerator(object):
 		self._feedRetract = profile.getProfileSettingFloat('retraction_speed') * 60
 		filamentRadius = profile.getProfileSettingFloat('filament_diameter') / 2
 		filamentArea = math.pi * filamentRadius * filamentRadius
-		self._ePerMM = (profile.getProfileSettingFloat('nozzle_size') * 0.1) / filamentArea
+		self._ePerMM = (profile.getMachineSettingFloat('nozzle_size') * 0.1) / filamentArea
 		self._eValue = 0.0
 		self._x = 0
 		self._y = 0

@@ -6,45 +6,8 @@
 #############################
 # CONFIGURATION
 #############################
-export BUILD_VERSION=1.0.7
-
-##Select the printer name
-##Available options:
-##- discoeasy200
-##- explorer350
-##- neva
-case "$1" in
-	discoeasy200)
-		export MACHINE_NAME="Easy200"
-		MACHINE_NAME_LOWERCASE="easy200"
-		APP_SUFFIX=""
-		;;
-	explorer350)
-		export MACHINE_NAME="Explorer350"
-		MACHINE_NAME_LOWERCASE="explorer350"
-		APP_SUFFIX=""
-		;;
-	neva1.0)
-		export MACHINE_NAME="Neva"
-		MACHINE_NAME_LOWERCASE="neva"
-		APP_SUFFIX="1.0"
-		;;
-	neva1.1)
-		export MACHINE_NAME="Neva"
-		MACHINE_NAME_LOWERCASE="neva"
-		APP_SUFFIX="1.1"
-		;;
-	*)
-		echo "You need to specify a printer name."
-		echo "Available options:"
-		echo "- discoeasy200"
-		echo "- explorer350"
-		echo "- neva"
-		echo "Command:"
-		echo "$0 {printer_name} {target} {architecture}"
-		exit 0
-		;;
-esac
+export RELEASE_VERSION=2.1.1
+export BUILD_VERSION=${RELEASE_VERSION}a0
 
 ##Select the build target
 ##Available options:
@@ -52,34 +15,37 @@ esac
 ##- darwin
 ##- debian
 ##- archive
-case "$2" in
+case "$1" in
 	darwin)
 		SCRIPTS_DIR=darwin
 		OS=Darwin
-		BUILD_TARGET=$2
+		BUILD_TARGET=$1
+		BUILD_ENGINE=$2
 		CXX=g++
 		;;
 	win32)
 		SCRIPTS_DIR=win32
 		OS=Windows_NT
-		BUILD_TARGET=$2
+		BUILD_TARGET=$1
+		BUILD_ENGINE=$2
 		CXX=g++
 		export LDFLAGS=--static
 		;;
 	archive|debian)
 		SCRIPTS_DIR=linux
 		OS=Linux
-		LINUX_TARGET_NAME="curabydago-"${MACHINE_NAME_LOWERCASE}
-		case "$3" in
+		LINUX_TARGET_NAME="curabydago"
+		BUILD_ENGINE=$3
+		case "$2" in
 		32)
 			BUILD_ARCHITECTURE=i386
-			BUILD_TARGET=$2_${BUILD_ARCHITECTURE}
-			CXX="g++ -m$3"
+			BUILD_TARGET=$1_${BUILD_ARCHITECTURE}
+			CXX="g++ -m$2"
 			;;
 		64)
 			BUILD_ARCHITECTURE=amd64
-			BUILD_TARGET=$2_${BUILD_ARCHITECTURE}
-			CXX="g++ -m$3"
+			BUILD_TARGET=$1_${BUILD_ARCHITECTURE}
+			CXX="g++ -m$2"
 			;;
 		*)
 			echo "You need to specify a build architecture."
@@ -87,7 +53,7 @@ case "$2" in
 			echo "- 32"
 			echo "- 64"
 			echo "Command:"
-			echo "$0 {printer_name} {target} {architecture}"
+			echo "$0 {target} {architecture}"
 			exit 0
 			;;
 		esac
@@ -100,29 +66,16 @@ case "$2" in
 		echo "- debian"
 		echo "- archive"
 		echo "Command:"
-		echo "$0 {printer_name} {target} {architecture}"
+		echo "$0 {target} {architecture}"
 		exit 0
 		;;
 esac
 
-# Remove resources files and readd them according to the printer name.
-echo "Copying specific ${MACHINE_NAME} resources..."
-cp -a ./machines/${MACHINE_NAME_LOWERCASE}/resources .
-
-if [[ $APP_SUFFIX == 1.0 ]]; then
-	mv ./resources/XML/xml_config1.0.xml ./resources/XML/xml_config.xml
-	rm ./resources/XML/xml_config1.1.xml
-elif [[ $APP_SUFFIX == 1.1 ]]; then
-	mv ./resources/XML/xml_config1.1.xml ./resources/XML/xml_config.xml
-	rm ./resources/XML/xml_config1.0.xml
-fi
-
 ##Which version name are we appending to the final archive
-export BUILD_NAME="Cura-by-Dagoma-"${MACHINE_NAME}
-BUILD_NAME_INSTALL="Cura_by_Dagoma_"${MACHINE_NAME}
+export BUILD_NAME="CuraByDagoma"
 
 ##CuraEngine github repository
-CURA_ENGINE_REPO="https://github.com/Ultimaker/CuraEngine"
+CURA_ENGINE_REPO="https://github.com/dagoma3d/CuraEngine.git"
 
 ## CuraEngine version to build
 ## Four more info, please check https://github.com/daid/LegacyCura/blob/SteamEngine/package.sh
@@ -134,7 +87,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SCRIPT_DIR
 
 #For building under MacOS we need gnutar instead of tar
-if [ -z `which gnutar` ]; then
+if [ -z `$(which gnutar 2> /dev/null)` ]; then
 	TAR=tar
 else
 	TAR=gnutar
@@ -179,34 +132,37 @@ function extract
 
 function replaceVars
 {
-	sed -i "s/<MACHINE_NAME>/${MACHINE_NAME}/g;s/<MACHINE_NAME_LOWERCASE>/${MACHINE_NAME_LOWERCASE}/g;s/<BUILD_VERSION>/${BUILD_VERSION}/g;s/<BUILD_ARCHITECTURE>/${BUILD_ARCHITECTURE}/g" $1
+	sed -i "s/<BUILD_VERSION>/${BUILD_VERSION}/g;s/<BUILD_ARCHITECTURE>/${BUILD_ARCHITECTURE}/g" $1
 }
 
 # Mandatory tools
 checkTool git "git: http://git-scm.com/"
 checkTool curl "curl: http://curl.haxx.se/"
 
-# Checkout CuraEngine
-if [ ! -d "CuraEngine" ]; then
-	git clone ${CURA_ENGINE_REPO}
-	if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
-fi
+if [ $BUILD_ENGINE != "0" ]; then
+	# Checkout CuraEngine
+	if [ ! -d "CuraEngine" ]; then
+		git clone ${CURA_ENGINE_REPO}
+		if [ $? != 0 ]; then echo "Failed to clone CuraEngine"; exit 1; fi
+	fi
 
-# Build CuraEngine
-cd CuraEngine
-git checkout ${CURA_ENGINE_VERSION}
-cd ..
-make -C CuraEngine clean
-make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
-if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+	# Build CuraEngine
+	#cd CuraEngine
+	#git checkout ${CURA_ENGINE_VERSION}
+	#cd ..
+	cd CuraEngine
+	git pull
+	cd ..
+	make -C CuraEngine clean
+	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
+	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
+fi
 
 #############################
 # Darwin
 #############################
 if [[ $BUILD_TARGET == darwin ]]; then
 	#mkvirtualenv Cura
-
-	APP_NAME=${BUILD_NAME_INSTALL}${APP_SUFFIX}
 
 	rm -rf scripts/darwin/build
 	rm -rf scripts/darwin/dist
@@ -229,14 +185,14 @@ if [[ $BUILD_TARGET == darwin ]]; then
 
 	# Archive app
 	cd dist
-	gnutar cfp - ${BUILD_NAME}.app | gzip --best -c > ../../../${BUILD_NAME_INSTALL}.tar.gz
+	gnutar cfp - ${BUILD_NAME}.app | gzip --best -c > ../../../${BUILD_NAME}.tar.gz
 	cd ..
 
 	# Create sparse image for distribution
 	hdiutil detach /Volumes/${BUILD_NAME}/ || true
 	rm -rf ${BUILD_NAME}.dmg.sparseimage
 	echo 'convert'
-	hdiutil convert DmgTemplateCompressed${MACHINE_NAME}.dmg -format UDSP -o ${BUILD_NAME}.dmg
+	hdiutil convert DmgTemplateCompressed.dmg -format UDSP -o ${BUILD_NAME}.dmg
 	echo 'resize'
 	hdiutil resize -size 500m ${BUILD_NAME}.dmg.sparseimage
 	echo 'attach'
@@ -246,20 +202,20 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
-	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${APP_NAME}.dmg
+	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME}.dmg
 
 	cd ../..
-	zip ${APP_NAME}.dmg.zip ${APP_NAME}.dmg
+	zip ${BUILD_NAME}.dmg.zip ${BUILD_NAME}.dmg
 
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f ${APP_NAME}.dmg ./packages/
+	mv -f ${BUILD_NAME}.dmg ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f ${APP_NAME}.dmg.zip ./dist/
+	mv -f ${BUILD_NAME}.dmg.zip ./dist/
 
 	exit
 fi
@@ -268,7 +224,6 @@ fi
 # Debian
 #############################
 if [[ $BUILD_TARGET == debian* ]]; then
-	APP_NAME=${BUILD_NAME}${APP_SUFFIX}
 	mkdir -p scripts/linux/${BUILD_TARGET}
 	sudo chown $USER:$USER scripts/linux/${BUILD_TARGET} -R
 	rm -rf scripts/linux/${BUILD_TARGET}/usr/share
@@ -295,23 +250,23 @@ if [[ $BUILD_TARGET == debian* ]]; then
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/usr -R
 	sudo chmod 755 scripts/linux/${BUILD_TARGET}/DEBIAN -R
 	cd scripts/linux
-	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${BUILD_NAME})/${APP_NAME}-${BUILD_TARGET}.deb
+	sudo dpkg-deb --build ${BUILD_TARGET} $(dirname ${BUILD_NAME})/${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb
 	sudo chown $USER:$USER ${BUILD_TARGET} -R
 	cp ./utils/debian/README.md .
 	replaceVars README.md
-	zip ${APP_NAME}-${BUILD_TARGET}.zip ${APP_NAME}-${BUILD_TARGET}.deb README.md
+	zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb.zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb README.md
 	rm README.md
 
 	cd ../..
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f scripts/linux/${APP_NAME}-${BUILD_TARGET}.deb ./packages/
+	mv -f scripts/linux/${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f scripts/linux/${APP_NAME}-${BUILD_TARGET}.zip ./dist/
+	mv -f scripts/linux/${BUILD_NAME}_${BUILD_ARCHITECTURE}.deb.zip ./dist/
 
 	exit
 fi
@@ -320,7 +275,6 @@ fi
 # Archive .tar.gz
 #############################
 if [[ $BUILD_TARGET == archive* ]]; then
-	APP_NAME=${BUILD_NAME}${APP_SUFFIX}
 	mkdir -p scripts/linux/${BUILD_TARGET}
 	rm -rf scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}
 	mkdir -p scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/${LINUX_TARGET_NAME}
@@ -336,21 +290,21 @@ if [[ $BUILD_TARGET == archive* ]]; then
 	cp scripts/linux/utils/archive/README.md scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	replaceVars scripts/linux/${BUILD_TARGET}/${BUILD_NAME}-${BUILD_TARGET}/README.md
 	cd scripts/linux/${BUILD_TARGET}
-	tar -czvf ${APP_NAME}-${BUILD_TARGET}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
-	mv ${APP_NAME}-${BUILD_TARGET}.tar.gz ../
+	tar -czvf ${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz ${BUILD_NAME}-${BUILD_TARGET}
+	mv ${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz ../
 	cd ..
-	zip ${APP_NAME}-${BUILD_TARGET}.tar.gz.zip ${APP_NAME}-${BUILD_TARGET}.tar.gz
+	zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz.zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz
 
 	cd ../..
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f scripts/linux/${APP_NAME}-${BUILD_TARGET}.tar.gz ./packages/
+	mv -f scripts/linux/${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f scripts/linux/${APP_NAME}-${BUILD_TARGET}.tar.gz.zip ./dist/
+	mv -f scripts/linux/${BUILD_NAME}_${BUILD_ARCHITECTURE}.tar.gz.zip ./dist/
 
 	exit
 fi
@@ -359,7 +313,6 @@ fi
 # Download all needed files.
 #############################
 if [[ $BUILD_TARGET == win32 ]]; then
-	APP_NAME=${BUILD_NAME_INSTALL}${APP_SUFFIX}
 	##Which versions of external programs to use
 	WIN_PORTABLE_PY_VERSION=2.7.6.1
 	#Check if we have 7zip, needed to extract and packup a bunch of packages for windows.
@@ -445,24 +398,24 @@ if [[ $BUILD_TARGET == win32 ]]; then
 		rm -rf scripts/win32/dist
 		mv `pwd`/${BUILD_NAME} scripts/win32/dist
 		echo ${BUILD_NAME}
-		'/c/Program Files (x86)/NSIS/makensis.exe' -DBUILD_NAME=${BUILD_NAME} -DMACHINE_NAME=${MACHINE_NAME} -DBUILD_VERSION=${BUILD_VERSION} 'scripts/win32/installer.nsi' >> log.txt
+		'/c/Program Files (x86)/NSIS/makensis.exe' -DBUILD_NAME=${BUILD_NAME} -DBUILD_VERSION=${BUILD_VERSION} 'scripts/win32/installer.nsi' >> log.txt
 		if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
 		mv scripts/win32/${BUILD_NAME}.exe ./
 		if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
-		mv ./${BUILD_NAME}.exe ./${APP_NAME}.exe
-		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${APP_NAME}.exe"; exit 1; fi
+		mv ./${BUILD_NAME}.exe ./${BUILD_NAME}.exe
+		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${BUILD_NAME}.exe"; exit 1; fi
 
-		7z a -y ${APP_NAME}.exe.zip ${APP_NAME}.exe
+		7z a -y ${BUILD_NAME}.exe.zip ${BUILD_NAME}.exe
 
 		if [ ! -d "packages" ]; then
 			mkdir packages
 		fi
-		mv -f ${APP_NAME}.exe ./packages/
+		mv -f ${BUILD_NAME}.exe ./packages/
 
 		if [ ! -d "dist" ]; then
 			mkdir dist
 		fi
-		mv -f ${APP_NAME}.exe.zip ./dist/
+		mv -f ${BUILD_NAME}.exe.zip ./dist/
 		echo 'Good Job, All Works Well !!! :)'
 	else
 		echo "No makensis"

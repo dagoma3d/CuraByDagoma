@@ -1,9 +1,3 @@
-/resources/images/cura.ico
-/resources/images/cura.icns
-/resources/images/background.png
-/resources/meshes
-/resources/XML
-/scripts/darwin/DmgTemplateCompressed.dmg
 /scripts/darwin/build
 /scripts/darwin/dist
 /scripts/linux/archive*
@@ -11,9 +5,10 @@
 /scripts/win32/dist
 /scripts/clear_comtypes_cache.py
 /CuraEngine
-Cura-Cura-by-Dagoma-*
+Cura-Cura-by-Dagoma*
 Cura-by-Dagoma*
 Cura_by_Dagoma*
+CuraByDagoma*
 *.pyc
 Install_Cura_by_Dagoma*
 log.txt

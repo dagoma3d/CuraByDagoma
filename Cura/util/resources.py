@@ -43,7 +43,7 @@ def getPathForFirmware(name):
 	return getPathForResource(resourceBasePath, 'firmware', name)
 
 def getPathForXML(name):
-	return getPathForResource(resourceBasePath, 'XML', name)
+	return getPathForResource(resourceBasePath, 'xml', name)
 
 def setupLocalization(selectedLanguage = None):
 	#Default to english
@@ -63,3 +63,22 @@ def getLanguageOptions():
 		['en', 'English'],
 		['fr', 'French']
 	]
+
+def getPrinters():
+	printers = []
+	printers_file = open(os.path.normpath(os.path.join(resourceBasePath, 'printers', 'list.txt')), 'r')
+	for line in printers_file:
+		if not line.startswith('#'):
+			sline = line.split(';')
+			name = sline[0].rstrip()
+			desc = ''
+			if len(sline) > 1:
+				desc = sline[1].rstrip()
+			config = name.lower() + '.xml'
+			img = name.lower() + '.png'
+			if not os.path.isfile(os.path.join(resourceBasePath, 'images', img)):
+				img = 'default.png'
+			if os.path.isfile(os.path.join(resourceBasePath, 'xml', config)):
+				printer = { 'name': name, 'desc': desc, 'config': config, 'img': img }
+				printers.append(printer)
+	return printers

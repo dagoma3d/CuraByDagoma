@@ -28,7 +28,6 @@ from Cura.util import profile
 from Cura.util import pluginInfo
 from Cura.util import version
 from Cura.util import gcodeInterpreter
-from Cura.util import xmlconfig
 
 def getEngineFilename():
 	"""
@@ -72,19 +71,25 @@ class EngineResult(object):
 
 	def getFilamentWeight(self, e=0):
 		#Calculates the weight of the filament in kg
-		radius = profile.getProfileSettingFloat('filament_diameter') / 2
+		filament_diameter_name = 'filament_diameter' if e == 0 else 'filament_diameter2'
+		filament_physical_density_name = 'filament_physical_density' if e == 0 else 'filament_physical_density2'
+		radius = profile.getProfileSettingFloat(filament_diameter_name) / 2
 		volumeM3 = (self._filamentMM[e] * (math.pi * radius * radius)) / (1000*1000*1000)
-		return volumeM3 * profile.getProfileSettingFloat('filament_physical_density')
+		return volumeM3 * profile.getProfileSettingFloat(filament_physical_density_name)
 
 	def getFilamentCost(self, e=0):
-		cost_kg = profile.getProfileSettingFloat('filament_cost_kg')
-		cost_meter = profile.getProfileSettingFloat('filament_cost_meter')
+		filament_cost_kg_name = 'filament_cost_kg' if e == 0 else 'filament_cost_kg2'
+		filament_cost_meter_name = 'filament_cost_meter' if e == 0 else 'filament_cost_meter2'
+		cost_kg = profile.getProfileSettingFloat(filament_cost_kg_name)
+		cost_meter = profile.getProfileSettingFloat(filament_cost_meter_name)
+		if self.getFilamentWeight(e) == 0.0:
+			return None
 		if cost_kg > 0.0 and cost_meter > 0.0:
-			return "%.2f %s / %.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("currency"), self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
+			return "%.2f%s / %.2f%s" % (self.getFilamentWeight(e) * cost_kg, _("currency"), self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
 		elif cost_kg > 0.0:
-			return "%.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("currency"))
+			return "%.2f%s" % (self.getFilamentWeight(e) * cost_kg, _("currency"))
 		elif cost_meter > 0.0:
-			return "%.2f %s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
+			return "%.2f%s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
 		return None
 
 	def getPrintTime(self):
@@ -99,12 +104,12 @@ class EngineResult(object):
 	def getFilamentMeters(self, e=0):
 		if self._filamentMM[e] == 0.0:
 			return None
-		return '%0.2f %s' % (float(self._filamentMM[e]) / 1000.0, _("meters"))
+		return '%0.2f%s' % (float(self._filamentMM[e]) / 1000.0, _("meters"))
 
 	def getFilamentGrams(self, e=0):
 		if self._filamentMM[e] == 0.0:
 			return None
-		return '%0.0f %s' % (self.getFilamentWeight(e) * 1000.0, _("grams"))
+		return '%0.0f%s' % (self.getFilamentWeight(e) * 1000.0, _("grams"))
 
 	def getLog(self):
 		return self._engineLog
@@ -368,6 +373,52 @@ class Engine(object):
 			f.close()
 			os.unlink(tempfilename)
 
+	def moveBeforeSwitch(self):
+		import tempfile
+		import re
+
+		wipe_tower_z_hop = profile.getProfileSettingFloat('wipe_tower_z_hop')
+		f = tempfile.NamedTemporaryFile(prefix='CuraPluginTemp', delete=False)
+		tempfilename = f.name
+		f.write(self._result.getGCode())
+		f.close()
+
+		with open(tempfilename, "r") as f:
+			original_lines = f.readlines()
+
+		lines = [];
+		i = 0
+		j = 0
+		k = 0
+		the_z_hop = 0
+		the_move = ''
+		for line in original_lines:
+			if wipe_tower_z_hop > 0.0:
+				m = re.search('G0 F6000 X[0-9.]+ Y[0-9.]+ Z[0-9.]+', line)
+				if m is not None:
+					the_z_hop = float(m.group(0).split('Z')[1]) + wipe_tower_z_hop
+			if line.startswith(';MOVE TO WIPE TOWER'):
+				j = i
+			if line.startswith(';TYPE:WIPE-TOWER'):
+				k = i
+				if wipe_tower_z_hop > 0.0:
+					the_move = lines.pop(k - 1).rstrip().split(' Z')[0]
+					the_move += " Z%.3f\n" % the_z_hop
+				else:
+					the_move = lines.pop(k - 1)
+				lines.insert(j+1, the_move)
+			lines.append(line)
+			i += 1
+
+		with open(tempfilename, "w") as f:
+			f.writelines(lines)
+
+		if tempfilename is not None:
+			f = open(tempfilename, "r")
+			self._result.setGCode(f.read())
+			f.close()
+			os.unlink(tempfilename)
+
 	def _watchProcess(self, commandList, oldThread, engineModelData, modelHash):
 		if oldThread is not None:
 			if self._process is not None:
@@ -407,8 +458,11 @@ class Engine(object):
 
 			# Improve adhesion : Gstart code sets a higer temperature than the default one
 			# so we need to reset the default one for layers next to the third one.
-			if profile.getMachineSetting('machine_name') == 'Neva':
+			if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
 				self.improveAdhesion()
+
+			if int(profile.getMachineSetting('extruder_amount')) > 1:
+				self.moveBeforeSwitch()
 
 			self._result.setFinished(True)
 			self._callback(1.0)
@@ -439,11 +493,9 @@ class Engine(object):
 					except:
 						pass
 			elif line.startswith('Print time:'):
-				speed_factor = 1.0
-				if xmlconfig.getValue('machine_name', 'Printer') == 'Neva':
-					# A customer made some measures for the Neva and it seems the real print time is about 70% of the calculated one
-					# TODO: Understand why the time discrepancy occurs
-					speed_factor = 0.7
+				# A customer made some measures for the Neva and it seems the real print time is about 70% of the calculated one
+				# TODO: Understand why the time discrepancy occurs
+				speed_factor = float(profile.getMachineSetting('machine_speed_factor'))
 				self._result._printTimeSeconds = int(line.split(':')[1].strip()) * speed_factor
 			elif line.startswith('Filament:'):
 				self._result._filamentMM[0] = int(line.split(':')[1].strip())
@@ -463,10 +515,13 @@ class Engine(object):
 
 	def _engineSettings(self, extruderCount):
 		settings = {
+			'nozzleSize': int(profile.getMachineSettingFloat('nozzle_size') * 1000),
 			'layerThickness': int(profile.getProfileSettingFloat('layer_height') * 1000),
 			'initialLayerThickness': int(profile.getProfileSettingFloat('bottom_thickness') * 1000) if profile.getProfileSettingFloat('bottom_thickness') > 0.0 else int(profile.getProfileSettingFloat('layer_height') * 1000),
-			'filamentDiameter': int(profile.getProfileSettingFloat('filament_diameter') * 1000),
-			'filamentFlow': int(profile.getProfileSettingFloat('filament_flow')),
+			'filamentDiameter[0]': int(profile.getProfileSettingFloat('filament_diameter') * 1000),
+			'filamentDiameter[1]': int(profile.getProfileSettingFloat('filament_diameter2') * 1000),
+			'filamentFlow[0]': int(profile.getProfileSettingFloat('filament_flow')),
+			'filamentFlow[1]': int(profile.getProfileSettingFloat('filament_flow2')),
 			'extrusionWidth': int(profile.calculateEdgeWidth() * 1000),
 			'layer0extrusionWidth': int(profile.calculateEdgeWidth() * profile.getProfileSettingFloat('layer0_width_factor') / 100 * 1000),
 			'insetCount': int(profile.calculateLineCount()),
@@ -480,6 +535,7 @@ class Engine(object):
 			'infillSpeed': int(profile.getProfileSettingFloat('infill_speed')) if int(profile.getProfileSettingFloat('infill_speed')) > 0 else int(profile.getProfileSettingFloat('print_speed')),
 			'inset0Speed': int(profile.getProfileSettingFloat('inset0_speed')) if int(profile.getProfileSettingFloat('inset0_speed')) > 0 else int(profile.getProfileSettingFloat('print_speed')),
 			'insetXSpeed': int(profile.getProfileSettingFloat('insetx_speed')) if int(profile.getProfileSettingFloat('insetx_speed')) > 0 else int(profile.getProfileSettingFloat('print_speed')),
+			'skinSpeed': int(profile.getProfileSettingFloat('solidarea_speed')) if int(profile.getProfileSettingFloat('solidarea_speed')) > 0 else int(profile.getProfileSettingFloat('print_speed')),
 			'moveSpeed': int(profile.getProfileSettingFloat('travel_speed')),
 			'fanSpeedMin': int(profile.getProfileSettingFloat('fan_speed')) if profile.getProfileSetting('fan_enabled') == 'True' else 0,
 			'fanSpeedMax': int(profile.getProfileSettingFloat('fan_speed_max')) if profile.getProfileSetting('fan_enabled') == 'True' else 0,
@@ -489,13 +545,14 @@ class Engine(object):
 			'supportXYDistance': int(1000 * profile.getProfileSettingFloat('support_xy_distance')),
 			'supportZDistance': int(1000 * profile.getProfileSettingFloat('support_z_distance')),
 			'supportExtruder': 0 if profile.getProfileSetting('support_dual_extrusion') == 'First extruder' else (1 if profile.getProfileSetting('support_dual_extrusion') == 'Second extruder' and profile.minimalExtruderCount() > 1 else -1),
-			'retractionAmount': int(profile.getProfileSettingFloat('retraction_amount') * 1000) if profile.getProfileSetting('retraction_enable') == 'True' else 0,
-			'retractionSpeed': int(profile.getProfileSettingFloat('retraction_speed')),
+			'retractionAmount[0]': int(profile.getProfileSettingFloat('retraction_amount') * 1000) if profile.getMachineSetting('retraction_enable') == 'True' else 0,
+			'retractionAmount[1]': int(profile.getProfileSettingFloat('retraction_amount2') * 1000) if profile.getMachineSetting('retraction_enable') == 'True' else 0,
+			'retractionSpeed[0]': int(profile.getProfileSettingFloat('retraction_speed')),
+			'retractionSpeed[1]': int(profile.getProfileSettingFloat('retraction_speed2')),
 			'retractionMinimalDistance': int(profile.getProfileSettingFloat('retraction_min_travel') * 1000),
 			'retractionAmountExtruderSwitch': int(profile.getProfileSettingFloat('retraction_dual_amount') * 1000),
 			'retractionZHop': int(profile.getProfileSettingFloat('retraction_hop') * 1000),
 			'minimalExtrusionBeforeRetraction': int(profile.getProfileSettingFloat('retraction_minimal_extrusion') * 1000),
-			'enableCombing': 1 if profile.getProfileSetting('retraction_combing') == 'True' else 0,
 			'multiVolumeOverlap': int(profile.getProfileSettingFloat('overlap_dual') * 1000),
 			'objectSink': max(0, int(profile.getProfileSettingFloat('object_sink') * 1000)),
 			'minimalLayerTime': int(profile.getProfileSettingFloat('cool_min_layer_time')),
@@ -503,6 +560,10 @@ class Engine(object):
 			'coolHeadLift': 1 if profile.getProfileSetting('cool_head_lift') == 'True' else 0,
 			'startCode': profile.getAlterationFileContents('start.gcode', extruderCount),
 			'endCode': profile.getAlterationFileContents('end.gcode', extruderCount),
+			'preSwitchExtruderCode[0]': profile.getAlterationFileContents('preSwitchExtruder.gcode', extruderCount),
+			'preSwitchExtruderCode[1]': profile.getAlterationFileContents('preSwitchExtruder2.gcode', extruderCount),
+			'postSwitchExtruderCode[0]': profile.getAlterationFileContents('postSwitchExtruder.gcode', extruderCount),
+			'postSwitchExtruderCode[1]': profile.getAlterationFileContents('postSwitchExtruder2.gcode', extruderCount),
 
 			'extruderOffset[1].X': int(profile.getMachineSettingFloat('extruder_offset_x1') * 1000),
 			'extruderOffset[1].Y': int(profile.getMachineSettingFloat('extruder_offset_y1') * 1000),
@@ -511,11 +572,27 @@ class Engine(object):
 			'extruderOffset[3].X': int(profile.getMachineSettingFloat('extruder_offset_x3') * 1000),
 			'extruderOffset[3].Y': int(profile.getMachineSettingFloat('extruder_offset_y3') * 1000),
 			'fixHorrible': 0,
+
+			'acceleration': int(profile.getMachineSettingFloat('machine_acceleration') * 1000),
+			'max_acceleration[0]': int(profile.getMachineSettingFloat('machine_max_acceleration[0]') * 1000),
+			'max_acceleration[1]': int(profile.getMachineSettingFloat('machine_max_acceleration[1]') * 1000),
+			'max_acceleration[2]': int(profile.getMachineSettingFloat('machine_max_acceleration[2]') * 1000),
+			'max_acceleration[3]': int(profile.getMachineSettingFloat('machine_max_acceleration[3]') * 1000),
+			'max_xy_jerk': int(profile.getMachineSettingFloat('machine_max_xy_jerk') * 1000),
+			'max_z_jerk': int(profile.getMachineSettingFloat('machine_max_z_jerk') * 1000),
+			'max_e_jerk': int(profile.getMachineSettingFloat('machine_max_e_jerk') * 1000),
 		}
+
 		fanFullHeight = int(profile.getProfileSettingFloat('fan_full_height') * 1000)
 		settings['fanFullOnLayerNr'] = (fanFullHeight - settings['initialLayerThickness'] - 1) / settings['layerThickness'] + 1
 		if settings['fanFullOnLayerNr'] < 0:
 			settings['fanFullOnLayerNr'] = 0
+		if profile.getProfileSetting('retraction_combing') == 'All' or profile.getProfileSetting('retraction_combing') == 'True':
+			settings['enableCombing'] = 1
+		elif profile.getProfileSetting('retraction_combing') == 'No Skin':
+			settings['enableCombing'] = 2
+		else:
+			settings['enableCombing'] = 0
 		if profile.getProfileSetting('support_type') == 'Lines':
 			settings['supportType'] = 1
 
@@ -542,12 +619,13 @@ class Engine(object):
 			settings['raftInterfaceThickness'] = int(profile.getProfileSettingFloat('raft_interface_thickness') * 1000)
 			settings['raftInterfaceLinewidth'] = int(profile.getProfileSettingFloat('raft_interface_linewidth') * 1000)
 			settings['raftInterfaceLineSpacing'] = int(profile.getProfileSettingFloat('raft_interface_linewidth') * 1000 * 2.0)
-			settings['raftAirGapLayer0'] = int(profile.getProfileSettingFloat('raft_airgap') * 1000)
+			settings['raftAirGapLayer0'] = int(profile.getProfileSettingFloat('raft_airgap') * 1000 + profile.getProfileSettingFloat('raft_airgap_all') * 1000)
+			settings['raftAirGap'] = int(profile.getProfileSettingFloat('raft_airgap_all') * 1000)
 			settings['raftBaseSpeed'] = int(profile.getProfileSettingFloat('bottom_layer_speed'))
-			settings['raftFanSpeed'] = 100
-			settings['raftSurfaceThickness'] = settings['raftInterfaceThickness']
-			settings['raftSurfaceLinewidth'] = int(profile.calculateEdgeWidth() * 1000)
-			settings['raftSurfaceLineSpacing'] = int(profile.calculateEdgeWidth() * 1000 * 0.9)
+			settings['raftFanSpeed'] = 0
+			settings['raftSurfaceThickness'] = int(profile.getProfileSettingFloat('raft_surface_thickness') * 1000)
+			settings['raftSurfaceLinewidth'] = int(profile.getProfileSettingFloat('raft_surface_linewidth') * 1000)
+			settings['raftSurfaceLineSpacing'] = int(profile.getProfileSettingFloat('raft_surface_linewidth') * 1000)
 			settings['raftSurfaceLayers'] = int(profile.getProfileSettingFloat('raft_surface_layers'))
 			settings['raftSurfaceSpeed'] = int(profile.getProfileSettingFloat('bottom_layer_speed'))
 		else:
@@ -583,7 +661,23 @@ class Engine(object):
 		if profile.getProfileSetting('simple_mode') == 'True':
 			settings['simpleMode'] = 1
 		if profile.getProfileSetting('wipe_tower') == 'True' and extruderCount > 1:
-			settings['wipeTowerSize'] = int(math.sqrt(profile.getProfileSettingFloat('wipe_tower_volume') * 1000 * 1000 * 1000 / settings['layerThickness']))
+			settings['wipeTowerVolume'] = int(profile.getProfileSettingFloat('wipe_tower_volume'))
+			wipe_tower_shape = profile.getProfileSetting('wipe_tower_shape').lower()
+			if wipe_tower_shape == 'corner':
+				settings['wipeTowerShape'] = 5
+			elif wipe_tower_shape == 'dumbbell':
+				settings['wipeTowerShape'] = 4
+			elif wipe_tower_shape == 'crenel':
+				settings['wipeTowerShape'] = 3
+			elif wipe_tower_shape == 'rectangle':
+				settings['wipeTowerShape'] = 2
+			elif wipe_tower_shape == 'donut':
+				settings['wipeTowerShape'] = 1
+			elif wipe_tower_shape == 'wall':
+				settings['wipeTowerShape'] = 0
+			else:
+				settings['wipeTowerShape'] = -1
+			settings['wipeTowerSkirtLineCount'] = int(profile.getProfileSettingFloat('wipe_tower_skirt_line_count'))
 		if profile.getProfileSetting('ooze_shield') == 'True':
 			settings['enableOozeShield'] = 1
 		return settings

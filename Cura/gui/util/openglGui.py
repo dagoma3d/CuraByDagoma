@@ -471,7 +471,7 @@ class glButton(glGuiControl):
 		else:
 			glColor4ub(255,255,255,255)
 		openglHelpers.glDrawTexturedQuad(pos[0]-bs*scale/2, pos[1]-bs*scale/2, bs*scale, bs*scale, 0)
-		try : 
+		try :
 			openglHelpers.glDrawTexturedQuad(pos[0]-bs*scale/2, pos[1]-bs*scale/2, bs*scale, bs*scale, self._imageID)
 		except :
 			pass
@@ -511,9 +511,13 @@ class glButton(glGuiControl):
 		elif len(self._altTooltip) > 0:
 			glPushMatrix()
 			glTranslatef(pos[0], pos[1], 0)
-			glTranslatef(0, 0.6*bs, 0)
-			glTranslatef(0, 6, 0)
-			glTranslatef(0.6*bs*scale, 0, 0)
+			if self._imageID is None:
+				glTranslatef(-80, 0, 0)
+				#glTranslatef(0.6*bs*scale, 0, 0)
+			else:
+				glTranslatef(0, 0.6*bs, 0)
+				glTranslatef(0, 6, 0)
+				#glTranslatef(0.6*bs*scale, 0, 0)
 
 			for line in self._altTooltip.split('\n'):
 				glPushMatrix()

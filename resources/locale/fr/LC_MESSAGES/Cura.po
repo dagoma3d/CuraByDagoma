@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2018-01-16 11:58+0100\n"
+"PO-Revision-Date: 2018-12-07 11:09+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -795,11 +795,12 @@ msgstr "Impression sur %s"
 #: Cura/gui/printWindow.py:324
 msgid ""
 "Your computer is maybe running on battery power.\n"
-"Connect your computer to AC power or your print might not finish."
+"Please check that your computer is connected to AC power or your print might "
+"not finish."
 msgstr ""
-"Votre ordinateur fonctionne peut-être sur batterie. \n"
-"Connectez votre ordinateur à une alimentation secteur ou votre impression "
-"risque de s'interrompre."
+"Votre ordinateur fonctionne peut-être sur batterie\n"
+"Veuillez vérifier que votre ordinateur est connecté à une alimentation "
+"secteur ou votre impression risque de s'interrompre."
 
 #: Cura/gui/printWindow.py:334
 #, fuzzy
@@ -998,7 +999,7 @@ msgstr "Supprimer tous les objets"
 
 #: Cura/gui/sceneView.py:788
 msgid "Reload all objects"
-msgstr " Réinitialiser les objets"
+msgstr "Réinitialiser les objets"
 
 #: Cura/gui/sceneView.py:911
 msgid "Toolpath to SD"
@@ -2721,6 +2722,9 @@ msgstr "Quel modèle d'imprimante 3D possédez-vous ?"
 msgid "Configuration Cura by Dagoma %s"
 msgstr "Configuration Cura By Dagoma %s"
 
+msgid "Configuration Cura by Dagoma"
+msgstr "Configuration Cura By Dagoma"
+
 msgid "Dagoma would like to thank you for your trust."
 msgstr "Toute l’équipe Dagoma vous remercie de votre confiance."
 
@@ -2729,6 +2733,11 @@ msgid ""
 msgstr ""
 "Le logiciel Cura By Dagoma est maintenant prêt à être utilisé avec votre "
 "imprimante 3D %s."
+
+msgid "The Cura by Dagoma software is now ready to use with your 3D printer."
+msgstr ""
+"Le logiciel Cura By Dagoma est maintenant prêt à être utilisé avec votre "
+"imprimante 3D."
 
 msgid "You can reach us from https://dagoma3d.com/pages/contact-us"
 msgstr ""
@@ -2754,11 +2763,11 @@ msgstr ""
 msgid "Filling density :"
 msgstr "Remplissage de la pièce :"
 
-msgid "Creux (coque)"
+msgid "Creux (0%)"
 msgstr ""
 
-msgid "Hollow (shell)"
-msgstr "Creux (coque)"
+msgid "Hollow (0%)"
+msgstr "Creux (0%)"
 
 msgid "Rempli (17%)"
 msgstr ""
@@ -2795,6 +2804,9 @@ msgstr ""
 
 msgid "Thin (0.1mm)"
 msgstr "Fin (0.10 mm)"
+
+msgid "Very thin (0.05mm)"
+msgstr "Très fin (0.05 mm)"
 
 msgid "Filaments flexibles"
 msgstr ""
@@ -2835,8 +2847,8 @@ msgstr ""
 msgid "Improve the adhesion surface"
 msgstr "Amélioration de la surface d'adhésion"
 
-msgid "Offset en mm : (réglage de la 1ère couche)"
-msgstr ""
+msgid "Offset in mm : (first layer setting)"
+msgstr "Offset en mm : (réglage de la 1ère couche)"
 
 msgid "Utilisation du palpeur"
 msgstr ""
@@ -2883,8 +2895,12 @@ msgstr "heures"
 msgid "meters"
 msgstr "mètres"
 
-msgid "Failed to save"
-msgstr "Impossible d'enregistrer"
+msgid "Failed to save on the SD card"
+msgstr "Impossible d'enregistrer sur la carte SD"
+
+msgid "Failed to save on the SD card as it might be in read-only mode"
+msgstr ""
+"Impossible d'enregistrer sur la carte SD car elle doit être en lecture seule"
 
 msgid "Saved as %s"
 msgstr "Sauvegardé dans %s"
@@ -3029,10 +3045,10 @@ msgid "Add a pause"
 msgstr "Ajouter une pause"
 
 msgid "grams"
-msgstr "grammes"
+msgstr "g"
 
 msgid "currency"
-msgstr "euros"
+msgstr "EUR"
 
 msgid "PLA Chromatik Wood"
 msgstr "PLA Chromatik Bois"
@@ -3044,7 +3060,7 @@ msgid "Wood"
 msgstr "Bois"
 
 msgid "Red"
-msgstr "Rouge primaire"
+msgstr "Rouge"
 
 msgid "Green"
 msgstr "Vert"
@@ -3315,7 +3331,7 @@ msgid "Rubin red"
 msgstr "Rouge cerise"
 
 msgid "Mustard"
-msgstr "Vannile"
+msgstr "Vanille"
 
 msgid "Solid green"
 msgstr "Vert menthe"
@@ -3407,3 +3423,181 @@ msgstr "Utilitaire pour retirer la carte SD de façon sécurisée"
 
 msgid "%s: %s (License: %s)"
 msgstr "%s: %s (Licence: %s)"
+
+msgid "Printer:"
+msgstr "Imprimante:"
+
+msgid "Offset (mm) :"
+msgstr "Offset (mm) :"
+
+msgid "3M blue scotch"
+msgstr "Scotch bleu 3M"
+
+msgid "Buildtak"
+msgstr "Buildtak"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Printing surface :"
+msgstr "Surface d'impression :"
+
+msgid "Which printer do you use?"
+msgstr "Quelle imprimante utilisez-vous?"
+
+msgid "Printer"
+msgstr "Imprimante"
+
+msgid "Printers"
+msgstr "Imprimantes"
+
+msgid "You have to restart the application to load the correct language."
+msgstr "Vous devez relancer l'application pour charger la langue choisie."
+
+msgid "General info"
+msgstr "Information générale"
+
+msgid "Slicing info"
+msgstr "Information d'impression"
+
+msgid "Unable to create more than %d items"
+msgstr "Impossible de créer plus de %d éléments"
+
+msgid "Open a 3D model"
+msgstr "Ouvrir un modèle 3D"
+
+msgid "Warning: Object scaled down."
+msgstr "Avertissement: Echelle de l'objet réduite"
+
+msgid "(Serial number < 6000)"
+msgstr "(Numéro de série < 6000)"
+
+msgid "(Serial number >= 6000)"
+msgstr "(Numéro de série >= 6000)"
+
+msgid "Open a 3d object file."
+msgstr "Ouvrir un fichier d'objet 3d."
+
+msgid "Save the current build plate as a stl file."
+msgstr "Sauvegarder le plateau comme un fichier stl."
+
+msgid "Save the generated gcode on a sd card or on your computer."
+msgstr "Sauvegarder le gcode généré sur une carte sd ou sur votre ordinateur."
+
+msgid "Exit the application."
+msgstr "Quitter l'application."
+
+msgid "Choose the printer you want to use."
+msgstr "Choisir l'imprimante que vous souhaitez utiliser."
+
+msgid "Contact us for any further information."
+msgstr "Nous contacter pour obtenir plus d'information."
+
+msgid "Buy filament on our website."
+msgstr "Acheter du filament sur notre site web."
+
+msgid "Display all components used to build this application."
+msgstr "Afficher tous les composants utilisés pour créer cette application."
+
+msgid "Printer choice"
+msgstr "Choix de l'imprimante"
+
+msgid "Warning"
+msgstr "Avertissement"
+
+msgid "Restart now"
+msgstr "Relancer maintenant"
+
+msgid "Restart later"
+msgstr "Relancer plus tard"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "No"
+msgstr "Non"
+
+msgid "Dual extrusion :"
+msgstr "Double extrusion :"
+
+msgid "Which options do you use?"
+msgstr "Quelles options utilisez-vous?"
+
+msgid "Which option(s) do you use?"
+msgstr "Quelle(s) option(s) utilisez-vous?"
+
+msgid "Switch colors"
+msgstr "Intervertir les couleurs"
+
+msgid "Wipe tower volume (mm3) :"
+msgstr "Volume tour de purge (mm3) :"
+
+msgid "Filling (5%)"
+msgstr "Rempli (5%)"
+
+msgid "Filling (10%)"
+msgstr "Rempli (10%)"
+
+msgid "(or updated DiscoVery200)"
+msgstr "(ou DiscoVery200 à jour)"
+
+msgid "Extruder for support :"
+msgstr "Extrudeur pour support :"
+
+msgid "Nozzle size (mm) :"
+msgstr "Taille de la buse (mm) :"
+
+msgid "Filament(s) for support :"
+msgstr "Filament(s) pour support :"
+
+msgid ""
+"If you don't have any pause button on your printer...\n"
+"Just push the X endstop to resume your print!"
+msgstr ""
+"Si vous n'avez pas de bouton pause sur votre imprimante...\n"
+"Appuyez sur la butée X pour relancer l'impression!"
+
+msgid "Nozzle size :"
+msgstr "Diamètre de buse :"
+
+msgid "Fine tune your settings"
+msgstr "Bien choisir ses réglages"
+
+msgid "Online help"
+msgstr "Aide en ligne"
+
+msgid "Online help to fine tune your settings."
+msgstr "Aide en ligne pour affiner vos réglages"
+
+msgid "Wipe tower volume :"
+msgstr "Volume de la tour de purge :"
+
+msgid "Small"
+msgstr "Petit"
+
+msgid "Big"
+msgstr "Gros"
+
+msgid "Wipe wall :"
+msgstr "Mur de purge :"
+
+msgid "Thin (20 mm3)"
+msgstr "Fin (20 mm3)"
+
+msgid "Standard (65 mm3)"
+msgstr "Standard (65 mm3)"
+
+msgid "Thick (125 mm3)"
+msgstr "Épais (125 mm3)"
+
+msgid "Wipe volume :"
+msgstr "Volume de purge :"
+
+msgid "Small (30 mm3)"
+msgstr "Petit (30 mm3)"
+
+msgid "Large (125 mm3)"
+msgstr "Grand (125 mm3)"
+
+msgid "PLA Glitter Chromatik"
+msgstr "PLA Chromatik Pailleté"

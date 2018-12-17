@@ -130,7 +130,14 @@ ReserveFile '${NSISDIR}\Plugins\InstallOptions.dll'
 ReserveFile "header.bmp"
 
 Function .onInit
-  !insertmacro MUI_LANGDLL_DISPLAY
+  ;!insertmacro MUI_LANGDLL_DISPLAY
+  Push $R0
+  System::Call 'kernel32::GetUserDefaultUILanguage() i.r10'
+  StrCmp $R0 ${LANG_FRENCH} 0 +3
+  StrCpy $LANGUAGE ${LANG_FRENCH}
+  Goto +2
+  StrCpy $LANGUAGE ${LANG_ENGLISH}
+  Pop $R0
 FunctionEnd
 
 ;--------------------------------
@@ -138,7 +145,7 @@ FunctionEnd
 ; The stuff to install
 Section "${BUILD_NAME}"
   ;Try to delete Profile
-  RMDir /r "$PROFILE\.curaByDagoma${MACHINE_NAME}"
+  RMDir /r "$PROFILE\.curaByDagoma\${BUILD_VERSION}"
 
   SectionIn RO
 
@@ -157,7 +164,7 @@ Section "${BUILD_NAME}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "DisplayVersion" "${BUILD_VERSION}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "DisplayIcon" "$INSTDIR\resources\images\cura.ico"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "UninstallString" '"$INSTDIR\uninstall.exe"'
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "EstimatedSize" 0x00015f90
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "EstimatedSize" 0x0001adb0
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${BUILD_NAME}" "NoRepair" 1
   WriteUninstaller "uninstall.exe"
@@ -232,5 +239,5 @@ Section "Uninstall"
   RMDir /r "$SMPROGRAMS\${BUILD_NAME}"
   RMDir /r "$INSTDIR"
   ;Try to delete Profile
-  RMDir /r "$PROFILE\.curaByDagoma${MACHINE_NAME}"
+  RMDir /r "$PROFILE\.curaByDagoma\${BUILD_VERSION}"
 SectionEnd

@@ -175,8 +175,8 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 					self._process.stdin.write('G:%s\n' % (line))
 			self._process.stdin.write('RESUME\n')
 		else:
-			if profile.getMachineSetting('machine_name') == 'Neva':
-				self._process.stdin.write('G:M600 L0 P18\n')
+			if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
+				self._process.stdin.write('G:M600 U-55 X55 Y-92 Z60\n')
 			else:
 				self._process.stdin.write('G:M600 L0 PA\n')
 			self._process.stdin.write('PAUSE\n')
@@ -201,7 +201,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 
 	def _serialCommunicationThread(self):
 		if platform.system() == "Darwin" and hasattr(sys, 'frozen'):
-			cmdList = [os.path.join(os.path.dirname(sys.executable), 'Cura'), '--serialCommunication']
+			cmdList = [os.path.join(os.path.dirname(sys.executable), 'CuraByDagoma'), '--serialCommunication']
 			cmdList += [self._portName + ':' + profile.getMachineSetting('serial_baud')]
 		else:
 			cmdList = [sys.executable, '-m', 'Cura.serialCommunication']
