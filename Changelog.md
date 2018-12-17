@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove some filaments in Neva/Magis configuration.
 - Hide diameter option for Magis.
 - Remove flex filament for dual extrusion option.
+- Change the travel speed to 75mm/s (instead of 100mm/s) when printing in 0.2 mm.
 
 ## [2.1.0] - 2018-11-12
 - Change the way printer options are handled.

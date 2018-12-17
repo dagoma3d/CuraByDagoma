@@ -390,7 +390,7 @@
 			<wall_thickness>0.8</wall_thickness>
 			<print_speed>60</print_speed>
 			<temp_preci>10</temp_preci>
-			<travel_speed>100</travel_speed>
+			<travel_speed>75</travel_speed>
 			<bottom_layer_speed>17</bottom_layer_speed>
 			<infill_speed>60</infill_speed>
 			<inset0_speed>50</inset0_speed>
