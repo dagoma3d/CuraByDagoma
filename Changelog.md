@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.1.1] - 2018-12-08
 - Separate the config files according to printer options.
+- Remove some filaments in Neva/Magis configuration.
+- Hide diameter option for Magis.
 
 ## [2.1.0] - 2018-11-12
 - Change the way printer options are handled.

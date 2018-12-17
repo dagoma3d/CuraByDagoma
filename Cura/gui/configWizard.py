@@ -93,6 +93,12 @@ class OptionsPanel(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
 
+		self.dual_extrusion_printers = ['DiscoEasy200', 'DiscoUltimate', 'Perso2020']
+		self.multinozzle_printers = []
+		if profile.getPreferenceBool('show_magis_options'):
+			self.multinozzle_printers.append('Magis')
+		self.with_options_printers = self.dual_extrusion_printers + self.multinozzle_printers
+
 		self.extruder_amount = profile.getMachineSettingInt('extruder_amount')
 		self.nozzle_size = profile.getMachineSettingFloat('nozzle_size')
 
@@ -159,11 +165,11 @@ class OptionsPanel(wx.Panel):
 		event.Skip()
 
 	def UpdateDisplay(self, name):
-		self.Show(name in ['DiscoEasy200', 'DiscoUltimate', 'Magis', 'Perso2020'])
-		self.dualExtrusionChoiceLabel.Show(name in ['DiscoEasy200', 'DiscoUltimate', 'Perso2020'])
-		self.dualExtrusionChoice.Show(name in ['DiscoEasy200', 'DiscoUltimate', 'Perso2020'])
-		self.nozzleSizeChoiceLabel.Show(name in ['Magis'])
-		self.nozzleSizeChoice.Show(name in ['Magis'])
+		self.Show(name in self.with_options_printers)
+		self.dualExtrusionChoiceLabel.Show(name in self.dual_extrusion_printers)
+		self.dualExtrusionChoice.Show(name in self.dual_extrusion_printers)
+		self.nozzleSizeChoiceLabel.Show(name in self.multinozzle_printers)
+		self.nozzleSizeChoice.Show(name in self.multinozzle_printers)
 		self.GetParent().Layout()
 		self.GetParent().Fit()
 

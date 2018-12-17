@@ -372,6 +372,8 @@ setting('offset_value', 0.0, float, 'advanced', _('Offset')).setRange(0.0001).se
 setting('offset_input', 0.0, float, 'advanced', _('Offset')).setRange(0.0001).setLabel(_("Offset value (mm)"), _("Input offset value."))
 setting('sensor', 'Sensor', str, 'advanced', _('Sensor')).setLabel(_("Enabled the sensor"), _("To check if you want to use the sensor."))
 
+setting('show_magis_options', 'False', bool, 'preference', 'hidden')
+
 validators.warningAbove(settingsDictionary['filament_flow'], 150, _("More flow than 150% is rare and usually not recommended."))
 validators.warningBelow(settingsDictionary['filament_flow'], 50, _("Less flow than 50% is rare and usually not recommended."))
 validators.warningAbove(settingsDictionary['layer_height'], lambda : (float(getMachineSetting('nozzle_size')) * 80.0 / 100.0), _("Thicker layers then %.2fmm (80%% nozzle size) usually give bad results and are not recommended."))
@@ -447,13 +449,12 @@ def getBasePath():
 	"""
 	:return: The path in which the current configuration files are stored. This depends on the used OS.
 	"""
-	import Cura.appversion as appv
 	if platform.system() == "Windows":
-		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma/' + appv.__version__))
+		basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma/' + os.environ['CURABYDAGO_VERSION']))
 	elif platform.system() == "Darwin":
-		basePath = os.path.expanduser('~/Library/Application Support/CuraByDagoma/' + appv.__version__)
+		basePath = os.path.expanduser('~/Library/Application Support/CuraByDagoma/' + os.environ['CURABYDAGO_VERSION'])
 	else:
-		basePath = os.path.expanduser('~/.curaByDagoma/' + appv.__version__)
+		basePath = os.path.expanduser('~/.curaByDagoma/' + os.environ['CURABYDAGO_VERSION'])
 	if not os.path.isdir(basePath):
 		try:
 			os.makedirs(basePath)
@@ -1082,8 +1083,7 @@ def replaceTagMatch(m):
 		return pre + time.strftime('%H:%M:%S')
 
 	if tag == 'app_version':
-		import Cura.appversion as appv
-		return ' ' + appv.__version__
+		return ' ' + os.environ['CURABYDAGO_VERSION']
 
 	if tag == 'filament_name':
 		return ' ' + getPreference('filament_name')
