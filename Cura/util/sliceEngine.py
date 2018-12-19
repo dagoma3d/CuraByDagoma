@@ -572,6 +572,7 @@ class Engine(object):
 			'extruderOffset[3].X': int(profile.getMachineSettingFloat('extruder_offset_x3') * 1000),
 			'extruderOffset[3].Y': int(profile.getMachineSettingFloat('extruder_offset_y3') * 1000),
 			'fixHorrible': 0,
+			'minSegmentLength': profile.getMachineSettingInt('min_segment_length'),
 
 			'acceleration': int(profile.getMachineSettingFloat('machine_acceleration') * 1000),
 			'max_acceleration[0]': int(profile.getMachineSettingFloat('machine_max_acceleration[0]') * 1000),

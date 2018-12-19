@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Hide diameter option for Magis.
 - Remove flex filament for dual extrusion option.
 - Change the travel speed to 75mm/s (instead of 100mm/s) when printing in 0.2 mm.
+- Add Mate PLA.
+- Introduce the minimum segment length parameter (exposed from CuraEngine).
+- When deleting all objects in layer mode, reset view mode to normal.
 
 ## [2.1.0] - 2018-11-12
 - Change the way printer options are handled.

@@ -513,6 +513,7 @@ class SceneView(openglGui.glGuiPanel):
 			self._deleteObject(self._scene.objects()[0])
 		self._animView = openglGui.animation(self, self._viewTarget.copy(), numpy.array([0,0,0], numpy.float32), 0.5)
 		self._engineResultView.setResult(None)
+		self.viewSelection.setValue(0)
 		self.viewSelection.setHidden(True)
 		self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel

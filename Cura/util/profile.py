@@ -355,6 +355,7 @@ setting('extruder_head_size_max_x', '0.0', float, 'machine', 'hidden').setLabel(
 setting('extruder_head_size_max_y', '0.0', float, 'machine', 'hidden').setLabel(_("Head size towards Y max (mm)"), _("The head size when printing multiple objects, measured from the tip of the nozzle towards the outer part of the head. 35mm for an Ultimaker if the fan is on the left side."))
 setting('extruder_head_size_height', '0.0', float, 'machine', 'hidden').setLabel(_("Printer gantry height (mm)"), _("The height of the gantry holding up the printer head. If an object is higher then this then you cannot print multiple objects one for one. 60mm for an Ultimaker."))
 
+setting('min_segment_length', '10', int, 'machine', 'hidden').setLabel(_("Minimum segment length in microns"), _("."))
 setting('machine_acceleration', '3000.0', float, 'machine', 'hidden').setLabel(_("Acceleration"), _("."))
 setting('machine_max_acceleration[0]', '9000.0', float, 'machine', 'hidden').setLabel(_("Max acceleration X"), _("."))
 setting('machine_max_acceleration[1]', '9000.0', float, 'machine', 'hidden').setLabel(_("Max acceleration Y"), _("."))
