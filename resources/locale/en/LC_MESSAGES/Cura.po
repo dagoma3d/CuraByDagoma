@@ -2211,9 +2211,6 @@ msgstr ""
 msgid "The Cura by Dagoma software is now ready to use with your 3D printer."
 msgstr ""
 
-msgid "You can reach us from https://dagoma3d.com/pages/contact-us"
-msgstr ""
-
 msgid "Feel free to contact us!"
 msgstr ""
 

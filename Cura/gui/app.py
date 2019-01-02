@@ -99,15 +99,7 @@ class CuraApp(wx.App):
 		from Cura.util import resources
 		# it's important to set up localization at very beginning to install
 		language = profile.getPreference('language')
-		contact_url = 'https://dagoma3d.com/pages/contact-us'
-		buy_url = 'https://dagoma3d.com/collections/shop'
-		if language == 'French':
-			contact_url = 'https://dagoma.fr/heroes/diagnostique-en-ligne.html'
-			buy_url = 'https://dagoma.fr/boutique/filaments.html?utm_source=cura'
-
 		resources.setupLocalization(language)
-		profile.putPreference('contact_url', contact_url)
-		profile.putPreference('buy_url', buy_url)
 
 		if self.splash is not None:
 			self.splash.Show(False)

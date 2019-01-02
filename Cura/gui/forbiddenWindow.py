@@ -3,6 +3,7 @@ __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AG
 import wx
 import wx.lib.hyperlink as hl
 
+from Cura.util import profile
 from Cura.util import resources
 
 class forbiddenWindow(wx.Frame):
@@ -26,7 +27,7 @@ class forbiddenWindow(wx.Frame):
 		s.Add(wx.StaticText(p, -1, _("We don't want these objects to be printed by our products.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("Please follow the link below for additional information.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticLine(p), flag=wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		s.Add(hl.HyperLinkCtrl(p, wx.ID_ANY, _("More details..."), URL='https://dagoma3d.com/'), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		s.Add(hl.HyperLinkCtrl(p, wx.ID_ANY, _("More details..."), URL=profile.getPreference('warning_url')), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		self.Fit()
 
 	def OnClose(self, e):

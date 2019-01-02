@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add Mate PLA.
 - Introduce the minimum segment length parameter (exposed from CuraEngine).
 - When deleting all objects in layer mode, reset view mode to normal.
+- Make website links generic (finally one single url now...)
 
 ## [2.1.0] - 2018-11-12
 - Change the way printer options are handled.

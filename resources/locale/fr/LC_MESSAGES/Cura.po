@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2019-01-02 15:54+0100\n"
+"PO-Revision-Date: 2019-01-02 16:42+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -2355,9 +2355,6 @@ msgstr "Le logiciel Cura By Dagoma est maintenant prêt à être utilisé avec v
 msgid "The Cura by Dagoma software is now ready to use with your 3D printer."
 msgstr "Le logiciel Cura By Dagoma est maintenant prêt à être utilisé avec votre imprimante 3D."
 
-msgid "You can reach us from https://dagoma3d.com/pages/contact-us"
-msgstr "Nous sommes à votre écoute sur https://dagoma.fr/heroes/diagnostique-en-ligne.html"
-
 msgid "Feel free to contact us!"
 msgstr "N'hésitez pas à nous contacter!"
 
@@ -3218,7 +3215,7 @@ msgid "You have tried to load some weird files..."
 msgstr "Vous avez essayé de charger des fichiers bizarres..."
 
 msgid "We don't want these objects to be printed by our products."
-msgstr "Nous ne souhaitons pas que ces objets soient imprimés par nos produits"
+msgstr "Nous ne souhaitons pas que ces objets soient imprimés par nos produits."
 
 msgid "Please follow the link below for additional information."
 msgstr "Merci de suivre le lien ci-dessous pour de plus amples informations."

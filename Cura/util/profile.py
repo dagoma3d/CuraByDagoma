@@ -306,14 +306,14 @@ else:
 
 # Set the default language from the found default locale
 default_language = 'English'
-default_url = 'https://dagoma3d.com/'
 if not default_locale.find('fr') == -1:
 	default_language = 'French'
-	default_url = 'https://dagoma.fr/'
 
 setting('language', default_language, str, 'preference', 'hidden').setLabel(_('Language'), _('Change the language in which Cura runs. Switching language requires a restart of Cura'))
-setting('contact_url', default_url, str, 'preference', 'hidden')
-setting('buy_url', default_url, str, 'preference', 'hidden')
+setting('contact_url', 'https://dagoma3d.com/heroes/support.html?utm_source=cura', str, 'preference', 'hidden')
+setting('buy_url', 'https://dagoma3d.com/shop/filaments.html?utm_source=cura', str, 'preference', 'hidden')
+setting('help_url', 'https://dagoma3d.com/cura-by-dagoma.html?utm_source=cura', str, 'preference', 'hidden')
+setting('warning_url', 'https://dagoma3d.com/?utm_source=cura', str, 'preference', 'hidden')
 setting('active_machine', '0', int, 'preference', 'hidden')
 
 setting('model_colour', '#FF9B00', str, 'preference', 'hidden').setLabel(_('Model colour'), _('Display color for first extruder'))
