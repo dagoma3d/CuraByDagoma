@@ -27,7 +27,9 @@ from Cura.util import sliceEngine
 from Cura.util import pluginInfo
 from Cura.util import removableStorage
 from Cura.util import explorer
+from Cura.util import sha256sum
 from Cura.util.printerConnection import printerConnectionManager
+from Cura.gui import forbiddenWindow
 from Cura.gui.util import previewTools
 from Cura.gui.util import openglHelpers
 from Cura.gui.util import openglGui
@@ -147,10 +149,19 @@ class SceneView(openglGui.glGuiPanel):
 		self.loadScene(filenames)
 
 	def loadFiles(self, filenames):
+		mainWindow = self.GetParent().GetParent().GetParent()
+		checksum = sha256sum.check(filenames)
+		filenames = checksum['filenames']
+		if checksum['popup']:
+			forbiddenBox = forbiddenWindow.forbiddenWindow(self)
+			forbiddenBox.Centre()
+			forbiddenBox.Show()
+			if sys.platform.startswith('darwin'):
+				from Cura.gui.util import macosFramesWorkaround as mfw
+				wx.CallAfter(mfw.StupidMacOSWorkaround)
 		if len(filenames) == 0:
 			return
 		self.viewSelection.setHidden(False)
-		mainWindow = self.GetParent().GetParent().GetParent()
 		mainWindow.normalSettingsPanel.pausePluginButton.Enable()
 		mainWindow.normalSettingsPanel.printButton.Enable()
 		# only one GCODE file can be active
