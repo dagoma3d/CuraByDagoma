@@ -598,7 +598,6 @@
 		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
 		<auto_detect_sd>True</auto_detect_sd>
-		<wipe_tower>False</wipe_tower>
 	</Configuration>
 
 	<!-- Gcodes start and end -->

@@ -661,7 +661,7 @@ class Engine(object):
 			settings['minimalLayerTime'] = 5
 		if profile.getProfileSetting('simple_mode') == 'True':
 			settings['simpleMode'] = 1
-		if profile.getProfileSetting('wipe_tower') == 'True' and extruderCount > 1:
+		if extruderCount > 1 and (not profile.getPreferenceInt('filament_index') == profile.getPreferenceInt('filament2_index') or (profile.getPreferenceInt('filament_index') == profile.getPreferenceInt('filament2_index') and not profile.getPreference('color_label') == profile.getPreference('color2_label')) or profile.mergeDone):
 			settings['wipeTowerVolume'] = int(profile.getProfileSettingFloat('wipe_tower_volume'))
 			wipe_tower_shape = profile.getProfileSetting('wipe_tower_shape').lower()
 			if wipe_tower_shape == 'corner':

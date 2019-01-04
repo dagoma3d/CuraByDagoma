@@ -910,7 +910,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			filament2_index = self.filament2ComboBox.GetSelection()
 			filament2_type = self.filaments[filament2_index].type.lower()
 			if 'support' in filament_type:
-				profile.putProfileSetting('wipe_tower', True)
 				if 'support' in filament2_type:
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
 					profile.putPreference('support_dual_extrusion_index', 0)
@@ -921,12 +920,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 					profile.putProfileSetting('support_dual_extrusion', 'First extruder')
 			else:
 				if 'support' in filament2_type:
-					profile.putProfileSetting('wipe_tower', True)
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(2)
 					profile.putPreference('support_dual_extrusion_index', 2)
 					profile.putProfileSetting('support_dual_extrusion', 'Second extruder')
 				else:
-					profile.putProfileSetting('wipe_tower', False)
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
 					profile.putPreference('support_dual_extrusion_index', 0)
 					profile.putProfileSetting('support_dual_extrusion', 'Both')
@@ -1016,7 +1013,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			filament1_index = self.filamentComboBox.GetSelection()
 			filament1_type = self.filaments[filament1_index].type.lower()
 			if 'support' in filament_type:
-				profile.putProfileSetting('wipe_tower', True)
 				if 'support' in filament1_type:
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
 					profile.putPreference('support_dual_extrusion_index', 0)
@@ -1027,12 +1023,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 					profile.putProfileSetting('support_dual_extrusion', 'Second extruder')
 			else:
 				if 'support' in filament1_type:
-					profile.putProfileSetting('wipe_tower', True)
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(1)
 					profile.putPreference('support_dual_extrusion_index', 1)
 					profile.putProfileSetting('support_dual_extrusion', 'First extruder')
 				else:
-					profile.putProfileSetting('wipe_tower', False)
 					self.supportExtruderDualExtrusionRadioBox.SetSelection(0)
 					profile.putPreference('support_dual_extrusion_index', 0)
 					profile.putProfileSetting('support_dual_extrusion', 'Both')

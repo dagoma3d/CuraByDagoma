@@ -35,6 +35,8 @@ settingsDictionary = {}
 #The settings list is used to keep a full list of all the settings. This is needed to keep the settings in the proper order,
 # as the dictionary will not contain insertion order.
 settingsList = []
+# Merge done or not
+mergeDone = False
 
 #Currently selected machine (by index) Cura support multiple machines in the same preferences and can switch between them.
 # Each machine has it's own index and unique name.
@@ -187,7 +189,6 @@ setting('support',                'None', [_('None'), _('Touching buildplate'), 
 setting('platform_adhesion',      'None', [_('None'), _('Brim'), _('Raft')], 'basic', _('Support')).setLabel(_("Platform adhesion type"), _("Different options that help in preventing corners from lifting due to warping.\nBrim adds a single layer thick flat area around your object which is easy to cut off afterwards, and it is the recommended option.\nRaft adds a thick raster below the object and a thin interface between this and your object.\n(Note that enabling the brim or raft disables the skirt)"))
 setting('support_dual_extrusion',  'Both', [_('Both'), _('First extruder'), _('Second extruder')], 'basic', _('Support')).setLabel(_("Support dual extrusion"), _("Which extruder to use for support material, for break-away support you can use both extruders.\nBut if one of the materials is more expensive then the other you could select an extruder to use for support material. This causes more extruder switches.\nYou can also use the 2nd extruder for soluble support materials."))
 setting('support_dual_extrusion_index', 0, int, 'preference', 'hidden')
-setting('wipe_tower',              False, bool,  'basic',    _('Dual extrusion')).setLabel(_("Wipe&prime tower"), _("The wipe-tower is a tower printed on every layer when switching between nozzles.\nThe old nozzle is wiped off on the tower before the new nozzle is used to print the 2nd color."))
 setting('wipe_tower_volume',          65, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower volume per layer (mm3)"), _("The amount of material put in the wipe/prime tower.\nThis is done in volume because in general you want to extrude a\ncertain amount of volume to get the extruder going, independent on the layer height.\nThis means that with thinner layers, your tower gets bigger."))
 setting('wipe_tower_volume_index', 1, int, 'preference', 'hidden')
 setting('wipe_tower_z_hop',        0.2, float, 'expert',   _('Dual extrusion')).setLabel(_("Wipe&prime tower z-hop"), _("The z-hop to apply before moving to the wipe/prime tower."))
@@ -401,7 +402,6 @@ settingsDictionary['filament_diameter3'].addCondition(lambda : int(getMachineSet
 settingsDictionary['filament_diameter4'].addCondition(lambda : int(getMachineSetting('extruder_amount')) > 3)
 settingsDictionary['support_dual_extrusion'].addCondition(lambda : int(getMachineSetting('extruder_amount')) > 1)
 settingsDictionary['retraction_dual_amount'].addCondition(lambda : int(getMachineSetting('extruder_amount')) > 1)
-settingsDictionary['wipe_tower'].addCondition(lambda : int(getMachineSetting('extruder_amount')) > 1)
 settingsDictionary['wipe_tower_volume'].addCondition(lambda : int(getMachineSetting('extruder_amount')) > 1)
 settingsDictionary['ooze_shield'].addCondition(lambda : int(getMachineSetting('extruder_amount')) > 1)
 #Heated bed
@@ -1118,7 +1118,8 @@ def replaceTagMatch(m):
 			return "M104 S" + str(print_temperature2)
 
 	if tag == 'check_filrunout2':
-		if getProfileSetting('wipe_tower') == 'True':
+		wipe_tower = int(getMachineSetting('extruder_amount')) > 1 and (not getPreferenceInt('filament_index') == getPreferenceInt('filament2_index') or (getPreferenceInt('filament_index') == getPreferenceInt('filament2_index') and not getPreference('color_label') == getPreference('color2_label')) or mergeDone)
+		if wipe_tower:
 			return ";Filrunout 2 is enabled"
 		else:
 			return "D131 E1"

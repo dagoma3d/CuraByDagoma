@@ -59,8 +59,6 @@ class SceneView(openglGui.glGuiPanel):
 		self._platformTexture = None
 		self._isSimpleMode = True
 		self._printerConnectionManager = printerConnectionManager.PrinterConnectionManager()
-		self._mergeDone = False
-		profile.putProfileSetting('wipe_tower', False)
 		self._switchColors = False
 
 		self._viewport = None
@@ -214,8 +212,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def reloadScene(self, e):
 		# Copy the list before DeleteAll clears it
-		self._mergeDone = False
-		profile.putProfileSetting('wipe_tower', False)
+		profile.mergeDone = False
 		self._switchColors = False
 		fileList = []
 		for obj in self._scene.objects():
@@ -558,8 +555,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def OnSplitObject(self, e):
-		self._mergeDone = False
-		profile.putProfileSetting('wipe_tower', False)
+		profile.mergeDone = False
 		self._switchColors = False
 		if self._focusObj is None:
 			return
@@ -587,13 +583,11 @@ class SceneView(openglGui.glGuiPanel):
 		if self._selectedObj is None or self._focusObj is None or self._selectedObj == self._focusObj:
 			if len(self._scene.objects()) == 2:
 				self._scene.merge(self._scene.objects()[0], self._scene.objects()[1])
-				self._mergeDone = True
-				profile.putProfileSetting('wipe_tower', True)
+				profile.mergeDone = True
 				self.sceneUpdated()
 			return
 		self._scene.merge(self._selectedObj, self._focusObj)
-		self._mergeDone = True
-		profile.putProfileSetting('wipe_tower', True)
+		profile.mergeDone = True
 		self.sceneUpdated()
 
 	def OnSwitchColors(self, e):
@@ -682,8 +676,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def _deleteObject(self, obj):
-		self._mergeDone = False
-		profile.putProfileSetting('wipe_tower', False)
+		profile.mergeDone = False
 		self._switchColors = False
 		if obj == self._selectedObj:
 			self._selectObject(None)
@@ -859,24 +852,22 @@ class SceneView(openglGui.glGuiPanel):
 			if e.GetButton() == 1:
 				self._selectObject(self._focusObj)
 			if e.GetButton() == 3:
-					menu = wx.Menu()
-					if self._focusObj is not None:
-						#if self._mergeDone:
-						#	self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
-						self.Bind(wx.EVT_MENU, self.OnCenter, menu.Append(-1, _("Center on platform")))
-						self.Bind(wx.EVT_MENU, lambda e: self._deleteObject(self._focusObj), menu.Append(-1, _("Delete object")))
-						self.Bind(wx.EVT_MENU, self.OnMultiply, menu.Append(-1, _("Multiply object")))
-						self.Bind(wx.EVT_MENU, self.OnSplitObject, menu.Append(-1, _("Split object into parts")))
-					if ((self._selectedObj != self._focusObj and self._focusObj is not None and self._selectedObj is not None) or len(self._scene.objects()) == 2) and int(profile.getMachineSetting('extruder_amount')) > 1:
-						self.Bind(wx.EVT_MENU, self.OnMergeObjects, menu.Append(-1, _("Dual extrusion merge")))
-					if (self._focusObj is not None or self._selectedObj is not None) and self._mergeDone:
-						self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
-					if len(self._scene.objects()) > 0:
-						self.Bind(wx.EVT_MENU, self.OnDeleteAll, menu.Append(-1, _("Delete all objects")))
-						self.Bind(wx.EVT_MENU, self.reloadScene, menu.Append(-1, _("Reload all objects")))
-					if menu.MenuItemCount > 0:
-						self.PopupMenu(menu)
-					menu.Destroy()
+				menu = wx.Menu()
+				if self._focusObj is not None:
+					self.Bind(wx.EVT_MENU, self.OnCenter, menu.Append(-1, _("Center on platform")))
+					self.Bind(wx.EVT_MENU, lambda e: self._deleteObject(self._focusObj), menu.Append(-1, _("Delete object")))
+					self.Bind(wx.EVT_MENU, self.OnMultiply, menu.Append(-1, _("Multiply object")))
+					self.Bind(wx.EVT_MENU, self.OnSplitObject, menu.Append(-1, _("Split object into parts")))
+				if ((self._selectedObj != self._focusObj and self._focusObj is not None and self._selectedObj is not None) or len(self._scene.objects()) == 2) and int(profile.getMachineSetting('extruder_amount')) > 1:
+					self.Bind(wx.EVT_MENU, self.OnMergeObjects, menu.Append(-1, _("Dual extrusion merge")))
+				if (self._focusObj is not None or self._selectedObj is not None) and profile.mergeDone:
+					self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
+				if len(self._scene.objects()) > 0:
+					self.Bind(wx.EVT_MENU, self.OnDeleteAll, menu.Append(-1, _("Delete all objects")))
+					self.Bind(wx.EVT_MENU, self.reloadScene, menu.Append(-1, _("Reload all objects")))
+				if menu.MenuItemCount > 0:
+					self.PopupMenu(menu)
+				menu.Destroy()
 		elif self._mouseState == 'dragObject' and self._selectedObj is not None:
 			self._scene.pushFree(self._selectedObj)
 			self.sceneUpdated()
