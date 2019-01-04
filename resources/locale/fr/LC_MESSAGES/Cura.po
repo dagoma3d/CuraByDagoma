@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2019-01-04 11:08+0100\n"
+"PO-Revision-Date: 2019-01-04 16:02+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3225,3 +3225,6 @@ msgstr "Découvrez pourquoi ces fichiers ne sont pas imprimables sur les produit
 
 msgid "More details..."
 msgstr "En savoir plus..."
+
+msgid "New version available!"
+msgstr "Nouvelle version disponible!"

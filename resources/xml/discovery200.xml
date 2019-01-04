@@ -507,6 +507,7 @@
 			<infill_speed>80</infill_speed>
 			<inset0_speed>70</inset0_speed>
 			<insetx_speed>80</insetx_speed>
+			<solidarea_speed>80</solidarea_speed>
 		</Precision>
 		<Precision name="Standard (0.15mm)">
 			<layer_height>0.15</layer_height>
@@ -519,6 +520,7 @@
 			<infill_speed>50</infill_speed>
 			<inset0_speed>40</inset0_speed>
 			<insetx_speed>45</insetx_speed>
+			<solidarea_speed>45</solidarea_speed>
 		</Precision>
 		<Precision name="Thin (0.1mm)">
 			<layer_height>0.1</layer_height>
@@ -531,6 +533,7 @@
 			<infill_speed>40</infill_speed>
 			<inset0_speed>25</inset0_speed>
 			<insetx_speed>35</insetx_speed>
+			<solidarea_speed>35</solidarea_speed>
 		</Precision>
 	</Precisions>
 

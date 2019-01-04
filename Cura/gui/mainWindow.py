@@ -21,6 +21,7 @@ from Cura.gui.util import dropTarget
 from Cura.gui.tools import pidDebugger
 from Cura.util import profile
 from Cura.util import version
+from Cura.util import myversion
 from Cura.util import meshLoader
 from Cura.util import resources
 from xml.dom import minidom
@@ -324,6 +325,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.infill_speed = ''
 			self.inset0_speed = ''
 			self.insetx_speed = ''
+			self.solidarea_speed = ''
 
 	class Support:
 		def __init__(self):
@@ -484,6 +486,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 			filament2Sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"))
 
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
+		if not myversion.isLatest():
+			mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("New version available!"), URL="https://dist.dagoma3d.com/CuraByDagoma"), flag=wx.EXPAND|wx.BOTTOM, border=2)
+			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(filamentSizer)
 		mainSizer.Add(self.filamentComboBox, flag=wx.EXPAND|wx.BOTTOM, border=2)
 		mainSizer.Add(self.colorComboBox, flag=wx.EXPAND)
@@ -756,6 +761,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					preci.infill_speed = precision.getElementsByTagName("infill_speed")[0].firstChild.nodeValue
 					preci.inset0_speed = precision.getElementsByTagName("inset0_speed")[0].firstChild.nodeValue
 					preci.insetx_speed = precision.getElementsByTagName("insetx_speed")[0].firstChild.nodeValue
+					preci.solidarea_speed = precision.getElementsByTagName("solidarea_speed")[0].firstChild.nodeValue
 					self.precisions.append(preci)
 				except :
 					print 'Some Error in Precision Bloc'
@@ -1339,6 +1345,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('infill_speed', preci.infill_speed)
 			profile.putProfileSetting('inset0_speed', preci.inset0_speed)
 			profile.putProfileSetting('insetx_speed', preci.insetx_speed)
+		profile.putProfileSetting('solidarea_speed', preci.solidarea_speed)
 
 		# Refresh layer heights according to quality...
 		for panel in self.pausePluginPanel.panelList:
