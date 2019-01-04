@@ -152,8 +152,8 @@ class SceneView(openglGui.glGuiPanel):
 		mainWindow = self.GetParent().GetParent().GetParent()
 		checksum = sha256sum.check(filenames)
 		filenames = checksum['filenames']
-		if checksum['popup']:
-			forbiddenBox = forbiddenWindow.forbiddenWindow(mainWindow)
+		if checksum['nbForbiddenFiles'] > 0:
+			forbiddenBox = forbiddenWindow.forbiddenWindow(mainWindow, checksum['nbForbiddenFiles'])
 			forbiddenBox.Centre()
 			forbiddenBox.Show()
 			if sys.platform.startswith('darwin'):

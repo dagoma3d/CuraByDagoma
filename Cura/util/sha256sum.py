@@ -136,4 +136,4 @@ def check(fnames):
 				hash_algorithm.update(chunk)
 		if hash_algorithm.hexdigest() not in hash_sums:
 			filenames.append(fname)
-	return {'popup': len(fnames) > len(filenames), 'filenames': filenames}
+	return {'nbForbiddenFiles': len(fnames) - len(filenames), 'filenames': filenames}

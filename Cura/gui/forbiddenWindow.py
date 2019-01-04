@@ -7,7 +7,7 @@ from Cura.util import profile
 from Cura.util import resources
 
 class forbiddenWindow(wx.Frame):
-	def __init__(self, parent):
+	def __init__(self, parent, nbForbiddenFiles):
 		super(forbiddenWindow, self).__init__(parent, title=_("Warning"), style = wx.DEFAULT_DIALOG_STYLE|wx.FRAME_FLOAT_ON_PARENT)
 
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
@@ -23,9 +23,12 @@ class forbiddenWindow(wx.Frame):
 		s = wx.BoxSizer(wx.VERTICAL)
 		p.SetSizer(s)
 
-		s.Add(wx.StaticText(p, -1, _("You have tried to load some weird files...")), flag=wx.ALIGN_CENTRE|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		s.Add(wx.StaticText(p, -1, _("We don't want these objects to be printed by our products.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		s.Add(wx.StaticText(p, -1, _("Please follow the link below for additional information.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		if nbForbiddenFiles == 1:
+			s.Add(wx.StaticText(p, -1, _("There are so many 3D files available online but you've tried to print this one...")), flag=wx.ALIGN_CENTRE|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+			s.Add(wx.StaticText(p, -1, _("Check why this file cannot be printed on Dagoma's products.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		else:
+			s.Add(wx.StaticText(p, -1, _("There are so many 3D files available online but you've tried to print these ones...")), flag=wx.ALIGN_CENTRE|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+			s.Add(wx.StaticText(p, -1, _("Check why these files cannot be printed on Dagoma's products.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticLine(p), flag=wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(hl.HyperLinkCtrl(p, wx.ID_ANY, _("More details..."), URL=profile.getPreference('warning_url')), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		self.Fit()

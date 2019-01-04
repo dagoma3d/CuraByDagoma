@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2019-01-02 15:53+0100\n"
+"PO-Revision-Date: 2019-01-04 11:07+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3061,13 +3061,16 @@ msgstr ""
 msgid "PLA Mate Chromatik"
 msgstr ""
 
-msgid "You have tried to load some weird files..."
+msgid "There are so many 3D files available online but you've tried to print this one..."
 msgstr ""
 
-msgid "We don't want these objects to be printed by our products."
+msgid "There are so many 3D files available online but you've tried to print these ones..."
 msgstr ""
 
-msgid "Please follow the link below for additional information."
+msgid "Check why this file cannot be printed on Dagoma's products."
+msgstr ""
+
+msgid "Check why these files cannot be printed on Dagoma's products."
 msgstr ""
 
 msgid "More details..."
