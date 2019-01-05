@@ -23,6 +23,11 @@ class forbiddenWindow(wx.Frame):
 		s = wx.BoxSizer(wx.VERTICAL)
 		p.SetSizer(s)
 
+		self.more_details_url = hl.HyperLinkCtrl(p, wx.ID_ANY, _("More details..."), URL=profile.getPreference('warning_url'))
+		#hl.EVT_HYPERLINK_LEFT(self, self.more_details_url.GetId(), self.OnClick)
+		self.more_details_url.AutoBrowse(False)
+		self.more_details_url.Bind(hl.EVT_HYPERLINK_LEFT, self.OnClick)
+
 		if nbForbiddenFiles == 1:
 			s.Add(wx.StaticText(p, -1, _("There are so many 3D files available online but you've tried to print this one...")), flag=wx.ALIGN_CENTRE|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 			s.Add(wx.StaticText(p, -1, _("Check why this file cannot be printed on Dagoma's products.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
@@ -30,8 +35,12 @@ class forbiddenWindow(wx.Frame):
 			s.Add(wx.StaticText(p, -1, _("There are so many 3D files available online but you've tried to print these ones...")), flag=wx.ALIGN_CENTRE|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 			s.Add(wx.StaticText(p, -1, _("Check why these files cannot be printed on Dagoma's products.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticLine(p), flag=wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		s.Add(hl.HyperLinkCtrl(p, wx.ID_ANY, _("More details..."), URL=profile.getPreference('warning_url')), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		s.Add(self.more_details_url, flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		self.Fit()
 
 	def OnClose(self, e):
+		self.Destroy()
+
+	def OnClick(self, e):
+		self.more_details_url.GotoURL(self.more_details_url.GetURL())
 		self.Destroy()
