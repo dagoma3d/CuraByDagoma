@@ -14,7 +14,7 @@ import sys
 import os
 
 os.environ['CURABYDAGO_RELEASE_VERSION'] = '2.1.1'
-os.environ['CURABYDAGO_BUILD_VERSION'] = 'a4'
+os.environ['CURABYDAGO_BUILD_VERSION'] = ''
 os.environ['CURABYDAGO_VERSION'] = os.environ['CURABYDAGO_RELEASE_VERSION'] + os.environ['CURABYDAGO_BUILD_VERSION']
 
 
