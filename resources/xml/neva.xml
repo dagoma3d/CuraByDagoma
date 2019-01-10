@@ -537,7 +537,7 @@
 		<fill_overlap>25</fill_overlap>
 		<support_type>Lines</support_type>
 		<support_angle>50</support_angle>
-		<support_fill_rate>20</support_fill_rate>
+		<support_fill_rate>15</support_fill_rate>
 		<support_xy_distance>0.7</support_xy_distance>
 		<support_z_distance>0.15</support_z_distance>
 		<simple_mode>False</simple_mode>
