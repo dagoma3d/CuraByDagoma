@@ -7,7 +7,7 @@
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>96</filament_flow>
-			<retraction_speed>60</retraction_speed>
+			<retraction_speed>55</retraction_speed>
 			<retraction_amount>5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>33.20</filament_cost_kg>
@@ -150,7 +150,7 @@
 			<print_temperature>200</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
-			<retraction_speed>65</retraction_speed>
+			<retraction_speed>55</retraction_speed>
 			<retraction_amount>4.5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>39.8</filament_cost_kg>
