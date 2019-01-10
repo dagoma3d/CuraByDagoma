@@ -168,9 +168,6 @@
 			<Color name="Dark blue">
 				<model_colour>#000064</model_colour>
 			</Color>
-			<Color name="Phosphorescent">
-				<model_colour>#FFFFFF</model_colour>
-			</Color>
 		</Filament>
 		<Filament name="PLA Glitter Chromatik">
 			<print_temperature>200</print_temperature>
