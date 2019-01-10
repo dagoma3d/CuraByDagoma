@@ -37,9 +37,6 @@
 			<Color name="Fluor yellow">
 				<model_colour>#ccff00</model_colour>
 			</Color>
-			<Color name="Yellow">
-				<model_colour>#FFFF00</model_colour>
-			</Color>
 			<Color name="Purple">
 				<model_colour>#800080</model_colour>
 			</Color>
@@ -79,9 +76,6 @@
 			<Color name="Dark green">
 				<model_colour>#006400</model_colour>
 			</Color>
-			<Color name="Primary red">
-				<model_colour>#ff0000</model_colour>
-			</Color>
 			<Color name="Silver glitter">
 				<print_temperature>215</print_temperature>
 				<retraction_speed>65</retraction_speed>
@@ -93,12 +87,6 @@
 				<retraction_speed>65</retraction_speed>
 				<retraction_amount>4.5</retraction_amount>
 				<model_colour>#007FFF</model_colour>
-			</Color>
-			<Color name="Electric blue">
-				<print_temperature>215</print_temperature>
-				<retraction_speed>65</retraction_speed>
-				<retraction_amount>4.5</retraction_amount>
-				<model_colour>#0892d0</model_colour>
 			</Color>
 			<Color name="Ocean blue">
 				<print_temperature>215</print_temperature>
@@ -171,12 +159,6 @@
 				<retraction_speed>65</retraction_speed>
 				<retraction_amount>4.5</retraction_amount>
 				<model_colour>#EE82EE</model_colour>
-			</Color>
-			<Color name="Mustard">
-				<print_temperature>215</print_temperature>
-				<retraction_speed>65</retraction_speed>
-				<retraction_amount>4.5</retraction_amount>
-				<model_colour>#ffdb58</model_colour>
 			</Color>
 			<Color name="Natural">
 				<print_temperature>215</print_temperature>

@@ -33,9 +33,6 @@
 			<Color name="Fluor yellow">
 				<model_colour>#ccff00</model_colour>
 			</Color>
-			<Color name="Yellow">
-				<model_colour>#FFFF00</model_colour>
-			</Color>
 			<Color name="Purple">
 				<model_colour>#800080</model_colour>
 			</Color>
@@ -75,9 +72,6 @@
 			<Color name="Dark green">
 				<model_colour>#006400</model_colour>
 			</Color>
-			<Color name="Primary red">
-				<model_colour>#ff0000</model_colour>
-			</Color>
 			<Color name="Silver glitter">
 				<retraction_amount>3.5</retraction_amount>
 				<model_colour>#C0C0C0</model_colour>
@@ -85,10 +79,6 @@
 			<Color name="Azure">
 				<retraction_amount>3.5</retraction_amount>
 				<model_colour>#007FFF</model_colour>
-			</Color>
-			<Color name="Electric blue">
-				<retraction_amount>3.5</retraction_amount>
-				<model_colour>#0892d0</model_colour>
 			</Color>
 			<Color name="Ocean blue">
 				<retraction_amount>3.5</retraction_amount>
@@ -138,10 +128,6 @@
 				<retraction_amount>3.5</retraction_amount>
 				<model_colour>#EE82EE</model_colour>
 			</Color>
-			<Color name="Mustard">
-				<retraction_amount>3.5</retraction_amount>
-				<model_colour>#ffdb58</model_colour>
-			</Color>
 			<Color name="Natural">
 				<retraction_amount>3.5</retraction_amount>
 				<model_colour>#FFFFFF</model_colour>
@@ -153,20 +139,11 @@
 			<Color name="Grey">
 				<model_colour>#808080</model_colour>
 			</Color>
-			<Color name="Blue">
-				<model_colour>#0000ff</model_colour>
-			</Color>
 			<Color name="White">
 				<model_colour>#ffffff</model_colour>
 			</Color>
 			<Color name="Green">
 				<model_colour>#00ff00</model_colour>
-			</Color>
-			<Color name="Carbon black">
-				<model_colour>#293542</model_colour>
-			</Color>
-			<Color name="Dark blue">
-				<model_colour>#000064</model_colour>
 			</Color>
 		</Filament>
 		<Filament name="PLA Glitter Chromatik">

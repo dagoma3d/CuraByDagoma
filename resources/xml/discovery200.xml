@@ -36,9 +36,6 @@
 			<Color name="Fluor yellow">
 				<model_colour>#ccff00</model_colour>
 			</Color>
-			<Color name="Yellow">
-				<model_colour>#FFFF00</model_colour>
-			</Color>
 			<Color name="Purple">
 				<model_colour>#800080</model_colour>
 			</Color>
@@ -77,9 +74,6 @@
 			</Color>
 			<Color name="Dark green">
 				<model_colour>#006400</model_colour>
-			</Color>
-			<Color name="Primary red">
-				<model_colour>#ff0000</model_colour>
 			</Color>
 			<Color name="Silver glitter">
 				<model_colour>#C0C0C0</model_colour>
@@ -125,9 +119,6 @@
 			</Color>
 			<Color name="Violet">
 				<model_colour>#EE82EE</model_colour>
-			</Color>
-			<Color name="Mustard">
-				<model_colour>#ffdb58</model_colour>
 			</Color>
 			<Color name="Natural">
 				<model_colour>#FFFFFF</model_colour>
