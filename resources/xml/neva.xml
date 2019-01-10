@@ -22,9 +22,6 @@
 			<Color name="Pearl blue">
 				<model_colour>#4FA1C2</model_colour>
 			</Color>
-			<Color name="Cream white">
-				<model_colour>#FFFAFA</model_colour>
-			</Color>
 			<Color name="Baby blue">
 				<model_colour>#89cff0</model_colour>
 			</Color>
@@ -89,6 +86,18 @@
 				<model_colour>#007FFF</model_colour>
 			</Color>
 			<Color name="Ocean blue">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#0077be</model_colour>
+			</Color>
+			<Color name="Apple green">
+				<print_temperature>215</print_temperature>
+				<retraction_speed>65</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+				<model_colour>#0077be</model_colour>
+			</Color>
+			<Color name="Pink tea">
 				<print_temperature>215</print_temperature>
 				<retraction_speed>65</retraction_speed>
 				<retraction_amount>4.5</retraction_amount>
@@ -171,6 +180,15 @@
 				<retraction_speed>65</retraction_speed>
 				<retraction_amount>4.5</retraction_amount>
 				<model_colour>#00FF00</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Glass">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Water green">
+				<model_colour>#ffffff</model_colour>
 			</Color>
 		</Filament>
 		<Filament name="PLA Glitter Chromatik">

@@ -21,9 +21,6 @@
 			<Color name="Pearl blue">
 				<model_colour>#4FA1C2</model_colour>
 			</Color>
-			<Color name="Cream white">
-				<model_colour>#FFFAFA</model_colour>
-			</Color>
 			<Color name="Baby blue">
 				<model_colour>#89cff0</model_colour>
 			</Color>
@@ -84,6 +81,14 @@
 				<retraction_amount>3.5</retraction_amount>
 				<model_colour>#0077be</model_colour>
 			</Color>
+			<Color name="Apple green">
+				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#0077be</model_colour>
+			</Color>
+			<Color name="Pink tea">
+				<retraction_amount>3.5</retraction_amount>
+				<model_colour>#0077be</model_colour>
+			</Color>
 			<Color name="Desert">
 				<retraction_amount>3.5</retraction_amount>
 				<model_colour>#EDC9AF</model_colour>
@@ -140,6 +145,12 @@
 				<model_colour>#808080</model_colour>
 			</Color>
 			<Color name="White">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Glass">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Water green">
 				<model_colour>#ffffff</model_colour>
 			</Color>
 			<Color name="Green">

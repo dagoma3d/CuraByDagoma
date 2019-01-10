@@ -3078,3 +3078,12 @@ msgstr ""
 
 msgid "New version available!"
 msgstr ""
+
+msgid "Apple green"
+msgstr ""
+
+msgid "Pink tea"
+msgstr ""
+
+msgid "Water green"
+msgstr ""

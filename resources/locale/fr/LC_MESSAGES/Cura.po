@@ -3228,3 +3228,12 @@ msgstr "En savoir plus..."
 
 msgid "New version available!"
 msgstr "Nouvelle version disponible!"
+
+msgid "Apple green"
+msgstr "Vert pomme"
+
+msgid "Pink tea"
+msgstr "Rose thé"
+
+msgid "Water green"
+msgstr "Vertoise"

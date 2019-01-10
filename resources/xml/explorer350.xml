@@ -21,9 +21,6 @@
 			<Color name="Pearl blue">
 				<model_colour>#4FA1C2</model_colour>
 			</Color>
-			<Color name="Cream white">
-				<model_colour>#FFFAFA</model_colour>
-			</Color>
 			<Color name="Baby blue">
 				<model_colour>#89cff0</model_colour>
 			</Color>
@@ -87,6 +84,12 @@
 			<Color name="Ocean blue">
 				<model_colour>#0077be</model_colour>
 			</Color>
+			<Color name="Apple green">
+				<model_colour>#0077be</model_colour>
+			</Color>
+			<Color name="Pink tea">
+				<model_colour>#0077be</model_colour>
+			</Color>
 			<Color name="Desert">
 				<model_colour>#EDC9AF</model_colour>
 			</Color>
@@ -125,6 +128,15 @@
 			</Color>
 			<Color name="Solid green">
 				<model_colour>#00FF00</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Glass">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Water green">
+				<model_colour>#ffffff</model_colour>
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyPlus">
