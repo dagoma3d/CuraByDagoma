@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Change retraction speed for chromatik filaments.
 - Change default support fill rate.
 - Change default support z distance.
+- Add some new filaments.
 
 ## [2.1.1] - 2019-01-07
 - Separate the config files according to printer options.
