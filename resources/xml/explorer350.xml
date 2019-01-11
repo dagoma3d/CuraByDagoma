@@ -560,6 +560,7 @@
 		<extruder_head_size_max_y>22</extruder_head_size_max_y>
 		<extruder_head_size_height>53</extruder_head_size_height>
 		<retraction_enable>True</retraction_enable>
+		<oneAtATime>False</oneAtATime>
 	</Printer>
 
 	<!-- Global configuration -->
