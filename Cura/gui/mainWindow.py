@@ -298,6 +298,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.infill_speed = None
 			self.inset0_speed = None
 			self.insetx_speed = None
+			self.solidarea_speed = None
 			self.support_xy_distance = None
 			self.support_z_distance = None
 
@@ -667,6 +668,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 				insetx_speed_tags = filament.getElementsByTagName("insetx_speed")
 				if len(insetx_speed_tags) > 0:
 					fila.insetx_speed = insetx_speed_tags[0].firstChild.nodeValue
+				solidarea_speed_tags = filament.getElementsByTagName("solidarea_speed")
+				if len(solidarea_speed_tags) > 0:
+					fila.solidarea_speed = solidarea_speed_tags[0].firstChild.nodeValue
 				self.filaments.append(fila)
 			except:
 				print 'Some Error in Filament Bloc'
@@ -962,6 +966,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('inset0_speed', fila.inset0_speed)
 		if fila.insetx_speed is not None:
 			profile.putProfileSetting('insetx_speed', fila.insetx_speed)
+		if fila.solidarea_speed is not None:
+			profile.putProfileSetting('solidarea_speed', fila.solidarea_speed)
 
 		self.colorComboBox.Clear()
 		filaments = self.configuration.getElementsByTagName("Filament")
@@ -1065,6 +1071,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('inset0_speed', fila.inset0_speed)
 		if fila.insetx_speed is not None:
 			profile.putProfileSetting('insetx_speed', fila.insetx_speed)
+		if fila.solidarea_speed is not None:
+			profile.putProfileSetting('solidarea_speed', fila.solidarea_speed)
 
 		self.color2ComboBox.Clear()
 		filaments = self.configuration.getElementsByTagName("Filament")

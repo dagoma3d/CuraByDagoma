@@ -405,6 +405,7 @@
 			<infill_speed>25</infill_speed>
 			<inset0_speed>20</inset0_speed>
 			<insetx_speed>25</insetx_speed>
+			<solidarea_speed>20</solidarea_speed>
 			<Color name="Yellow">
 				<model_colour>#FFFF00</model_colour>
 			</Color>
@@ -437,6 +438,7 @@
 			<infill_speed>50</infill_speed>
 			<inset0_speed>40</inset0_speed>
 			<insetx_speed>45</insetx_speed>
+			<solidarea_speed>50</solidarea_speed>
 		</Filament>
 		<Filament name="Other PLA type">
 			<grip_temperature>235</grip_temperature>
