@@ -1125,7 +1125,7 @@ def replaceTagMatch(m):
 			return "M104 S" + str(print_temperature2)
 
 	if tag == 'check_filrunout2':
-		wipe_tower = int(getMachineSetting('extruder_amount')) > 1 and (not getPreferenceInt('filament_index') == getPreferenceInt('filament2_index') or (getPreferenceInt('filament_index') == getPreferenceInt('filament2_index') and not getPreference('color_label') == getPreference('color2_label')) or mergeDone)
+		wipe_tower = int(getMachineSetting('extruder_amount')) > 1 and (not getPreferenceInt('filament_index') == getPreferenceInt('filament2_index') or (getPreferenceInt('filament_index') == getPreferenceInt('filament2_index') and not getPreference('color_label') == getPreference('color2_label'))) and mergeDone
 		if wipe_tower:
 			return ";Filrunout 2 is enabled"
 		else:
