@@ -512,14 +512,20 @@ class glButton(glGuiControl):
 			glPushMatrix()
 			glTranslatef(pos[0], pos[1], 0)
 			if self._imageID is None:
-				glTranslatef(-80, 0, 0)
+				split_tooltip = self._altTooltip.split('\n')
+				max_line = ''
+				for line in split_tooltip:
+					if len(line) > len(max_line):
+						max_line = line
+				#glTranslatef((openglHelpers.glGetStringSize(max_line)[0] - pos[0]) / 2 - bs, 0, 0)
+				glTranslatef(-openglHelpers.glGetStringSize(max_line)[0] / 2, 0, 0)
 				#glTranslatef(0.6*bs*scale, 0, 0)
 			else:
 				glTranslatef(0, 0.6*bs, 0)
 				glTranslatef(0, 6, 0)
 				#glTranslatef(0.6*bs*scale, 0, 0)
 
-			for line in self._altTooltip.split('\n'):
+			for line in split_tooltip:
 				glPushMatrix()
 				glColor4ub(60,60,60,255)
 				glTranslatef(-1, -1, 0)

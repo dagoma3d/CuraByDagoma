@@ -85,31 +85,31 @@ class EngineResult(object):
 		if self.getFilamentWeight(e) == 0.0:
 			return None
 		if cost_kg > 0.0 and cost_meter > 0.0:
-			return "%.2f%s / %.2f%s" % (self.getFilamentWeight(e) * cost_kg, _("currency"), self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
+			return "%.2f %s / %.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("currency"), self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
 		elif cost_kg > 0.0:
-			return "%.2f%s" % (self.getFilamentWeight(e) * cost_kg, _("currency"))
+			return "%.2f %s" % (self.getFilamentWeight(e) * cost_kg, _("currency"))
 		elif cost_meter > 0.0:
-			return "%.2f%s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
+			return "%.2f %s" % (self._filamentMM[e] / 1000.0 * cost_meter, _("currency"))
 		return None
 
 	def getPrintTime(self):
 		if self._printTimeSeconds is None:
 			return ''
 		if int(self._printTimeSeconds / 60 / 60) < 1:
-			return '%d %s' % (int(self._printTimeSeconds / 60) % 60, _("minutes"))
+			return '%d min' % (int(self._printTimeSeconds / 60) % 60)
 		if int(self._printTimeSeconds / 60 / 60) == 1:
-			return '%d %s %d %s' % (int(self._printTimeSeconds / 60 / 60), _("hours"), int(self._printTimeSeconds / 60) % 60, _("minutes"))
-		return '%d %s %d %s' % (int(self._printTimeSeconds / 60 / 60), _("hours"), int(self._printTimeSeconds / 60) % 60, _("minutes"))
+			return '%d h %d min' % (int(self._printTimeSeconds / 60 / 60), int(self._printTimeSeconds / 60) % 60)
+		return '%d h %d min' % (int(self._printTimeSeconds / 60 / 60), int(self._printTimeSeconds / 60) % 60)
 
 	def getFilamentMeters(self, e=0):
 		if self._filamentMM[e] == 0.0:
 			return None
-		return '%0.2f%s' % (float(self._filamentMM[e]) / 1000.0, _("meters"))
+		return '%0.2f m' % (float(self._filamentMM[e]) / 1000.0)
 
 	def getFilamentGrams(self, e=0):
 		if self._filamentMM[e] == 0.0:
 			return None
-		return '%0.0f%s' % (self.getFilamentWeight(e) * 1000.0, _("grams"))
+		return '%0.0f g' % (self.getFilamentWeight(e) * 1000.0)
 
 	def getLog(self):
 		return self._engineLog

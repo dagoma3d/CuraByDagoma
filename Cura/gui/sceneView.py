@@ -633,14 +633,14 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setProgressBar(None)
 			text = '%s\n' % (result.getPrintTime())
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
-				#meters = result.getFilamentMeters(e)
-				#if meters is not None:
-				#	text += '%s\n' % (meters)
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
 					if int(profile.getMachineSetting('extruder_amount')) > 1:
 						text += 'Filament %s: ' % (e + 1)
 					text += '%s' % grams
+				meters = result.getFilamentMeters(e)
+				if meters is not None:
+					text += ' - %s' % (meters)
 				cost = result.getFilamentCost(e)
 				if cost is not None:
 					text += ' - %s\n' % (cost)
