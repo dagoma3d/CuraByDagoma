@@ -517,8 +517,16 @@ class glButton(glGuiControl):
 				for line in split_tooltip:
 					if len(line) > len(max_line):
 						max_line = line
-				#glTranslatef((openglHelpers.glGetStringSize(max_line)[0] - pos[0]) / 2 - bs, 0, 0)
-				glTranslatef(-openglHelpers.glGetStringSize(max_line)[0] / 2, 0, 0)
+				#print self._base._buttonSize
+				tooltip_translate_x = (self._base._buttonSize - openglHelpers.glGetStringSize(max_line)[0]) / 2
+				tooltip_translate_y = 0
+				if not self._base._buttonSize == 32:
+					tooltip_translate_y = self._base._buttonSize - (len(split_tooltip) + 1) * 18 + (6 - self._base._buttonSize / 16) * 4
+				elif len(split_tooltip) > 2:
+					tooltip_translate_y = - 18 * (len(split_tooltip) - 2) - 4
+				else:
+					tooltip_translate_y = -4
+				glTranslatef(tooltip_translate_x, tooltip_translate_y, 0)
 				#glTranslatef(0.6*bs*scale, 0, 0)
 			else:
 				glTranslatef(0, 0.6*bs, 0)

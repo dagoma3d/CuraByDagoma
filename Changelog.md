@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add some new filaments.
 - Reactivate the "print one at a time" mode.
 - Display again the consumed filament length.
+- Enhance slice information display.
 - Fix many minor bugs.
 - Correctly handle some special use cases to make the usage more flexible regarding the print and printer types (combination of mono/bi color).
 - Decrease the travel speed to minimize collision between the printed object and the nozzle.

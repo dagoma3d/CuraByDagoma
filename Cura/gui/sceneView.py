@@ -644,7 +644,10 @@ class SceneView(openglGui.glGuiPanel):
 				cost = result.getFilamentCost(e)
 				if cost is not None:
 					text += ' - %s\n' % (cost)
-				#print '%s | %s' % (grams, cost)
+			split_text = text.split('\n')
+			if split_text[-1] == '':
+				del split_text[-1]
+			text = '\n'.join(split_text)
 			self.printButton.setBottomText(text)
 		else:
 			self.printButton.setBottomText('')
