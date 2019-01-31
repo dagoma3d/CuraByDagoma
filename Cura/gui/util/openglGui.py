@@ -511,8 +511,8 @@ class glButton(glGuiControl):
 		elif len(self._altTooltip) > 0:
 			glPushMatrix()
 			glTranslatef(pos[0], pos[1], 0)
+			split_tooltip = self._altTooltip.split('\n')
 			if self._imageID is None:
-				split_tooltip = self._altTooltip.split('\n')
 				max_line = ''
 				for line in split_tooltip:
 					if len(line) > len(max_line):
