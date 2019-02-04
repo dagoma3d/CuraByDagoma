@@ -314,7 +314,7 @@ setting('language', default_language, str, 'preference', 'hidden').setLabel(_('L
 setting('contact_url', 'https://dagoma3d.com/heroes/support.html?utm_source=cura', str, 'preference', 'hidden')
 setting('buy_url', 'https://dagoma3d.com/shop/filaments.html?utm_source=cura', str, 'preference', 'hidden')
 setting('help_url', 'https://dagoma3d.com/cura-by-dagoma.html?utm_source=cura', str, 'preference', 'hidden')
-setting('warning_url', 'https://dagoma3d.com/?utm_source=cura', str, 'preference', 'hidden')
+setting('warning_url', 'https://dagoma.fr/armes-inoffensives.html?utm_source=cura', str, 'preference', 'hidden')
 setting('active_machine', '0', int, 'preference', 'hidden')
 
 setting('model_colour', '#FF9B00', str, 'preference', 'hidden').setLabel(_('Model colour'), _('Display color for first extruder'))
