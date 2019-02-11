@@ -7,7 +7,7 @@
 # CONFIGURATION
 #############################
 export RELEASE_VERSION=2.1.2
-export BUILD_VERSION=${RELEASE_VERSION}a3
+export BUILD_VERSION=${RELEASE_VERSION}
 
 ##Select the build target
 ##Available options:
