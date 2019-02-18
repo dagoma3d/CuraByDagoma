@@ -441,7 +441,7 @@
 			<wall_thickness>0.8</wall_thickness>
 			<print_speed>40</print_speed>
 			<temp_preci>10</temp_preci>
-			<travel_speed>120</travel_speed>
+			<travel_speed>80</travel_speed>
 			<bottom_layer_speed>17</bottom_layer_speed>
 			<infill_speed>40</infill_speed>
 			<inset0_speed>30</inset0_speed>
@@ -454,7 +454,7 @@
 			<wall_thickness>0.8</wall_thickness>
 			<print_speed>35</print_speed>
 			<temp_preci>5</temp_preci>
-			<travel_speed>120</travel_speed>
+			<travel_speed>80</travel_speed>
 			<bottom_layer_speed>17</bottom_layer_speed>
 			<infill_speed>35</infill_speed>
 			<inset0_speed>25</inset0_speed>
@@ -467,7 +467,7 @@
 			<wall_thickness>0.8</wall_thickness>
 			<print_speed>30</print_speed>
 			<temp_preci>0</temp_preci>
-			<travel_speed>120</travel_speed>
+			<travel_speed>80</travel_speed>
 			<bottom_layer_speed>17</bottom_layer_speed>
 			<infill_speed>30</infill_speed>
 			<inset0_speed>20</inset0_speed>
