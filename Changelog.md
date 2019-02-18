@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Correctly handle some special use cases to make the usage more flexible regarding the print and printer types (combination of mono/bi color).
 - Decrease the travel speed to minimize collision between the printed object and the nozzle.
 - Introduce the fist_layer_temperature for Disco printers (replaces grip_temperature for Neva printers).
+- Decrease the travel speed for Neva/Magis.
 
 ## [2.1.1] - 2019-01-07
 - Separate the config files according to printer options.
