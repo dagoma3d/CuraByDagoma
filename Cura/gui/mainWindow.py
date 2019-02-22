@@ -49,6 +49,8 @@ class mainWindow(wx.Frame):
 			except:
 				pass
 
+		self.isLatest = myversion.isLatest()
+
 		mruFile = os.path.join(profile.getBasePath(), 'mru_filelist.ini')
 		self.config = wx.FileConfig(localFilename=mruFile, style=wx.CONFIG_USE_LOCAL_FILE)
 
@@ -134,7 +136,7 @@ class mainWindow(wx.Frame):
 		self.optionsPane.SetupScrolling(True, True)
 
 		##Gui components##
-		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, lambda : self.scene.sceneUpdated())
+		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
 
 		self.optionsSizer = wx.BoxSizer(wx.VERTICAL)
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
@@ -238,7 +240,7 @@ class mainWindow(wx.Frame):
 	def ReloadSettingPanels(self):
 		self.optionsSizer.Detach(self.normalSettingsPanel)
 		self.normalSettingsPanel.Destroy()
-		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, lambda : self.scene.sceneUpdated())
+		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
 		self.optionsPane.SetSizerAndFit(self.optionsSizer)
 		self.UpdateProfileToAllControls()
@@ -361,8 +363,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		def __init__(self, sensor='Enabled'):
 			self.sensor = sensor
 
-	def __init__(self, parent, callback = None):
+	def __init__(self, parent, isLatest, callback = None):
 		super(normalSettingsPanel, self).__init__(parent, callback)
+		self.isLatest = isLatest
 		self.alreadyLoaded = False
 		self.alreadyLoaded2 = False
 		self.parent = parent
@@ -487,7 +490,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			filament2Sizer.Add(wx.StaticText(self, wx.ID_ANY, "):"))
 
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
-		if not myversion.isLatest():
+		if not self.isLatest:
 			mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("New version available!"), URL="https://dist.dagoma3d.com/CuraByDagoma"), flag=wx.EXPAND|wx.BOTTOM, border=2)
 			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(filamentSizer)
