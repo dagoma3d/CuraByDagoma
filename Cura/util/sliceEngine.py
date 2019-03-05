@@ -457,9 +457,9 @@ class Engine(object):
 				self._result.addLog(pluginError)
 
 			# Improve adhesion : Gstart code sets a higer temperature than the default one
-			# so we need to reset the default one for layers next to the third one.
-			if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
-				self.improveAdhesion()
+			# so we need to reset the default one for layers next to the first one.
+			#if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
+			self.improveAdhesion()
 
 			if int(profile.getMachineSetting('extruder_amount')) > 1:
 				self.moveBeforeSwitch()
