@@ -95,13 +95,13 @@
 				<print_temperature>215</print_temperature>
 				<retraction_speed>65</retraction_speed>
 				<retraction_amount>4.5</retraction_amount>
-				<model_colour>#0077be</model_colour>
+				<model_colour>#8DB600</model_colour>
 			</Color>
 			<Color name="Pink tea">
 				<print_temperature>215</print_temperature>
 				<retraction_speed>65</retraction_speed>
 				<retraction_amount>4.5</retraction_amount>
-				<model_colour>#0077be</model_colour>
+				<model_colour>#f4c2c2</model_colour>
 			</Color>
 			<Color name="Desert">
 				<print_temperature>215</print_temperature>

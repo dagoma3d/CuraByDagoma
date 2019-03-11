@@ -87,11 +87,11 @@
 			</Color>
 			<Color name="Apple green">
 				<print_temperature>215</print_temperature>
-				<model_colour>#0077be</model_colour>
+				<model_colour>#8DB600</model_colour>
 			</Color>
 			<Color name="Pink tea">
 				<print_temperature>215</print_temperature>
-				<model_colour>#0077be</model_colour>
+				<model_colour>#f4c2c2</model_colour>
 			</Color>
 			<Color name="Desert">
 				<print_temperature>215</print_temperature>
