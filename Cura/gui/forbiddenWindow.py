@@ -28,12 +28,9 @@ class forbiddenWindow(wx.Frame):
 		self.more_details_url.AutoBrowse(False)
 		self.more_details_url.Bind(hl.EVT_HYPERLINK_LEFT, self.OnClick)
 
-		if nbForbiddenFiles == 1:
-			s.Add(wx.StaticText(p, -1, _("There are so many 3D files available online but you've tried to print this one...")), flag=wx.ALIGN_CENTRE|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-			s.Add(wx.StaticText(p, -1, _("Check why this file cannot be printed on Dagoma's products.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		else:
-			s.Add(wx.StaticText(p, -1, _("There are so many 3D files available online but you've tried to print these ones...")), flag=wx.ALIGN_CENTRE|wx.TOP|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-			s.Add(wx.StaticText(p, -1, _("Check why these files cannot be printed on Dagoma's products.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		img = wx.Image(resources.getPathForImage('forbidden.png'), wx.BITMAP_TYPE_PNG)
+		s.Add(wx.StaticBitmap(p, -1, wx.BitmapFromImage(img)), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		s.Add(wx.StaticText(p, -1, _("Our software doest not allow the printing of 3D weapons.")), flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticLine(p), flag=wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(self.more_details_url, flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		self.Fit()
