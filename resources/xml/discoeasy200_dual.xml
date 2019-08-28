@@ -516,7 +516,7 @@
 		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
 		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
 		<auto_detect_sd>True</auto_detect_sd>
-		<start_retraction_amount>47</start_retraction_amount>
+		<start_retraction_amount>60</start_retraction_amount>
 		<switch_default_retraction_amount>60</switch_default_retraction_amount>
 		<switch_default_retraction_offset>1</switch_default_retraction_offset>
 		<wipe_tower_z_hop>0</wipe_tower_z_hop>
