@@ -1341,6 +1341,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.temperature2SpinCtrl.SetValue(calculated_print_temperature2)
 		self.temp_preci = new_temp_preci
 		profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
+		profile.putProfileSetting('print_temperature2', str(calculated_print_temperature2))
 		profile.putProfileSetting('travel_speed', preci.travel_speed)
 		profile.putProfileSetting('bottom_layer_speed', preci.bottom_layer_speed)
 		# Speed

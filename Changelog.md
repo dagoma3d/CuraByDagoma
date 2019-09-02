@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Allow user to select the initial extruder when a dual-extruder printer is used.
 - Align filament insertion/retraction at the beginning/end of the print.
 - Fix a display bug related to the "new version available" feature.
+- Fix a bug related to the print temperature of filament2 when changing quality.
+- Remove the pause before moving to the wipe tower.
 
 
 ## [2.1.2] - 2019-02-18
