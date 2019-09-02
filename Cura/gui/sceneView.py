@@ -623,7 +623,22 @@ class SceneView(openglGui.glGuiPanel):
 			self._focusObj._meshList.reverse()
 		self.sceneUpdated()
 
+	def updateWindowTitle(self):
+		mainWindow = self.GetParent().GetParent().GetParent()
+		sceneFilenames = []
+		sceneFilename = ""
+		for obj in self._scene.objects():
+			sceneFilename = os.path.basename(obj.getOriginFilename())
+			if not sceneFilename in sceneFilenames:
+				sceneFilenames.append(sceneFilename)
+		
+		windowTitle = mainWindow.windowTitle
+		for sceneFilename in sceneFilenames:
+			windowTitle = windowTitle + ' - ' + sceneFilename
+		mainWindow.SetTitle(windowTitle)
+
 	def sceneUpdated(self):
+		self.updateWindowTitle()
 		self._sceneUpdateTimer.Start(500, True)
 		self._engine.abortEngine()
 		self._scene.updateSizeOffsets()

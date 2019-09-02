@@ -28,8 +28,8 @@ from xml.dom import minidom
 
 class mainWindow(wx.Frame):
 	def __init__(self):
-		windowTitle = 'Cura by Dagoma ' + os.environ['CURABYDAGO_VERSION']
-		super(mainWindow, self).__init__(None, title=windowTitle, pos=(0, 0), size=wx.DisplaySize())
+		self.windowTitle = 'Cura by Dagoma ' + os.environ['CURABYDAGO_VERSION']
+		super(mainWindow, self).__init__(None, title=self.windowTitle, pos=(0, 0), size=wx.DisplaySize())
 
 		wx.EVT_CLOSE(self, self.OnClose)
 
