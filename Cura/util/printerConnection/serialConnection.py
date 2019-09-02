@@ -176,9 +176,9 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 			self._process.stdin.write('RESUME\n')
 		else:
 			if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
-				self._process.stdin.write('G:M600 U-55 X55 Y-92 Z60\n')
+				self._process.stdin.write('G:M600 U-55 X55 Y-92 Z60\r\n')
 			else:
-				self._process.stdin.write('G:M600 L0 PA\n')
+				self._process.stdin.write('G:M600 L0 PA\r\n')
 			self._process.stdin.write('PAUSE\n')
 
 	#Are we able to send a direct command with sendCommand at this moment in time.
