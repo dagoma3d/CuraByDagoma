@@ -188,13 +188,13 @@
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>39.98</filament_cost_kg>
 			<model_colour>#FF9B00</model_colour>
-			<Color name="Black">
+			<Color name="Slate grey">
 				<model_colour>#191919</model_colour>
 			</Color>
-			<Color name="White">
+			<Color name="Shalk white">
 				<model_colour>#eeebd9</model_colour>
 			</Color>
-			<Color name="Green">
+			<Color name="Clay green">
 				<model_colour>#006400</model_colour>
 			</Color>
 		</Filament>

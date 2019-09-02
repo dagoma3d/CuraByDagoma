@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2019-03-22 15:04+0100\n"
+"PO-Revision-Date: 2019-09-02 12:52+0200\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3640,3 +3640,12 @@ msgstr "Vertoise"
 
 msgid "Our software doest not allow the printing of 3D weapons."
 msgstr "Notre logiciel ne permet pas d'imprimer des armes 3D."
+
+msgid "Shalk white"
+msgstr "Blanc craie"
+
+msgid "Slate grey"
+msgstr "Gris ardoire"
+
+msgid "Clay green"
+msgstr "Vert argile"
