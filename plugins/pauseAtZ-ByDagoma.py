@@ -91,7 +91,7 @@ with open(filename, "w") as f:
 				z = layerZ
 
 				pauseState = 0
-				f.write(";TYPE:CUSTOM\n")
+				f.write(";TYPE:CUSTOM\r\n")
 				#Retract
 				if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
 					f.write("M600 U-55 X55 Y-92 Z60\r\n")
