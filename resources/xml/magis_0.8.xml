@@ -4,7 +4,6 @@
 	<!-- Filament definitions -->
 	<Filaments>
 		<Filament name="PLA Chromatik">
-			<grip_temperature>225</grip_temperature>
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -170,7 +169,6 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA Glitter Chromatik">
-			<grip_temperature>220</grip_temperature>
 			<print_temperature>200</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -202,7 +200,6 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA Mate Chromatik">
-			<grip_temperature>225</grip_temperature>
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -231,7 +228,6 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyPlus">
-			<grip_temperature>220</grip_temperature>
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -275,7 +271,6 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyMax">
-			<grip_temperature>220</grip_temperature>
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -301,7 +296,6 @@
 			</Color>
 		</Filament>
 		<Filament name="Biosourced PLA OWA Armor">
-			<grip_temperature>225</grip_temperature>
 			<print_temperature>200</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -342,7 +336,6 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA Filo3D">
-			<grip_temperature>225</grip_temperature>
 			<print_temperature>190</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -383,7 +376,6 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyFlex">
-			<grip_temperature>230</grip_temperature>
 			<print_temperature>230</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>115</filament_flow>
@@ -416,7 +408,6 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyWood">
-			<grip_temperature>200</grip_temperature>
 			<print_temperature>200</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -437,7 +428,6 @@
 			<solidarea_speed>50</solidarea_speed>
 		</Filament>
 		<Filament name="Other PLA type">
-			<grip_temperature>225</grip_temperature>
 			<print_temperature>205</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -584,7 +574,7 @@ G28
 M107
 M109 R100
 G29
-M109 S{grip_temperature} U-55 X55 V-85 Y-85 W0.26 Z0.26 ;Temperature for the first layer only
+M109 S{print_temperature} U-55 X55 V-85 Y-85 W0.26 Z0.26 ;Temperature for the first layer only
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
 G1 F200 E6 ;extrude 10mm of feed stock

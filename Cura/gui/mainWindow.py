@@ -281,7 +281,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 	class Filament:
 		def __init__(self):
 			self.type = ''
-			self.grip_temperature = '185'
 			self.print_temperature = '185'
 			self.filament_diameter = '1.74'
 			self.filament_flow = '80'
@@ -618,10 +617,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 				choices.append(_(name))
 				fila.type = name
 			try :
-				if len(filament.getElementsByTagName("grip_temperature")) > 0 is not None:
-					fila.grip_temperature = filament.getElementsByTagName("grip_temperature")[0].firstChild.nodeValue
-				else:
-					fila.grip_temperature = filament.getElementsByTagName("print_temperature")[0].firstChild.nodeValue
 				fila.print_temperature = filament.getElementsByTagName("print_temperature")[0].firstChild.nodeValue
 				fila.filament_diameter = filament.getElementsByTagName("filament_diameter")[0].firstChild.nodeValue
 				fila.filament_flow = filament.getElementsByTagName("filament_flow")[0].firstChild.nodeValue
@@ -903,7 +898,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		fila = self.filaments[filament_index]
 		profile.putPreference('filament_index', filament_index)
 		profile.putPreference('filament_name', fila.type)
-		profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
 		if 'wood' in filament_type or 'flex' in filament_type:
@@ -1008,7 +1002,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		fila = self.filaments[filament_index]
 		profile.putPreference('filament2_index', filament_index)
 		profile.putPreference('filament2_name', fila.type)
-		profile.putProfileSetting('grip_temperature2', fila.grip_temperature)
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
 		if 'wood' in filament_type or 'flex' in filament_type:
@@ -1130,13 +1123,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.temperatureSpinCtrl.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature', str(print_temperature))
 
-			grip_temperature_tags = color.getElementsByTagName("grip_temperature")
-			if len(grip_temperature_tags) > 0:
-				grip_temperature = print_temperature_tags[0].firstChild.nodeValue
-			else:
-				grip_temperature = fila.grip_temperature
-			profile.putProfileSetting('grip_temperature', str(grip_temperature))
-
 			filament_diameter_tags = color.getElementsByTagName("filament_diameter")
 			if len(filament_diameter_tags) > 0:
 				filament_diameter = filament_diameter_tags[0].firstChild.nodeValue
@@ -1191,7 +1177,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print_temperature += self.temp_preci
 			self.temperatureSpinCtrl.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature', str(print_temperature))
-			profile.putProfileSetting('grip_temperature', fila.grip_temperature)
 			profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 			profile.putProfileSetting('filament_flow', fila.filament_flow)
 			profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1222,13 +1207,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print_temperature += self.temp_preci
 			self.temperature2SpinCtrl.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature2', str(print_temperature))
-
-			grip_temperature_tags = color.getElementsByTagName("grip_temperature")
-			if len(grip_temperature_tags) > 0:
-				grip_temperature = print_temperature_tags[0].firstChild.nodeValue
-			else:
-				grip_temperature = fila.grip_temperature
-			profile.putProfileSetting('grip_temperature2', str(grip_temperature))
 
 			filament_diameter_tags = color.getElementsByTagName("filament_diameter")
 			if len(filament_diameter_tags) > 0:
@@ -1284,7 +1262,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 				print_temperature += self.temp_preci
 			self.temperature2SpinCtrl.SetValue(print_temperature)
 			profile.putProfileSetting('print_temperature2', str(print_temperature))
-			profile.putProfileSetting('grip_temperature2', fila.grip_temperature)
 			profile.putProfileSetting('filament_diameter2', fila.filament_diameter)
 			profile.putProfileSetting('filament_flow2', fila.filament_flow)
 			profile.putProfileSetting('retraction_speed2', fila.retraction_speed)

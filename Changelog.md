@@ -6,7 +6,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.1.3] - 2019-09-04
 - Fix wipe tower size issue.
-- Allow user to select the initial extruder when a dual-extruder printer is used.
 - Align filament insertion/retraction at the beginning/end of the print.
 - Fix a display bug related to the "new version available" feature.
 - Fix a bug related to the print temperature of filament2 when changing quality.
@@ -14,7 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Change print parameters for black and white Chromatik.
 - Introduce new filaments.
 - Introduce Disco XL.
-
+- Disable grip temperature feature for Neva/Magis.
+- Todo:Allow user to select the initial extruder when a dual-extruder printer is used.
 
 ## [2.1.2] - 2019-02-18
 - Remove filaments duplicates.
