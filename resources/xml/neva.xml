@@ -42,6 +42,10 @@
 			</Color>
 			<Color name="Black">
 				<model_colour>#191919</model_colour>
+				<print_temperature>205</print_temperature>
+				<filament_flow>95</filament_flow>
+				<retraction_speed>60</retraction_speed>
+				<retraction_amount>5</retraction_amount>
 			</Color>
 			<Color name="Gold">
 				<model_colour>#FFD700</model_colour>
@@ -163,7 +167,7 @@
 				<retraction_amount>4.5</retraction_amount>
 				<model_colour>#FFFFF0</model_colour>
 			</Color>
-			<Color name="Violet">
+			<Color name="Plum">
 				<print_temperature>215</print_temperature>
 				<retraction_speed>65</retraction_speed>
 				<retraction_amount>4.5</retraction_amount>
@@ -183,12 +187,22 @@
 			</Color>
 			<Color name="White">
 				<model_colour>#ffffff</model_colour>
+				<print_temperature>205</print_temperature>
+				<filament_flow>95</filament_flow>
+				<retraction_speed>60</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
 			</Color>
 			<Color name="Glass">
 				<model_colour>#ffffff</model_colour>
 			</Color>
 			<Color name="Water green">
 				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Sky blue">
+				<model_colour>#57b9ff</model_colour>
+			</Color>
+			<Color name="Fushia pink">
+				<model_colour>#FF00FF</model_colour>
 			</Color>
 		</Filament>
 		<Filament name="PLA Glitter Chromatik">
@@ -213,6 +227,15 @@
 			<Color name="Grey">
 				<model_colour>#C0C0C0</model_colour>
 			</Color>
+			<Color name="Violet">
+				<model_colour>#a31c4df</model_colour>
+			</Color>
+			<Color name="Autumn orange">
+				<model_colour>#b85911</model_colour>
+			</Color>
+			<Color name="Cactus green">
+				<model_colour>#106e20</model_colour>
+			</Color>
 		</Filament>
 		<Filament name="PLA Mate Chromatik">
 			<grip_temperature>225</grip_temperature>
@@ -232,6 +255,15 @@
 			</Color>
 			<Color name="Clay green">
 				<model_colour>#006400</model_colour>
+			</Color>
+			<Color name="Duck blue">
+				<model_colour>#147a6e</model_colour>
+			</Color>
+			<Color name="Camel">
+				<model_colour>#ab6316</model_colour>
+			</Color>
+			<Color name="Brick red">
+				<model_colour>#8a2b11</model_colour>
 			</Color>
 		</Filament>
 		<Filament name="PLA PolyPlus">

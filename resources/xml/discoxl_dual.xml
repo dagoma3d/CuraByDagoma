@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- XML for DiscoEasy200 - 07/12/2018 -->
+<!-- XML for DiscoXL - 07/12/2018 -->
 <Dagoma>
 	<!-- Filament definitions -->
 	<Filaments>
@@ -513,9 +513,9 @@
 
 	<!-- Printer definition -->
 	<Printer>
-		<machine_name>DiscoEasy200</machine_name>
+		<machine_name>DiscoXL</machine_name>
 		<machine_type>RepRap</machine_type>
-		<machine_width>205</machine_width>
+		<machine_width>305</machine_width>
 		<machine_depth>205</machine_depth>
 		<machine_height>205</machine_height>
 		<extruder_amount>2</extruder_amount>
@@ -588,7 +588,7 @@
 	<!-- Gcodes start and end -->
 	<GCODE>
 		<Gstart>
-;Gcode by Cura by Dagoma {app_version} for DiscoEasy200
+;Gcode by Cura by Dagoma {app_version} for DiscoXL
 ;Filament 1: {filament_name} / Temperature: {print_temperature}°C / Retraction: {retraction_amount}mm
 ;Filament 2: {filament2_name} / Temperature: {print_temperature2}°C / Retraction: {retraction_amount2}mm
 ;{check_filrunout2}

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2019-09-02 12:52+0200\n"
+"PO-Revision-Date: 2019-09-04 11:10+0200\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2813,9 +2813,6 @@ msgstr ""
 msgid "Ivory"
 msgstr ""
 
-msgid "Plum"
-msgstr ""
-
 msgid "Sand"
 msgstr ""
 
@@ -2983,7 +2980,7 @@ msgstr ""
 msgid "Solid green"
 msgstr ""
 
-msgid "Violet"
+msgid "Plum"
 msgstr ""
 
 msgid "Resume"
@@ -3289,4 +3286,28 @@ msgid "Slate grey"
 msgstr ""
 
 msgid "Clay green"
+msgstr ""
+
+msgid "Duck blue"
+msgstr ""
+
+msgid "Camel"
+msgstr ""
+
+msgid "Brick red"
+msgstr ""
+
+msgid "Violet"
+msgstr ""
+
+msgid "Autumn orange"
+msgstr ""
+
+msgid "Cactus green"
+msgstr ""
+
+msgid "Sky blue"
+msgstr ""
+
+msgid "Fushia pink"
 msgstr ""

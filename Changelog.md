@@ -4,13 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.1.3] - 2019-09-02
+## [2.1.3] - 2019-09-04
 - Fix wipe tower size issue.
 - Allow user to select the initial extruder when a dual-extruder printer is used.
 - Align filament insertion/retraction at the beginning/end of the print.
 - Fix a display bug related to the "new version available" feature.
 - Fix a bug related to the print temperature of filament2 when changing quality.
 - Remove the pause before moving to the wipe tower.
+- Change print parameters for black and white Chromatik.
+- Introduce new filaments.
+- Introduce Disco XL.
 
 
 ## [2.1.2] - 2019-02-18
@@ -26,7 +29,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix many minor bugs.
 - Correctly handle some special use cases to make the usage more flexible regarding the print and printer types (combination of mono/bi color).
 - Decrease the travel speed to minimize collision between the printed object and the nozzle.
-- Introduce the fist_layer_temperature for Disco printers (replaces grip_temperature for Neva printers).
 - Decrease the travel speed for Neva/Magis.
 
 ## [2.1.1] - 2019-01-07

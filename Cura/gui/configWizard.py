@@ -93,7 +93,7 @@ class OptionsPanel(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
 
-		self.dual_extrusion_printers = ['DiscoEasy200', 'DiscoUltimate', 'Perso2020']
+		self.dual_extrusion_printers = ['DiscoEasy200', 'DiscoUltimate', 'DiscoXL', 'Perso2020']
 		self.multinozzle_printers = []
 		if profile.getPreferenceBool('show_magis_options'):
 			self.multinozzle_printers.append('Magis')
@@ -289,7 +289,7 @@ class ConfigWizard(wx.wizard.Wizard):
 		xml_file = name.lower() + '.xml'
 		if name in ['Magis'] and not nozzle_size == 0.4:
 			xml_file = name.lower() + '_' + str(nozzle_size) + '.xml'
-		if name in ['DiscoEasy200', 'DiscoUltimate', 'Perso2020'] and int(extruder_amount) == 2:
+		if name in ['DiscoEasy200', 'DiscoUltimate', 'DiscoXL', 'Perso2020'] and int(extruder_amount) == 2:
 			xml_file = name.lower() + '_dual.xml'
 		profile.putPreference('xml_file', xml_file)
 

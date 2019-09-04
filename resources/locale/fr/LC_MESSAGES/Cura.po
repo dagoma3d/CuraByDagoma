@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2019-09-02 12:52+0200\n"
+"PO-Revision-Date: 2019-09-04 11:10+0200\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3159,9 +3159,6 @@ msgstr "Argent perle"
 msgid "Ivory"
 msgstr "Ivoire"
 
-msgid "Plum"
-msgstr "Prune"
-
 msgid "Sand"
 msgstr "Sable"
 
@@ -3331,7 +3328,7 @@ msgstr "Vanille"
 msgid "Solid green"
 msgstr "Vert menthe"
 
-msgid "Violet"
+msgid "Plum"
 msgstr "Prune"
 
 msgid "Resume"
@@ -3649,3 +3646,27 @@ msgstr "Gris ardoire"
 
 msgid "Clay green"
 msgstr "Vert argile"
+
+msgid "Duck blue"
+msgstr "Bleu canard"
+
+msgid "Camel"
+msgstr "Camel"
+
+msgid "Brick red"
+msgstr "Rouge brique"
+
+msgid "Violet"
+msgstr "Violet"
+
+msgid "Autumn orange"
+msgstr "Orange d'automne"
+
+msgid "Cactus green"
+msgstr "Vert cactus"
+
+msgid "Sky blue"
+msgstr "Bleu ciel"
+
+msgid "Fushia pink"
+msgstr "Rose fushia"
