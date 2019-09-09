@@ -203,6 +203,11 @@ class mainWindow(wx.Frame):
 		self.config.SetPath("/ModelMRU")
 		self.modelFileHistory.Save(self.config)
 		self.config.Flush()
+		try:
+			path = self.modelFileHistory.GetHistoryFile(0)
+			profile.putPreference('lastFile', path)
+		except:
+			pass
 
 	def OnProfileMRU(self, e):
 		fileNum = e.GetId() - self.ID_MRU_PROFILE1
