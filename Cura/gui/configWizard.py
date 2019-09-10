@@ -93,16 +93,17 @@ class OptionsPanel(wx.Panel):
 	def __init__(self, parent):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
 
-		self.dual_extrusion_printers = ['DiscoEasy200', 'DiscoUltimate', 'DiscoXL', 'Perso2020']
+		self.disco_addons_printers = ['DiscoEasy200', 'DiscoUltimate']
 		self.multinozzle_printers = []
 		if profile.getPreferenceBool('show_magis_options'):
 			self.multinozzle_printers.append('Magis')
-		self.with_options_printers = self.dual_extrusion_printers + self.multinozzle_printers
+		self.with_options_printers = self.disco_addons_printers + self.multinozzle_printers
 
 		self.extruder_amount = profile.getMachineSettingInt('extruder_amount')
+		self.machine_width = profile.getMachineSettingFloat('machine_width')
 		self.nozzle_size = profile.getMachineSettingFloat('nozzle_size')
 
-		self.oSizer = wx.FlexGridSizer(2, 2, 0, 0)
+		self.oSizer = wx.FlexGridSizer(3, 2, 0, 0)
 
 		self.dualExtrusionChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('Dual extrusion :') + ' ')
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
@@ -113,6 +114,16 @@ class OptionsPanel(wx.Panel):
 			self.dualExtrusionChoice.SetSelection(1)
 		else:
 			self.dualExtrusionChoice.SetSelection(0)
+		
+		self.xlChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('XL addon :') + ' ')
+		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
+			self.xlChoice = wx.Choice(self, wx.ID_ANY, choices = [_('Yes'), _('No')])
+		else:
+			self.xlChoice = wx.ComboBox(self, wx.ID_ANY, choices = [_('Yes'), _('No')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+		if self.machine_width > 205:
+			self.xlChoice.SetSelection(0)
+		else:
+			self.xlChoice.SetSelection(1)
 
 		self.nozzleSizeChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('Nozzle size :') + ' ')
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
@@ -129,14 +140,18 @@ class OptionsPanel(wx.Panel):
 
 		self.oSizer.Add(self.dualExtrusionChoiceLabel)
 		self.oSizer.Add(self.dualExtrusionChoice)
+		self.oSizer.Add(self.xlChoiceLabel)
+		self.oSizer.Add(self.xlChoice)
 		self.oSizer.Add(self.nozzleSizeChoiceLabel)
 		self.oSizer.Add(self.nozzleSizeChoice)
 
 		if sys.platform == 'darwin':
 			self.Bind(wx.EVT_CHOICE, self.OnDualExtrusionChanged, self.dualExtrusionChoice)
+			self.Bind(wx.EVT_CHOICE, self.OnXlChanged, self.xlChoice)
 			self.Bind(wx.EVT_CHOICE, self.OnNozzleSizeChanged, self.nozzleSizeChoice)
 		else:
 			self.Bind(wx.EVT_COMBOBOX, self.OnDualExtrusionChanged, self.dualExtrusionChoice)
+			self.Bind(wx.EVT_COMBOBOX, self.OnXlChanged, self.xlChoice)
 			self.Bind(wx.EVT_COMBOBOX, self.OnNozzleSizeChanged, self.nozzleSizeChoice)
 
 		sizer = wx.BoxSizer(wx.VERTICAL)
@@ -154,6 +169,13 @@ class OptionsPanel(wx.Panel):
 		else:
 			self.extruder_amount = '1'
 		event.Skip()
+	
+	def OnXlChanged(self, event):
+		if self.xlChoice.GetSelection() == 0:
+			self.machine_width = 305
+		else:
+			self.machine_width = 205
+		event.Skip()
 
 	def OnNozzleSizeChanged(self, event):
 		if self.nozzleSizeChoice.GetSelection() == 1:
@@ -166,8 +188,10 @@ class OptionsPanel(wx.Panel):
 
 	def UpdateDisplay(self, name):
 		self.Show(name in self.with_options_printers)
-		self.dualExtrusionChoiceLabel.Show(name in self.dual_extrusion_printers)
-		self.dualExtrusionChoice.Show(name in self.dual_extrusion_printers)
+		self.dualExtrusionChoiceLabel.Show(name in self.disco_addons_printers)
+		self.dualExtrusionChoice.Show(name in self.disco_addons_printers)
+		self.xlChoiceLabel.Show(name in self.disco_addons_printers)
+		self.xlChoice.Show(name in self.disco_addons_printers)
 		self.nozzleSizeChoiceLabel.Show(name in self.multinozzle_printers)
 		self.nozzleSizeChoice.Show(name in self.multinozzle_printers)
 		self.GetParent().Layout()
@@ -282,14 +306,21 @@ class ConfigWizard(wx.wizard.Wizard):
 
 	def OnPageFinished(self, e):
 		print "Configuration wizard finished..."
+		disco_addons_printers = self.configurationPage.optionsPanel.disco_addons_printers
+		multinozzle_printers = self.configurationPage.optionsPanel.multinozzle_printers
 		name = self.configurationPage.printersPanel.name
 		extruder_amount = self.configurationPage.optionsPanel.extruder_amount
+		machine_width = self.configurationPage.optionsPanel.machine_width
 		nozzle_size = self.configurationPage.optionsPanel.nozzle_size
 
+		if name in disco_addons_printers:
+			machine_width = 205 if machine_width < 205 else machine_width
+		profile.putMachineSetting('machine_width', machine_width)
+
 		xml_file = name.lower() + '.xml'
-		if name in ['Magis'] and not nozzle_size == 0.4:
+		if name in multinozzle_printers and not nozzle_size == 0.4:
 			xml_file = name.lower() + '_' + str(nozzle_size) + '.xml'
-		if name in ['DiscoEasy200', 'DiscoUltimate', 'DiscoXL', 'Perso2020'] and int(extruder_amount) == 2:
+		if name in disco_addons_printers and int(extruder_amount) == 2:
 			xml_file = name.lower() + '_dual.xml'
 		profile.putPreference('xml_file', xml_file)
 

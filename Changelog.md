@@ -12,8 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove the pause before moving to the wipe tower.
 - Change print parameters for black and white Chromatik.
 - Introduce new filaments.
-- Introduce Disco XL.
+- Introduce Disco XL addon.
 - Disable grip temperature feature for Neva/Magis.
+- Add opened stls names to the application's title.
+- Update the lastfile param when opening file with drag and drop or file association.
 - Todo:Allow user to select the initial extruder when a dual-extruder printer is used.
 
 ## [2.1.2] - 2019-02-18

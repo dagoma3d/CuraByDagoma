@@ -573,7 +573,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 				paramName = paramNode.nodeName
 				paramValue = paramNode.firstChild.nodeValue
 				if paramValue is not None:
-					profile.putMachineSetting(paramName, paramValue)
+					if paramName != 'machine_width' or (paramName == 'machine_width' and profile.getMachineSetting('machine_name') not in ['DiscoEasy200', 'DiscoUltimate']):
+						profile.putMachineSetting(paramName, paramValue)
 
 	def initConfiguration(self):
 		config = self.configuration.getElementsByTagName('Configuration')[0]
