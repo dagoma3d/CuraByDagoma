@@ -277,7 +277,7 @@
 				<model_colour>#FFFFFF</model_colour>
 			</Color>
 		</Filament>
-		<Filament name="Biosourced PLA OWA Armor">
+		<Filament name="PLA OWA Armor">
 			<print_temperature>190</print_temperature>
 			<filament_diameter>1.74</filament_diameter>
 			<filament_flow>99</filament_flow>

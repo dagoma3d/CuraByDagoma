@@ -172,7 +172,7 @@ class OptionsPanel(wx.Panel):
 	
 	def OnXlChanged(self, event):
 		if self.xlChoice.GetSelection() == 0:
-			self.machine_width = 305
+			self.machine_width = 298
 		else:
 			self.machine_width = 205
 		event.Skip()
