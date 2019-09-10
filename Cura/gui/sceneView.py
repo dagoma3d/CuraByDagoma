@@ -368,6 +368,12 @@ class SceneView(openglGui.glGuiPanel):
 
 	def _saveGCode(self, targetFilename, ejectDrive = False):
 		data = self._engine.getResult().getGCode()
+
+		print_info = profile.getProfileSetting('print_information').encode('utf-8')
+		block0 = data[0:256]
+		block0 = block0.replace('#PRINT_INFO#', print_info)
+		data = block0 + data[256:]
+
 		try:
 			self.notification.message(_("Save in progress..."))
 			size = float(len(data))
@@ -682,11 +688,16 @@ class SceneView(openglGui.glGuiPanel):
 					text += ' - %s' % (meters)
 				cost = result.getFilamentCost(e)
 				if cost is not None:
-					text += ' - %s\n' % (cost)
+					text += ' - %s' % (cost)
+				if e < int(profile.getMachineSetting('extruder_amount')) and profile.mergeDone:
+					text += '\n'
 			split_text = text.split('\n')
 			if split_text[-1] == '':
 				del split_text[-1]
 			text = '\n'.join(split_text)
+			print_information = ' / '.join(split_text)
+			profile.putProfileSetting('print_information', print_information)
+			profile.saveProfile(profile.getDefaultProfilePath(), True)
 			self.printButton.setBottomText(text)
 		else:
 			self.printButton.setBottomText('')

@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 The profile module contains all the settings for Cura.
 These settings can be globally accessed and modified.
@@ -262,6 +263,7 @@ setting('fix_horrible_union_all_type_b', False, bool, 'expert', _('Fix horrible'
 setting('fix_horrible_use_open_bits', False, bool, 'expert', _('Fix horrible')).setLabel(_("Keep open faces"), _("This expert option keeps all the open bits of the model intact. Normally Cura tries to stitch up small holes and remove everything with big holes, but this option keeps bits that are not properly part of anything and just goes with whatever is left. This option is usually not what you want, but it might enable you to slice models otherwise failing to produce proper paths.\nAs with all \"Fix horrible\" options, results may vary and use at your own risk."))
 setting('fix_horrible_extensive_stitching', False, bool, 'expert', _('Fix horrible')).setLabel(_("Extensive stitching"), _("Extensive stitching tries to fix up open holes in the model by closing the hole with touching polygons. This algorthm is quite expensive and could introduce a lot of processing time.\nAs with all \"Fix horrible\" options, results may vary and use at your own risk."))
 
+setting('print_information', '', str, 'hidden', 'hidden')
 setting('plugin_config', '', str, 'hidden', 'hidden')
 setting('object_center_x', -1, float, 'hidden', 'hidden')
 setting('object_center_y', -1, float, 'hidden', 'hidden')
@@ -1087,15 +1089,24 @@ def replaceTagMatch(m):
 
 	if tag == 'time':
 		return pre + time.strftime('%H:%M:%S')
+	
+	if tag == 'machine_name':
+		return pre + getMachineSetting('machine_name')
 
 	if tag == 'app_version':
 		return ' ' + os.environ['CURABYDAGO_VERSION']
 
-	if tag == 'filament_name':
-		return ' ' + getPreference('filament_name')
+	if tag == 'filament_info':
+		return ' ' + getPreference('filament_name') + ' ' + getPreference('color_label')
 
-	if tag == 'filament2_name':
-		return ' ' + getPreference('filament2_name')
+	if tag == 'filament2_info':
+		return ' ' + getPreference('filament2_name') + ' ' + getPreference('color2_label')
+
+	if tag == 'print_temperature_info':
+		return pre + str(getProfileSettingFloat('print_temperature')) + ' °C'.decode('utf-8')
+
+	if tag == 'print_temperature2_info':
+		return pre + str(getProfileSettingFloat('print_temperature2')) + ' °C'.decode('utf-8')
 
 	if tag == 'sensor':
 		return getPalpeurGCode()
@@ -1131,6 +1142,12 @@ def replaceTagMatch(m):
 
 	if tag == 'retraction_amount':
 		return pre + str(getProfileSettingFloat('retraction_amount'))
+	
+	if tag == 'retraction_amount_info':
+		return pre + str(getProfileSettingFloat('retraction_amount')) + ' mm'
+	
+	if tag == 'retraction_speed_info':
+		return pre + str(getProfileSettingFloat('retraction_speed')) + ' mm/s'
 
 	if tag == 'start_retraction_amount':
 		return pre + str(getProfileSettingFloat('start_retraction_amount'))
@@ -1149,6 +1166,12 @@ def replaceTagMatch(m):
 
 	if tag == 'retraction_amount2':
 		return pre + str(getProfileSettingFloat('retraction_amount2'))
+	
+	if tag == 'retraction_amount2_info':
+		return pre + str(getProfileSettingFloat('retraction_amount2')) + ' mm'
+	
+	if tag == 'retraction_speed2_info':
+		return pre + str(getProfileSettingFloat('retraction_speed2')) + ' mm/s'
 
 	if tag == 'pre_retraction_amount2':
 		return pre + str(getProfileSettingFloat('switch_default_retraction_amount') - getProfileSettingFloat('retraction_amount2'))
@@ -1158,6 +1181,12 @@ def replaceTagMatch(m):
 
 	if tag == 'z_offset':
 		return pre + str(getProfileSettingFloat('offset_value'))
+	
+	if tag == 'layer_height_info':
+		return pre + str(getProfileSettingFloat('layer_height')) + ' mm'
+	
+	if tag == 'fill_density_info':
+		return pre + str(getProfileSettingFloat('fill_density')) + " %".decode('utf-8')
 
 	if tag == 'date':
 		return pre + time.strftime('%d-%m-%Y')
