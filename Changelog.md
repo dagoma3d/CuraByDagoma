@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.1.3] - 2019-09-04
+## [2.1.3] - 2019-09-11
 - Fix wipe tower size issue.
 - Align filament insertion/retraction at the beginning/end of the print.
 - Fix a display bug related to the "new version available" feature.
@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Disable grip temperature feature for Neva/Magis.
 - Add opened stls names to the application's title.
 - Update the lastfile param when opening file with drag and drop or file association.
+- Enhance print information in gcode.
 - Todo:Allow user to select the initial extruder when a dual-extruder printer is used.
 
 ## [2.1.2] - 2019-02-18

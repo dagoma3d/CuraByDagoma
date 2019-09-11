@@ -227,7 +227,63 @@
 				<model_colour>#8a2b11</model_colour>
 			</Color>
 		</Filament>
-		<Filament name="PLA PolyPlus">
+		<Filament name="PLA Filo3D">
+			<print_temperature>190</print_temperature>
+			<filament_diameter>1.74</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>65</retraction_speed>
+			<retraction_amount>3.2</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>59.6</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Metallic gray">
+				<model_colour>#808080</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Neon green">
+				<model_colour>#39FF14</model_colour>
+			</Color>
+			<Color name="Dark blue">
+				<model_colour>#000064</model_colour>
+			</Color>
+			<Color name="Fire red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Mate black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="Lemon yellow">
+				<model_colour>#eeee00</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#00ff00</model_colour>
+			</Color>
+			<Color name="Natural">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA Pantone">
+			<print_temperature>210</print_temperature>
+			<filament_diameter>1.74</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>60</retraction_speed>
+			<retraction_amount>3.8</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>29.90</filament_cost_kg>
+			<model_colour>#8d91a1</model_colour>
+			<Color name="Black">
+				<model_colour>#212424</model_colour>
+				<print_temperature>205</print_temperature>
+				<filament_flow>95</filament_flow>
+				<retraction_amount>5</retraction_amount>
+			</Color>
+		</Filament>
+		<Filament name="PLA PolyPlus/Polylite">
 			<print_temperature>210</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
@@ -335,46 +391,6 @@
 				<model_colour>#808080</model_colour>
 			</Color>
 		</Filament>
-		<Filament name="PLA Filo3D">
-			<print_temperature>190</print_temperature>
-			<filament_diameter>1.74</filament_diameter>
-			<filament_flow>100</filament_flow>
-			<retraction_speed>65</retraction_speed>
-			<retraction_amount>3.2</retraction_amount>
-			<filament_physical_density>1270</filament_physical_density>
-			<filament_cost_kg>59.6</filament_cost_kg>
-			<model_colour>#FF9B00</model_colour>
-			<Color name="Metallic gray">
-				<model_colour>#808080</model_colour>
-			</Color>
-			<Color name="Orange">
-				<model_colour>#FFA500</model_colour>
-			</Color>
-			<Color name="Neon green">
-				<model_colour>#39FF14</model_colour>
-			</Color>
-			<Color name="Dark blue">
-				<model_colour>#000064</model_colour>
-			</Color>
-			<Color name="Fire red">
-				<model_colour>#FF0000</model_colour>
-			</Color>
-			<Color name="White">
-				<model_colour>#FFFFFF</model_colour>
-			</Color>
-			<Color name="Mate black">
-				<model_colour>#191919</model_colour>
-			</Color>
-			<Color name="Lemon yellow">
-				<model_colour>#eeee00</model_colour>
-			</Color>
-			<Color name="Green">
-				<model_colour>#00ff00</model_colour>
-			</Color>
-			<Color name="Natural">
-				<model_colour>#FFFFFF</model_colour>
-			</Color>
-		</Filament>
 		<Filament name="PLA PolyFlex">
 			<print_temperature>230</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
@@ -426,6 +442,32 @@
 			<inset0_speed>40</inset0_speed>
 			<insetx_speed>45</insetx_speed>
 			<solidarea_speed>50</solidarea_speed>
+		</Filament>
+		<Filament name="PETG Polylite">
+			<print_temperature>225</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>4.5</retraction_amount>
+			<cool_min_feedrate>10</cool_min_feedrate>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>30</filament_cost_kg>
+			<model_colour>#FFA500</model_colour>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#cccccc</model_colour>
+			</Color>
+			<Color name="Natural">
+				<model_colour>#dddddd</model_colour>
+			</Color>
 		</Filament>
 		<Filament name="Other PLA type">
 			<print_temperature>205</print_temperature>
