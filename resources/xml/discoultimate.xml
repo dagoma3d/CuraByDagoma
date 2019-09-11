@@ -450,7 +450,6 @@
 			<solidarea_speed>50</solidarea_speed>
 		</Filament>
 		<Filament name="PETG Polylite">
-			<grip_temperature>210</grip_temperature>
 			<print_temperature>230</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
