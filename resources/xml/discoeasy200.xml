@@ -564,7 +564,7 @@
 		<extruder_head_size_min_y>40</extruder_head_size_min_y>
 		<extruder_head_size_max_x>17</extruder_head_size_max_x>
 		<extruder_head_size_max_y>70</extruder_head_size_max_y>
-		<extruder_head_size_height>10</extruder_head_size_height>
+		<extruder_head_size_height>13</extruder_head_size_height>
 		<retraction_enable>True</retraction_enable>
 		<min_segment_length>32</min_segment_length>
 		<oneAtATime>False</oneAtATime>
