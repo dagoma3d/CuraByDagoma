@@ -369,10 +369,23 @@ class SceneView(openglGui.glGuiPanel):
 	def _saveGCode(self, targetFilename, ejectDrive = False):
 		data = self._engine.getResult().getGCode()
 
-		print_info = profile.getProfileSetting('print_information').encode('utf-8')
-		block0 = data[0:256]
-		block0 = block0.replace('#PRINT_INFO#', print_info)
-		data = block0 + data[256:]
+		print_duration = profile.getProfileSetting('print_duration').encode('utf-8')
+		filament_length = profile.getProfileSetting('filament_length').encode('utf-8')
+		filament_weight = profile.getProfileSetting('filament_weight').encode('utf-8')
+		filament_cost = profile.getProfileSetting('filament_cost').encode('utf-8')
+		filament2_length = profile.getProfileSetting('filament2_length').encode('utf-8')
+		filament2_weight = profile.getProfileSetting('filament2_weight').encode('utf-8')
+		filament2_cost = profile.getProfileSetting('filament2_cost').encode('utf-8')
+
+		block0 = data[0:1024]
+		block0 = block0.replace('#PRINT_DURATION#', print_duration)
+		block0 = block0.replace('#FILAMENT_LENGTH#', filament_length)
+		block0 = block0.replace('#FILAMENT_WEIGHT#', filament_weight)
+		block0 = block0.replace('#FILAMENT_COST#', filament_cost)
+		block0 = block0.replace('#FILAMENT2_LENGTH#', filament2_length)
+		block0 = block0.replace('#FILAMENT2_WEIGHT#', filament2_weight)
+		block0 = block0.replace('#FILAMENT2_COST#', filament2_cost)
+		data = block0 + data[1024:]
 
 		try:
 			self.notification.message(_("Save in progress..."))
@@ -676,27 +689,37 @@ class SceneView(openglGui.glGuiPanel):
 			mainWindow.normalSettingsPanel.printButton.Enable()
 			mainWindow.fileMenu.FindItemByPosition(2).Enable(True)
 			self.printButton.setProgressBar(None)
-			text = '%s\n' % (result.getPrintTime())
+			print_duration = result.getPrintTime()
+			profile.putProfileSetting('print_duration', print_duration)
+			text = '%s\n' % (print_duration)
 			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
+				filament_index = str(e + 1) if e > 0 else ''
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
+					profile.putProfileSetting('filament' + filament_index + '_weight', grams)
 					if int(profile.getMachineSetting('extruder_amount')) > 1:
 						text += 'Filament %s: ' % (e + 1)
 					text += '%s' % grams
+				else:
+					profile.putProfileSetting('filament' + filament_index + '_weight', '')
 				meters = result.getFilamentMeters(e)
 				if meters is not None:
+					profile.putProfileSetting('filament' + filament_index + '_length', meters)
 					text += ' - %s' % (meters)
+				else:
+					profile.putProfileSetting('filament' + filament_index + '_length', '')
 				cost = result.getFilamentCost(e)
 				if cost is not None:
+					profile.putProfileSetting('filament' + filament_index + '_cost', cost)
 					text += ' - %s' % (cost)
+				else:
+					profile.putProfileSetting('filament' + filament_index + '_cost', '')
 				if e < int(profile.getMachineSetting('extruder_amount')) and profile.mergeDone:
 					text += '\n'
 			split_text = text.split('\n')
 			if split_text[-1] == '':
 				del split_text[-1]
 			text = '\n'.join(split_text)
-			print_information = ' / '.join(split_text)
-			profile.putProfileSetting('print_information', print_information)
 			profile.saveProfile(profile.getDefaultProfilePath(), True)
 			self.printButton.setBottomText(text)
 		else:
