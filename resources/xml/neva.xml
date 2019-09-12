@@ -311,7 +311,7 @@
 			<retraction_amount>5</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
 			<filament_cost_kg>29.90</filament_cost_kg>
-			<model_colour>#8d91a1</model_colour>
+			<model_colour>#FFF9E8</model_colour>
 			<Color name="Black">
 				<model_colour>#212424</model_colour>
 				<print_temperature>210</print_temperature>
