@@ -656,7 +656,7 @@ M104 S{print_temperature} ;start the heater
 M107 ;start with the fan off
 G1 X100 Y20 Z0.5 F3000
 M109 S{print_temperature}
-T0 ;Just ensure we use the first extruder when starting the print
+T{start_extruder} ;Just ensure we use the first extruder when starting the print
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
 G1 E{start_retraction_amount} F3000

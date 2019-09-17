@@ -514,14 +514,19 @@ class Engine(object):
 			line = stderr.readline()
 
 	def _engineSettings(self, extruderCount):
+		e = int(profile.getProfileSetting('start_extruder'))
+		e0 = str(0 ^ e)
+		e1 = str(1 ^ e)
+
 		settings = {
+			'startExtruder': int(profile.getProfileSetting('start_extruder')),
 			'nozzleSize': int(profile.getMachineSettingFloat('nozzle_size') * 1000),
 			'layerThickness': int(profile.getProfileSettingFloat('layer_height') * 1000),
 			'initialLayerThickness': int(profile.getProfileSettingFloat('bottom_thickness') * 1000) if profile.getProfileSettingFloat('bottom_thickness') > 0.0 else int(profile.getProfileSettingFloat('layer_height') * 1000),
-			'filamentDiameter[0]': int(profile.getProfileSettingFloat('filament_diameter') * 1000),
-			'filamentDiameter[1]': int(profile.getProfileSettingFloat('filament_diameter2') * 1000),
-			'filamentFlow[0]': int(profile.getProfileSettingFloat('filament_flow')),
-			'filamentFlow[1]': int(profile.getProfileSettingFloat('filament_flow2')),
+			'filamentDiameter[' + e0 + ']': int(profile.getProfileSettingFloat('filament_diameter') * 1000),
+			'filamentDiameter[' + e1 + ']': int(profile.getProfileSettingFloat('filament_diameter2') * 1000),
+			'filamentFlow[' + e0 + ']': int(profile.getProfileSettingFloat('filament_flow')),
+			'filamentFlow[' + e1 + ']': int(profile.getProfileSettingFloat('filament_flow2')),
 			'extrusionWidth': int(profile.calculateEdgeWidth() * 1000),
 			'layer0extrusionWidth': int(profile.calculateEdgeWidth() * profile.getProfileSettingFloat('layer0_width_factor') / 100 * 1000),
 			'insetCount': int(profile.calculateLineCount()),
@@ -545,10 +550,10 @@ class Engine(object):
 			'supportXYDistance': int(1000 * profile.getProfileSettingFloat('support_xy_distance')),
 			'supportZDistance': int(1000 * profile.getProfileSettingFloat('support_z_distance')),
 			'supportExtruder': 0 if profile.getProfileSetting('support_dual_extrusion') == 'First extruder' else (1 if profile.getProfileSetting('support_dual_extrusion') == 'Second extruder' and profile.minimalExtruderCount() > 1 else -1),
-			'retractionAmount[0]': int(profile.getProfileSettingFloat('retraction_amount') * 1000) if profile.getMachineSetting('retraction_enable') == 'True' else 0,
-			'retractionAmount[1]': int(profile.getProfileSettingFloat('retraction_amount2') * 1000) if profile.getMachineSetting('retraction_enable') == 'True' else 0,
-			'retractionSpeed[0]': int(profile.getProfileSettingFloat('retraction_speed')),
-			'retractionSpeed[1]': int(profile.getProfileSettingFloat('retraction_speed2')),
+			'retractionAmount[' + e0 + ']': int(profile.getProfileSettingFloat('retraction_amount') * 1000) if profile.getMachineSetting('retraction_enable') == 'True' else 0,
+			'retractionAmount[' + e1 + ']': int(profile.getProfileSettingFloat('retraction_amount2') * 1000) if profile.getMachineSetting('retraction_enable') == 'True' else 0,
+			'retractionSpeed[' + e0 + ']': int(profile.getProfileSettingFloat('retraction_speed')),
+			'retractionSpeed[' + e1 + ']': int(profile.getProfileSettingFloat('retraction_speed2')),
 			'retractionMinimalDistance': int(profile.getProfileSettingFloat('retraction_min_travel') * 1000),
 			'retractionAmountExtruderSwitch': int(profile.getProfileSettingFloat('retraction_dual_amount') * 1000),
 			'retractionZHop': int(profile.getProfileSettingFloat('retraction_hop') * 1000),
@@ -560,10 +565,10 @@ class Engine(object):
 			'coolHeadLift': 1 if profile.getProfileSetting('cool_head_lift') == 'True' else 0,
 			'startCode': profile.getAlterationFileContents('start.gcode', extruderCount),
 			'endCode': profile.getAlterationFileContents('end.gcode', extruderCount),
-			'preSwitchExtruderCode[0]': profile.getAlterationFileContents('preSwitchExtruder.gcode', extruderCount),
-			'preSwitchExtruderCode[1]': profile.getAlterationFileContents('preSwitchExtruder2.gcode', extruderCount),
-			'postSwitchExtruderCode[0]': profile.getAlterationFileContents('postSwitchExtruder.gcode', extruderCount),
-			'postSwitchExtruderCode[1]': profile.getAlterationFileContents('postSwitchExtruder2.gcode', extruderCount),
+			'preSwitchExtruderCode[' + e0 + ']': profile.getAlterationFileContents('preSwitchExtruder.gcode', extruderCount),
+			'preSwitchExtruderCode[' + e1 + ']': profile.getAlterationFileContents('preSwitchExtruder2.gcode', extruderCount),
+			'postSwitchExtruderCode[' + e0 + ']': profile.getAlterationFileContents('postSwitchExtruder.gcode', extruderCount),
+			'postSwitchExtruderCode[' + e1 + ']': profile.getAlterationFileContents('postSwitchExtruder2.gcode', extruderCount),
 
 			'extruderOffset[1].X': int(profile.getMachineSettingFloat('extruder_offset_x1') * 1000),
 			'extruderOffset[1].Y': int(profile.getMachineSettingFloat('extruder_offset_y1') * 1000),

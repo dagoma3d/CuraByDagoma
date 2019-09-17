@@ -49,6 +49,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._focusObj = None
 		self._selectedObj = None
 		self._objColors = [None,None]
+		self._extrudersColors = [None,None]
 		self._mouseX = -1
 		self._mouseY = -1
 		self._mouseState = None
@@ -794,13 +795,17 @@ class SceneView(openglGui.glGuiPanel):
 			self.sceneUpdated()
 		self._scene.updateSizeOffsets(True)
 		self._machineSize = numpy.array([profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')])
-		self._objColors[0] = profile.getPreferenceColour('model_colour')
+		self._objColors[0] = profile.getPreferenceColour('model_colour') if int(profile.getProfileSetting('start_extruder')) == 0 else profile.getPreferenceColour('model_colour2')
+		self._extrudersColors[0] = profile.getPreferenceColour('model_colour') 
 		if int(profile.getMachineSetting('extruder_amount')) > 1:
-			self._objColors[1] = profile.getPreferenceColour('model_colour2')
+			self._objColors[1] = profile.getPreferenceColour('model_colour2') if int(profile.getProfileSetting('start_extruder')) == 0 else profile.getPreferenceColour('model_colour')
+			self._extrudersColors[1] = profile.getPreferenceColour('model_colour2')
 		else:
-			self._objColors[1] = profile.getPreferenceColour('model_colour')
+			self._objColors[1] = profile.getPreferenceColour('model_colour') if int(profile.getProfileSetting('start_extruder')) == 0 else profile.getPreferenceColour('model_colour2')
+			self._extrudersColors[1] = profile.getPreferenceColour('model_colour')
 		if self._switchColors:
 			self._objColors.reverse()
+			self._extrudersColors.reverse()
 		self._scene.updateMachineDimensions()
 		self.updateModelSettingsToControls()
 
@@ -1466,9 +1471,9 @@ class SceneView(openglGui.glGuiPanel):
 			self._objectShader.bind()
 			self._renderObject(self._platformMesh[machine], False, False)
 			if int(profile.getMachineSetting('extruder_amount')) == 2:
-				glColor4f(self._objColors[0][0], self._objColors[0][1], self._objColors[0][2], 0.5)
+				glColor4f(self._extrudersColors[0][0], self._extrudersColors[0][1], self._extrudersColors[0][2], 0.5)
 				self._renderObject(self._platformMesh[machine + '_t0'], False, False)
-				glColor4f(self._objColors[1][0], self._objColors[1][1], self._objColors[1][2], 0.5)
+				glColor4f(self._extrudersColors[1][0], self._extrudersColors[1][1], self._extrudersColors[1][2], 0.5)
 				self._renderObject(self._platformMesh[machine + '_t1'], False, False)
 			self._objectShader.unbind()
 		else:

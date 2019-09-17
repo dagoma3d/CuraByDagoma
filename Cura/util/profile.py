@@ -263,6 +263,7 @@ setting('fix_horrible_union_all_type_b', False, bool, 'expert', _('Fix horrible'
 setting('fix_horrible_use_open_bits', False, bool, 'expert', _('Fix horrible')).setLabel(_("Keep open faces"), _("This expert option keeps all the open bits of the model intact. Normally Cura tries to stitch up small holes and remove everything with big holes, but this option keeps bits that are not properly part of anything and just goes with whatever is left. This option is usually not what you want, but it might enable you to slice models otherwise failing to produce proper paths.\nAs with all \"Fix horrible\" options, results may vary and use at your own risk."))
 setting('fix_horrible_extensive_stitching', False, bool, 'expert', _('Fix horrible')).setLabel(_("Extensive stitching"), _("Extensive stitching tries to fix up open holes in the model by closing the hole with touching polygons. This algorthm is quite expensive and could introduce a lot of processing time.\nAs with all \"Fix horrible\" options, results may vary and use at your own risk."))
 
+setting('start_extruder', 0, int, 'hidden', 'hidden')
 setting('print_duration', '', str, 'hidden', 'hidden')
 setting('filament_length', '', str, 'hidden', 'hidden')
 setting('filament_weight', '', str, 'hidden', 'hidden')
@@ -1102,6 +1103,9 @@ def replaceTagMatch(m):
 	if tag == 'app_version':
 		return ' ' + os.environ['CURABYDAGO_VERSION']
 	
+	if tag == 'start_extruder':
+		return pre + getProfileSetting('start_extruder')
+
 	if tag == 'addons':
 		addons = []
 		if getMachineSettingInt('extruder_amount') > 1:

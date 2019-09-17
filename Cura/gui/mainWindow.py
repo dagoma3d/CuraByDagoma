@@ -312,6 +312,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		def __init__(self):
 			self.label = ''
 			self.name = ''
+	
+	class Extruder:
+		def __init__(self):
+			self.name = 'Extruder 1'
+			self.value = 0
 
 	class Filling:
 		def __init__(self):
@@ -421,6 +426,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.RefreshFilament2()
 			self.RefreshColor2()
 			self.RefreshTemperature2SpinCtrl()
+			self.RefreshStartExtruder()
 			self.RefreshSupportDualExtrusion()
 			self.RefreshWipeTowerVolume()
 		self.RefreshFilling()
@@ -453,6 +459,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrecisionRadioBoxChanged, self.precisionRadioBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnSupportRadioBoxChanged, self.supportRadioBox)
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.Bind(wx.EVT_RADIOBOX, self.OnStartExtruderRadioBoxChanged, self.startExtruderRadioBox)
 			self.Bind(wx.EVT_RADIOBOX, self.OnSupportDualExtrusionRadioBoxChanged, self.supportExtruderDualExtrusionRadioBox)
 			self.Bind(wx.EVT_RADIOBOX, self.OnWipeTowerVolumeRadioBoxChanged, self.wipeTowerVolumeRadioBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnFillingRadioBoxChanged, self.fillingRadioBox)
@@ -467,6 +474,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.temperatureSpinCtrl.Enable(False)
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			self.temperature2SpinCtrl.Enable(False)
+			self.startExtruderRadioBox.SetSelection(0)
 		self.supportRadioBox.SetSelection(0)
 
 
@@ -496,7 +504,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		if not self.isLatest:
 			mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("New version available!"), URL="https://dist.dagoma3d.com/CuraByDagoma"), flag=wx.EXPAND|wx.BOTTOM, border=2)
-			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
+		else:
+			mainSizer.Add(wx.StaticText(self, wx.ID_ANY, _("Up to date software")), flag=wx.EXPAND|wx.BOTTOM, border=2)
+		mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(filamentSizer)
 		mainSizer.Add(self.filamentComboBox, flag=wx.EXPAND|wx.BOTTOM, border=2)
 		mainSizer.Add(self.colorComboBox, flag=wx.EXPAND)
@@ -514,6 +524,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Fine tune your settings"), URL=helpUrl), flag=wx.EXPAND|wx.BOTTOM, border=2)
 		mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			mainSizer.Add(self.startExtruderRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.fillingRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.precisionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.supportRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
@@ -560,6 +572,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.initPrecision()
 		self.initSupport()
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.initExtruder()
 			self.initSupportDualExtrusion()
 			self.initWipeTowerVolume()
 		self.initAdhesion()
@@ -749,6 +762,26 @@ class normalSettingsPanel(configBase.configPanelBase):
 				profile.putPreference('fill_index', 1)
 			self.fillingRadioBox.EnableItem(0, False)
 		self.fillingRadioBox.SetSelection(fill_selection_index)
+	
+	def initExtruder(self):
+		extruders = [
+			{'name': 'Extruder', 'value': 0},
+			{'name': 'Extruder', 'value': 1},
+		]
+		choices = []
+		self.extruders = []
+		for extruder in extruders:
+			extru = self.Extruder()
+			name = _(extruder.get("name") + " %d") % (extruder.get("value") + 1)
+			choices.append(name)
+			extru.name = name
+			try :
+				extru.value = extruder.get("value")
+				self.extruders.append(extru)
+			except :
+				print 'Some Error in Extruders Bloc'
+				pass
+		self.startExtruderRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Start print with :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
 	def initPrecision(self):
 		precisions = self.configuration.getElementsByTagName("Precision")
@@ -822,7 +855,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				suppDualExtrusion.support_dual_extrusion = support_dual_extrusion.get("value")
 				self.support_dual_extrusions.append(suppDualExtrusion)
 			except :
-				print 'Some Error in Support extruders Bloc'
+				print 'Some Error in Support Bloc'
 				pass
 
 		self.supportExtruderDualExtrusionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filament(s) for support :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
@@ -1285,6 +1318,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def RefreshTemperature2SpinCtrl(self):
 		#print 'Refresh Spin'
 		profile.putProfileSetting('print_temperature2', str(self.temperature2SpinCtrl.GetValue()))
+	
+	def RefreshStartExtruder(self):
+		profile.putProfileSetting('start_extruder', self.extruders[self.startExtruderRadioBox.GetSelection()].value)
 
 	def RefreshFilling(self):
 		fill_index = self.fillingRadioBox.GetSelection()
@@ -1423,6 +1459,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			sensor = self.sensors[1].sensor
 		profile.putProfileSetting('sensor', sensor)
+	
+	def OnStartExtruderRadioBoxChanged(self, event):
+		self.RefreshStartExtruder()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
 
 	def OnSupportRadioBoxChanged(self, event):
 		self.RefreshSupport()
