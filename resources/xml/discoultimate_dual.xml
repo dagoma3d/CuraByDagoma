@@ -652,10 +652,10 @@ M109 R90 ;wait for cool down
 G28
 ;Sensor activation
 ;{sensor}
-M104 S{print_temperature} ;start the heater
+M104 S{initial_print_temperature} ;start the heater
 M107 ;start with the fan off
 G1 X100 Y20 Z0.5 F3000
-M109 S{print_temperature}
+M109 S{initial_print_temperature}
 T{start_extruder} ;Just ensure we use the first extruder when starting the print
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
@@ -663,7 +663,7 @@ G1 E{start_retraction_amount} F3000
 G92 E0 ;zero the extruded length
 G1 F200 E10 ;extrude 10mm of feed stock
 G92 E0 ;zero the extruded length again
-G1 E-{retraction_amount} F5000 ;filament retract length
+G1 E-{initial_retraction_amount} F5000 ;filament retract length
 G1 F240 Z3
 G1 F{travel_speed}
 		</Gstart>

@@ -1106,6 +1106,18 @@ def replaceTagMatch(m):
 	if tag == 'start_extruder':
 		return pre + getProfileSetting('start_extruder')
 
+	if tag == 'initial_retraction_amount':
+		if int(getProfileSetting('start_extruder')) == 0:
+			return pre + str(getProfileSettingFloat('retraction_amount'))
+		else:
+			return pre + str(getProfileSettingFloat('retraction_amount2'))
+
+	if tag == 'initial_print_temperature':
+		if int(getProfileSetting('start_extruder')) == 0:
+			return pre + str(getProfileSettingFloat('print_temperature'))
+		else:
+			return pre + str(getProfileSettingFloat('print_temperature2'))
+
 	if tag == 'addons':
 		addons = []
 		if getMachineSettingInt('extruder_amount') > 1:
