@@ -411,12 +411,13 @@ class SceneView(openglGui.glGuiPanel):
 			traceback.print_exc()
 			self.notification.message(_("Failed to save on the SD card"))
 		else:
+			displayedtargetFilename = os.path.basename(targetFilename)
 			if ejectDrive:
-				self.notification.message(_("Saved as %s") % (targetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
 			elif explorer.hasExplorer():
-				self.notification.message(_("Saved as %s") % (targetFilename), lambda : explorer.openExplorer(targetFilename), 4, _('Open Folder'))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename), lambda : explorer.openExplorer(targetFilename), 4, _('Open Folder'))
 			else:
-				self.notification.message(_("Saved as %s") % (targetFilename))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename))
 
 	def _doEjectSD(self, drive):
 		if removableStorage.ejectDrive(drive):
@@ -699,7 +700,7 @@ class SceneView(openglGui.glGuiPanel):
 				if grams is not None:
 					profile.putProfileSetting('filament' + filament_index + '_weight', grams)
 					if int(profile.getMachineSetting('extruder_amount')) > 1:
-						text += 'Filament %s: ' % (e + 1)
+						text += 'Filament %s: ' % ((e ^ int(profile.getProfileSetting('start_extruder'))) + 1)
 					text += '%s' % grams
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_weight', '')
@@ -941,7 +942,7 @@ class SceneView(openglGui.glGuiPanel):
 					self.Bind(wx.EVT_MENU, self.OnSplitObject, menu.Append(-1, _("Split object into parts")))
 				if ((self._selectedObj != self._focusObj and self._focusObj is not None and self._selectedObj is not None) or len(self._scene.objects()) == 2) and int(profile.getMachineSetting('extruder_amount')) > 1:
 					self.Bind(wx.EVT_MENU, self.OnMergeObjects, menu.Append(-1, _("Dual extrusion merge")))
-				if (self._focusObj is not None or self._selectedObj is not None) and profile.mergeDone:
+				if (self._focusObj is not None or self._selectedObj is not None) and profile.mergeDone and int(profile.getMachineSetting('extruder_amount')) == 2:
 					self.Bind(wx.EVT_MENU, self.OnSwitchColors, menu.Append(-1, _("Switch colors")))
 				if len(self._scene.objects()) > 0:
 					self.Bind(wx.EVT_MENU, self.OnDeleteAll, menu.Append(-1, _("Delete all objects")))

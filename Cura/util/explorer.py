@@ -17,6 +17,8 @@ def hasExplorer():
 			return True
 		if os.path.isfile('/usr/bin/dolphin'):
 			return True
+		if os.path.isfile('/usr/bin/thunar'):
+			return True
 	return False
 
 def openExplorer(filename):
