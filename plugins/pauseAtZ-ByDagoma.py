@@ -7,6 +7,7 @@
 
 __copyright__ = "Copyright (C) 2016 Dagoma.Fr - Released under terms of the AGPLv3 License"
 import re
+import os
 from Cura.util import profile
 
 def getPrintZValue(lineBlock):
@@ -79,7 +80,7 @@ with open(filename, "w") as f:
 						if layerZ >= pauseLevel_i:
 							pauseState = 2
 
-			f.write(line)
+			f.write(line.rstrip() + os.linesep)
 			continue
 
 		x = getValue(line, 'X', x)
@@ -91,11 +92,11 @@ with open(filename, "w") as f:
 				z = layerZ
 
 				pauseState = 0
-				f.write(';TYPE:CUSTOM\n')
+				f.write(';TYPE:CUSTOM' + os.linesep)
 				#Retract
 				if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
-					f.write('M600 U-55 X55 Y-92 Z60\n')
+					f.write('M600 U-55 X55 Y-92 Z60' + os.linesep)
 				else:
-					f.write('M600 L0 PA\n')
+					f.write('M600 L0 PA' + os.linesep)
 
-		f.write(line)
+		f.write(line.rstrip() + os.linesep)
