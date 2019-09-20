@@ -1176,12 +1176,12 @@ def replaceTagMatch(m):
 	if tag == 'check_filrunout':
 		wipe_tower = int(getMachineSetting('extruder_amount')) > 1 and ((not getProfileSetting('support') == 'None' and getProfileSetting('support_dual_extrusion') == 'Second extruder') or mergeDone)
 		if wipe_tower:
-			if int(profile.getProfileSetting('start_extruder')) == 0:
+			if int(getProfileSetting('start_extruder')) == 0:
 				return ";Filrunout 2 is enabled"
 			else:
 				return ";Filrunout 1 is enabled"
 		else:
-			if int(profile.getProfileSetting('start_extruder')) == 0:
+			if int(getProfileSetting('start_extruder')) == 0:
 				return "D131 E1"
 			else:
 				return "D131 E0"
