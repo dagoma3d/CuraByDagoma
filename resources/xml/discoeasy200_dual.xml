@@ -643,7 +643,7 @@
 ;- Length: #FILAMENT2_LENGTH#
 ;- Weight: #FILAMENT2_WEIGHT#
 ;- Cost: #FILAMENT2_COST#
-;{check_filrunout2}
+;{check_filrunout}
 G90 ;absolute positioning
 M106 S255 ;fan on for the sensor
 G28 X Y

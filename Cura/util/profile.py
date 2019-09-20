@@ -1173,12 +1173,18 @@ def replaceTagMatch(m):
 		else:
 			return "M104 S" + str(print_temperature2)
 
-	if tag == 'check_filrunout2':
+	if tag == 'check_filrunout':
 		wipe_tower = int(getMachineSetting('extruder_amount')) > 1 and ((not getProfileSetting('support') == 'None' and getProfileSetting('support_dual_extrusion') == 'Second extruder') or mergeDone)
 		if wipe_tower:
-			return ";Filrunout 2 is enabled"
+			if int(profile.getProfileSetting('start_extruder')) == 0:
+				return ";Filrunout 2 is enabled"
+			else:
+				return ";Filrunout 1 is enabled"
 		else:
-			return "D131 E1"
+			if int(profile.getProfileSetting('start_extruder')) == 0:
+				return "D131 E1"
+			else:
+				return "D131 E0"
 
 	if tag == 'retraction_amount':
 		return pre + str(getProfileSettingFloat('retraction_amount'))
