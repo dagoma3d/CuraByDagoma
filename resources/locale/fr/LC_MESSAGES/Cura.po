@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2019-09-17 13:46+0200\n"
+"PO-Revision-Date: 2019-11-26 11:37+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -3682,3 +3682,15 @@ msgstr "Commencer l'impression avec:"
 
 msgid "Up to date software"
 msgstr "Logiciel à jour"
+
+msgid "contact_url"
+msgstr "https://www.dagoma3d.com/nous-contacter?utm_source=cura"
+
+msgid "buy_url"
+msgstr "https://www.dagoma3d.com/shop/category/filaments-2?utm_source=cura"
+
+msgid "help_url"
+msgstr "http://start.dagoma3d.com/cura-by-dagoma?utm_source=cura"
+
+msgid "warning_url"
+msgstr "https://www.dagoma3d.com/armes-inoffensives?utm_source=cura"

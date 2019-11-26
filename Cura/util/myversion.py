@@ -7,7 +7,7 @@ import os
 import urllib2
 
 url_handle = None
-version_url = "https://dist.dagoma.fr/version/CuraByDagoma"
+version_url = "https://dist.dagoma3d.com/version/CuraByDagoma"
 
 try:
 	url_handle = urllib2.urlopen(version_url)

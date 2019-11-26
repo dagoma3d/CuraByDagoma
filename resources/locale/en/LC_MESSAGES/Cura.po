@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2019-09-17 13:46+0200\n"
+"PO-Revision-Date: 2019-11-26 11:37+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,8 +69,7 @@ msgid ""
 msgstr ""
 
 #: Cura/gui/configWizard.py:336
-msgid ""
-"Be sure to review the default profile before running it on your machine."
+msgid "Be sure to review the default profile before running it on your machine."
 msgstr ""
 
 #: Cura/gui/configWizard.py:337
@@ -1229,8 +1228,8 @@ msgstr ""
 
 #: Cura/util/profile.py:173
 msgid ""
-"This controls the thickness of the bottom and top layers, the amount of "
-"solid layers put down is calculated by the layer thickness and this value.\n"
+"This controls the thickness of the bottom and top layers, the amount of solid "
+"layers put down is calculated by the layer thickness and this value.\n"
 "Having this value a multiple of the layer thickness makes sense. And keep it "
 "near your wall thickness to make an evenly strong part."
 msgstr ""
@@ -1266,10 +1265,10 @@ msgstr ""
 
 #: Cura/util/profile.py:176
 msgid ""
-"Speed at which printing happens. A well adjusted Ultimaker can reach 150mm/"
-"s, but for good quality prints you want to print slower. Printing speed "
-"depends on a lot of factors. So you will be experimenting with optimal "
-"settings for this."
+"Speed at which printing happens. A well adjusted Ultimaker can reach 150mm/s, "
+"but for good quality prints you want to print slower. Printing speed depends "
+"on a lot of factors. So you will be experimenting with optimal settings for "
+"this."
 msgstr ""
 
 #: Cura/util/profile.py:177
@@ -1383,9 +1382,8 @@ msgstr ""
 msgid ""
 "Which extruder to use for support material, for break-away support you can "
 "use both extruders.\n"
-"But if one of the materials is more expensive then the other you could "
-"select an extruder to use for support material. This causes more extruder "
-"switches.\n"
+"But if one of the materials is more expensive then the other you could select "
+"an extruder to use for support material. This causes more extruder switches.\n"
 "You can also use the 2nd extruder for soluble support materials."
 msgstr ""
 
@@ -1481,8 +1479,7 @@ msgstr ""
 
 #: Cura/util/profile.py:192
 msgid ""
-"Flow compensation, the amount of material extruded is multiplied by this "
-"value"
+"Flow compensation, the amount of material extruded is multiplied by this value"
 msgstr ""
 
 #: Cura/util/profile.py:193 Cura/util/profile.py:194 Cura/util/profile.py:195
@@ -1548,11 +1545,11 @@ msgstr ""
 
 #: Cura/util/profile.py:198
 msgid ""
-"The minimal amount of extrusion that needs to be done before retracting "
-"again if a retraction needs to happen before this minimal is reached the "
-"retraction is ignored.\n"
-"This avoids retracting a lot on the same piece of filament which flattens "
-"the filament and causes grinding issues."
+"The minimal amount of extrusion that needs to be done before retracting again "
+"if a retraction needs to happen before this minimal is reached the retraction "
+"is ignored.\n"
+"This avoids retracting a lot on the same piece of filament which flattens the "
+"filament and causes grinding issues."
 msgstr ""
 
 #: Cura/util/profile.py:199
@@ -1572,9 +1569,9 @@ msgstr ""
 
 #: Cura/util/profile.py:200
 msgid ""
-"Layer thickness of the bottom layer. A thicker bottom layer makes sticking "
-"to the bed easier. Set to 0.0 to have the bottom layer thickness the same as "
-"the other layers."
+"Layer thickness of the bottom layer. A thicker bottom layer makes sticking to "
+"the bed easier. Set to 0.0 to have the bottom layer thickness the same as the "
+"other layers."
 msgstr ""
 
 #: Cura/util/profile.py:201
@@ -1619,8 +1616,8 @@ msgstr ""
 
 #: Cura/util/profile.py:205
 msgid ""
-"Speed at which travel moves are done, a well built Ultimaker can reach "
-"speeds of 250mm/s. But some machines might miss steps then."
+"Speed at which travel moves are done, a well built Ultimaker can reach speeds "
+"of 250mm/s. But some machines might miss steps then."
 msgstr ""
 
 #: Cura/util/profile.py:206
@@ -1629,8 +1626,8 @@ msgstr ""
 
 #: Cura/util/profile.py:206
 msgid ""
-"Print speed for the bottom layer, you want to print the first layer slower "
-"so it sticks better to the printer bed."
+"Print speed for the bottom layer, you want to print the first layer slower so "
+"it sticks better to the printer bed."
 msgstr ""
 
 #: Cura/util/profile.py:207
@@ -1652,8 +1649,8 @@ msgstr ""
 msgid ""
 "Speed at which outer shell is printed. If set to 0 then the print speed is "
 "used. Printing the outer shell at a lower speed improves the final skin "
-"quality. However, having a large difference between the inner shell speed "
-"and the outer shell speed will effect quality in a negative way."
+"quality. However, having a large difference between the inner shell speed and "
+"the outer shell speed will effect quality in a negative way."
 msgstr ""
 
 #: Cura/util/profile.py:209
@@ -1702,8 +1699,8 @@ msgstr ""
 
 #: Cura/util/profile.py:213
 msgid ""
-"The skirt is a line drawn around the object at the first layer. This helps "
-"to prime your extruder, and to see if the object fits on your platform.\n"
+"The skirt is a line drawn around the object at the first layer. This helps to "
+"prime your extruder, and to see if the object fits on your platform.\n"
 "Setting this to 0 will disable the skirt. Multiple skirt lines can help "
 "priming your extruder better for small objects."
 msgstr ""
@@ -1746,9 +1743,9 @@ msgstr ""
 
 #: Cura/util/profile.py:217
 msgid ""
-"When the fan is turned on, it is enabled at this speed setting. If cool "
-"slows down the layer, the fan is adjusted between the min and max speed. "
-"Minimal fan speed is used if the layer is not slowed down due to cooling."
+"When the fan is turned on, it is enabled at this speed setting. If cool slows "
+"down the layer, the fan is adjusted between the min and max speed. Minimal "
+"fan speed is used if the layer is not slowed down due to cooling."
 msgstr ""
 
 #: Cura/util/profile.py:218
@@ -1757,10 +1754,10 @@ msgstr ""
 
 #: Cura/util/profile.py:218
 msgid ""
-"When the fan is turned on, it is enabled at this speed setting. If cool "
-"slows down the layer, the fan is adjusted between the min and max speed. "
-"Maximal fan speed is used if the layer is slowed down due to cooling by more "
-"than 200%."
+"When the fan is turned on, it is enabled at this speed setting. If cool slows "
+"down the layer, the fan is adjusted between the min and max speed. Maximal "
+"fan speed is used if the layer is slowed down due to cooling by more than "
+"200%."
 msgstr ""
 
 #: Cura/util/profile.py:219
@@ -1770,8 +1767,8 @@ msgstr ""
 #: Cura/util/profile.py:219
 msgid ""
 "The minimal layer time can cause the print to slow down so much it starts to "
-"ooze. The minimal feedrate protects against this. Even if a print gets "
-"slowed down it will never be slower than this minimal speed."
+"ooze. The minimal feedrate protects against this. Even if a print gets slowed "
+"down it will never be slower than this minimal speed."
 msgstr ""
 
 #: Cura/util/profile.py:220
@@ -1814,9 +1811,8 @@ msgstr ""
 
 #: Cura/util/profile.py:223
 msgid ""
-"Amount of overlap between the infill and the walls. There is a slight "
-"overlap with the walls and the infill so the walls connect firmly to the "
-"infill."
+"Amount of overlap between the infill and the walls. There is a slight overlap "
+"with the walls and the infill so the walls connect firmly to the infill."
 msgstr ""
 
 #: Cura/util/profile.py:224
@@ -1826,11 +1822,10 @@ msgstr ""
 #: Cura/util/profile.py:224
 msgid ""
 "The type of support structure.\n"
-"Grid is very strong and can come off in 1 piece, however, sometimes it is "
-"too strong.\n"
+"Grid is very strong and can come off in 1 piece, however, sometimes it is too "
+"strong.\n"
 "Lines are single walled lines that break off one at a time. Which is more "
-"work to remove, but as it is less strong it does work better on tricky "
-"prints."
+"work to remove, but as it is less strong it does work better on tricky prints."
 msgstr ""
 
 #: Cura/util/profile.py:225
@@ -2017,11 +2012,11 @@ msgstr ""
 
 #: Cura/util/profile.py:243
 msgid ""
-"This expert option keeps all the open bits of the model intact. Normally "
-"Cura tries to stitch up small holes and remove everything with big holes, "
-"but this option keeps bits that are not properly part of anything and just "
-"goes with whatever is left. This option is usually not what you want, but it "
-"might enable you to slice models otherwise failing to produce proper paths.\n"
+"This expert option keeps all the open bits of the model intact. Normally Cura "
+"tries to stitch up small holes and remove everything with big holes, but this "
+"option keeps bits that are not properly part of anything and just goes with "
+"whatever is left. This option is usually not what you want, but it might "
+"enable you to slice models otherwise failing to produce proper paths.\n"
 "As with all \"Fix horrible\" options, results may vary and use at your own "
 "risk."
 msgstr ""
@@ -2103,8 +2098,8 @@ msgstr ""
 
 #: Cura/util/profile.py:478
 msgid ""
-"Change the language in which Cura runs. Switching language requires a "
-"restart of Cura"
+"Change the language in which Cura runs. Switching language requires a restart "
+"of Cura"
 msgstr ""
 
 #: Cura/util/profile.py:481
@@ -2183,8 +2178,7 @@ msgstr ""
 
 #: Cura/util/profile.py:503
 msgid ""
-"If you have an heated bed, this enabled heated bed settings (requires "
-"restart)"
+"If you have an heated bed, this enabled heated bed settings (requires restart)"
 msgstr ""
 
 #: Cura/util/profile.py:504
@@ -2352,8 +2346,8 @@ msgstr ""
 #: Cura/util/profile.py:539
 #, python-format
 msgid ""
-"A bottom layer of more then %.2fmm (3/4 nozzle size) usually give bad "
-"results and is not recommended."
+"A bottom layer of more then %.2fmm (3/4 nozzle size) usually give bad results "
+"and is not recommended."
 msgstr ""
 
 #: Cura/gui/configWizard.py
@@ -2386,8 +2380,7 @@ msgstr ""
 msgid "Dagoma would like to thank you for your trust."
 msgstr ""
 
-msgid ""
-"The Cura by Dagoma software is now ready to use with your %s 3D printer."
+msgid "The Cura by Dagoma software is now ready to use with your %s 3D printer."
 msgstr ""
 
 msgid "The Cura by Dagoma software is now ready to use with your 3D printer."
@@ -3323,3 +3316,15 @@ msgstr ""
 
 msgid "Up to date software"
 msgstr ""
+
+msgid "contact_url"
+msgstr "https://www.dagoma3d.com/en_US/nous-contacter?utm_source=cura"
+
+msgid "buy_url"
+msgstr "https://www.dagoma3d.com/en_US/shop/category/filament-2?utm_source=cura"
+
+msgid "help_url"
+msgstr "http://start.dagoma3d.com/cura-by-dagoma?utm_source=cura"
+
+msgid "warning_url"
+msgstr "https://www.dagoma3d.com/en_US/armes-inoffensives?utm_source=cura"

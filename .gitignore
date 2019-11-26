@@ -23,7 +23,6 @@ DmgTemplateCompressed-*.dmg
 /PURELIB
 /Win32
 /VideoCapture-0.9-5
-<<<<<<< HEAD
 /packages
-=======
->>>>>>> 42445fa9d4a85b7913b9ae955ac23d7364185495
+/venv
+/settings.json

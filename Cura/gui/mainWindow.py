@@ -109,9 +109,9 @@ class mainWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnPrinterWindow, i)
 		self.menuBar.Append(self.settingsMenu, _("Preferences"))
 
-		contactUrl = profile.getPreference('contact_url')
-		buyUrl = profile.getPreference('buy_url')
-		helpUrl = profile.getPreference('help_url')
+		contactUrl = _("contact_url")
+		buyUrl = _("buy_url")
+		helpUrl = _("help_url")
 		self.helpMenu = wx.Menu()
 		i = self.helpMenu.Append(wx.ID_ANY, _("Contact us"), _("Contact us for any further information."))
 		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(contactUrl), i)
@@ -483,8 +483,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.pausePluginButton.Disable()
 		self.printButton.Disable()
 
-		buyUrl = profile.getPreference('buy_url') + "&utm_campaign=achat_filament_" + profile.getMachineSetting('machine_name').lower()
-		helpUrl = profile.getPreference('help_url') + "&utm_campaign=aide_" + profile.getMachineSetting('machine_name').lower()
+		buyUrl = _("buy_url") + "&utm_campaign=achat_filament_" + profile.getMachineSetting('machine_name').lower()
+		helpUrl = _("help_url") + "&utm_campaign=aide_" + profile.getMachineSetting('machine_name').lower()
 		filamentSizer = wx.BoxSizer(wx.HORIZONTAL)
 		filamentSizer.Add(wx.StaticText(self, wx.ID_ANY, _("Filament")))
 		if int(profile.getMachineSetting('extruder_amount')) == 2:

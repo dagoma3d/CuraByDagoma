@@ -23,7 +23,7 @@ class forbiddenWindow(wx.Frame):
 		s = wx.BoxSizer(wx.VERTICAL)
 		p.SetSizer(s)
 
-		self.more_details_url = hl.HyperLinkCtrl(p, wx.ID_ANY, _("More details..."), URL=profile.getPreference('warning_url'))
+		self.more_details_url = hl.HyperLinkCtrl(p, wx.ID_ANY, _("More details..."), URL=_("warning_url"))
 		#hl.EVT_HYPERLINK_LEFT(self, self.more_details_url.GetId(), self.OnClick)
 		self.more_details_url.AutoBrowse(False)
 		self.more_details_url.Bind(hl.EVT_HYPERLINK_LEFT, self.OnClick)

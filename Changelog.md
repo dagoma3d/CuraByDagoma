@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.1.5] - 2019-09-20
+## [2.1.5] - 2019-11-29
 - Allow user to select the initial extruder when a dual-extruder printer is used.
+- Review the wipe tower size calculus.
+- Transform n wipe tower infill lines into pure moves (no extrusion) to decrease the noozle pressure before going back to the object (n depends on the wipe tower thickness).
+- Update all links targetting the website.
+- Fix some minor bugs.
 
 ## [2.1.4] - 2019-09-11
 - Fix wipe tower size issue.
