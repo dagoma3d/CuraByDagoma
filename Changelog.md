@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.1.5] - 2019-11-29
 - Allow user to select the initial extruder when a dual-extruder printer is used.
 - Review the wipe tower size calculus.
+- Stop wipe tower generation when a bicolor object ends with a single color.
 - Transform n wipe tower infill lines into pure moves (no extrusion) to decrease the noozle pressure before going back to the object (n depends on the wipe tower thickness).
 - Update all links targetting the website.
 - Fix some minor bugs.
