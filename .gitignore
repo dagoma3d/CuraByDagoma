@@ -26,4 +26,4 @@ DmgTemplateCompressed-*.dmg
 /packages
 /venv
 /settings.json
-.vscode
+/.vscode
