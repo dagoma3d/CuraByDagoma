@@ -100,6 +100,50 @@ For linux, two types of packages can be built:
 
 Nothing special is required for linux packaging, it should work natively.
 
+#### Migration from python2 to python3
+The _migration_python3_ branch is still in development.
+
+For now, the only available distribution package is the debian one.
+
+Using python virtual environment seems to work fine, to be investigated in order to provide an AppImage.
+
+Instruction to set up the right environment :
+
+- Install required packages
+
+```
+$ sudo apt install python3-venv libsdl2-2.0-0
+
+```
+
+- Set up and activate the virtual environment
+
+```
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
+
+- Install common dependencies
+
+```
+(venv)$ pip install wheel
+(venv)$ pip install setuptools
+(venv)$ pip install numpy
+(venv)$ pip install pyserial
+(venv)$ pip install PyOpenGL
+```
+
+At this point, the only missing package is wxPython. On ubuntu 18.04 + python3.6, its fails to compile. To be investigated.
+Anyway, pre-compiled package are available at https://extras.wxpython.org/wxPython4/extras/linux/gtk3/
+Depending on your OS and your python version, wxpython can be installed from the corresponding whl file.
+Example : for ubuntu 18.04 and python 3.6 the right whl file to install is https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04/wxPython-4.1.0-cp36-cp36m-linux_x86_64.whl
+
+```
+(venv)$ pip install https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04/wxPython-4.1.0-cp36-cp36m-linux_x86_64.whl
+```
+
+At this point, the python virtual environment is ready to be used.
+
 ## Engine useful discussions
 
 ### About spiralize mode
