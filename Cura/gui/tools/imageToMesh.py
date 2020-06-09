@@ -13,8 +13,8 @@ def supportedExtensions():
 
 class convertImageDialog(wx.Dialog):
 	def __init__(self, parent, filename):
-		super(convertImageDialog, self).__init__(None, title='Transformer l\'image'.decode('utf-8'))
-		wx.EVT_CLOSE(self, self.OnClose)
+		super(convertImageDialog, self).__init__(None, title='Transformer l\'image')
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.parent = parent
 		self.filename = filename
 
@@ -44,12 +44,12 @@ class convertImageDialog(wx.Dialog):
 		self.depthInput = wx.TextCtrl(p, -1, str(h * 0.3))
 		s.Add(self.depthInput, pos=(3, 1), flag=wx.LEFT|wx.TOP|wx.RIGHT|wx.EXPAND, border=5)
 
-		options = ['Partie foncées vers le haut'.decode('utf-8'), 'Partie claires vers le haut'.decode('utf-8')]
+		options = ['Partie foncées vers le haut', 'Partie claires vers le haut']
 		self.invertInput = wx.ComboBox(p, -1, options[0], choices=options, style=wx.CB_DROPDOWN|wx.CB_READONLY)
 		s.Add(self.invertInput, pos=(4, 1), flag=wx.LEFT|wx.TOP|wx.RIGHT|wx.EXPAND, border=5)
 		self.invertInput.SetSelection(0)
 
-		options = ['Contours originaux', 'Contours adoucis', 'Contours très adoucis'.decode('utf-8')]
+		options = ['Contours originaux', 'Contours adoucis', 'Contours très adoucis']
 		self.smoothInput = wx.ComboBox(p, -1, options[0], choices=options, style=wx.CB_DROPDOWN|wx.CB_READONLY)
 		s.Add(self.smoothInput, pos=(5, 1), flag=wx.LEFT|wx.TOP|wx.RIGHT|wx.EXPAND, border=5)
 		self.smoothInput.SetSelection(0)
@@ -138,7 +138,7 @@ def convertImage(filename, height=20.0, width=100.0, blur=0, invert=False, baseH
 	y = (h-1)*-scale
 	m._addFace(0,0,0, x,0,0, 0,y,0)
 	m._addFace(x,y,0, 0,y,0, x,0,0)
-	for n in xrange(0, w-1):
+	for n in range(0, w-1):
 		x = n* scale
 		i = w*h-w+n
 		m._addFace(x+scale,0,0, x,0,0, x,0,z[n])
@@ -147,7 +147,7 @@ def convertImage(filename, height=20.0, width=100.0, blur=0, invert=False, baseH
 		m._addFace(x+scale,y,0, x+scale,y,z[i+1], x,y,z[i])
 
 	x = (w-1)*scale
-	for n in xrange(0, h-1):
+	for n in range(0, h-1):
 		y = n*-scale
 		i = n*w+w-1
 		m._addFace(0,y-scale,0, 0,y,z[n*w], 0,y,0)

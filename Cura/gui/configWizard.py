@@ -8,8 +8,10 @@ import platform
 import sys
 
 import wx
-import wx.wizard
-import wx.lib.hyperlink as hl
+from   wx.adv import WizardPageSimple
+from   wx.adv import Wizard
+from   wx.adv import WizardEvent
+import wx.lib.agw.hyperlink as hl
 
 from Cura.util import profile
 from Cura.util import resources
@@ -53,7 +55,7 @@ class PrintersPanel(wx.Panel):
 		for printer in printers:
 			wx_printer = wxPrinter()
 			img = wx.Image(resources.getPathForImage(printer.get('img')), wx.BITMAP_TYPE_ANY)
-			wx_printer.image = wx.StaticBitmap(self, -1, wx.BitmapFromImage(img))
+			wx_printer.image = wx.StaticBitmap(self, -1, wx.Bitmap(img))
 
 			if firstItem:
 				radio = wx.RadioButton(self, -1, printer.get('name'), style=wx.RB_GROUP)
@@ -227,9 +229,9 @@ class WelcomePanel(wx.Panel):
 		self.SetSizer(sizer)
 		self.Layout()
 
-class ConfigurationPage(wx.wizard.WizardPageSimple):
+class ConfigurationPage(WizardPageSimple):
 	def __init__(self, parent, firstTime):
-		wx.wizard.WizardPageSimple.__init__(self, parent)
+		WizardPageSimple.__init__(self, parent)
 
 		if firstTime:
 			titlePanel = TitlePanel(self, _("Configuration Cura by Dagoma"), _("Dagoma would like to thank you for your trust."))
@@ -260,7 +262,7 @@ class ConfigurationPage(wx.wizard.WizardPageSimple):
 	def AllowBack(self):
 		return False
 
-class ConfigWizard(wx.wizard.Wizard):
+class ConfigWizard(Wizard):
 	def __init__(self, parent = None, firstTime = True):
 		super(ConfigWizard, self).__init__(parent, -1, _("Configuration wizard"))
 
@@ -271,8 +273,8 @@ class ConfigWizard(wx.wizard.Wizard):
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
 
-		self.Bind(wx.wizard.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
-		self.Bind(wx.wizard.EVT_WIZARD_FINISHED, self.OnPageFinished)
+		self.Bind(wx.adv.EVT_WIZARD_PAGE_CHANGED, self.OnPageChanged)
+		self.Bind(wx.adv.EVT_WIZARD_FINISHED, self.OnPageFinished)
 
 		self.configurationPage = ConfigurationPage(self, firstTime)
 
@@ -305,7 +307,7 @@ class ConfigWizard(wx.wizard.Wizard):
 			prev_btn.Hide()
 
 	def OnPageFinished(self, e):
-		print "Configuration wizard finished..."
+		print("Configuration wizard finished...")
 		disco_addons_printers = self.configurationPage.optionsPanel.disco_addons_printers
 		multinozzle_printers = self.configurationPage.optionsPanel.multinozzle_printers
 		name = self.configurationPage.printersPanel.name

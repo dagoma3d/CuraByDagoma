@@ -33,10 +33,10 @@ class serialConnectionGroup(printerConnectionBase.printerConnectionGroup):
 		for port in serialList:
 			if port not in self._connectionMap:
 				self._connectionMap[port] = serialConnection(port)
-		for key in self._connectionMap.keys():
+		for key in list(self._connectionMap.keys()):
 			if key not in serialList and not self._connectionMap[key].isActiveConnectionOpen():
 				self._connectionMap.pop(key)
-		return self._connectionMap.values()
+		return list(self._connectionMap.values())
 
 	def getIconID(self):
 		return 6
@@ -238,6 +238,6 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 				self._printProgress = int(line[1])
 				self._doCallback()
 			else:
-				print line
+				print(line)
 			line = self._process.stdout.readline()
 		self._process = None

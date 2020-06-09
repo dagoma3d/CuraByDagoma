@@ -7,7 +7,7 @@ The ISP AVR programmer can load firmware into AVR chips. Which are commonly used
 """
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
-import chipDB
+from . import chipDB
 
 class IspBase():
 	"""
@@ -22,9 +22,9 @@ class IspBase():
 			raise IspError("Chip with signature: " + str(self.getSignature()) + "not found")
 		self.chipErase()
 		
-		print("Flashing %i bytes" % len(flashData))
+		print(("Flashing %i bytes" % len(flashData)))
 		self.writeFlash(flashData)
-		print("Verifying %i bytes" % len(flashData))
+		print(("Verifying %i bytes" % len(flashData)))
 		self.verifyFlash(flashData)
 
 	def getSignature(self):

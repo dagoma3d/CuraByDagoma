@@ -11,7 +11,7 @@ try:
 	import serial
 	import numpy
 except ImportError as e:
-	print e.message
+	print(e.message)
 	if e.message[0:16] == 'No module named ':
 		module = e.message[16:]
 
@@ -19,9 +19,9 @@ except ImportError as e:
 			module = 'PyOpenGL'
 		elif module == 'serial':
 			module = 'pyserial'
-		print 'Requires ' + module
-		print "Try sudo easy_install " + module
-		print e.message
+		print('Requires ' + module)
+		print("Try sudo easy_install " + module)
+		print(e.message)
 
 	exit(1)
 

@@ -36,7 +36,7 @@ def loadMeshes(filename):
 		return dae.loadScene(filename)
 	if ext == '.amf':
 		return amf.loadScene(filename)
-	print 'Error: Unknown model extension: %s' % (ext)
+	print('Error: Unknown model extension: %s' % (ext))
 	return []
 
 def saveMeshes(filename, objects):
@@ -47,4 +47,4 @@ def saveMeshes(filename, objects):
 	if ext == '.stl':
 		stl.saveScene(filename, objects)
 		return
-	print 'Error: Unknown model extension: %s' % (ext)
+	print('Error: Unknown model extension: %s' % (ext))

@@ -7,7 +7,7 @@ http://en.wikipedia.org/wiki/Additive_Manufacturing_File_Format
 """
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
-import cStringIO as StringIO
+import io
 import zipfile
 import os
 try:
@@ -43,7 +43,7 @@ def loadScene(filename):
 	elif unit == 'micron':
 		scale = 0.001
 	else:
-		print "Unknown unit in amf: %s" % (unit)
+		print("Unknown unit in amf: %s" % (unit))
 		scale = 1.0
 
 	ret = []
@@ -91,7 +91,7 @@ def saveScene(filename, objects):
 	f.close()
 
 def saveSceneStream(s, filename, objects):
-	xml = StringIO.StringIO()
+	xml = io.StringIO()
 	xml.write('<?xml version="1.0" encoding="utf-8"?>\n')
 	xml.write('<amf unit="millimeter" version="1.1">\n')
 	n = 0
@@ -114,7 +114,7 @@ def saveSceneStream(s, filename, objects):
 		matID = 1
 		for m in meshList:
 			xml.write('      <volume materialid="%i">\n' % (matID))
-			for idx in xrange(0, len(m), 3):
+			for idx in range(0, len(m), 3):
 				xml.write('        <triangle>\n')
 				xml.write('          <v1>%i</v1>\n' % (m[idx]))
 				xml.write('          <v2>%i</v2>\n' % (m[idx+1]))
@@ -127,7 +127,7 @@ def saveSceneStream(s, filename, objects):
 
 	n += 1
 	xml.write('  <constellation id="%d">\n' % (n))
-	for idx in xrange(1, n):
+	for idx in range(1, n):
 		xml.write('    <instance objectid="%d">\n' % (idx))
 		xml.write('      <deltax>0</deltax>\n')
 		xml.write('      <deltay>0</deltay>\n')
@@ -137,7 +137,7 @@ def saveSceneStream(s, filename, objects):
 		xml.write('      <rz>0</rz>\n')
 		xml.write('    </instance>\n')
 	xml.write('  </constellation>\n')
-	for n in xrange(0, 4):
+	for n in range(0, 4):
 		xml.write('  <material id="%i">\n' % (n + 1))
 		xml.write('    <metadata type="Name">Material %i</metadata>\n' % (n + 1))
 		if n == 0:

@@ -12,7 +12,7 @@ import traceback
 import threading
 import math
 import sys
-import cStringIO as StringIO
+import io
 
 import OpenGL
 OpenGL.ERROR_CHECKING = False
@@ -222,7 +222,7 @@ class SceneView(openglGui.glGuiPanel):
 					else:
 						ignored_types[ext] = 1
 			if ignored_types:
-				ignored_types = ignored_types.keys()
+				ignored_types = list(ignored_types.keys())
 				ignored_types.sort()
 				self.notification.message("Ignored: " + " ".join("*" + type for type in ignored_types))
 			mainWindow.UpdateProfileToAllControls()
@@ -251,13 +251,13 @@ class SceneView(openglGui.glGuiPanel):
 		if button == 1:
 			dlg=wx.FileDialog(self, _("Open a 3D model"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
 
-			wildcardList = ';'.join(map(lambda s: '*' + s, meshLoader.loadSupportedExtensions() + imageToMesh.supportedExtensions() + ['.g', '.gcode']))
+			wildcardList = ';'.join(['*' + s for s in meshLoader.loadSupportedExtensions() + imageToMesh.supportedExtensions() + ['.g', '.gcode']])
 			wildcardFilter = "All (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
-			wildcardList = ';'.join(map(lambda s: '*' + s, meshLoader.loadSupportedExtensions()))
+			wildcardList = ';'.join(['*' + s for s in meshLoader.loadSupportedExtensions()])
 			wildcardFilter += "|Mesh files (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
-			wildcardList = ';'.join(map(lambda s: '*' + s, imageToMesh.supportedExtensions()))
+			wildcardList = ';'.join(['*' + s for s in imageToMesh.supportedExtensions()])
 			wildcardFilter += "|Image files (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
-			wildcardList = ';'.join(map(lambda s: '*' + s, ['.g', '.gcode']))
+			wildcardList = ';'.join(['*' + s for s in ['.g', '.gcode']])
 			wildcardFilter += "|GCode files (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
 
 			dlg.SetWildcard(wildcardFilter)
@@ -276,7 +276,7 @@ class SceneView(openglGui.glGuiPanel):
 			return
 		dlg=wx.FileDialog(self, _("Save the build plate"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
 		fileExtensions = meshLoader.saveSupportedExtensions()
-		wildcardList = ';'.join(map(lambda s: '*' + s, fileExtensions))
+		wildcardList = ';'.join(['*' + s for s in fileExtensions])
 		wildcardFilter = _("STL files") + " (%s)|%s;%s" % (wildcardList, wildcardList, wildcardList.upper())
 		dlg.SetWildcard(wildcardFilter)
 		if dlg.ShowModal() != wx.ID_OK:
@@ -297,7 +297,7 @@ class SceneView(openglGui.glGuiPanel):
 			if len(removableStorage.getPossibleSDcardDrives()) > 0:
 				drives = removableStorage.getPossibleSDcardDrives()
 				if len(drives) > 1:
-					dlg = wx.SingleChoiceDialog(self, _("Select SD drive"), _("Multiple removable drives have been found,\nplease select your SD card drive"), map(lambda n: n[0], drives))
+					dlg = wx.SingleChoiceDialog(self, _("Select SD drive"), _("Multiple removable drives have been found,\nplease select your SD card drive"), [n[0] for n in drives])
 					if dlg.ShowModal() != wx.ID_OK:
 						dlg.Destroy()
 						return
@@ -313,7 +313,7 @@ class SceneView(openglGui.glGuiPanel):
 				if len(connections) < 2:
 					connection = connections[0]
 				else:
-					dlg = wx.SingleChoiceDialog(self, _("Select the %s connection to use") % (connectionGroup.getName()), _("Multiple %s connections found") % (connectionGroup.getName()), map(lambda n: n.getName(), connections))
+					dlg = wx.SingleChoiceDialog(self, _("Select the %s connection to use") % (connectionGroup.getName()), _("Multiple %s connections found") % (connectionGroup.getName()), [n.getName() for n in connections])
 					if dlg.ShowModal() != wx.ID_OK:
 						dlg.Destroy()
 						return
@@ -345,7 +345,7 @@ class SceneView(openglGui.glGuiPanel):
 		if sys.platform.startswith('darwin'):
 			from Cura.gui.util import macosFramesWorkaround as mfw
 			wx.CallAfter(mfw.StupidMacOSWorkaround)
-		if not connection.loadGCodeData(StringIO.StringIO(self._engine.getResult().getGCode())):
+		if not connection.loadGCodeData(io.StringIO(self._engine.getResult().getGCode())):
 			if connection.isPrinting():
 				self.notification.message(_("Cannot start print, because other print still running."))
 			else:
@@ -370,13 +370,13 @@ class SceneView(openglGui.glGuiPanel):
 	def _saveGCode(self, targetFilename, ejectDrive = False):
 		data = self._engine.getResult().getGCode()
 
-		print_duration = profile.getProfileSetting('print_duration').encode('utf-8')
-		filament_length = profile.getProfileSetting('filament_length').encode('utf-8')
-		filament_weight = profile.getProfileSetting('filament_weight').encode('utf-8')
-		filament_cost = profile.getProfileSetting('filament_cost').encode('utf-8')
-		filament2_length = profile.getProfileSetting('filament2_length').encode('utf-8')
-		filament2_weight = profile.getProfileSetting('filament2_weight').encode('utf-8')
-		filament2_cost = profile.getProfileSetting('filament2_cost').encode('utf-8')
+		print_duration = profile.getProfileSetting('print_duration')
+		filament_length = profile.getProfileSetting('filament_length')
+		filament_weight = profile.getProfileSetting('filament_weight')
+		filament_cost = profile.getProfileSetting('filament_cost')
+		filament2_length = profile.getProfileSetting('filament2_length')
+		filament2_weight = profile.getProfileSetting('filament2_weight')
+		filament2_cost = profile.getProfileSetting('filament2_cost')
 
 		block0 = data[0:1024]
 		block0 = block0.replace('#PRINT_DURATION#', print_duration)
@@ -391,14 +391,14 @@ class SceneView(openglGui.glGuiPanel):
 		try:
 			self.notification.message(_("Save in progress..."))
 			size = float(len(data))
-			fsrc = StringIO.StringIO(data)
-			print 'Save in : ', targetFilename.encode('utf-8') # Dagoma
+			fsrc = io.StringIO(data)
+			print('Save in : ', targetFilename) # Dagoma
 			with open(targetFilename, 'wb') as fdst:
 				while 1:
 					buf = fsrc.read(16*1024)
 					if not buf:
 						break
-					fdst.write(buf)
+					fdst.write(buf.encode())
 		except IOError as e:
 			import sys, traceback
 			traceback.print_exc()
@@ -622,7 +622,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def _splitCallback(self, progress):
-		print progress
+		print(progress)
 
 	def OnMergeObjects(self, e):
 		if self._selectedObj is None or self._focusObj is None or self._selectedObj == self._focusObj:
@@ -694,7 +694,7 @@ class SceneView(openglGui.glGuiPanel):
 			print_duration = result.getPrintTime()
 			profile.putProfileSetting('print_duration', print_duration)
 			text = '%s\n' % (print_duration)
-			for e in xrange(0, int(profile.getMachineSetting('extruder_amount'))):
+			for e in range(0, int(profile.getMachineSetting('extruder_amount'))):
 				filament_index = str(e + 1) if e > 0 else ''
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
@@ -893,7 +893,7 @@ class SceneView(openglGui.glGuiPanel):
 				self._afterLeakTest[type(i)] += 1
 			for k in self._afterLeakTest:
 				if self._afterLeakTest[k]-self._beforeLeakTest[k]:
-					print k, self._afterLeakTest[k], self._beforeLeakTest[k], self._afterLeakTest[k] - self._beforeLeakTest[k]
+					print(k, self._afterLeakTest[k], self._beforeLeakTest[k], self._afterLeakTest[k] - self._beforeLeakTest[k])
 
 	def ShaderUpdate(self, v, f):
 		s = openglHelpers.GLShader(v, f)
@@ -1179,7 +1179,7 @@ class SceneView(openglGui.glGuiPanel):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT)
 
 		if self.viewMode != 'gcode':
-			for n in xrange(0, len(self._scene.objects())):
+			for n in range(0, len(self._scene.objects())):
 				obj = self._scene.objects()[n]
 				glColor4ub((n >> 16) & 0xFF, (n >> 8) & 0xFF, (n >> 0) & 0xFF, 0xFF)
 				self._renderObject(obj)
@@ -1261,7 +1261,7 @@ class SceneView(openglGui.glGuiPanel):
 				glEnable(GL_STENCIL_TEST)
 				glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP) #Keep values
 				glDisable(GL_DEPTH_TEST)
-				for i in xrange(2, 15, 2): #All even values
+				for i in range(2, 15, 2): #All even values
 					glStencilFunc(GL_EQUAL, i, 0xFF)
 					glColor(float(i)/10, float(i)/10, float(i)/5)
 					glBegin(GL_QUADS)
@@ -1270,7 +1270,7 @@ class SceneView(openglGui.glGuiPanel):
 					glVertex3f( 1000, 1000,-10)
 					glVertex3f(-1000, 1000,-10)
 					glEnd()
-				for i in xrange(1, 15, 2): #All odd values
+				for i in range(1, 15, 2): #All odd values
 					glStencilFunc(GL_EQUAL, i, 0xFF)
 					glColor(float(i)/10, 0, 0)
 					glBegin(GL_QUADS)
@@ -1386,7 +1386,7 @@ class SceneView(openglGui.glGuiPanel):
 			if m.vbo is None:
 				m.vbo = openglHelpers.GLVBO(GL_TRIANGLES, m.vertexes, m.normal)
 			if brightness != 0:
-				glColor4fv(map(lambda idx: idx * brightness, self._objColors[n]))
+				glColor4fv([idx * brightness for idx in self._objColors[n]])
 				n = (n + 1) % len(self._objColors)
 			m.vbo.render()
 		glPopMatrix()
@@ -1496,7 +1496,7 @@ class SceneView(openglGui.glGuiPanel):
 		circular = profile.getMachineSetting('machine_shape') == 'Circular'
 		glBegin(GL_QUADS)
 		# Draw the sides of the build volume.
-		for n in xrange(0, len(polys[0])):
+		for n in range(0, len(polys[0])):
 			if not circular:
 				if n % 2 == 0:
 					glColor4ub(5, 171, 231, 96)

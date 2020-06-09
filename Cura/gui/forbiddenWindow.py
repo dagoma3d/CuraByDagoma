@@ -1,7 +1,7 @@
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import wx
-import wx.lib.hyperlink as hl
+import wx.lib.agw.hyperlink as hl
 
 from Cura.util import profile
 from Cura.util import resources
@@ -13,7 +13,7 @@ class forbiddenWindow(wx.Frame):
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
 
-		wx.EVT_CLOSE(self, self.OnClose)
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
 
 		p = wx.Panel(self)
 		self.panel = p

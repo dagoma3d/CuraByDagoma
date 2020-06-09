@@ -40,7 +40,7 @@ class debuggerWindow(wx.Frame):
 		self.sizer.AddGrowableCol(7)
 		self.sizer.AddGrowableRow(0)
 
-		wx.EVT_CLOSE(self, self.OnClose)
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.Bind(wx.EVT_BUTTON, lambda e: self.setTemp(0), self.coolButton)
 		self.Bind(wx.EVT_BUTTON, lambda e: self.setTemp(200), self.heatupButton)
 		self.Bind(wx.EVT_BUTTON, lambda e: self.setTemp(260), self.heatupButton2)
@@ -143,7 +143,7 @@ class temperatureGraph(wx.Panel):
 		for p in self.points:
 			x1 = int(w - (self.now - p[0]) * self.timeScale)
 			value = f(p)
-			for x in xrange(x0, x1 + 1):
+			for x in range(x0, x1 + 1):
 				v = float(x - x0) / float(x1 - x0 + 1) * (value - v0) + v0
 				dc.DrawLine(x, h, x, h - (v * h / 300))
 			v0 = value
@@ -183,11 +183,11 @@ class temperatureGraph(wx.Panel):
 		self._drawBackgroundForLine(dc, '#D0FFD0', lambda p: abs(p[5]))#dTerm
 
 		#Draw the grid
-		for x in xrange(w, 0, -5 * self.timeScale):
+		for x in range(w, 0, -5 * self.timeScale):
 			dc.SetPen(bgLinePen)
 			dc.DrawLine(x, 0, x, h)
 		tmpNr = 0
-		for y in xrange(h - 1, 0, -h * 50 / 300):
+		for y in range(h - 1, 0, -h * 50 / 300):
 			dc.SetPen(bgLinePen)
 			dc.DrawLine(0, y, w, y)
 			dc.DrawText(str(tmpNr), 0, y - dc.GetFont().GetPixelSize().GetHeight())
@@ -197,7 +197,7 @@ class temperatureGraph(wx.Panel):
 		if len(self.points) > 10:
 			tempAvg = 0.0
 			heaterAvg = 0.0
-			for n in xrange(0, 10):
+			for n in range(0, 10):
 				tempAvg += self.points[-n-1][1]
 				heaterAvg += self.points[-n-1][2]
 			dc.DrawText("Temp: %d Heater: %d" % (tempAvg / 10, heaterAvg * 100 / 255 / 10), 0, 0)

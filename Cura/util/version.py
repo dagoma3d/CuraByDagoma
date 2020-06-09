@@ -6,7 +6,7 @@ __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AG
 
 import os
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import platform
 import subprocess
 try:
@@ -64,10 +64,10 @@ def checkForNewerVersion():
 		return None
 	try:
 		updateBaseURL = 'http://software.ultimaker.com'
-		localVersion = map(int, getVersion(False).split('.'))
+		localVersion = list(map(int, getVersion(False).split('.')))
 		while len(localVersion) < 3:
 			localVersion += [1]
-		latestFile = urllib2.urlopen("%s/latest.xml" % (updateBaseURL))
+		latestFile = urllib.request.urlopen("%s/latest.xml" % (updateBaseURL))
 		latestXml = latestFile.read()
 		latestFile.close()
 		xmlTree = ElementTree.fromstring(latestXml)
@@ -84,4 +84,4 @@ def checkForNewerVersion():
 	return None
 
 if __name__ == '__main__':
-	print(getVersion())
+	print((getVersion()))

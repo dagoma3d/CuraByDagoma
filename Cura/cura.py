@@ -75,7 +75,7 @@ def main():
 		serialCommunication.startMonitor(port, baud)
 		return
 
-	print ("Load preferences from " + profile.getPreferencePath())
+	print(("Load preferences from " + profile.getPreferencePath()))
 	profile.loadPreferences(profile.getPreferencePath())
 
 	if options.profile is not None:
@@ -110,7 +110,7 @@ def main():
 			options.output = args[0] + profile.getGCodeExtension()
 		with open(options.output, "wb") as f:
 			f.write(engine.getResult().getGCode())
-		print ('GCode file saved : %s' % options.output)
+		print(('GCode file saved : %s' % options.output))
 
 		engine.cleanup()
 	else:

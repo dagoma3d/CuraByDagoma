@@ -37,13 +37,13 @@ class warningWindow(wx.Frame):
 
 		self.Bind(wx.EVT_BUTTON, self.OnRestart, self.restartNowBtn)
 		self.Bind(wx.EVT_BUTTON, self.OnClose, self.restartLaterBtn)
-		wx.EVT_CLOSE(self, self.OnClose)
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
 
 	def OnClose(self, e):
 		self.Destroy()
 
 	def OnRestart(self, e):
-		print 'OnRestart handler'
+		print('OnRestart handler')
 		try:
 			python = sys.executable
 			#python = "'" + sys.executable + "'"
@@ -54,7 +54,7 @@ class warningWindow(wx.Frame):
 				python = python[1]
 			else:
 				python = python[0]
-			print python
+			print(python)
 			os.execl(python, '"' + python + '"', *sys.argv)
 		except:
 			self.Destroy()

@@ -7,7 +7,8 @@ import numpy
 
 def convexHull(pointList):
 	""" Create a convex hull from a list of points. """
-	def _isRightTurn((p, q, r)):
+	def _isRightTurn(xxx_todo_changeme):
+		(p, q, r) = xxx_todo_changeme
 		sum1 = q[0]*r[1] + p[0]*q[1] + r[0]*p[1]
 		sum2 = q[0]*p[1] + r[0]*q[1] + p[0]*r[1]
 
@@ -20,7 +21,7 @@ def convexHull(pointList):
 	for p in pointList:
 		unique[p[0],p[1]] = 1
 
-	points = unique.keys()
+	points = list(unique.keys())
 	points.sort()
 	if len(points) < 1:
 		return numpy.zeros((0, 2), numpy.float32)
@@ -51,8 +52,8 @@ def convexHull(pointList):
 def minkowskiHull(a, b):
 	"""Calculate the minkowski hull of 2 convex polygons"""
 	points = numpy.zeros((len(a) * len(b), 2))
-	for n in xrange(0, len(a)):
-		for m in xrange(0, len(b)):
+	for n in range(0, len(a)):
+		for m in range(0, len(b)):
 			points[n * len(b) + m] = a[n] + b[m]
 	return convexHull(points.copy())
 
@@ -64,7 +65,7 @@ def projectPoly(poly, normal):
 	"""
 	pMin = numpy.dot(normal, poly[0])
 	pMax = pMin
-	for n in xrange(1 , len(poly)):
+	for n in range(1 , len(poly)):
 		p = numpy.dot(normal, poly[n])
 		pMin = min(pMin, p)
 		pMax = max(pMax, p)
@@ -72,7 +73,7 @@ def projectPoly(poly, normal):
 
 def polygonCollision(polyA, polyB):
 	""" Check if convexy polygon A and B collide, return True if this is the case. """
-	for n in xrange(0, len(polyA)):
+	for n in range(0, len(polyA)):
 		p0 = polyA[n-1]
 		p1 = polyA[n]
 		normal = (p1 - p0)[::-1]
@@ -84,7 +85,7 @@ def polygonCollision(polyA, polyB):
 			return False
 		if bMin > aMax:
 			return False
-	for n in xrange(0, len(polyB)):
+	for n in range(0, len(polyB)):
 		p0 = polyB[n-1]
 		p1 = polyB[n]
 		normal = (p1 - p0)[::-1]
@@ -102,7 +103,7 @@ def polygonCollisionPushVector(polyA, polyB):
 	""" Check if convex polygon A and B collide, return the vector of penetration if this is the case, else return False. """
 	retSize = 10000000.0
 	ret = False
-	for n in xrange(0, len(polyA)):
+	for n in range(0, len(polyA)):
 		p0 = polyA[n-1]
 		p1 = polyA[n]
 		normal = (p1 - p0)[::-1]
@@ -118,7 +119,7 @@ def polygonCollisionPushVector(polyA, polyB):
 		if size < retSize:
 			ret = normal * (size + 0.1)
 			retSize = size
-	for n in xrange(0, len(polyB)):
+	for n in range(0, len(polyB)):
 		p0 = polyB[n-1]
 		p1 = polyB[n]
 		normal = (p1 - p0)[::-1]
@@ -140,7 +141,7 @@ def fullInside(polyA, polyB):
 	"""
 	Check if convex polygon A is completely inside of convex polygon B.
 	"""
-	for n in xrange(0, len(polyA)):
+	for n in range(0, len(polyA)):
 		p0 = polyA[n-1]
 		p1 = polyA[n]
 		normal = (p1 - p0)[::-1]
@@ -152,7 +153,7 @@ def fullInside(polyA, polyB):
 			return False
 		if aMin < bMin:
 			return False
-	for n in xrange(0, len(polyB)):
+	for n in range(0, len(polyB)):
 		p0 = polyB[n-1]
 		p1 = polyB[n]
 		normal = (p1 - p0)[::-1]
@@ -188,12 +189,12 @@ def lineLineIntersection(p0, p1, p2, p3):
 def clipConvex(poly0, poly1):
 	""" Cut the convex polygon 0 so that it completely fits in convex polygon 1, any part sticking out of polygon 1 is cut off """
 	res = poly0
-	for p1idx in xrange(0, len(poly1)):
+	for p1idx in range(0, len(poly1)):
 		src = res
 		res = []
 		p0 = poly1[p1idx-1]
 		p1 = poly1[p1idx]
-		for n in xrange(0, len(src)):
+		for n in range(0, len(src)):
 			p = src[n]
 			if not isLeft(p0, p1, p):
 				if isLeft(p0, p1, src[n-1]):

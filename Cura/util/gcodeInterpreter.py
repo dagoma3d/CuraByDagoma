@@ -10,7 +10,7 @@ import os
 import time
 import numpy
 import types
-import cStringIO as StringIO
+import io
 
 from Cura.util import profile
 
@@ -42,7 +42,7 @@ class gcode(object):
 	
 	def load(self, data):
 		self.filename = None
-		if type(data) in types.StringTypes and os.path.isfile(data):
+		if type(data) in (str,) and os.path.isfile(data):
 			self.filename = data
 			self._fileSize = os.stat(data).st_size
 			gcodeFile = open(data, 'r')
@@ -53,7 +53,7 @@ class gcode(object):
 		else:
 			data = data.getvalue()
 			self._fileSize = len(data)
-			self._load(StringIO.StringIO(data))
+			self._load(io.StringIO(data))
 
 
 	
@@ -234,7 +234,7 @@ class gcode(object):
 					#if z is not None:
 					#	posOffset[2] = pos[2] - z
 				else:
-					print "Unknown G code:" + str(G)
+					print("Unknown G code:" + str(G))
 			else:
 				M = getCodeInt(line, 'M')
 				if M is not None:
@@ -289,7 +289,7 @@ class gcode(object):
 					elif M == 600:	#Dago pause
 						pass
 					else:
-						print "Unknown M code:" + str(M)
+						print("Unknown M code:" + str(M))
 		for path in currentLayer:
 			path['points'] = numpy.array(path['points'], numpy.float32)
 			path['extrusion'] = numpy.array(path['extrusion'], numpy.float32)
@@ -326,5 +326,5 @@ if __name__ == '__main__':
 	for filename in sys.argv[1:]:
 		g = gcode()
 		g.load(filename)
-	print time.time() - t
+	print(time.time() - t)
 

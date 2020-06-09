@@ -8,7 +8,7 @@ import wx
 import os
 import webbrowser
 import sys
-import wx.lib.hyperlink as hl
+import wx.lib.agw.hyperlink as hl
 from wx.lib import scrolledpanel
 
 from Cura.gui import configBase
@@ -31,7 +31,7 @@ class mainWindow(wx.Frame):
 		self.windowTitle = 'Cura by Dagoma ' + os.environ['CURABYDAGO_VERSION']
 		super(mainWindow, self).__init__(None, title=self.windowTitle, pos=(0, 0), size=wx.DisplaySize())
 
-		wx.EVT_CLOSE(self, self.OnClose)
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
 
 		# allow dropping any file, restrict later
 		self.SetDropTarget(dropTarget.FileDropTarget(self.OnDropFiles))
@@ -45,7 +45,7 @@ class mainWindow(wx.Frame):
 				import objc
 				nsWindow = objc.objc_object(c_void_p=self.MacGetTopLevelWindowRef())
 				view = nsWindow.contentView()
-				view.registerForDraggedTypes_([u'NSFilenamesPboardType'])
+				view.registerForDraggedTypes_(['NSFilenamesPboardType'])
 			except:
 				pass
 
@@ -54,12 +54,12 @@ class mainWindow(wx.Frame):
 		mruFile = os.path.join(profile.getBasePath(), 'mru_filelist.ini')
 		self.config = wx.FileConfig(localFilename=mruFile, style=wx.CONFIG_USE_LOCAL_FILE)
 
-		self.ID_MRU_MODEL1, self.ID_MRU_MODEL2, self.ID_MRU_MODEL3, self.ID_MRU_MODEL4, self.ID_MRU_MODEL5, self.ID_MRU_MODEL6, self.ID_MRU_MODEL7, self.ID_MRU_MODEL8, self.ID_MRU_MODEL9, self.ID_MRU_MODEL10 = [wx.NewId() for line in xrange(10)]
+		self.ID_MRU_MODEL1, self.ID_MRU_MODEL2, self.ID_MRU_MODEL3, self.ID_MRU_MODEL4, self.ID_MRU_MODEL5, self.ID_MRU_MODEL6, self.ID_MRU_MODEL7, self.ID_MRU_MODEL8, self.ID_MRU_MODEL9, self.ID_MRU_MODEL10 = [wx.NewId() for line in range(10)]
 		self.modelFileHistory = wx.FileHistory(10, self.ID_MRU_MODEL1)
 		self.config.SetPath("/ModelMRU")
 		self.modelFileHistory.Load(self.config)
 
-		self.ID_MRU_PROFILE1, self.ID_MRU_PROFILE2, self.ID_MRU_PROFILE3, self.ID_MRU_PROFILE4, self.ID_MRU_PROFILE5, self.ID_MRU_PROFILE6, self.ID_MRU_PROFILE7, self.ID_MRU_PROFILE8, self.ID_MRU_PROFILE9, self.ID_MRU_PROFILE10 = [wx.NewId() for line in xrange(10)]
+		self.ID_MRU_PROFILE1, self.ID_MRU_PROFILE2, self.ID_MRU_PROFILE3, self.ID_MRU_PROFILE4, self.ID_MRU_PROFILE5, self.ID_MRU_PROFILE6, self.ID_MRU_PROFILE7, self.ID_MRU_PROFILE8, self.ID_MRU_PROFILE9, self.ID_MRU_PROFILE10 = [wx.NewId() for line in range(10)]
 		self.profileFileHistory = wx.FileHistory(10, self.ID_MRU_PROFILE1)
 		self.config.SetPath("/ProfileMRU")
 		self.profileFileHistory.Load(self.config)
@@ -172,7 +172,7 @@ class mainWindow(wx.Frame):
 
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.Centre()
-		if wx.Display.GetFromPoint((self.GetPositionTuple()[0] + self.GetSizeTuple()[1], self.GetPositionTuple()[1] + self.GetSizeTuple()[1])) < 0:
+		if wx.Display.GetFromPoint((self.GetPosition().x + self.GetSize().x, self.GetPosition().y + self.GetSize().y)) < 0:
 			self.Centre()
 		if wx.Display.GetFromPoint(self.GetPosition()) < 0:
 			self.SetSize((800, 600))
@@ -272,7 +272,7 @@ class mainWindow(wx.Frame):
 		profile.putPreference('window_normal_sash', int('-' + str(self.optionsPane.GetSize()[0])))
 
 		#HACK: Set the paint function of the glCanvas to nothing so it won't keep refreshing. Which can keep wxWidgets from quiting.
-		print "Closing down"
+		print("Closing down")
 		self.scene.OnPaint = lambda e : e
 		self.scene._engine.cleanup()
 		self.Destroy()
@@ -399,10 +399,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 			if int(profile.getMachineSetting('extruder_amount')) == 2:
 				self.color2ComboBox = wx.ComboBox(self, wx.ID_ANY, choices = [] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
-		self.temperatureText = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :").decode('utf-8')))
+		self.temperatureText = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :")))
 		self.temperatureSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
-			self.temperature2Text = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :").decode('utf-8')))
+			self.temperature2Text = wx.StaticText(self, wx.ID_ANY, _(("Temperature (°C) :")))
 			self.temperature2SpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('print_temperature2'), min=175, max=255, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 		self.printButton = wx.Button(self, wx.ID_ANY, _("Prepare the Print"))
 
@@ -692,7 +692,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					fila.solidarea_speed = solidarea_speed_tags[0].firstChild.nodeValue
 				self.filaments.append(fila)
 			except:
-				print 'Some Error in Filament Bloc'
+				print('Some Error in Filament Bloc')
 				pass
 
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
@@ -741,7 +741,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 						new_filling.spiralize = 'False'
 					self.fillings.append(new_filling)
 				except:
-					print 'Some Errors in Filling Bloc'
+					print('Some Errors in Filling Bloc')
 					pass
 		self.fillingRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filling density :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
@@ -779,7 +779,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				extru.value = extruder.get("value")
 				self.extruders.append(extru)
 			except :
-				print 'Some Error in Extruders Bloc'
+				print('Some Error in Extruders Bloc')
 				pass
 		self.startExtruderRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Start print with :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
@@ -807,7 +807,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					preci.solidarea_speed = precision.getElementsByTagName("solidarea_speed")[0].firstChild.nodeValue
 					self.precisions.append(preci)
 				except :
-					print 'Some Error in Precision Bloc'
+					print('Some Error in Precision Bloc')
 					pass
 		self.precisionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Quality (layer thickness) :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
@@ -834,7 +834,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				supp.support = support.get("value")
 				self.supports.append(supp)
 			except :
-				print 'Some Error in Supports Bloc'
+				print('Some Error in Supports Bloc')
 				pass
 		self.supportRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Printing supports :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
@@ -855,7 +855,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				suppDualExtrusion.support_dual_extrusion = support_dual_extrusion.get("value")
 				self.support_dual_extrusions.append(suppDualExtrusion)
 			except :
-				print 'Some Error in Support Bloc'
+				print('Some Error in Support Bloc')
 				pass
 
 		self.supportExtruderDualExtrusionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filament(s) for support :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
@@ -875,7 +875,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 				wipeTowerVolume.wipe_tower_volume = wipe_tower_volume.getElementsByTagName("wipe_tower_volume")[0].firstChild.nodeValue
 				self.wipe_tower_volumes.append(wipeTowerVolume)
 			except :
-				print 'Some Error in Wipe tower volume Bloc'
+				print('Some Error in Wipe tower volume Bloc')
 				pass
 
 		self.wipeTowerVolumeRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Wipe volume :"), choices=choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
@@ -915,7 +915,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					prtsurf.height = printing_surface.getElementsByTagName("printing_surface_height")[0].firstChild.nodeValue
 					self.printing_surfaces.append(prtsurf)
 				except :
-					print 'Some Error in Printing Surface Bloc'
+					print('Some Error in Printing Surface Bloc')
 					pass
 
 		if len(choices) == 0:

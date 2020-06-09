@@ -13,7 +13,7 @@ import re
 import traceback
 import threading
 import platform
-import Queue as queue
+import queue as queue
 
 import serial
 
@@ -22,9 +22,10 @@ from Cura.avr_isp import ispBase
 
 from Cura.util import profile
 from Cura.util import version
+from functools import reduce
 
 try:
-	import _winreg
+	import winreg
 except:
 	pass
 
@@ -37,10 +38,10 @@ def serialList(forAutoDetect=False):
 	baselist=[]
 	if platform.system() == "Windows":
 		try:
-			key=_winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,"HARDWARE\\DEVICEMAP\\SERIALCOMM")
+			key=winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,"HARDWARE\\DEVICEMAP\\SERIALCOMM")
 			i=0
 			while True:
-				values = _winreg.EnumValue(key, i)
+				values = winreg.EnumValue(key, i)
 				if 'VCP0' in values[0] or 'USBSER' in values[0]:
 					baselist+=[values[1]]
 				i+=1
@@ -48,7 +49,7 @@ def serialList(forAutoDetect=False):
 			pass
 	if forAutoDetect:
 		baselist = baselist + glob.glob('/dev/ttyUSB*') + glob.glob('/dev/ttyACM*') + glob.glob("/dev/cu.usb*")
-		baselist = filter(lambda s: not 'Bluetooth' in s, baselist)
+		baselist = [s for s in baselist if not 'Bluetooth' in s]
 		prev = profile.getMachineSetting('serial_port_auto')
 		if prev in baselist:
 			baselist.remove(prev)
@@ -309,7 +310,8 @@ class MachineCom(object):
 					self._serial = programmer.leaveISP()
 					profile.putMachineSetting('serial_port_auto', p)
 					break
-				except ispBase.IspError as (e):
+				except ispBase.IspError as xxx_todo_changeme:
+					(e) = xxx_todo_changeme
 					self._log("Error while connecting to %s: %s" % (p, str(e)))
 					pass
 				except:
@@ -495,7 +497,7 @@ class MachineCom(object):
 		try:
 			self._serial.baudrate = baudrate
 		except:
-			print getExceptionString()
+			print(getExceptionString())
 
 	def _log(self, message):
 		self._callback.mcLog(message)
@@ -522,7 +524,7 @@ class MachineCom(object):
 		if ret == '':
 			#self._log("Recv: TIMEOUT")
 			return ''
-		self._log("Recv: %s" % (unicode(ret, 'ascii', 'replace').encode('ascii', 'replace').rstrip()))
+		self._log("Recv: %s" % (str(ret, 'ascii', 'replace').rstrip()))
 		return ret
 
 	def close(self, isError = False):
@@ -595,13 +597,12 @@ class MachineCom(object):
 					self._callback.mcZChange(z)
 		except:
 			self._log("Unexpected error: %s" % (getExceptionString()))
-		checksum = reduce(lambda x,y:x^y, map(ord, "N%d%s" % (self._gcodePosition, line)))
+		checksum = reduce(lambda x,y:x^y, list(map(ord, "N%d%s" % (self._gcodePosition, line))))
 		self._sendCommand("N%d%s*%d" % (self._gcodePosition, line, checksum))
 		self._gcodePosition += 1
 		self._callback.mcProgress(self._gcodePosition)
 
 	def sendCommand(self, cmd):
-		cmd = cmd.encode('ascii', 'replace')
 		if self.isPrinting():
 			self._commandQueue.put(cmd)
 		elif self.isOperational():
@@ -616,7 +617,7 @@ class MachineCom(object):
 		self._printSection = 'CUSTOM'
 		self._changeState(self.STATE_PRINTING)
 		self._printStartTime = time.time()
-		for i in xrange(0, 4):
+		for i in range(0, 4):
 			self._sendNext()
 
 	def cancelPrint(self):
@@ -626,7 +627,7 @@ class MachineCom(object):
 	def setPause(self, pause):
 		if not pause and self.isPaused():
 			self._changeState(self.STATE_PRINTING)
-			for i in xrange(0, 6):
+			for i in range(0, 6):
 				self._sendNext()
 		if pause and self.isPrinting():
 			self._changeState(self.STATE_PAUSED)

@@ -6,8 +6,8 @@ __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AG
 
 import threading
 import json
-import httplib as httpclient
-import urllib
+import http.client as httpclient
+import urllib.request, urllib.parse, urllib.error
 import time
 
 from Cura.util.printerConnection import printerConnectionBase
@@ -31,7 +31,7 @@ class doodle3dConnectionGroup(printerConnectionBase.printerConnectionGroup):
 		self._thread.start()
 
 	def getAvailableConnections(self):
-		return filter(lambda c: c.isAvailable(), self._connectionMap.values())
+		return [c for c in list(self._connectionMap.values()) if c.isAvailable()]
 
 	def remove(self, host):
 		del self._connectionMap[host]
@@ -78,7 +78,7 @@ class doodle3dConnectionGroup(printerConnectionBase.printerConnectionGroup):
 
 		try:
 			if postData is not None:
-				self._http.request(method, path, urllib.urlencode(postData), {"Content-type": "application/x-www-form-urlencoded", "User-Agent": "Cura Doodle3D connection"})
+				self._http.request(method, path, urllib.parse.urlencode(postData), {"Content-type": "application/x-www-form-urlencoded", "User-Agent": "Cura Doodle3D connection"})
 			else:
 				self._http.request(method, path, headers={"Content-type": "application/x-www-form-urlencoded", "User-Agent": "Cura Doodle3D connection"})
 		except:
@@ -281,7 +281,7 @@ class doodle3dConnect(printerConnectionBase.printerConnectionBase):
 			elif stateReply['data']['state'] == 'printing':
 				if self._printing:
 					if self._blockIndex < len(self._fileBlocks):
-						for n in xrange(0, 5):
+						for n in range(0, 5):
 							if self._blockIndex < len(self._fileBlocks):
 								if self._request('POST', '/d3dapi/printer/print', {'gcode': self._fileBlocks[self._blockIndex]}):
 									self._blockIndex += 1
@@ -320,7 +320,7 @@ class doodle3dConnect(printerConnectionBase.printerConnectionBase):
 
 		try:
 			if postData is not None:
-				self._http.request(method, path, urllib.urlencode(postData), {"Content-type": "application/x-www-form-urlencoded", "User-Agent": "Cura Doodle3D connection"})
+				self._http.request(method, path, urllib.parse.urlencode(postData), {"Content-type": "application/x-www-form-urlencoded", "User-Agent": "Cura Doodle3D connection"})
 			else:
 				self._http.request(method, path, headers={"Content-type": "application/x-www-form-urlencoded", "User-Agent": "Cura Doodle3D connection"})
 		except:
@@ -344,19 +344,19 @@ class doodle3dConnect(printerConnectionBase.printerConnectionBase):
 
 if __name__ == '__main__':
 	d = doodle3dConnect()
-	print 'Searching for Doodle3D box'
+	print('Searching for Doodle3D box')
 	while not d.isAvailable():
 		time.sleep(1)
 
 	while d.isPrinting():
-		print 'Doodle3D already printing! Requesting stop!'
+		print('Doodle3D already printing! Requesting stop!')
 		d.cancelPrint()
 		time.sleep(5)
 
-	print 'Doodle3D box found, printing!'
+	print('Doodle3D box found, printing!')
 	d.loadFile("C:/Models/belt-tensioner-wave_export.gcode")
 	d.startPrint()
 	while d.isPrinting() and d.isAvailable():
 		time.sleep(1)
-		print d.getTemperature(0), d.getStatusString(), d.getPrintProgress(), d._progressLine, d._lineCount, d._blockIndex, len(d._fileBlocks)
-	print 'Done'
+		print(d.getTemperature(0), d.getStatusString(), d.getPrintProgress(), d._progressLine, d._lineCount, d._blockIndex, len(d._fileBlocks))
+	print('Done')

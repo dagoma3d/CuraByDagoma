@@ -3,7 +3,7 @@
 The profile module contains all the settings for Cura.
 These settings can be globally accessed and modified.
 """
-from __future__ import division
+
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import os
@@ -19,7 +19,7 @@ import glob
 import string
 import stat
 import types
-import cPickle as pickle
+import pickle as pickle
 import numpy
 import locale
 if sys.version_info[0] < 3:
@@ -59,7 +59,7 @@ class setting(object):
 		self._name = name
 		self._label = name
 		self._tooltip = ''
-		self._default = unicode(default)
+		self._default = str(default)
 		self._values = []
 		self._type = type
 		self._category = category
@@ -67,9 +67,9 @@ class setting(object):
 		self._validators = []
 		self._conditions = []
 
-		if type is types.FloatType:
+		if type is float:
 			validators.validFloat(self)
-		elif type is types.IntType:
+		elif type is int:
 			validators.validInt(self)
 
 		global settingsDictionary
@@ -134,7 +134,7 @@ class setting(object):
 			index = self.getValueIndex()
 		while index >= len(self._values):
 			self._values.append(self._default)
-		self._values[index] = unicode(value)
+		self._values[index] = str(value)
 
 	def getValueIndex(self):
 		if self.isMachineSetting() or self.isProfile() or self.isAlteration():
@@ -306,8 +306,8 @@ setting('filament_physical_density2', '1270', float, 'advanced', _('Filament')).
 # Get the os default locale
 default_locale = "en_US"
 if platform.system() == "Darwin":
-	import commands
-	default_locale = commands.getoutput("defaults read -g AppleLocale")
+	import subprocess
+	default_locale = subprocess.getoutput("defaults read -g AppleLocale")
 else:
 	import locale
 	default_locale = locale.getdefaultlocale()[0]
@@ -463,7 +463,7 @@ def getBasePath():
 		try:
 			os.makedirs(basePath)
 		except:
-			print "Failed to create directory: %s" % (basePath)
+			print("Failed to create directory: %s" % (basePath))
 	return basePath
 
 def getAlternativeBasePaths():
@@ -521,7 +521,7 @@ def loadProfile(filename, allMachines = False):
 				if set.isAlteration():
 					section = 'alterations_%d' % (n)
 				if profileParser.has_option(section, set.getName()):
-					set.setValue(unicode(profileParser.get(section, set.getName()), 'utf-8', 'replace'), n)
+					set.setValue(profileParser.get(section, set.getName()), n)
 			n += 1
 	else:
 		for set in settingsList:
@@ -531,7 +531,7 @@ def loadProfile(filename, allMachines = False):
 			if set.isAlteration():
 				section = 'alterations'
 			if profileParser.has_option(section, set.getName()):
-				set.setValue(unicode(profileParser.get(section, set.getName()), 'utf-8', 'replace'))
+				set.setValue(profileParser.get(section, set.getName()))
 
 def saveProfile(filename, allMachines = False):
 	"""
@@ -545,14 +545,14 @@ def saveProfile(filename, allMachines = False):
 		for set in settingsList:
 			if set.isPreference() or set.isMachineSetting():
 				continue
-			for n in xrange(0, getMachineCount()):
+			for n in range(0, getMachineCount()):
 				if set.isAlteration():
 					section = 'alterations_%d' % (n)
 				else:
 					section = 'profile_%d' % (n)
 				if not profileParser.has_section(section):
 					profileParser.add_section(section)
-				profileParser.set(section, set.getName(), set.getValue(n).encode('utf-8'))
+				profileParser.set(section, set.getName(), set.getValue(n))
 	else:
 		profileParser.add_section('profile')
 		profileParser.add_section('alterations')
@@ -560,14 +560,14 @@ def saveProfile(filename, allMachines = False):
 			if set.isPreference() or set.isMachineSetting():
 				continue
 			if set.isAlteration():
-				profileParser.set('alterations', set.getName(), set.getValue().encode('utf-8'))
+				profileParser.set('alterations', set.getName(), set.getValue())
 			else:
-				profileParser.set('profile', set.getName(), set.getValue().encode('utf-8'))
+				profileParser.set('profile', set.getName(), set.getValue())
 
 	try:
 		profileParser.write(open(filename, 'w'))
 	except:
-		print "Failed to write profile file: %s" % (filename)
+		print("Failed to write profile file: %s" % (filename))
 
 def resetProfile():
 	""" Reset the profile for the current machine to default. """
@@ -622,19 +622,19 @@ def getProfileString():
 			if set.getName() in tempOverride:
 				p.append(set.getName() + "=" + tempOverride[set.getName()])
 			else:
-				p.append(set.getName() + "=" + set.getValue().encode('utf-8'))
+				p.append(set.getName() + "=" + set.getValue())
 		elif set.isAlteration():
 			if set.getName() in tempOverride:
 				alt.append(set.getName() + "=" + tempOverride[set.getName()])
 			else:
-				alt.append(set.getName() + "=" + set.getValue().encode('utf-8'))
+				alt.append(set.getName() + "=" + set.getValue())
 	ret = '\b'.join(p) + '\f' + '\b'.join(alt)
-	ret = base64.b64encode(zlib.compress(ret, 9))
+	ret = base64.b64encode(zlib.compress(bytes(ret, 'utf-8'), 9))
 	return ret
 
 def insertNewlines(string, every=64): #This should be moved to a better place then profile.
 	lines = []
-	for i in xrange(0, len(string), every):
+	for i in range(0, len(string), every):
 		lines.append(string[i:i+every])
 	return '\n'.join(lines)
 
@@ -646,9 +646,9 @@ def getPreferencesString():
 	global settingsList
 	for set in settingsList:
 		if set.isPreference():
-			p.append(set.getName() + "=" + set.getValue().encode('utf-8'))
+			p.append(set.getName() + "=" + set.getValue())
 	ret = '\b'.join(p)
-	ret = base64.b64encode(zlib.compress(ret, 9))
+	ret = base64.b64encode(zlib.compress(bytes(ret, 'utf-8'), 9))
 	return ret
 
 
@@ -750,14 +750,14 @@ def loadPreferences(filename):
 	for set in settingsList:
 		if set.isPreference():
 			if profileParser.has_option('preference', set.getName()):
-				set.setValue(unicode(profileParser.get('preference', set.getName()), 'utf-8', 'replace'))
+				set.setValue(profileParser.get('preference', set.getName()))
 
 	n = 0
 	while profileParser.has_section('machine_%d' % (n)):
 		for set in settingsList:
 			if set.isMachineSetting():
 				if profileParser.has_option('machine_%d' % (n), set.getName()):
-					set.setValue(unicode(profileParser.get('machine_%d' % (n), set.getName()), 'utf-8', 'replace'), n)
+					set.setValue(profileParser.get('machine_%d' % (n), set.getName()), n)
 		n += 1
 
 	setActiveMachine(int(getPreferenceFloat('active_machine')))
@@ -774,7 +774,7 @@ def loadMachineSettings(filename):
 	for set in settingsList:
 		if set.isMachineSetting():
 			if profileParser.has_option('machine', set.getName()):
-				set.setValue(unicode(profileParser.get('machine', set.getName()), 'utf-8', 'replace'))
+				set.setValue(profileParser.get('machine', set.getName()))
 	checkAndUpdateMachineName()
 
 def savePreferences(filename):
@@ -785,19 +785,19 @@ def savePreferences(filename):
 
 	for set in settingsList:
 		if set.isPreference():
-			parser.set('preference', set.getName(), set.getValue().encode('utf-8'))
+			parser.set('preference', set.getName(), set.getValue())
 
 	n = 0
 	while getMachineSetting('machine_name', n) != '':
 		parser.add_section('machine_%d' % (n))
 		for set in settingsList:
 			if set.isMachineSetting():
-				parser.set('machine_%d' % (n), set.getName(), set.getValue(n).encode('utf-8'))
+				parser.set('machine_%d' % (n), set.getName(), set.getValue(n))
 		n += 1
 	try:
 		parser.write(open(filename, 'w'))
 	except:
-		print "Failed to write preferences file: %s" % (filename)
+		print("Failed to write preferences file: %s" % (filename))
 
 def getPreference(name):
 	if name in tempOverride:
@@ -875,7 +875,7 @@ def checkAndUpdateMachineName():
 	index = None
 	if name == '':
 		name = getMachineSetting('machine_type')
-	for n in xrange(0, getMachineCount()):
+	for n in range(0, getMachineCount()):
 		if n == _selectedMachineIndex:
 			continue
 		if index is None:
@@ -907,7 +907,7 @@ def removeMachine(index):
 	global settingsList
 	if getMachineCount() < 2:
 		return
-	for n in xrange(index, getMachineCount()):
+	for n in range(index, getMachineCount()):
 		for setting in settingsList:
 			if setting.isMachineSetting():
 				setting.setValue(setting.getValue(n+1), n)
@@ -918,7 +918,7 @@ def removeMachine(index):
 ## Temp overrides for multi-extruder slicing and the project planner.
 tempOverride = {}
 def setTempOverride(name, value):
-	tempOverride[name] = unicode(value).encode("utf-8")
+	tempOverride[name] = str(value)
 def clearTempOverride(name):
 	del tempOverride[name]
 def resetTempOverride():
@@ -1001,7 +1001,7 @@ def getMachineSizePolygons():
 		# Circle platform for delta printers...
 		circle = []
 		steps = 32
-		for n in xrange(0, steps):
+		for n in range(0, steps):
 			circle.append([math.cos(float(n)/steps*2*math.pi) * size[0]/2, math.sin(float(n)/steps*2*math.pi) * size[1]/2])
 		ret.append(numpy.array(circle, numpy.float32))
 	else:
@@ -1136,10 +1136,10 @@ def replaceTagMatch(m):
 		return ' ' + getPreference('filament2_name') + ' ' + getPreference('color2_label')
 
 	if tag == 'print_temperature_info':
-		return pre + str(getProfileSettingFloat('print_temperature')) + ' °C'.decode('utf-8')
+		return pre + str(getProfileSettingFloat('print_temperature')) + ' °C'
 
 	if tag == 'print_temperature2_info':
-		return pre + str(getProfileSettingFloat('print_temperature2')) + ' °C'.decode('utf-8')
+		return pre + str(getProfileSettingFloat('print_temperature2')) + ' °C'
 
 	if tag == 'sensor':
 		return getPalpeurGCode()
@@ -1234,7 +1234,7 @@ def replaceTagMatch(m):
 		return pre + str(getProfileSettingFloat('layer_height')) + ' mm'
 	
 	if tag == 'fill_density_info':
-		return pre + str(getProfileSettingFloat('fill_density')) + " %".decode('utf-8')
+		return pre + str(getProfileSettingFloat('fill_density')) + " %"
 
 	if tag == 'date':
 		return pre + time.strftime('%d-%m-%Y')
@@ -1319,46 +1319,46 @@ def getAlterationFileContents(filename, extruderCount = 1):
 	prefix = ''
 	postfix = ''
 	alterationContents = getAlterationFile(filename)
-	return unicode(prefix + re.sub("(.)\{([^\}]*)\}", replaceTagMatch, alterationContents).rstrip() + '\n' + postfix).strip().encode('utf-8') + '\n'
+	return str(prefix + re.sub("(.)\{([^\}]*)\}", replaceTagMatch, alterationContents).rstrip() + '\n' + postfix).strip() + '\n'
 
 def printSlicingInfo():
-	print '********* Slicing parameters *********'
-	print "print_temperature : ", getProfileSetting('print_temperature')
-	print "filament_diameter : ", getProfileSetting('filament_diameter')
-	print "filament_flow : ", getProfileSetting('filament_flow')
-	print "retraction_speed : ", getProfileSetting('retraction_speed')
-	print "retraction_amount : ", getProfileSetting('retraction_amount')
-	print "filament_physical_density : ", getProfileSetting('filament_physical_density')
-	print "filament_cost_kg : ", getProfileSetting('filament_cost_kg')
+	print('********* Slicing parameters *********')
+	print("print_temperature : ", getProfileSetting('print_temperature'))
+	print("filament_diameter : ", getProfileSetting('filament_diameter'))
+	print("filament_flow : ", getProfileSetting('filament_flow'))
+	print("retraction_speed : ", getProfileSetting('retraction_speed'))
+	print("retraction_amount : ", getProfileSetting('retraction_amount'))
+	print("filament_physical_density : ", getProfileSetting('filament_physical_density'))
+	print("filament_cost_kg : ", getProfileSetting('filament_cost_kg'))
 	if int(getMachineSetting('extruder_amount')) == 2:
-		print "print_temperature2 : ", getProfileSetting('print_temperature2')
-		print "filament_diameter2 : ", getProfileSetting('filament_diameter2')
-		print "filament_flow2 : ", getProfileSetting('filament_flow2')
-		print "retraction_speed2 : ", getProfileSetting('retraction_speed2')
-		print "retraction_amount2 : ", getProfileSetting('retraction_amount2')
-		print "filament_physical_density2 : ", getProfileSetting('filament_physical_density2')
-		print "filament_cost_kg2 : ", getProfileSetting('filament_cost_kg2')
-	print "extruder_amount : ", getMachineSetting('extruder_amount')
-	print "nozzle_size : ", getMachineSetting('nozzle_size')
-	print "rectration_enable : ", getMachineSetting('retraction_enable')
-	print "fan_full_height : ", getProfileSetting('fan_full_height')
-	print "fan_speed : ", getProfileSetting('fan_speed')
-	print "fan_speed_max : ", getProfileSetting('fan_speed_max')
-	print "coll_min_feedrate : ", getProfileSetting('cool_min_feedrate')
-	print "fill_density", getProfileSetting('fill_density')
-	print "layer_height ", getProfileSetting('layer_height')
-	print "solid_layer_thickness : ", getProfileSetting('solid_layer_thickness')
-	print "wall_thickness : ", getProfileSetting('wall_thickness')
-	print "print_speed : ", getProfileSetting('print_speed')
-	print "travel_speed : ", getProfileSetting('travel_speed')
-	print "bottom_layer_speed : ", getProfileSetting('bottom_layer_speed')
-	print "infill_speed : ", getProfileSetting('infill_speed')
-	print "solidarea_speed : ", getProfileSetting('solidarea_speed')
-	print "inset0_speed : ", getProfileSetting('inset0_speed')
-	print "insetx_speed : ", getProfileSetting('insetx_speed')
-	print "fan_speed ", getProfileSetting('fan_speed')
-	print "cool_min_layer_time : ", getProfileSetting('cool_min_layer_time')
-	print "support : ", getProfileSetting('support')
-	print "platform_adhesion : ", getProfileSetting('platform_adhesion')
-	print "sensor : ", getProfileSetting('sensor')
-	print '**************************************'
+		print("print_temperature2 : ", getProfileSetting('print_temperature2'))
+		print("filament_diameter2 : ", getProfileSetting('filament_diameter2'))
+		print("filament_flow2 : ", getProfileSetting('filament_flow2'))
+		print("retraction_speed2 : ", getProfileSetting('retraction_speed2'))
+		print("retraction_amount2 : ", getProfileSetting('retraction_amount2'))
+		print("filament_physical_density2 : ", getProfileSetting('filament_physical_density2'))
+		print("filament_cost_kg2 : ", getProfileSetting('filament_cost_kg2'))
+	print("extruder_amount : ", getMachineSetting('extruder_amount'))
+	print("nozzle_size : ", getMachineSetting('nozzle_size'))
+	print("rectration_enable : ", getMachineSetting('retraction_enable'))
+	print("fan_full_height : ", getProfileSetting('fan_full_height'))
+	print("fan_speed : ", getProfileSetting('fan_speed'))
+	print("fan_speed_max : ", getProfileSetting('fan_speed_max'))
+	print("coll_min_feedrate : ", getProfileSetting('cool_min_feedrate'))
+	print("fill_density", getProfileSetting('fill_density'))
+	print("layer_height ", getProfileSetting('layer_height'))
+	print("solid_layer_thickness : ", getProfileSetting('solid_layer_thickness'))
+	print("wall_thickness : ", getProfileSetting('wall_thickness'))
+	print("print_speed : ", getProfileSetting('print_speed'))
+	print("travel_speed : ", getProfileSetting('travel_speed'))
+	print("bottom_layer_speed : ", getProfileSetting('bottom_layer_speed'))
+	print("infill_speed : ", getProfileSetting('infill_speed'))
+	print("solidarea_speed : ", getProfileSetting('solidarea_speed'))
+	print("inset0_speed : ", getProfileSetting('inset0_speed'))
+	print("insetx_speed : ", getProfileSetting('insetx_speed'))
+	print("fan_speed ", getProfileSetting('fan_speed'))
+	print("cool_min_layer_time : ", getProfileSetting('cool_min_layer_time'))
+	print("support : ", getProfileSetting('support'))
+	print("platform_adhesion : ", getProfileSetting('platform_adhesion'))
+	print("sensor : ", getProfileSetting('sensor'))
+	print('**************************************')

@@ -10,7 +10,7 @@ import traceback
 import platform
 import re
 import tempfile
-import cPickle as pickle
+import pickle as pickle
 
 from Cura.util import profile
 from Cura.util import resources
@@ -157,7 +157,7 @@ def runPostProcessingPlugins(engineResult):
 
 			locals[param['name']] = value
 		try:
-			execfile(pythonFile, locals)
+			exec(compile(open(pythonFile, "rb").read(), pythonFile, 'exec'), locals)
 		except:
 			locationInfo = traceback.extract_tb(sys.exc_info()[2])[-1]
 			return "%s: '%s' @ %s:%s:%d" % (str(sys.exc_info()[0].__name__), str(sys.exc_info()[1]), os.path.basename(locationInfo[0]), locationInfo[2], locationInfo[1])

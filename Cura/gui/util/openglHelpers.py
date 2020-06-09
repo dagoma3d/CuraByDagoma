@@ -56,8 +56,8 @@ class GLShader(GLReferenceCounter):
 				raise RuntimeError("Link failure: %s" % (glGetProgramInfoLog(self._program)))
 			glDeleteShader(vertexShader)
 			glDeleteShader(fragmentShader)
-		except RuntimeError, e:
-			print str(e)
+		except RuntimeError as e:
+			print(str(e))
 			self._program = None
 
 	def bind(self):
@@ -79,7 +79,7 @@ class GLShader(GLReferenceCounter):
 			elif type(value) is numpy.matrix:
 				glUniformMatrix3fv(glGetUniformLocation(self._program, name), 1, False, value.getA().astype(numpy.float32))
 			else:
-				print 'Unknown type for setUniform: %s' % (str(type(value)))
+				print('Unknown type for setUniform: %s' % (str(type(value))))
 
 	def isValid(self):
 		return self._program is not None
@@ -92,7 +92,7 @@ class GLShader(GLReferenceCounter):
 
 	def __del__(self):
 		if self._program is not None and bool(glDeleteProgram):
-			print "Shader was not properly released!"
+			print("Shader was not properly released!")
 
 class GLFakeShader(GLReferenceCounter):
 	"""
@@ -154,8 +154,8 @@ class GLVBO(GLReferenceCounter):
 			if self._hasIndices:
 				maxVertsPerBuffer = self._size
 			if maxVertsPerBuffer > 0:
-				bufferCount = ((self._size-1) / maxVertsPerBuffer) + 1
-				for n in xrange(0, bufferCount):
+				bufferCount = int(((self._size-1) / maxVertsPerBuffer) + 1)
+				for n in range(0, bufferCount):
 					bufferInfo = {
 						'buffer': glGenBuffers(1),
 						'size': maxVertsPerBuffer
@@ -189,7 +189,7 @@ class GLVBO(GLReferenceCounter):
 				batchSize = 996	#Warning, batchSize needs to be dividable by 4 (quads), 3 (triangles) and 2 (lines). Current value is magic.
 				extraStartPos = int(self._size / batchSize) * batchSize #leftovers.
 				extraCount = self._size - extraStartPos
-				for i in xrange(0, int(self._size / batchSize)):
+				for i in range(0, int(self._size / batchSize)):
 					glDrawArrays(self._renderType, i * batchSize, batchSize)
 				glDrawArrays(self._renderType, extraStartPos, extraCount)
 		else:
@@ -233,7 +233,7 @@ class GLVBO(GLReferenceCounter):
 
 	def __del__(self):
 		if self._buffers is not None and bool(glDeleteBuffers):
-			print "VBO was not properly released!"
+			print("VBO was not properly released!")
 
 def glDrawStringCenter(s):
 	"""
@@ -244,8 +244,8 @@ def glDrawStringCenter(s):
 		glBitmap(0,0,0,0, -glGetStringSize(s)[0]/2, 0, None)
 		for c in s:
 			glutBitmapCharacter(OpenGL.GLUT.GLUT_BITMAP_HELVETICA_18, ord(c))
-	except TypeError, e:
-		print str(e)
+	except TypeError as e:
+		print(str(e))
 
 def glGetStringSize(s):
 	"""
@@ -429,7 +429,7 @@ def unproject(winx, winy, winz, modelMatrix, projMatrix, viewport):
 	finalMatrix = npModelMatrix * npProjMatrix
 	finalMatrix = numpy.linalg.inv(finalMatrix)
 
-	viewport = map(float, viewport)
+	viewport = list(map(float, viewport))
 	vector = numpy.array([(winx - viewport[0]) / viewport[2] * 2.0 - 1.0, (winy - viewport[1]) / viewport[3] * 2.0 - 1.0, winz * 2.0 - 1.0, 1]).reshape((1,4))
 	vector = (numpy.matrix(vector) * finalMatrix).getA().flatten()
 	ret = list(vector)[0:3] / vector[3]
@@ -443,13 +443,14 @@ def loadGLTexture(filename):
 	glBindTexture(GL_TEXTURE_2D, tex)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-	img = wx.ImageFromBitmap(wx.Bitmap(getPathForImage(filename)))
+	img = wx.Bitmap(getPathForImage(filename)).ConvertToImage()
 	rgbData = img.GetData()
-	alphaData = img.GetAlphaData()
+	#alphaData = img.GetAlpha()
+	alphaData = None
 	if alphaData is not None:
-		data = ''
-		for i in xrange(0, len(alphaData)):
-			data += rgbData[i*3:i*3+3] + alphaData[i]
+		data = bytearray()
+		for i in range(0, len(alphaData)):
+			data += rgbData[i*3:i*3+3] + bytes(alphaData[i])
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.GetWidth(), img.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
 	else:
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.GetWidth(), img.GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, rgbData)

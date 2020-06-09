@@ -100,7 +100,7 @@ class printableObject(object):
 			hull = polygon.convexHull(numpy.concatenate((numpy.rint(transformedVertexes[:,0:2]).astype(int), hull), 0))
 			transformedMin = transformedVertexes.min(0)
 			transformedMax = transformedVertexes.max(0)
-			for n in xrange(0, 3):
+			for n in range(0, 3):
 				self._transformedMin[n] = min(transformedMin[n], self._transformedMin[n])
 				self._transformedMax[n] = max(transformedMax[n], self._transformedMax[n])
 
@@ -280,7 +280,7 @@ class printableObject(object):
 		for m in self._meshList:
 			verts = m.getTransformedVertexes(True)
 			meshIdxList = []
-			for idx in xrange(0, len(verts)):
+			for idx in range(0, len(verts)):
 				v = verts[idx]
 				hashNr = int(v[0] * 100) | int(v[1] * 100) << 10 | int(v[2] * 100) << 20
 				vIdx = None
@@ -331,14 +331,14 @@ class mesh(object):
 
 	def _calculateNormals(self):
 		#Calculate the normals
-		tris = self.vertexes.reshape(self.vertexCount / 3, 3, 3)
+		tris = self.vertexes.reshape(int(self.vertexCount / 3), 3, 3)
 		normals = numpy.cross( tris[::,1 ] - tris[::,0]  , tris[::,2 ] - tris[::,0] )
 		lens = numpy.sqrt( normals[:,0]**2 + normals[:,1]**2 + normals[:,2]**2 )
 		normals[:,0] /= lens
 		normals[:,1] /= lens
 		normals[:,2] /= lens
 		
-		n = numpy.zeros((self.vertexCount / 3, 9), numpy.float32)
+		n = numpy.zeros((int(self.vertexCount / 3), 9), numpy.float32)
 		n[:,0:3] = normals
 		n[:,3:6] = normals
 		n[:,6:9] = normals
@@ -369,7 +369,7 @@ class mesh(object):
 		vertexMap = {}
 
 		vertexToFace = []
-		for idx in xrange(0, self.vertexCount):
+		for idx in range(0, self.vertexCount):
 			if (idx % 100) == 0:
 				callback(idx * 100 / self.vertexCount)
 			vHash = self._vertexHash(idx)
@@ -379,7 +379,7 @@ class mesh(object):
 			vertexToFace.append([])
 
 		faceList = []
-		for idx in xrange(0, self.vertexCount, 3):
+		for idx in range(0, self.vertexCount, 3):
 			if (idx % 100) == 0:
 				callback(idx * 100 / self.vertexCount)
 			f = [self._idxFromHash(vertexMap, idx), self._idxFromHash(vertexMap, idx+1), self._idxFromHash(vertexMap, idx+2)]
@@ -390,7 +390,7 @@ class mesh(object):
 
 		ret = []
 		doneSet = set()
-		for idx in xrange(0, len(faceList)):
+		for idx in range(0, len(faceList)):
 			if idx in doneSet:
 				continue
 			doneSet.add(idx)
@@ -399,7 +399,7 @@ class mesh(object):
 			while len(todoList) > 0:
 				idx = todoList.pop()
 				meshFaceList.append(idx)
-				for n in xrange(0, 3):
+				for n in range(0, 3):
 					for i in vertexToFace[faceList[idx][n]]:
 						if not i in doneSet:
 							doneSet.add(i)

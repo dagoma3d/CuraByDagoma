@@ -37,10 +37,10 @@ class engineResultView(object):
 
 		#Clean the saved VBO's
 		for layer in self._layerVBOs:
-			for typeName in layer.keys():
+			for typeName in list(layer.keys()):
 				self._parent.glReleaseList.append(layer[typeName])
 		for layer in self._layer20VBOs:
-			for typeName in layer.keys():
+			for typeName in list(layer.keys()):
 				self._parent.glReleaseList.append(layer[typeName])
 		self._layerVBOs = []
 		self._layer20VBOs = []
@@ -112,7 +112,7 @@ class engineResultView(object):
 						for typeName, typeNameGCode, color in lineTypeList:
 							allow = typeName in result._polygons[n + 19]
 							if typeName == 'skirt':
-								for i in xrange(0, 20):
+								for i in range(0, 20):
 									if typeName in result._polygons[n + i]:
 										allow = True
 							if allow:
@@ -120,7 +120,7 @@ class engineResultView(object):
 									if generatedVBO:
 										continue
 									polygons = []
-									for i in xrange(0, 20):
+									for i in range(0, 20):
 										if typeName in result._polygons[n + i]:
 											polygons += result._polygons[n + i][typeName]
 									layerVBOs[typeName] = self._polygonsToVBO_lines(polygons)

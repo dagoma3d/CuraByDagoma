@@ -56,7 +56,7 @@ def setupLocalization(selectedLanguage = None):
 
 	locale_path = os.path.normpath(os.path.join(resourceBasePath, 'locale'))
 	translation = gettext.translation('Cura', locale_path, languages, fallback=True)
-	translation.install(unicode=True)
+	translation.install()
 
 def getLanguageOptions():
 	return [

@@ -21,7 +21,7 @@ def treeWalk(moduleList, dirname, fnames):
 		return
 	if dirname == 'Cura.resouces':
 		return
-	for moduleName in filter(lambda f: f.endswith('.py'), fnames):
+	for moduleName in [f for f in fnames if f.endswith('.py')]:
 		moduleName = moduleName[:-3]
 		if moduleName == '__init__':
 			continue
@@ -31,7 +31,7 @@ def treeWalk(moduleList, dirname, fnames):
 			moduleList.append(module)
 		except:
 			#traceback.print_exc()
-			print "Failed to load: %s" % (fullName)
+			print("Failed to load: %s" % (fullName))
 
 def main():
 	"""
@@ -67,7 +67,7 @@ def main():
 					functionDocCount += 1
 				else:
 					undocList.append('%s.%s' % (module.__name__, name))
-			elif type(a) is types.TypeType:
+			elif type(a) is type:
 				typeCount += 1
 				if inspect.getdoc(a):
 					typeDocCount += 1
@@ -84,15 +84,15 @@ def main():
 						# else:
 						# 	undocList.append('%s.%s.%s' % (module.__name__, name, name2))
 
-	print '%d/%d modules have documentation.' % (moduleDocCount, len(moduleList))
-	print '%d/%d types have documentation.' % (typeDocCount, typeCount)
-	print '%d/%d functions have documentation.' % (functionDocCount, functionCount)
-	print '%d/%d member functions have documentation.' % (memberDocCount, memberCount)
-	print '%.1f%% documented.' % (float(moduleDocCount + functionDocCount + typeDocCount + memberDocCount) / float(len(moduleList) + functionCount + typeCount + memberCount) * 100.0)
-	print ''
-	print 'You might want to document:'
-	for n in xrange(0, 10):
-		print random.Random().choice(undocList)
+	print('%d/%d modules have documentation.' % (moduleDocCount, len(moduleList)))
+	print('%d/%d types have documentation.' % (typeDocCount, typeCount))
+	print('%d/%d functions have documentation.' % (functionDocCount, functionCount))
+	print('%d/%d member functions have documentation.' % (memberDocCount, memberCount))
+	print('%.1f%% documented.' % (float(moduleDocCount + functionDocCount + typeDocCount + memberDocCount) / float(len(moduleList) + functionCount + typeCount + memberCount) * 100.0))
+	print('')
+	print('You might want to document:')
+	for n in range(0, 10):
+		print(random.Random().choice(undocList))
 
 if __name__ == '__main__':
 	main()

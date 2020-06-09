@@ -1,4 +1,4 @@
-from __future__ import division
+
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import wx
@@ -57,18 +57,18 @@ class glGuiControl(object):
 		pass
 
 	def focusNext(self):
-		for n in xrange(self._parent._glGuiControlList.index(self) + 1, len(self._parent._glGuiControlList)):
+		for n in range(self._parent._glGuiControlList.index(self) + 1, len(self._parent._glGuiControlList)):
 			if self._parent._glGuiControlList[n].setFocus():
 				return
-		for n in xrange(0, self._parent._glGuiControlList.index(self)):
+		for n in range(0, self._parent._glGuiControlList.index(self)):
 			if self._parent._glGuiControlList[n].setFocus():
 				return
 
 	def focusPrevious(self):
-		for n in xrange(self._parent._glGuiControlList.index(self) -1, -1, -1):
+		for n in range(self._parent._glGuiControlList.index(self) -1, -1, -1):
 			if self._parent._glGuiControlList[n].setFocus():
 				return
-		for n in xrange(len(self._parent._glGuiControlList) - 1, self._parent._glGuiControlList.index(self), -1):
+		for n in range(len(self._parent._glGuiControlList) - 1, self._parent._glGuiControlList.index(self), -1):
 			if self._parent._glGuiControlList[n].setFocus():
 				return
 
@@ -142,22 +142,22 @@ class glGuiPanel(glcanvas.GLCanvas):
 		self._refreshQueued = False
 		self._idleCalled = False
 
-		wx.EVT_PAINT(self, self._OnGuiPaint)
-		wx.EVT_SIZE(self, self._OnSize)
-		wx.EVT_ERASE_BACKGROUND(self, self._OnEraseBackground)
-		wx.EVT_LEFT_DOWN(self, self._OnGuiMouseDown)
-		wx.EVT_LEFT_DCLICK(self, self._OnGuiMouseDown)
-		wx.EVT_LEFT_UP(self, self._OnGuiMouseUp)
-		wx.EVT_RIGHT_DOWN(self, self._OnGuiMouseDown)
-		wx.EVT_RIGHT_DCLICK(self, self._OnGuiMouseDown)
-		wx.EVT_RIGHT_UP(self, self._OnGuiMouseUp)
-		wx.EVT_MIDDLE_DOWN(self, self._OnGuiMouseDown)
-		wx.EVT_MIDDLE_DCLICK(self, self._OnGuiMouseDown)
-		wx.EVT_MIDDLE_UP(self, self._OnGuiMouseUp)
-		wx.EVT_MOTION(self, self._OnGuiMouseMotion)
-		wx.EVT_CHAR(self, self._OnGuiKeyChar)
-		wx.EVT_KILL_FOCUS(self, self.OnFocusLost)
-		wx.EVT_IDLE(self, self._OnIdle)
+		self.Bind(wx.EVT_PAINT, self._OnGuiPaint)
+		self.Bind(wx.EVT_SIZE, self._OnSize)
+		self.Bind(wx.EVT_ERASE_BACKGROUND, self._OnEraseBackground)
+		self.Bind(wx.EVT_LEFT_DOWN, self._OnGuiMouseDown)
+		self.Bind(wx.EVT_LEFT_DCLICK, self._OnGuiMouseDown)
+		self.Bind(wx.EVT_LEFT_UP, self._OnGuiMouseUp)
+		self.Bind(wx.EVT_RIGHT_DOWN, self._OnGuiMouseDown)
+		self.Bind(wx.EVT_RIGHT_DCLICK, self._OnGuiMouseDown)
+		self.Bind(wx.EVT_RIGHT_UP, self._OnGuiMouseUp)
+		self.Bind(wx.EVT_MIDDLE_DOWN, self._OnGuiMouseDown)
+		self.Bind(wx.EVT_MIDDLE_DCLICK, self._OnGuiMouseDown)
+		self.Bind(wx.EVT_MIDDLE_UP, self._OnGuiMouseUp)
+		self.Bind(wx.EVT_MOTION, self._OnGuiMouseMotion)
+		self.Bind(wx.EVT_CHAR, self._OnGuiKeyChar)
+		self.Bind(wx.EVT_KILL_FOCUS, self.OnFocusLost)
+		self.Bind(wx.EVT_IDLE, self._OnIdle)
 
 	def _OnIdle(self, e):
 		self._idleCalled = True
@@ -242,7 +242,7 @@ class glGuiPanel(glcanvas.GLCanvas):
 			errStr = _("An error has occurred during the 3D view drawing.")
 			tb = traceback.extract_tb(sys.exc_info()[2])
 			errStr += "\n%s: '%s'" % (str(sys.exc_info()[0].__name__), str(sys.exc_info()[1]))
-			for n in xrange(len(tb)-1, -1, -1):
+			for n in range(len(tb)-1, -1, -1):
 				locationInfo = tb[n]
 				errStr += "\n @ %s:%s:%d" % (os.path.basename(locationInfo[0]), locationInfo[2], locationInfo[1])
 			if not self._shownError:
@@ -384,11 +384,11 @@ class glGuiLayoutGrid(object):
 			x, y = ctrl._pos
 			x1 = x0
 			y1 = y0
-			for n in xrange(0, x):
+			for n in range(0, x):
 				if not n in widths:
 					widths[n] = 3
 				x1 += widths[n]
-			for n in xrange(0, y):
+			for n in range(0, y):
 				if not n in heights:
 					heights[n] = 3
 				y1 += heights[n]
@@ -621,7 +621,7 @@ class glComboButton(glButton):
 		glPushMatrix()
 		glTranslatef(pos[0]+bs*0.5, pos[1] + bs*0.5, 0)
 		glBindTexture(GL_TEXTURE_2D, self._base._glButtonsTexture)
-		for n in xrange(0, len(self._imageIDs)):
+		for n in range(0, len(self._imageIDs)):
 			glTranslatef(0, bs, 0)
 			glColor4ub(255,255,255,255)
 			openglHelpers.glDrawTexturedQuad(-0.5*bs,-0.5*bs,bs,bs, 0)
@@ -743,11 +743,11 @@ class glNotification(glFrame):
 
 	def setSize(self, x, y, w, h):
 		w, h = self._layout.getLayoutSize()
-		baseSize = self._base.GetSizeTuple()
+		baseSize = self._base.GetSize()
 		if self._anim is not None:
-			super(glNotification, self).setSize(baseSize[0] / 2 - w / 2, baseSize[1] - self._anim.getPosition() - self._base._buttonSize * 0.2, 1, 1)
+			super(glNotification, self).setSize(baseSize.x / 2 - w / 2, baseSize.y - self._anim.getPosition() - self._base._buttonSize * 0.2, 1, 1)
 		else:
-			super(glNotification, self).setSize(baseSize[0] / 2 - w / 2, baseSize[1] - self._base._buttonSize * 0.2, 1, 1)
+			super(glNotification, self).setSize(baseSize.x / 2 - w / 2, baseSize.y - self._base._buttonSize * 0.2, 1, 1)
 
 	def draw(self):
 		self.setSize(0,0,0,0)

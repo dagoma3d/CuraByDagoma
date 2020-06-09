@@ -6,8 +6,8 @@ __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AG
 
 import threading
 import json
-import httplib as httpclient
-import urllib
+import http.client as httpclient
+import urllib.request, urllib.parse, urllib.error
 import time
 
 from Cura.util.printerConnection import printerConnectionBase
@@ -65,7 +65,7 @@ class dummyConnection(printerConnectionBase.printerConnectionBase):
 
 	#Start printing the previously loaded file
 	def startPrint(self):
-		print 'startPrint', self._printing, self._lineCount
+		print('startPrint', self._printing, self._lineCount)
 		if self._printing or self._lineCount < 1:
 			return
 		self._progressLine = 0

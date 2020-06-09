@@ -26,7 +26,7 @@ class PrinterConnectionManager(object):
 		#self._groupList.append(doodle3dConnect.doodle3dConnectionGroup())
 
 		#Sort the connections by highest priority first.
-		self._groupList.sort(reverse=True)
+		self._groupList.sort(key=lambda connection: connection.getPriority(), reverse=True)
 
 	#Return the highest priority available connection.
 	def getAvailableGroup(self):

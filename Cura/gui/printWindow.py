@@ -149,11 +149,11 @@ class printWindowBasic(wx.Frame):
 		self.statusText.SetLabel(connection.getStatusString())
 		if self._printerConnection.getTemperature(0) is not None:
 			info = _("Noozle temperature: %d ") % self._printerConnection.getTemperature(0)
-			info += ('°C').decode('utf-8')
+			info += ('°C')
 			self.noozleTemperatureText.SetLabel(info)
 		if self._printerConnection.getBedTemperature() > 0:
 			info = _("Bed temperature: %d ") % self._printerConnection.getBedTemperature()
-			info += ('°C').decode('utf-8')
+			info += ('°C')
 			self.bedTemperatureText.SetLabel(info)
 
 	def _updateButtonStates(self):
@@ -218,8 +218,8 @@ class TemperatureGraph(wx.Panel):
 		btSP0 = 0
 		for temp, tempSP, bedTemp, bedTempSP, t in self._points:
 			x1 = int(w - (now - t))
-			for x in xrange(x0, x1 + 1):
-				for n in xrange(0, min(len(t0), len(temp))):
+			for x in range(x0, x1 + 1):
+				for n in range(0, min(len(t0), len(temp))):
 					t = float(x - x0) / float(x1 - x0 + 1) * (temp[n] - t0[n]) + t0[n]
 					dc.SetPen(tempPenBG)
 					dc.DrawLine(x, h, x, h - (t * h / 300))
@@ -233,11 +233,11 @@ class TemperatureGraph(wx.Panel):
 			x0 = x1 + 1
 
 		#Draw the grid
-		for x in xrange(w, 0, -30):
+		for x in range(w, 0, -30):
 			dc.SetPen(bgLinePen)
 			dc.DrawLine(x, 0, x, h)
 		tmpNr = 0
-		for y in xrange(h - 1, 0, -h * 50 / 300):
+		for y in range(h - 1, 0, -h * 50 / 300):
 			dc.SetPen(bgLinePen)
 			dc.DrawLine(0, y, w, y)
 			dc.DrawText(str(tmpNr), 0, y - dc.GetFont().GetPixelSize().GetHeight())
@@ -253,8 +253,8 @@ class TemperatureGraph(wx.Panel):
 		btSP0 = 0
 		for temp, tempSP, bedTemp, bedTempSP, t in self._points:
 			x1 = int(w - (now - t))
-			for x in xrange(x0, x1 + 1):
-				for n in xrange(0, min(len(t0), len(temp))):
+			for x in range(x0, x1 + 1):
+				for n in range(0, min(len(t0), len(temp))):
 					t = float(x - x0) / float(x1 - x0 + 1) * (temp[n] - t0[n]) + t0[n]
 					tSP = float(x - x0) / float(x1 - x0 + 1) * (tempSP[n] - tSP0[n]) + tSP0[n]
 					dc.SetPen(tempSPPen)
@@ -283,10 +283,10 @@ class TemperatureGraph(wx.Panel):
 	def addPoint(self, temp, tempSP, bedTemp, bedTempSP):
 		if len(self._points) > 0 and time.time() - self._points[-1][4] < 0.5:
 			return
-		for n in xrange(0, len(temp)):
+		for n in range(0, len(temp)):
 			if temp[n] is None:
 				temp[n] = 0
-		for n in xrange(0, len(tempSP)):
+		for n in range(0, len(tempSP)):
 			if tempSP[n] is None:
 				tempSP[n] = 0
 		if bedTemp is None:
@@ -302,7 +302,7 @@ class LogWindow(wx.Frame):
 		super(LogWindow, self).__init__(parent, title=_("Log"))
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
-		self.textBox = wx.TextCtrl(self, -1, unicode(logText, errors='ignore'), style=wx.TE_MULTILINE | wx.TE_DONTWRAP | wx.TE_READONLY)
+		self.textBox = wx.TextCtrl(self, -1, str(logText, errors='ignore'), style=wx.TE_MULTILINE | wx.TE_DONTWRAP | wx.TE_READONLY)
 		self.SetSize((500, 400))
 		self.Centre()
 		self.Show(True)

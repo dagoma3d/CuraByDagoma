@@ -87,4 +87,4 @@ if sys.platform.startswith('darwin'):
         setup_requires=['py2app']
     )
 else:
-   print 'No build_app implementation for your system.'
+   print('No build_app implementation for your system.')

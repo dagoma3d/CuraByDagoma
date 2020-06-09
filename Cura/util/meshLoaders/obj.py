@@ -25,8 +25,8 @@ def loadScene(filename):
 		if parts[0] == 'v':
 			vertexList.append([float(parts[1]), float(parts[2]), float(parts[3])])
 		if parts[0] == 'f':
-			parts = map(lambda p: p.split('/')[0], parts)
-			for idx in xrange(1, len(parts)-2):
+			parts = [p.split('/')[0] for p in parts]
+			for idx in range(1, len(parts)-2):
 				faceList.append([int(parts[1]), int(parts[idx+1]), int(parts[idx+2])])
 	f.close()
 

@@ -43,7 +43,7 @@ def _loadBinary(m, f):
 	f.read(80-5)
 	faceCount = struct.unpack('<I', f.read(4))[0]
 	m._prepareFaceCount(faceCount)
-	for idx in xrange(0, faceCount):
+	for idx in range(0, faceCount):
 		data = struct.unpack("<ffffffffffffH", f.read(50))
 		m._addFace(data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11])
 
@@ -82,7 +82,7 @@ def saveSceneStream(stream, objects):
 	for obj in objects:
 		for m in obj._meshList:
 			vertexes = m.getTransformedVertexes(True)
-			for idx in xrange(0, m.vertexCount, 3):
+			for idx in range(0, m.vertexCount, 3):
 				v1 = vertexes[idx]
 				v2 = vertexes[idx+1]
 				v3 = vertexes[idx+2]

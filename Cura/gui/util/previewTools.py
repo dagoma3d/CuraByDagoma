@@ -215,7 +215,7 @@ class toolRotate(object):
 			glLineWidth(1)
 			glColor4ub(128,0,0,255)
 		glBegin(GL_LINE_LOOP)
-		for i in xrange(0, 64):
+		for i in range(0, 64):
 			glVertex3f(math.cos(i/32.0*math.pi), math.sin(i/32.0*math.pi),0)
 		glEnd()
 		if self.dragPlane == 'YZ':
@@ -244,7 +244,7 @@ class toolRotate(object):
 			glColor4ub(0,128,0,255)
 			glLineWidth(1)
 		glBegin(GL_LINE_LOOP)
-		for i in xrange(0, 64):
+		for i in range(0, 64):
 			glVertex3f(0, math.cos(i/32.0*math.pi), math.sin(i/32.0*math.pi))
 		glEnd()
 		if self.dragPlane == 'XZ':
@@ -273,7 +273,7 @@ class toolRotate(object):
 			glColor4ub(128,128,0,255)
 			glLineWidth(1)
 		glBegin(GL_LINE_LOOP)
-		for i in xrange(0, 64):
+		for i in range(0, 64):
 			glVertex3f(math.cos(i/32.0*math.pi), 0, math.sin(i/32.0*math.pi))
 		glEnd()
 		glEnable(GL_DEPTH_TEST)

@@ -53,7 +53,7 @@ def _findInTree(t, n):
 	if type(t) is dict:
 		if '_name' in t and t['_name'] == n:
 			ret.append(t)
-		for k, v in t.items():
+		for k, v in list(t.items()):
 			ret += _findInTree(v, n)
 	if type(t) is list:
 		for v in t:
@@ -145,7 +145,7 @@ def ejectDrive(driveName):
 		cmd = ["umount", driveName]
 
 	kwargs = {}
-	if subprocess.mswindows:
+	if platform.system() == "Windows":
 		su = subprocess.STARTUPINFO()
 		su.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 		su.wShowWindow = subprocess.SW_HIDE
@@ -154,11 +154,11 @@ def ejectDrive(driveName):
 	output = p.communicate()
 
 	if p.wait():
-		print output[0]
-		print output[1]
+		print(output[0])
+		print(output[1])
 		return False
 	else:
 		return True
 
 if __name__ == '__main__':
-	print getPossibleSDcardDrives()
+	print(getPossibleSDcardDrives())

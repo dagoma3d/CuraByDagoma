@@ -1,7 +1,7 @@
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import wx
-import wx.lib.hyperlink as hl
+import wx.lib.agw.hyperlink as hl
 import platform
 
 from Cura.util import resources
@@ -15,7 +15,7 @@ class aboutWindow(wx.Frame):
 
 		isWindows = platform.system() == "Windows"
 
-		wx.EVT_CLOSE(self, self.OnClose)
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
 
 		p = wx.Panel(self)
 		self.panel = p

@@ -33,7 +33,7 @@ class _objectOrderFinder(object):
 		self._leftToRight = leftToRight
 		self._frontToBack = frontToBack
 		initialList = []
-		for n in xrange(0, len(self._objs)):
+		for n in range(0, len(self._objs)):
 			if scene.checkPlatform(self._objs[n]):
 				initialList.append(n)
 		for n in initialList:
@@ -135,7 +135,7 @@ class Scene(object):
 		self._minExtruderCount = minExtruderCount
 
 		extends = [numpy.array([[-newOffsets[0],-newOffsets[1]],[ newOffsets[0],-newOffsets[1]],[ newOffsets[0], newOffsets[1]],[-newOffsets[0], newOffsets[1]]], numpy.float32)]
-		for n in xrange(1, 4):
+		for n in range(1, 4):
 			headOffset = numpy.array([[0, 0], [-profile.getMachineSettingFloat('extruder_offset_x%d' % (n)), -profile.getMachineSettingFloat('extruder_offset_y%d' % (n))]], numpy.float32)
 			extends.append(polygon.minkowskiHull(extends[n-1], headOffset))
 		if minExtruderCount > 1:

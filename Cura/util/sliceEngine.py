@@ -16,13 +16,13 @@ import threading
 import traceback
 import platform
 import sys
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import hashlib
 import socket
 import struct
 import errno
-import cStringIO as StringIO
+import io
 
 from Cura.util import profile
 from Cura.util import pluginInfo
@@ -56,7 +56,7 @@ class EngineResult(object):
 	"""
 	def __init__(self):
 		self._engineLog = []
-		self._gcodeData = StringIO.StringIO()
+		self._gcodeData = io.StringIO()
 		self._polygons = []
 		self._replaceInfo = {}
 		self._success = False
@@ -118,14 +118,14 @@ class EngineResult(object):
 		data = self._gcodeData.getvalue()
 		if len(self._replaceInfo) > 0:
 			block0 = data[0:2048]
-			for k, v in self._replaceInfo.items():
+			for k, v in list(self._replaceInfo.items()):
 				v = (v + ' ' * len(k))[:len(k)]
 				block0 = block0.replace(k, v)
 			return block0 + data[2048:]
 		return data
 
 	def setGCode(self, gcode):
-		self._gcodeData = StringIO.StringIO(gcode)
+		self._gcodeData = io.StringIO(gcode)
 		self._replaceInfo = {}
 
 	def addLog(self, line):
@@ -180,10 +180,10 @@ class Engine(object):
 			try:
 				self._serversocket.bind(('127.0.0.1', self._serverPortNr))
 			except:
-				print "Failed to listen on port: %d" % (self._serverPortNr)
+				print("Failed to listen on port: %d" % (self._serverPortNr))
 				self._serverPortNr += 1
 				if self._serverPortNr > 0xFFFF:
-					print "Failed to listen on any port..."
+					print("Failed to listen on any port...")
 					break
 			else:
 				break
@@ -193,14 +193,14 @@ class Engine(object):
 
 	def _socketListenThread(self):
 		self._serversocket.listen(1)
-		print 'Listening for engine communications on %d' % (self._serverPortNr)
+		print('Listening for engine communications on %d' % (self._serverPortNr))
 		while True:
 			try:
 				sock, _ = self._serversocket.accept()
 				thread = threading.Thread(target=self._socketConnectionThread, args=(sock,))
 				thread.daemon = True
 				thread.start()
-			except socket.error, e:
+			except socket.error as e:
 				if e.errno != errno.EINTR:
 					raise
 
@@ -233,16 +233,16 @@ class Engine(object):
 				polygons = self._result._polygons[layerNr]
 				if typeName not in polygons:
 					polygons[typeName] = []
-				for n in xrange(0, cnt):
+				for n in range(0, cnt):
 					length = struct.unpack('@i', sock.recv(4))[0]
-					data = ''
+					data = b''
 					while len(data) < length * 8 * 2:
 						recvData = sock.recv(length * 8 * 2 - len(data))
 						if len(recvData) < 1:
 							return
 						data += recvData
-					polygon2d = numpy.array(numpy.fromstring(data, numpy.int64), numpy.float32) / 1000.0
-					polygon2d = polygon2d.reshape((len(polygon2d) / 2, 2))
+					polygon2d = numpy.array(numpy.frombuffer(data, numpy.int64), numpy.float32) / 1000.0
+					polygon2d = polygon2d.reshape((int(len(polygon2d) / 2), 2))
 					polygon = numpy.empty((len(polygon2d), 3), numpy.float32)
 					polygon[:,:-1] = polygon2d
 					polygon[:,2] = z
@@ -250,7 +250,7 @@ class Engine(object):
 			elif cmd == self.GUI_CMD_FINISH_OBJECT:
 				layerNrOffset = len(self._result._polygons)
 			else:
-				print "Unknown command on socket: %x" % (cmd)
+				print("Unknown command on socket: %x" % (cmd))
 
 	def cleanup(self):
 		self.abortEngine()
@@ -282,7 +282,7 @@ class Engine(object):
 		extruderCount = max(extruderCount, profile.minimalExtruderCount())
 
 		commandList = [getEngineFilename(), '-v', '-p']
-		for k, v in self._engineSettings(extruderCount).iteritems():
+		for k, v in self._engineSettings(extruderCount).items():
 			commandList += ['-s', '%s=%s' % (k, str(v))]
 		commandList += ['-g', '%d' % (self._serverPortNr)]
 		self._objCount = 0
@@ -315,10 +315,10 @@ class Engine(object):
 			for obj in scene.objects():
 				if scene.checkPlatform(obj):
 					meshMax = max(meshMax, len(obj._meshList))
-					for n in xrange(0, len(obj._meshList)):
+					for n in range(0, len(obj._meshList)):
 						vertexTotal[n] += obj._meshList[n].vertexCount
 
-			for n in xrange(0, meshMax):
+			for n in range(0, meshMax):
 				verts = numpy.zeros((0, 3), numpy.float32)
 				for obj in scene.objects():
 					if scene.checkPlatform(obj):
@@ -386,7 +386,7 @@ class Engine(object):
 		with open(tempfilename, "r") as f:
 			original_lines = f.readlines()
 
-		lines = [];
+		lines = []
 		i = 0
 		j = 0
 		k = 0
@@ -445,7 +445,7 @@ class Engine(object):
 
 		data = self._process.stdout.read(4096)
 		while len(data) > 0:
-			self._result._gcodeData.write(data)
+			self._result._gcodeData.write(data.decode(sys.stdout.encoding))
 			data = self._process.stdout.read(4096)
 
 		returnCode = self._process.wait()
@@ -453,7 +453,7 @@ class Engine(object):
 		if returnCode == 0:
 			pluginError = pluginInfo.runPostProcessingPlugins(self._result)
 			if pluginError is not None:
-				print pluginError
+				print(pluginError)
 				self._result.addLog(pluginError)
 
 			# Improve adhesion : Gstart code sets a higer temperature than the default one
@@ -468,7 +468,7 @@ class Engine(object):
 			self._callback(1.0)
 		else:
 			for line in self._result.getLog():
-				print line
+				print(line)
 			self._callback(-1.0)
 		self._process = None
 
@@ -477,8 +477,8 @@ class Engine(object):
 		line = stderr.readline()
 		while len(line) > 0:
 			line = line.strip()
-			if line.startswith('Progress:'):
-				line = line.split(':')
+			if line.startswith(b'Progress:'):
+				line = line.split(b':')
 				if line[1] == 'process':
 					objectNr += 1
 				elif line[1] in self._progressSteps:
@@ -492,23 +492,23 @@ class Engine(object):
 						self._callback(progressValue)
 					except:
 						pass
-			elif line.startswith('Print time:'):
+			elif line.startswith(b'Print time:'):
 				# A customer made some measures for the Neva and it seems the real print time is about 70% of the calculated one
 				# TODO: Understand why the time discrepancy occurs
 				speed_factor = float(profile.getMachineSetting('machine_speed_factor'))
-				self._result._printTimeSeconds = int(line.split(':')[1].strip()) * speed_factor
-			elif line.startswith('Filament:'):
-				self._result._filamentMM[0] = int(line.split(':')[1].strip())
+				self._result._printTimeSeconds = int(line.split(b':')[1].strip()) * speed_factor
+			elif line.startswith(b'Filament:'):
+				self._result._filamentMM[0] = int(line.split(b':')[1].strip())
 				if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':
 					radius = profile.getProfileSettingFloat('filament_diameter') / 2.0
 					self._result._filamentMM[0] /= (math.pi * radius * radius)
-			elif line.startswith('Filament2:'):
-				self._result._filamentMM[1] = int(line.split(':')[1].strip())
+			elif line.startswith(b'Filament2:'):
+				self._result._filamentMM[1] = int(line.split(b':')[1].strip())
 				if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':
 					radius = profile.getProfileSettingFloat('filament_diameter') / 2.0
 					self._result._filamentMM[1] /= (math.pi * radius * radius)
-			elif line.startswith('Replace:'):
-				self._result._replaceInfo[line.split(':')[1].strip()] = line.split(':')[2].strip()
+			elif line.startswith(b'Replace:'):
+				self._result._replaceInfo[line.split(b':')[1].strip()] = line.split(b':')[2].strip()
 			else:
 				self._result.addLog(line)
 			line = stderr.readline()
@@ -690,7 +690,7 @@ class Engine(object):
 
 	def _runEngineProcess(self, cmdList):
 		kwargs = {}
-		if subprocess.mswindows:
+		if platform.system() == "Windows":
 			su = subprocess.STARTUPINFO()
 			su.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 			su.wShowWindow = subprocess.SW_HIDE

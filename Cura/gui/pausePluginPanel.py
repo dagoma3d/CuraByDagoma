@@ -127,12 +127,12 @@ class pausePluginPanel(wx.Panel):
 				try:
 					height_value = float(e.GetEventObject().GetValue()) * float(profile.getProfileSettingFloat('layer_height'))
 				except:
-					print "Invalid user value in pause input: '%s'" % e.GetEventObject().GetValue()
+					print("Invalid user value in pause input: '%s'" % e.GetEventObject().GetValue())
 				if(e.IsCommandEvent()):
 					panelWidget.SetValue(str(height_value) + ' mm')
 		for panel in self.panelList:
 			idx = self.panelList.index(panel)
-			for k in panel.paramCtrls.keys():
+			for k in list(panel.paramCtrls.keys()):
 				self.pluginConfig[idx]['params'][k] = panel.paramCtrls[k].GetValue()
 		pluginInfo.setPostProcessPluginConfig(self.pluginConfig)
 		self.callback()

@@ -1,4 +1,4 @@
-from __future__ import division
+
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import wx, wx.lib.stattext, types
@@ -167,7 +167,7 @@ class SettingRow(object):
 		#	self.ctrl = floatspin.FloatSpin(panel, -1, value=float(getSettingFunc(configName)), increment=defaultValue, digits=digits, min_val=0.0)
 		#	self.ctrl.Bind(floatspin.EVT_FLOATSPIN, self.OnSettingChange)
 		#	flag = wx.EXPAND
-		if self.setting.getType() is types.BooleanType:
+		if self.setting.getType() is bool:
 			self.ctrl = wx.CheckBox(panel, -1, style=wx.ALIGN_RIGHT)
 			self.SetValue(self.setting.getValue(self.settingIndex))
 			self.ctrl.Bind(wx.EVT_CHECKBOX, self.OnSettingChange)
@@ -184,7 +184,7 @@ class SettingRow(object):
 			self._englishChoices = choices[:]
 			if value not in choices and len(choices) > 0:
 				value = choices[0]
-			for n in xrange(0, len(choices)):
+			for n in range(0, len(choices)):
 				choices[n] = _(choices[n])
 			value = _(value)
 			self.ctrl = wx.ComboBox(panel, -1, value, choices=choices, style=wx.CB_DROPDOWN|wx.CB_READONLY)

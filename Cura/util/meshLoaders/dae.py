@@ -70,7 +70,7 @@ class daeLoader(object):
 				elif 'lines' in mesh:
 					pass #Ignore lines
 				else:
-					print mesh.keys()
+					print(list(mesh.keys()))
 		if 'instance_node' in node:
 			for instance_node in node['instance_node']:
 				self._ProcessNode1(self._idMap[instance_node['_url']])
@@ -78,7 +78,7 @@ class daeLoader(object):
 	def _ProcessNode2(self, node, matrix = None):
 		if 'matrix' in node:
 			oldMatrix = matrix
-			matrix = map(float, node['matrix'][0]['__data'].split())
+			matrix = list(map(float, node['matrix'][0]['__data'].split()))
 			if oldMatrix is not None:
 				newMatrix = [0]*16
 				newMatrix[0] = oldMatrix[0] * matrix[0] + oldMatrix[1] * matrix[4] + oldMatrix[2] * matrix[8] + oldMatrix[3] * matrix[12]
@@ -113,12 +113,12 @@ class daeLoader(object):
 						for input in vertices['input']:
 							if input['_semantic'] == 'POSITION':
 								vertices = self._idMap[input['_source']]
-						indexList = map(int, triangles['p'][0]['__data'].split())
-						positionList = map(float, vertices['float_array'][0]['__data'].split())
+						indexList = list(map(int, triangles['p'][0]['__data'].split()))
+						positionList = list(map(float, vertices['float_array'][0]['__data'].split()))
 
 						faceCount = int(triangles['_count'])
 						stepSize = len(indexList) / (faceCount * 3)
-						for i in xrange(0, faceCount):
+						for i in range(0, faceCount):
 							idx0 = indexList[((i * 3) + 0) * stepSize]
 							idx1 = indexList[((i * 3) + 1) * stepSize]
 							idx2 = indexList[((i * 3) + 2) * stepSize]
@@ -150,7 +150,7 @@ class daeLoader(object):
 		new = {'__name': name, '__parent': self._cur}
 		self._cur[name].append(new)
 		self._cur = new
-		for k in attributes.keys():
+		for k in list(attributes.keys()):
 			self._cur['_' + k] = attributes[k]
 		
 		if 'id' in attributes:
