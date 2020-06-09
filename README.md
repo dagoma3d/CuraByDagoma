@@ -103,8 +103,10 @@ Nothing special is required for linux packaging, it should work natively.
 #### Migration from python2 to python3
 The _migration_python3_ branch is still in development.
 
-For now, the only available distribution package is the debian one.
+For now, the only available distribution package is the debian one:
+https://drive.google.com/file/d/1M4feXfi3IyKtdsA5HAFySgIrI7Vo4CHA/view?usp=sharing
 
+#### Virtual environment
 Using python virtual environment seems to work fine, to be investigated in order to provide an AppImage.
 
 Instruction to set up the right environment :
