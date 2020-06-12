@@ -106,6 +106,16 @@ The _migration_python3_ branch is still in development.
 For now, the only available distribution package is the debian one:
 https://drive.google.com/file/d/1M4feXfi3IyKtdsA5HAFySgIrI7Vo4CHA/view?usp=sharing
 
+To install it :
+```
+$ sudo dpkg -i ./CuraByDagoma_amd64.deb
+$ sudo apt install -f
+```
+or
+```
+$ sudo apt install ./CuraByDagoma_amd64.deb
+```
+
 #### Virtual environment
 Using python virtual environment seems to work fine, to be investigated in order to provide an AppImage.
 
