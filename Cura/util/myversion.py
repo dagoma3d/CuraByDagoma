@@ -25,4 +25,4 @@ def isLatest():
 	if url_handle is None:
 		return True
 	official_version = url_handle.read()
-	return official_version == os.environ['CURABYDAGO_RELEASE_VERSION'] or not isinstance(os.environ['CURABYDAGO_RELEASE_VERSION'].split('.')[-1], int)
+	return official_version == os.environ['CURABYDAGO_RELEASE_VERSION']
