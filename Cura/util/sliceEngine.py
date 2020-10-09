@@ -227,7 +227,7 @@ class Engine(object):
 				z = struct.unpack('@i', sock.recv(4))[0]
 				z = float(z) / 1000.0
 				typeNameLen = struct.unpack('@i', sock.recv(4))[0]
-				typeName = sock.recv(typeNameLen)
+				typeName = sock.recv(typeNameLen).decode('utf-8')
 				while len(self._result._polygons) < layerNr + 1:
 					self._result._polygons.append({})
 				polygons = self._result._polygons[layerNr]
@@ -352,7 +352,7 @@ class Engine(object):
 
 	def improveAdhesion(self):
 		import tempfile
-		f = tempfile.NamedTemporaryFile(prefix='CuraPluginTemp', delete=False)
+		f = tempfile.NamedTemporaryFile(mode='w', prefix='CuraPluginTemp', delete=False)
 		tempfilename = f.name
 		f.write(self._result.getGCode())
 		f.close()
@@ -378,7 +378,7 @@ class Engine(object):
 		import re
 
 		wipe_tower_z_hop = profile.getProfileSettingFloat('wipe_tower_z_hop')
-		f = tempfile.NamedTemporaryFile(prefix='CuraPluginTemp', delete=False)
+		f = tempfile.NamedTemporaryFile(mode='w', prefix='CuraPluginTemp', delete=False)
 		tempfilename = f.name
 		f.write(self._result.getGCode())
 		f.close()
@@ -445,7 +445,7 @@ class Engine(object):
 
 		data = self._process.stdout.read(4096)
 		while len(data) > 0:
-			self._result._gcodeData.write(data.decode(sys.stdout.encoding))
+			self._result._gcodeData.write(data)
 			data = self._process.stdout.read(4096)
 
 		returnCode = self._process.wait()
@@ -477,8 +477,8 @@ class Engine(object):
 		line = stderr.readline()
 		while len(line) > 0:
 			line = line.strip()
-			if line.startswith(b'Progress:'):
-				line = line.split(b':')
+			if line.startswith('Progress:'):
+				line = line.split(':')
 				if line[1] == 'process':
 					objectNr += 1
 				elif line[1] in self._progressSteps:
@@ -492,23 +492,23 @@ class Engine(object):
 						self._callback(progressValue)
 					except:
 						pass
-			elif line.startswith(b'Print time:'):
+			elif line.startswith('Print time:'):
 				# A customer made some measures for the Neva and it seems the real print time is about 70% of the calculated one
 				# TODO: Understand why the time discrepancy occurs
 				speed_factor = float(profile.getMachineSetting('machine_speed_factor'))
-				self._result._printTimeSeconds = int(line.split(b':')[1].strip()) * speed_factor
-			elif line.startswith(b'Filament:'):
-				self._result._filamentMM[0] = int(line.split(b':')[1].strip())
+				self._result._printTimeSeconds = int(line.split(':')[1].strip()) * speed_factor
+			elif line.startswith('Filament:'):
+				self._result._filamentMM[0] = int(line.split(':')[1].strip())
 				if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':
 					radius = profile.getProfileSettingFloat('filament_diameter') / 2.0
 					self._result._filamentMM[0] /= (math.pi * radius * radius)
-			elif line.startswith(b'Filament2:'):
-				self._result._filamentMM[1] = int(line.split(b':')[1].strip())
+			elif line.startswith('Filament2:'):
+				self._result._filamentMM[1] = int(line.split(':')[1].strip())
 				if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':
 					radius = profile.getProfileSettingFloat('filament_diameter') / 2.0
 					self._result._filamentMM[1] /= (math.pi * radius * radius)
-			elif line.startswith(b'Replace:'):
-				self._result._replaceInfo[line.split(b':')[1].strip()] = line.split(b':')[2].strip()
+			elif line.startswith('Replace:'):
+				self._result._replaceInfo[line.split(':')[1].strip()] = line.split(':')[2].strip()
 			else:
 				self._result.addLog(line)
 			line = stderr.readline()
@@ -696,4 +696,4 @@ class Engine(object):
 			su.wShowWindow = subprocess.SW_HIDE
 			kwargs['startupinfo'] = su
 			kwargs['creationflags'] = 0x00004000 #BELOW_NORMAL_PRIORITY_CLASS
-		return subprocess.Popen(cmdList, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs)
+		return subprocess.Popen(cmdList, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8', **kwargs)

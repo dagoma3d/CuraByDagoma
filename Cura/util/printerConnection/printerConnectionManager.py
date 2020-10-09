@@ -20,8 +20,8 @@ class PrinterConnectionManager(object):
 	"""
 	def __init__(self):
 		self._groupList = []
-		if version.isDevVersion():
-			self._groupList.append(dummyConnection.dummyConnectionGroup())
+		#if version.isDevVersion():
+		#	self._groupList.append(dummyConnection.dummyConnectionGroup())
 		self._groupList.append(serialConnection.serialConnectionGroup())
 		#self._groupList.append(doodle3dConnect.doodle3dConnectionGroup())
 

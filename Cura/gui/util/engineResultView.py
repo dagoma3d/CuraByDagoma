@@ -108,7 +108,7 @@ class engineResultView(object):
 					while len(self._layer20VBOs) < idx + 1:
 						self._layer20VBOs.append({})
 					if result._polygons is not None and n + 20 < len(result._polygons):
-						layerVBOs = self._layer20VBOs[idx]
+						layerVBOs = self._layer20VBOs[int(idx)]
 						for typeName, typeNameGCode, color in lineTypeList:
 							allow = typeName in result._polygons[n + 19]
 							if typeName == 'skirt':
