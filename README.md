@@ -139,7 +139,9 @@ $ . venv/bin/activate
 
 For wxPython, pre-compiled packages are available at https://extras.wxpython.org/wxPython4/extras/linux/gtk3/
 Depending on your OS and your python version, change the requirements.txt file accordingly.
+
 Example : for ubuntu 18.04 and python 3.6 the right whl file to install is https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04/wxPython-4.1.0-cp36-cp36m-linux_x86_64.whl
+
 **The default package listed in the requirements is related to ubuntu 20.04 and python 3.8.**
 
 ```
