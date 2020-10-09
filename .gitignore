@@ -27,3 +27,4 @@ DmgTemplateCompressed-*.dmg
 /venv
 /settings.json
 /.vscode
+/CuraEngineRepo

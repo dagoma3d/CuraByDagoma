@@ -228,44 +228,14 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA Filo3D">
-			<print_temperature>190</print_temperature>
-			<filament_diameter>1.74</filament_diameter>
-			<filament_flow>100</filament_flow>
+			<print_temperature>187</print_temperature>
+			<filament_diameter>1.70</filament_diameter>
+			<filament_flow>96</filament_flow>
 			<retraction_speed>65</retraction_speed>
-			<retraction_amount>3.2</retraction_amount>
+			<retraction_amount>4</retraction_amount>
 			<filament_physical_density>1270</filament_physical_density>
-			<filament_cost_kg>59.6</filament_cost_kg>
-			<model_colour>#FF9B00</model_colour>
-			<Color name="Metallic gray">
-				<model_colour>#808080</model_colour>
-			</Color>
-			<Color name="Orange">
-				<model_colour>#FFA500</model_colour>
-			</Color>
-			<Color name="Neon green">
-				<model_colour>#39FF14</model_colour>
-			</Color>
-			<Color name="Dark blue">
-				<model_colour>#000064</model_colour>
-			</Color>
-			<Color name="Fire red">
-				<model_colour>#FF0000</model_colour>
-			</Color>
-			<Color name="White">
-				<model_colour>#FFFFFF</model_colour>
-			</Color>
-			<Color name="Mate black">
-				<model_colour>#191919</model_colour>
-			</Color>
-			<Color name="Lemon yellow">
-				<model_colour>#eeee00</model_colour>
-			</Color>
-			<Color name="Green">
-				<model_colour>#00ff00</model_colour>
-			</Color>
-			<Color name="Natural">
-				<model_colour>#FFFFFF</model_colour>
-			</Color>
+			<filament_cost_kg>33.8</filament_cost_kg>
+			<model_colour>#42F59B </model_colour>
 		</Filament>
 		<Filament name="PLA Pantone">
 			<print_temperature>210</print_temperature>

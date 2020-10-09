@@ -135,26 +135,26 @@ $ python3 -m venv venv
 $ . venv/bin/activate
 ```
 
-- Install common dependencies
-
-```
-(venv)$ pip install wheel
-(venv)$ pip install setuptools
-(venv)$ pip install numpy
-(venv)$ pip install pyserial
-(venv)$ pip install PyOpenGL
-```
-
-At this point, the only missing package is wxPython. On ubuntu 18.04 + python3.6, its fails to compile. To be investigated.
-Anyway, pre-compiled package are available at https://extras.wxpython.org/wxPython4/extras/linux/gtk3/
-Depending on your OS and your python version, wxpython can be installed from the corresponding whl file.
+- Install dependencies
+For wxPython, pre-compiled packages are available at https://extras.wxpython.org/wxPython4/extras/linux/gtk3/
+Depending on your OS and your python version, change the requirements.txt file accordingly.
 Example : for ubuntu 18.04 and python 3.6 the right whl file to install is https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04/wxPython-4.1.0-cp36-cp36m-linux_x86_64.whl
+**The default package listed in the requirements is related to ubuntu 20.04 and python 3.8.**
 
 ```
-(venv)$ pip install https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04/wxPython-4.1.0-cp36-cp36m-linux_x86_64.whl
+(venv)$ pip install -r requirements.txt
 ```
 
-At this point, the python virtual environment is ready to be used.
+- Get CuraEngine binary file and make it executable
+```
+(venv)$ wget github.com/dagoma3d/CuraEngine/releases/latest/download/CuraEngine-linux_x86_64 -O CuraEngine
+(venv)$ chmod +x CuraEngine
+```
+
+- All is ready, you just have to launch the app entry point
+```
+(venv)$ python cura.py
+```
 
 ## Engine useful discussions
 
