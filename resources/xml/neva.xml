@@ -263,6 +263,26 @@
 				<model_colour>#8a2b11</model_colour>
 			</Color>
 		</Filament>
+		<Filament name="PLA Marble Chromatik">
+			<print_temperature>190</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>60</retraction_speed>
+			<retraction_amount>5.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<model_colour>#EFEFEF</model_colour>
+			<layer_height>0.2</layer_height>
+			<solid_layer_thickness>1.2</solid_layer_thickness>
+			<wall_thickness>1</wall_thickness>
+			<print_speed>40</print_speed>
+			<travel_speed>60</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>40</infill_speed>
+			<inset0_speed>35</inset0_speed>
+			<insetx_speed>40</insetx_speed>
+			<solidarea_speed>40</solidarea_speed>
+		</Filament>
 		<Filament name="PLA Filo3D">
 			<print_temperature>187</print_temperature>
 			<filament_diameter>1.70</filament_diameter>
