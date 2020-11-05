@@ -942,9 +942,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
 		if 'wood' in filament_type or 'flex' in filament_type or 'marble' in filament_type:
+			self.precisionRadioBox.SetSelection(0)
 			self.precisionRadioBox.Enable(False)
 		else:
 			self.precisionRadioBox.Enable(True)
+		self.RefreshPrecision()
 		if 'other' in filament_type:
 			self.warningStaticText.SetLabel(_("This setting must be used with caution!"))
 			self.warningStaticText.SetForegroundColour((169, 68, 66))
@@ -1046,9 +1048,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
 		if 'wood' in filament_type or 'flex' in filament_type or 'marble' in filament_type:
+			self.precisionRadioBox.SetSelection(0)
 			self.precisionRadioBox.Enable(False)
 		else:
 			self.precisionRadioBox.Enable(True)
+		self.RefreshPrecision()
 		if 'other' in filament_type:
 			self.warning2StaticText.SetLabel(_("This setting must be used with caution!"))
 			self.warning2StaticText.SetForegroundColour((169, 68, 66))
@@ -1333,6 +1337,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		precision_index = self.precisionRadioBox.GetSelection()
 		profile.putPreference('precision_index', precision_index)
 		preci = self.precisions[precision_index]
+		new_temp_preci = int(float(preci.temp_preci))
 		filament_index = profile.getPreferenceInt('filament_index')
 		filament = self.filaments[filament_index]
 		filament_type = filament.type.lower()
@@ -1342,7 +1347,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('solid_layer_thickness', preci.solid_layer_thickness)
 		profile.putProfileSetting('wall_thickness', preci.wall_thickness)
 		profile.putProfileSetting('print_speed', preci.print_speed)
-		new_temp_preci = int(float(preci.temp_preci))
 		calculated_print_temperature = int(float(profile.getProfileSetting('print_temperature')))
 		if not self.temperatureSpinCtrl.IsEnabled():
 			calculated_print_temperature += new_temp_preci
