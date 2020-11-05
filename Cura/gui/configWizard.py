@@ -107,9 +107,9 @@ class OptionsPanel(wx.Panel):
 
 		self.dualExtrusionChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('Dual extrusion :') + ' ')
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.dualExtrusionChoice = wx.Choice(self, wx.ID_ANY, size = (60, -1), choices = [_('Yes'), _('No')])
+			self.dualExtrusionChoice = wx.Choice(self, wx.ID_ANY, size = (100, -1), choices = [_('Yes'), _('No')])
 		else:
-			self.dualExtrusionChoice = wx.ComboBox(self, wx.ID_ANY, size = (60, -1), choices = [_('Yes'), _('No')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+			self.dualExtrusionChoice = wx.ComboBox(self, wx.ID_ANY, size = (100, -1), choices = [_('Yes'), _('No')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 		if self.extruder_amount == 1:
 			self.dualExtrusionChoice.SetSelection(1)
 		else:
@@ -117,9 +117,9 @@ class OptionsPanel(wx.Panel):
 		
 		self.xlChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('XL addon :') + ' ')
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.xlChoice = wx.Choice(self, wx.ID_ANY, size = (60, -1), choices = [_('Yes'), _('No')])
+			self.xlChoice = wx.Choice(self, wx.ID_ANY, size = (100, -1), choices = [_('Yes'), _('No')])
 		else:
-			self.xlChoice = wx.ComboBox(self, wx.ID_ANY, size = (60, -1), choices = [_('Yes'), _('No')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+			self.xlChoice = wx.ComboBox(self, wx.ID_ANY, size = (100, -1), choices = [_('Yes'), _('No')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 		if self.machine_width > 205:
 			self.xlChoice.SetSelection(0)
 		else:
@@ -127,9 +127,9 @@ class OptionsPanel(wx.Panel):
 
 		self.nozzleSizeChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('Nozzle size :') + ' ')
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.nozzleSizeChoice = wx.Choice(self, wx.ID_ANY, size = (60, -1), choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')])
+			self.nozzleSizeChoice = wx.Choice(self, wx.ID_ANY, size = (100, -1), choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')])
 		else:
-			self.nozzleSizeChoice = wx.ComboBox(self, wx.ID_ANY, size = (60, -1), choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+			self.nozzleSizeChoice = wx.ComboBox(self, wx.ID_ANY, size = (100, -1), choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
 		if self.nozzle_size == 0.6:
 			self.nozzleSizeChoice.SetSelection(1)
