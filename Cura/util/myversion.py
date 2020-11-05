@@ -24,5 +24,5 @@ except:
 def isLatest():
 	if url_handle is None:
 		return True
-	official_version = url_handle.read()
+	official_version = url_handle.read().decode('utf-8')
 	return official_version == os.environ['CURABYDAGO_RELEASE_VERSION']
