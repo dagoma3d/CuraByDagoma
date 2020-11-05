@@ -941,7 +941,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('filament_name', fila.type)
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
-		if 'wood' in filament_type or 'flex' in filament_type:
+		if 'wood' in filament_type or 'flex' in filament_type or 'marble' in filament_type:
 			self.precisionRadioBox.Enable(False)
 		else:
 			self.precisionRadioBox.Enable(True)
@@ -1045,7 +1045,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('filament2_name', fila.type)
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
-		if 'wood' in filament_type or 'flex' in filament_type:
+		if 'wood' in filament_type or 'flex' in filament_type or 'marble' in filament_type:
 			self.precisionRadioBox.Enable(False)
 		else:
 			self.precisionRadioBox.Enable(True)
@@ -1336,7 +1336,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		filament_index = profile.getPreferenceInt('filament_index')
 		filament = self.filaments[filament_index]
 		filament_type = filament.type.lower()
-		if 'wood' in filament_type or 'flex' in filament_type:
+		if 'wood' in filament_type or 'flex' in filament_type or 'marble' in filament_type:
 			preci = filament
 		profile.putProfileSetting('layer_height', preci.layer_height)
 		profile.putProfileSetting('solid_layer_thickness', preci.solid_layer_thickness)
