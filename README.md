@@ -23,6 +23,95 @@ Windows only :
 The slicer binary is built on the fly. It is a full C++ project. The compilation process is based on standard Makefile.
 
 ### MacOS
+
+#### Install Python2.7 (non-system, framework-based)
+
+- Download and install https://www.python.org/ftp/python/2.7.18/python-2.7.18-macosx10.9.pkg
+
+#### Install and Use VirtualWrapper
+
+Virtualwrapper is necessary to be able to get a standalone python, oterwise it will use the python available on the computer.
+
+```
+pip install virtualenvwrapper
+export WORKON_HOME=~/Envs
+mkdir -p $WORKON_HOME
+source `which virtualenvwrapper.sh`
+mkvirtualenv Cura
+```
+
+#### Virtualwrapper commands
+
+```
+deactivate #deactivate virtualenv
+workon Cura #use Cura virtualenv
+```
+
+#### Compile CuraByDagoma
+
+```
+mkdir CuraByDagoma
+cd CuraByDagoma
+git clone https://github.com/wxWidgets/wxWidgets
+cd wxWidgets
+git checkout wxPy-3.0-branch
+
+./configure \
+ CPPFLAGS=-D__ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1 \
+ CFLAGS='-msse2 -mno-sse3 -mno-sse4' \
+ CXXFLAGS='-msse2 -mno-sse3 -mno-sse4' \
+ --disable-debug \
+ --disable-mediactrl \
+ --enable-clipboard \
+ --enable-display \
+ --enable-dnd \
+ --enable-monolithic \
+ --enable-optimise \
+ --enable-std_string \
+ --enable-svg \
+ --enable-macosx_arch=x86_64 \
+ --enable-webkit \
+ --prefix=$HOME/Envs/Cura/ \
+ --with-expat \
+ --with-libjpeg=builtin \
+ --with-libpng=builtin \
+ --with-libtiff=builtin \
+ --with-macosx-version-min=10.9 \
+ --with-opengl \
+ --with-osx_cocoa \
+ --with-zlib=builtin
+
+make -j4 install
+
+git clone https://github.com/wxWidgets/wxPython-Classic
+cd wxPython-Classic
+python setup.py build_ext \
+ BUILD_GIZMOS=1 \
+ BUILD_GLCANVAS=1 \
+ BUILD_STC=1 \
+ INSTALL_MULTIVERSION=0 \
+ UNICODE=1 \
+ WX_CONFIG=$HOME/Envs/Cura/bin/wx-config \
+ WXPORT=osx_cocoa
+
+python setup.py install \
+ --prefix=/Users/waelabd/Envs/Cura \
+ BUILD_GIZMOS=1 \
+ BUILD_GLCANVAS=1 \
+ BUILD_STC=1 \
+ INSTALL_MULTIVERSION=0 \
+ UNICODE=1 \
+ WX_CONFIG=$HOME/Envs/Cura/bin/wx-config \
+ WXPORT=osx_cocoa
+
+cd ../../
+git clone https://github.com/dagoma3d/CuraByDagoma
+cd CuraByDagoma
+pip install -r requirements_darwin.txt
+./package.sh darwin 1
+```
+
+### MacOS (Old)
 For MacOS, it is necessary to use virtualenv and virtualwrapper to create a isolated python environment.
 Moreover, wxPython 3.0.1 sources has a bug impacting MacOS and a patch must be applied before compiling it.
 Check out the following bug opened against wxWidgets : https://trac.wxwidgets.org/ticket/16329
