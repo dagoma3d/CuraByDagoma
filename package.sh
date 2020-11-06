@@ -167,7 +167,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	rm -rf scripts/darwin/build
 	rm -rf scripts/darwin/dist
 
-	python build_app.py py2app
+	python build_app.py py2app --packages=wx
 	rc=$?
 	if [[ $rc != 0 ]]; then
 		echo "Cannot build app."
