@@ -11,7 +11,7 @@ export BUILD_VERSION=${RELEASE_VERSION}
 
 ##Select the build target
 ##Available options:
-##- win32
+##- windows
 ##- darwin
 ##- debian
 ##- archive
@@ -21,15 +21,34 @@ case "$1" in
 		OS=Darwin
 		BUILD_TARGET=$1
 		BUILD_ENGINE=$2
+		BUILD_ARCHITECTURE=x64
 		CXX=g++
 		;;
-	win32)
-		SCRIPTS_DIR=win32
+	windows)
+		SCRIPTS_DIR=windows
 		OS=Windows_NT
 		BUILD_TARGET=$1
-		BUILD_ENGINE=$2
-		CXX=g++
+		BUILD_ENGINE=$3
 		export LDFLAGS=--static
+		case "$2" in
+		32)
+			BUILD_ARCHITECTURE=x86
+			CXX="g++ -m$2"
+			;;
+		64)
+			BUILD_ARCHITECTURE=x64
+			CXX="g++ -m$2"
+			;;
+		*)
+			echo "You need to specify a build architecture."
+			echo "Available options:"
+			echo "- 32"
+			echo "- 64"
+			echo "Command:"
+			echo "$0 {target} {architecture}"
+			exit 0
+			;;
+		esac
 		;;
 	archive|debian)
 		SCRIPTS_DIR=linux
@@ -61,7 +80,7 @@ case "$1" in
 	*)
 		echo "You need to specify a build target."
 		echo "Available options:"
-		echo "- win32"
+		echo "- windows"
 		echo "- darwin"
 		echo "- debian"
 		echo "- archive"
@@ -151,10 +170,11 @@ if [ $BUILD_ENGINE != "0" ]; then
 	#git checkout ${CURA_ENGINE_VERSION}
 	#cd ..
 	cd CuraEngine
+	git checkout dagoma
 	git pull
 	cd ..
 	make -C CuraEngine clean
-	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} CXX="${CXX}"
+	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} ARCH=${BUILD_ARCHITECTURE} CXX="${CXX}"
 	if [ $? != 0 ]; then echo "Failed to build CuraEngine"; exit 1; fi
 fi
 
@@ -312,7 +332,7 @@ fi
 #############################
 # Download all needed files.
 #############################
-if [[ $BUILD_TARGET == win32 ]]; then
+if [[ $BUILD_TARGET == windows ]]; then
 	##Which versions of external programs to use
 	WIN_PORTABLE_PY_VERSION=2.7.6.1
 	#Check if we have 7zip, needed to extract and packup a bunch of packages for windows.
@@ -395,27 +415,27 @@ if [[ $BUILD_TARGET == win32 ]]; then
 	echo "Step add scripts and executables Finished"
 
 	if [ -f '/c/Program Files (x86)/NSIS/makensis.exe' ]; then
-		rm -rf scripts/win32/dist
-		mv `pwd`/${BUILD_NAME} scripts/win32/dist
+		rm -rf scripts/windows/dist
+		mv `pwd`/${BUILD_NAME} scripts/windows/dist
 		echo ${BUILD_NAME}
-		'/c/Program Files (x86)/NSIS/makensis.exe' -DBUILD_NAME=${BUILD_NAME} -DBUILD_VERSION=${BUILD_VERSION} 'scripts/win32/installer.nsi' >> log.txt
+		'/c/Program Files (x86)/NSIS/makensis.exe' -DBUILD_NAME=${BUILD_NAME} -DBUILD_VERSION=${BUILD_VERSION} 'scripts/windows/installer.nsi' >> log.txt
 		if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
-		mv scripts/win32/${BUILD_NAME}.exe ./
-		if [ $? != 0 ]; then echo "Can't Move Frome scripts/win32/...exe"; fi
-		mv ./${BUILD_NAME}.exe ./${BUILD_NAME}.exe
+		mv scripts/windows/${BUILD_NAME}.exe ./
+		if [ $? != 0 ]; then echo "Can't Move Frome scripts/windows/...exe"; fi
+		mv ./${BUILD_NAME}.exe ./${BUILD_NAME}_${BUILD_ARCHITECTURE}.exe
 		if [ $? != 0 ]; then echo "Can't Move Frome ./ to ./${BUILD_NAME}.exe"; exit 1; fi
 
-		7z a -y ${BUILD_NAME}.exe.zip ${BUILD_NAME}.exe
+		7z a -y ${BUILD_NAME}_${BUILD_ARCHITECTURE}.exe.zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.exe
 
 		if [ ! -d "packages" ]; then
 			mkdir packages
 		fi
-		mv -f ${BUILD_NAME}.exe ./packages/
+		mv -f ${BUILD_NAME}_${BUILD_ARCHITECTURE}.exe ./packages/
 
 		if [ ! -d "dist" ]; then
 			mkdir dist
 		fi
-		mv -f ${BUILD_NAME}.exe.zip ./dist/
+		mv -f ${BUILD_NAME}_${BUILD_ARCHITECTURE}.exe.zip ./dist/
 		echo 'Good Job, All Works Well !!! :)'
 	else
 		echo "No makensis"

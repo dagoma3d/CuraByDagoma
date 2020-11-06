@@ -2,7 +2,7 @@
 /scripts/darwin/dist
 /scripts/linux/archive*
 /scripts/linux/debian*
-/scripts/win32/dist
+/scripts/windows/dist
 /scripts/clear_comtypes_cache.py
 /CuraEngine
 Cura-Cura-by-Dagoma*
