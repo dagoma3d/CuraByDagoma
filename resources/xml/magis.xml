@@ -228,7 +228,7 @@
 			</Color>
 		</Filament>
 		<Filament name="PLA Marble Chromatik">
-			<print_temperature>200</print_temperature>
+			<print_temperature>190</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>100</filament_flow>
 			<retraction_speed>60</retraction_speed>
