@@ -30,7 +30,7 @@ The slicer binary is built on the fly. It is a full C++ project. The compilation
 
 #### Install and Use VirtualWrapper
 
-Virtualwrapper is necessary to be able to get a standalone python, oterwise it will use the python available on the computer.
+Virtualwrapper is necessary to be able to get a standalone python, otherwise it will use the python available on the computer.
 
 ```
 pip install virtualenvwrapper
