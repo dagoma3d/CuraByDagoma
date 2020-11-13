@@ -40,12 +40,19 @@ source `which virtualenvwrapper.sh`
 mkvirtualenv Cura
 ```
 
-#### Virtualwrapper commands
+##### Virtualwrapper commands
 
 ```
 deactivate #deactivate virtualenv
 workon Cura #use Cura virtualenv
 ```
+
+#### Install Xcode Sdk 10.11
+
+We need xcode 10.11 to be able to compile wxPython for old versions of MacOS.
+
+- Download the 10.11 sdk https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX10.11.sdk.tar.xz
+- Paste the content in /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
 
 #### Compile CuraByDagoma
 
@@ -62,6 +69,7 @@ git checkout wxPy-3.0-branch
  CXXFLAGS='-msse2 -mno-sse3 -mno-sse4' \
  --disable-debug \
  --disable-mediactrl \
+ --disable-lzma \
  --enable-clipboard \
  --enable-display \
  --enable-dnd \
@@ -77,6 +85,7 @@ git checkout wxPy-3.0-branch
  --with-libpng=builtin \
  --with-libtiff=builtin \
  --with-macosx-version-min=10.9 \
+ --with-macosx-sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk \
  --with-opengl \
  --with-osx_cocoa \
  --with-zlib=builtin
