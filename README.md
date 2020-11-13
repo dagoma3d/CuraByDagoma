@@ -104,7 +104,7 @@ python setup.py build_ext \
  WXPORT=osx_cocoa
 
 python setup.py install \
- --prefix=/Users/waelabd/Envs/Cura \
+ --prefix=$HOME/Envs/Cura \
  BUILD_GIZMOS=1 \
  BUILD_GLCANVAS=1 \
  BUILD_STC=1 \
