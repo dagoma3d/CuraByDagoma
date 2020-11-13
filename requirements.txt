@@ -1,4 +1,5 @@
-PyOpenGL>=3.0.2
+git+https://github.com/dagoma3d/PyOpenGL.git
+#PyOpenGL>=3.0.2
 numpy>=1.6.2
 pyserial>=2.6
 setuptools>=0.6.34
