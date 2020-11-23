@@ -10,12 +10,12 @@ url_handle = None
 version_url = "https://dist.dagoma3d.com/version/CuraByDagoma"
 
 try:
-	url_handle = urllib2.urlopen(version_url)
+	url_handle = urllib2.urlopen(version_url, timeout=2)
 except urllib2.URLError:
 	try:
 		import ssl
 		context = ssl._create_unverified_context()
-		url_handle = urllib2.urlopen(version_url, context=context)
+		url_handle = urllib2.urlopen(version_url, timeout=2, context=context)
 	except:
 		pass
 except:

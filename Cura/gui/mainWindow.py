@@ -946,8 +946,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		return self.isSpecial(t)
 	
 	def isSpecialFilament2(self):
-		t = self.filamentType(self.filament2ComboBox)
-		return int(profile.getMachineSetting('extruder_amount')) == 2 and self.isSpecial(t)
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			t = self.filamentType(self.filament2ComboBox)
+			return self.isSpecial(t)
+		return False
 
 	def hasAnySpecialFilament(self):
 		return self.isSpecialFilament1() or self.isSpecialFilament2()
