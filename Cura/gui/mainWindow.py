@@ -933,6 +933,29 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putPreference('printing_surface_name_index', 0)
 		self.printingSurfaceRadioBox.SetSelection(printing_surface_name_index)
 
+	def filamentType(self, fimament_comboBox):
+		i = fimament_comboBox.GetSelection()
+		f = self.filaments[i]
+		return f.type.lower()
+
+	def isSpecial(self, filament):
+		return 'wood' in filament or 'flex' in filament or 'marble' in filament
+
+	def isSpecialFilament1(self):
+		t = self.filamentType(self.filamentComboBox)
+		return self.isSpecial(t)
+
+	def isSpecialFilament2(self):
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			t = self.filamentType(self.filament2ComboBox)
+			return self.isSpecial(t)
+		return False
+
+	def hasAnySpecialFilament(self):
+		return self.isSpecialFilament1() or self.isSpecialFilament2()
+
+
+
 	def RefreshFilament(self):
 		#print "Refresh fila"
 		filament_index = self.filamentComboBox.GetSelection()
@@ -941,7 +964,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('filament_name', fila.type)
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
-		if 'wood' in filament_type or 'flex' in filament_type or 'marble' in filament_type:
+		if self.hasAnySpecialFilament():
 			self.precisionRadioBox.SetSelection(0)
 			self.precisionRadioBox.Enable(False)
 		else:
@@ -1047,7 +1070,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('filament2_name', fila.type)
 		calculated_print_temperature = int(float(fila.print_temperature))
 		filament_type = fila.type.lower()
-		if 'wood' in filament_type or 'flex' in filament_type or 'marble' in filament_type:
+		if self.hasAnySpecialFilament():
 			self.precisionRadioBox.SetSelection(0)
 			self.precisionRadioBox.Enable(False)
 		else:
@@ -1340,9 +1363,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 		new_temp_preci = int(float(preci.temp_preci))
 		filament_index = profile.getPreferenceInt('filament_index')
 		filament = self.filaments[filament_index]
-		filament_type = filament.type.lower()
-		if 'wood' in filament_type or 'flex' in filament_type or 'marble' in filament_type:
+		filament2_index = profile.getPreferenceInt('filament2_index')
+		filament2 = self.filaments[filament2_index]
+		if self.isSpecialFilament1():
 			preci = filament
+		if self.isSpecialFilament2():
+			preci = filament2
 		profile.putProfileSetting('layer_height', preci.layer_height)
 		profile.putProfileSetting('solid_layer_thickness', preci.solid_layer_thickness)
 		profile.putProfileSetting('wall_thickness', preci.wall_thickness)
