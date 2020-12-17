@@ -22,17 +22,17 @@ from Cura.util import printableObject
 def _loadAscii(m, f):
 	cnt = 0
 	for lines in f:
-		for line in lines.split('\r'):
-			if 'vertex' in line:
+		for line in lines.split(b'\r'):
+			if b'vertex' in line:
 				cnt += 1
-	m._prepareFaceCount(int(cnt) / 3)
+	m._prepareFaceCount(int(int(cnt) / 3))
 	f.seek(5, os.SEEK_SET)
 	cnt = 0
 	data = [None,None,None]
 	for lines in f:
-		for line in lines.split('\r'):
-			if 'vertex' in line:
-				data[cnt] = line.replace(',', '.').split()[1:]
+		for line in lines.split(b'\r'):
+			if b'vertex' in line:
+				data[cnt] = line.replace(b',', b'.').split()[1:]
 				cnt += 1
 				if cnt == 3:
 					m._addFace(float(data[0][0]), float(data[0][1]), float(data[0][2]), float(data[1][0]), float(data[1][1]), float(data[1][2]), float(data[2][0]), float(data[2][1]), float(data[2][2]))
@@ -51,8 +51,10 @@ def loadScene(filename):
 	obj = printableObject.printableObject(filename)
 	m = obj._addMesh()
 
+	print(filename, file=sys.stderr)
 	f = open(filename, "rb")
-	if f.read(5).lower() == "solid":
+	stl_format = f.read(5).lower()
+	if stl_format == "solid" or stl_format.decode() == "solid":
 		_loadAscii(m, f)
 		if m.vertexCount < 3:
 			f.seek(5, os.SEEK_SET)
