@@ -294,6 +294,7 @@ class Engine(object):
 			objMin = None
 			objMax = None
 			for obj in scene.objects():
+				print(','.join(map(str, obj._matrix.getA().flatten())))
 				if scene.checkPlatform(obj):
 					oMin = obj.getMinimum()[0:2] + obj.getPosition()
 					oMax = obj.getMaximum()[0:2] + obj.getPosition()
@@ -434,6 +435,7 @@ class Engine(object):
 		if self._thread != threading.currentThread():
 			self._process.terminate()
 
+		print(' '.join(commandList))
 		self._result = EngineResult()
 		self._result.addLog('Running: %s' % (' '.join(commandList)))
 		self._result.setHash(modelHash)
@@ -666,7 +668,9 @@ class Engine(object):
 			settings['minimalLayerTime'] = 5
 		if profile.getProfileSetting('simple_mode') == 'True':
 			settings['simpleMode'] = 1
-		if extruderCount > 1 and ((not profile.getProfileSetting('support') == 'None' and profile.getProfileSetting('support_dual_extrusion') == 'Second extruder') or profile.mergeDone):
+		es1 = int(profile.getProfileSetting('start_extruder')) == 0 and profile.getProfileSetting('support_dual_extrusion') == 'Second extruder'
+		es2 = int(profile.getProfileSetting('start_extruder')) == 1 and profile.getProfileSetting('support_dual_extrusion') == 'First extruder'
+		if extruderCount > 1 and ((not profile.getProfileSetting('support') == 'None' and (es1 or es2)) or profile.mergeDone):
 			settings['wipeTowerVolume'] = int(profile.getProfileSettingFloat('wipe_tower_volume'))
 			wipe_tower_shape = profile.getProfileSetting('wipe_tower_shape').lower()
 			if wipe_tower_shape == 'corner':

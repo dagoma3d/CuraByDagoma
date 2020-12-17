@@ -1023,7 +1023,9 @@ def minimalExtruderCount():
 		return 1
 	if getProfileSetting('support') == 'None':
 		return 1
-	if getProfileSetting('support_dual_extrusion') == 'Second extruder':
+	if int(getProfileSetting('start_extruder')) == 0 and getProfileSetting('support_dual_extrusion') == 'Second extruder':
+		return 2
+	if int(getProfileSetting('start_extruder')) == 1 and getProfileSetting('support_dual_extrusion') == 'First extruder':
 		return 2
 	return 1
 
