@@ -294,7 +294,7 @@ class Engine(object):
 			objMin = None
 			objMax = None
 			for obj in scene.objects():
-				print(','.join(map(str, obj._matrix.getA().flatten())))
+				#print(','.join(map(str, obj._matrix.getA().flatten())))
 				if scene.checkPlatform(obj):
 					oMin = obj.getMinimum()[0:2] + obj.getPosition()
 					oMax = obj.getMaximum()[0:2] + obj.getPosition()
@@ -435,7 +435,7 @@ class Engine(object):
 		if self._thread != threading.currentThread():
 			self._process.terminate()
 
-		print(' '.join(commandList))
+		#print(' '.join(commandList))
 		self._result = EngineResult()
 		self._result.addLog('Running: %s' % (' '.join(commandList)))
 		self._result.setHash(modelHash)
