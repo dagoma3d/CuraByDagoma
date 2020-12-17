@@ -51,7 +51,6 @@ def loadScene(filename):
 	obj = printableObject.printableObject(filename)
 	m = obj._addMesh()
 
-	print(filename, file=sys.stderr)
 	f = open(filename, "rb")
 	stl_format = f.read(5).lower()
 	if stl_format == "solid" or stl_format.decode() == "solid":
