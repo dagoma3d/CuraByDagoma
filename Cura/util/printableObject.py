@@ -400,7 +400,7 @@ class mesh(object):
 				idx = todoList.pop()
 				meshFaceList.append(idx)
 				for n in range(0, 3):
-					for i in vertexToFace[faceList[idx][n]]:
+					for i in vertexToFace[faceList[int(idx)][n]]:
 						if not i in doneSet:
 							doneSet.add(i)
 							todoList.append(i)
@@ -410,11 +410,11 @@ class mesh(object):
 			m = obj._addMesh()
 			m._prepareFaceCount(len(meshFaceList))
 			for idx in meshFaceList:
-				m.vertexes[m.vertexCount] = self.vertexes[faceList[idx][0]]
+				m.vertexes[m.vertexCount] = self.vertexes[faceList[int(idx)][0]]
 				m.vertexCount += 1
-				m.vertexes[m.vertexCount] = self.vertexes[faceList[idx][1]]
+				m.vertexes[m.vertexCount] = self.vertexes[faceList[int(idx)][1]]
 				m.vertexCount += 1
-				m.vertexes[m.vertexCount] = self.vertexes[faceList[idx][2]]
+				m.vertexes[m.vertexCount] = self.vertexes[faceList[int(idx)][2]]
 				m.vertexCount += 1
 			obj._postProcessAfterLoad()
 			ret.append(obj)
