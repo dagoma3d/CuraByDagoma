@@ -19,7 +19,6 @@ import glob
 import string
 import stat
 import types
-import pickle as pickle
 import numpy
 import locale
 if sys.version_info[0] < 3:

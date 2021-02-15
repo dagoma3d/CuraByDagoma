@@ -61,7 +61,7 @@ with open(filename, "w") as f:
 	lineIndex = 0
 	lastLayerIndex = 99999
 	layerZ = 0
-	for lIndex in xrange(len(lines)):
+	for lIndex in range(len(lines)):
 		line = lines[lIndex]
 		if line.startswith(';'):
 			if line.startswith(';LAYER:'):
