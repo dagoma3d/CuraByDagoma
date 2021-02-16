@@ -10,16 +10,7 @@ import subprocess
 
 def hasExplorer():
 	"""Check if we have support for opening file dialog windows."""
-	if sys.platform == 'win32' or sys.platform == 'cygwin' or sys.platform == 'darwin':
-		return True
-	if sys.platform == 'linux2':
-		if os.path.isfile('/usr/bin/nautilus'):
-			return True
-		if os.path.isfile('/usr/bin/dolphin'):
-			return True
-		if os.path.isfile('/usr/bin/thunar'):
-			return True
-	return False
+	return True
 
 def openExplorer(filename):
 	"""Open an file dialog window in the directory of a file, and select the file."""
@@ -28,11 +19,7 @@ def openExplorer(filename):
 	if sys.platform == 'darwin':
 		subprocess.Popen(['open', '-R', filename])
 	if sys.platform.startswith('linux'):
-		#TODO: On linux we cannot seem to select a certain file, only open the specified path.
-		if os.path.isfile('/usr/bin/nautilus'):
-			subprocess.Popen(['/usr/bin/nautilus', os.path.split(filename)[0]])
-		elif os.path.isfile('/usr/bin/dolphin'):
-			subprocess.Popen(['/usr/bin/dolphin', os.path.split(filename)[0]])
+		subprocess.Popen(['xdg-open', os.path.split(filename)[0]])
 
 def openExplorerPath(filename):
 	"""Open a file dialog inside a directory, without selecting any file."""
@@ -41,8 +28,5 @@ def openExplorerPath(filename):
 	if sys.platform == 'darwin':
 		subprocess.Popen(['open', filename])
 	if sys.platform.startswith('linux'):
-		if os.path.isfile('/usr/bin/nautilus'):
-			subprocess.Popen(['/usr/bin/nautilus', filename])
-		elif os.path.isfile('/usr/bin/dolphin'):
-			subprocess.Popen(['/usr/bin/dolphin', filename])
+		subprocess.Popen(['xdg-open', filename])
 
