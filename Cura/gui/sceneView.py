@@ -1066,16 +1066,8 @@ class SceneView(openglGui.glGuiPanel):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT)
 
 	def OnPaint(self,e):
-		connectionGroup = self._printerConnectionManager.getAvailableGroup()
-		if len(removableStorage.getPossibleSDcardDrives()) > 0 and (connectionGroup is None or connectionGroup.getPriority() < 0):
-			self.printButton._imageID = None
-			self.printButton._tooltip = _(" ")
-		elif connectionGroup is not None:
-			self.printButton._imageID = connectionGroup.getIconID()
-			self.printButton._tooltip = _("Print with %s") % (connectionGroup.getName())
-		else:
-			self.printButton._imageID = None
-			self.printButton._tooltip = _(" ")
+		self.printButton._imageID = None
+		self.printButton._tooltip = _(" ")
 
 		if self._animView is not None:
 			self._viewTarget = self._animView.getPosition()

@@ -65,12 +65,14 @@ class printWindowBasic(wx.Frame):
 		self.pauseButton = wx.Button(panel, -1, _("Pause"))
 		self.cancelButton = wx.Button(panel, -1, _("Cancel print"))
 		self.logButton = wx.Button(panel, -1, _("Log"))
+		self.saveButton = wx.Button(panel, -1, _("Save GCode"))
 
 		buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
 		buttonsSizer.Add(self.printButton)
 		buttonsSizer.Add(self.pauseButton)
 		buttonsSizer.Add(self.cancelButton)
 		buttonsSizer.Add(self.logButton)
+		buttonsSizer.Add(self.saveButton)
 
 		self.progress = wx.Gauge(panel, -1, range=1000)
 
@@ -79,7 +81,7 @@ class printWindowBasic(wx.Frame):
 		sizer.Add(self.statusText, flag=wx.BOTTOM, border=5)
 		sizer.Add(self.noozleTemperatureText)
 		sizer.Add(self.bedTemperatureText, flag=wx.BOTTOM, border=5)
-		sizer.Add(buttonsSizer)
+		sizer.Add(buttonsSizer, flag=wx.ALIGN_CENTRE_HORIZONTAL)
 		sizer.Add(self.progress, flag=wx.EXPAND)
 
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
@@ -87,6 +89,7 @@ class printWindowBasic(wx.Frame):
 		self.pauseButton.Bind(wx.EVT_BUTTON, self.OnPause)
 		self.cancelButton.Bind(wx.EVT_BUTTON, self.OnCancel)
 		self.logButton.Bind(wx.EVT_BUTTON, self.OnErrorLog)
+		self.saveButton.Bind(wx.EVT_BUTTON, self.OnSave)
 
 		panel.SetSizerAndFit(sizer)
 		panel.Layout()
@@ -126,6 +129,9 @@ class printWindowBasic(wx.Frame):
 
 	def OnErrorLog(self, e):
 		LogWindow(self._parent, self._printerConnection.getErrorLog())
+	
+	def OnSave(self, e):
+		self._parent.scene.showSaveGCode()
 
 	def _doPrinterConnectionUpdate(self, connection, extraInfo = None):
 		wx.CallAfter(self.__doPrinterConnectionUpdate, connection, extraInfo)
