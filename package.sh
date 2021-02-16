@@ -139,7 +139,7 @@ function replaceVars
 checkTool git "git: http://git-scm.com/"
 checkTool curl "curl: http://curl.haxx.se/"
 
-if [ $BUILD_ENGINE != "0" ]; then
+if [[ $BUILD_ENGINE != "0" ]]; then
 	# Checkout CuraEngine
 	if [ ! -d "CuraEngine" ]; then
 		git clone ${CURA_ENGINE_REPO}
