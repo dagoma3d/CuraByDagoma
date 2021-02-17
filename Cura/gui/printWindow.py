@@ -65,7 +65,7 @@ class printWindowBasic(wx.Frame):
 		self.pauseButton = wx.Button(panel, -1, _("Pause"))
 		self.cancelButton = wx.Button(panel, -1, _("Cancel print"))
 		self.logButton = wx.Button(panel, -1, _("Log"))
-		self.saveButton = wx.Button(panel, -1, _("Save GCode"))
+		self.saveButton = wx.Button(panel, -1, _("Save GCode..."))
 
 		buttonsSizer = wx.BoxSizer(wx.HORIZONTAL)
 		buttonsSizer.Add(self.printButton)
