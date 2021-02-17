@@ -10,7 +10,7 @@ import traceback
 import platform
 import re
 import tempfile
-import pickle
+import json
 
 from Cura.util import profile
 from Cura.util import resources
@@ -72,13 +72,13 @@ class pluginInfo(object):
 
 def getPostProcessPluginConfig():
 	try:
-		return pickle.loads(eval(profile.getProfileSetting('plugin_config')))
+		return json.loads(profile.getProfileSetting('plugin_config'))
 	except Exception as e:
 		print(e)
 		return []
 
 def setPostProcessPluginConfig(config = []):
-	profile.putProfileSetting('plugin_config', pickle.dumps(config))
+	profile.putProfileSetting('plugin_config', json.dumps(config))
 
 def getPluginBasePaths():
 	ret = []
