@@ -541,7 +541,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.offsetTextCtrl.Hide()
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			mainSizer.Add(self.wipeTowerVolumeRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
-		if not printerName in ["Neva", "Magis"]:
+		if not printerName in ["Neva", "Magis", "Sigma"]:
 			mainSizer.Add(self.sensorCheckBox)
 		else:
 			self.sensorCheckBox.Hide()
