@@ -29,7 +29,6 @@ case "$1" in
 		OS=Windows_NT
 		BUILD_TARGET=$1
 		BUILD_ENGINE=$3
-		export LDFLAGS=--static
 		case "$2" in
 		32)
 			BUILD_ARCHITECTURE=x86
