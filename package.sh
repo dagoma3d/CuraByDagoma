@@ -29,7 +29,6 @@ case "$1" in
 		BUILD_TARGET=$1
 		BUILD_ENGINE=${2:-1}
 		CXX=g++
-		export LDFLAGS=--static
 		;;
 	archive|debian)
 		SCRIPTS_DIR=linux
