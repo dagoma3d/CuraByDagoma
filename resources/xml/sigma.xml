@@ -622,7 +622,7 @@ G28 ;Homing
 M107 ; Off Ventilateur
 M109 R140 ;On chauffe la buse à 140
 G0 X0 Y-85 ;On déplace la buse vers l'avant
-G4 S20 ;On attends 30 secondes avant de continuer
+G4 S20 ;On attends 20 secondes avant de continuer
 G0 X0 Y0 ; On rentre la tête
 M109 R100 ; On refroidit jusqu'à la température de palpage
 G29
