@@ -23,6 +23,9 @@ Windows only :
 The slicer binary is built on the fly. It is a full C++ project. The compilation process is based on standard Makefile.
 
 ### MacOS
+
+#### Python 2.7
+
 For MacOS, it is necessary to use virtualenv and virtualwrapper to create a isolated python environment.
 Moreover, wxPython 3.0.1 sources has a bug impacting MacOS and a patch must be applied before compiling it.
 Check out the following bug opened against wxWidgets : https://trac.wxwidgets.org/ticket/16329
@@ -82,6 +85,33 @@ python setup.py install \
  WXPORT=osx_cocoa
 ```
 
+#### Python 3.x
+
+Download and use a Python3.x universal installer from [Python website](https://www.python.org/downloads/macos/). Let's say [Python3.9.12](https://www.python.org/ftp/python/3.9.12/python-3.9.12-macos11.pkg).
+
+Create a virtual environement :
+```
+python -n venv Cura
+```
+
+Install all dependencies except wxPython:
+```
+pip install -r requirements.txt
+pip install pyobjc
+pip install py2app
+```
+
+Download the latest wxPython wheel matching your python version from [wxPython website](https://pypi.org/project/wxPython/#files). For Python 3.9, it is [wxPython-4.1.1-cp39-cp39-macosx_10_10_x86_64.whl](https://files.pythonhosted.org/packages/2c/a8/7027e8ca3ba20dc2ed2acd556e31941cb44097ab87d6f81d646a79de4eab/wxPython-4.1.1-cp39-cp39-macosx_10_10_x86_64.whl)
+
+Install this wheel:
+```
+pip install wxPython-4.1.1-cp39-cp39-macosx_10_10_x86_64.whl
+```
+
+Apply [this commit](https://github.com/dagoma3d/PyOpenGL/commit/87e6b6e96e324ef3c89027c3c098da4b553569e5) to PyOpenGL.
+
+You are ready to build.
+
 ### Windows
 Here are the needed requirement:
 - A gcc compiler (from mingw64)
@@ -100,7 +130,7 @@ For linux, two types of packages can be built:
 
 Nothing special is required for linux packaging, it should work natively.
 
-#### Migration from python2 to python3
+### Migration from python2 to python3
 The _migration_python3_ branch is still in development.
 
 For now, the only available distribution package is the debian one:
