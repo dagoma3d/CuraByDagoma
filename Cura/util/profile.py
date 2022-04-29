@@ -507,7 +507,7 @@ def loadProfile(filename, allMachines = False):
 	global settingsList
 	profileParser = ConfigParser.ConfigParser()
 	try:
-		profileParser.read(filename)
+		profileParser.read(filename, encoding='utf-8')
 	except ConfigParser.ParsingError:
 		return
 	if allMachines:

@@ -186,7 +186,8 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	rm -rf scripts/darwin/dist
 
 	#python build_app.py py2app --packages=wx
-	python build_app.py py2app
+	#python build_app.py py2app
+	python setup.py py2app
 	rc=$?
 	if [[ $rc != 0 ]]; then
 		echo "Cannot build app."
@@ -198,7 +199,7 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	touch scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/new
 
 	#Copy CuraEngine
-	cp CuraEngine/build/CuraEngine scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/CuraEngine
+	#cp CuraEngine/build/CuraEngine scripts/darwin/dist/${BUILD_NAME}.app/Contents/Resources/CuraEngine
 
 	cd scripts/darwin
 

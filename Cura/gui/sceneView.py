@@ -674,7 +674,8 @@ class SceneView(openglGui.glGuiPanel):
 
 	def _updateEngineProgress(self, progressValue):
 		mainWindow = self.GetParent().GetParent().GetParent()
-		mainWindow.normalSettingsPanel.printButton.Disable()
+		if not sys.platform.startswith('darwin'): # Disable the print button here makes hyperlinks disappear... to investigate
+			mainWindow.normalSettingsPanel.printButton.Disable()
 		mainWindow.fileMenu.FindItemByPosition(2).Enable(False)
 		result = self._engine.getResult()
 		finished = result is not None and result.isFinished()
@@ -905,8 +906,8 @@ class SceneView(openglGui.glGuiPanel):
 			self.QueueRefresh()
 
 	def OnMouseDown(self,e):
-		self._mouseX = e.GetX()
-		self._mouseY = e.GetY()
+		self._mouseX = e.GetX() * self.GetContentScaleFactor()
+		self._mouseY = e.GetY() * self.GetContentScaleFactor()
 		self._mouseClick3DPos = self._mouse3Dpos
 		self._mouseClickFocus = self._focusObj
 		if e.ButtonDClick():
@@ -964,7 +965,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._mouseState = None
 
 	def OnMouseMotion(self,e):
-		p0, p1 = self.getMouseRay(e.GetX(), e.GetY())
+		p0, p1 = self.getMouseRay(e.GetX() * self.GetContentScaleFactor(), e.GetY() * self.GetContentScaleFactor())
 		p0 -= self.getObjectCenterPos() - self._viewTarget
 		p1 -= self.getObjectCenterPos() - self._viewTarget
 
@@ -976,13 +977,13 @@ class SceneView(openglGui.glGuiPanel):
 				if wx.GetKeyState(wx.WXK_SHIFT):
 					a = math.cos(math.radians(self._yaw)) / 3.0
 					b = math.sin(math.radians(self._yaw)) / 3.0
-					self._viewTarget[0] += float(e.GetX() - self._mouseX) * -a
-					self._viewTarget[1] += float(e.GetX() - self._mouseX) * b
-					self._viewTarget[0] += float(e.GetY() - self._mouseY) * b
-					self._viewTarget[1] += float(e.GetY() - self._mouseY) * a
+					self._viewTarget[0] += float(e.GetX() * self.GetContentScaleFactor() - self._mouseX) * -a
+					self._viewTarget[1] += float(e.GetX() * self.GetContentScaleFactor() - self._mouseX) * b
+					self._viewTarget[0] += float(e.GetY() * self.GetContentScaleFactor() - self._mouseY) * b
+					self._viewTarget[1] += float(e.GetY() * self.GetContentScaleFactor() - self._mouseY) * a
 				else:
-					self._yaw += e.GetX() - self._mouseX
-					self._pitch -= e.GetY() - self._mouseY
+					self._yaw += (e.GetX() * self.GetContentScaleFactor()) - self._mouseX
+					self._pitch -= (e.GetY() * self.GetContentScaleFactor()) - self._mouseY
 				if self._pitch > 170:
 					self._pitch = 170
 				if self._pitch < 10:
@@ -998,7 +999,7 @@ class SceneView(openglGui.glGuiPanel):
 				self._mouseState = 'dragObject'
 				z = max(0, self._mouseClick3DPos[2])
 				p0, p1 = self.getMouseRay(self._mouseX, self._mouseY)
-				p2, p3 = self.getMouseRay(e.GetX(), e.GetY())
+				p2, p3 = self.getMouseRay(e.GetX() * self.GetContentScaleFactor(), e.GetY() * self.GetContentScaleFactor())
 				p0[2] -= z
 				p1[2] -= z
 				p2[2] -= z
@@ -1010,8 +1011,8 @@ class SceneView(openglGui.glGuiPanel):
 		if not e.Dragging() or self._mouseState != 'tool':
 			self.tool.OnMouseMove(p0, p1)
 
-		self._mouseX = e.GetX()
-		self._mouseY = e.GetY()
+		self._mouseX = e.GetX() * self.GetContentScaleFactor()
+		self._mouseY = e.GetY() * self.GetContentScaleFactor()
 
 	def OnMouseWheel(self, e):
 		delta = float(e.GetWheelRotation()) / float(e.GetWheelDelta())
@@ -1038,7 +1039,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def _init3DView(self):
 		# set viewing projection
-		size = self.GetSize()
+		size = self.GetSize() * self.GetContentScaleFactor()
 		glViewport(0, 0, size.GetWidth(), size.GetHeight())
 		glLoadIdentity()
 
@@ -1178,12 +1179,12 @@ class SceneView(openglGui.glGuiPanel):
 
 		if self._mouseX > -1: # mouse has not passed over the opengl window.
 			glFlush()
-			n = glReadPixels(self._mouseX, self.GetSize().GetHeight() - 1 - self._mouseY, 1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8)[0][0] >> 8
+			n = glReadPixels(self._mouseX, (self.GetSize() * self.GetContentScaleFactor()).GetHeight() - 1 - self._mouseY, 1, 1, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8)[0][0] >> 8
 			if n < len(self._scene.objects()):
 				self._focusObj = self._scene.objects()[n]
 			else:
 				self._focusObj = None
-			f = glReadPixels(self._mouseX, self.GetSize().GetHeight() - 1 - self._mouseY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT)[0][0]
+			f = glReadPixels(self._mouseX, (self.GetSize() * self.GetContentScaleFactor()).GetHeight() - 1 - self._mouseY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT)[0][0]
 			#self.GetTopLevelParent().SetTitle(hex(n) + " " + str(f))
 			self._mouse3Dpos = openglHelpers.unproject(self._mouseX, self._viewport[1] + self._viewport[3] - self._mouseY, f, self._modelMatrix, self._projMatrix, self._viewport)
 			self._mouse3Dpos -= self._viewTarget
@@ -1338,7 +1339,8 @@ class SceneView(openglGui.glGuiPanel):
 				self._renderObject(self._selectedObj)
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
 
-				glViewport(0, 0, self.GetSize().GetWidth(), self.GetSize().GetHeight())
+				size = self.GetSize() * self.GetContentScaleFactor()
+				glViewport(0, 0, size.GetWidth(), size.GetHeight())
 				glDisable(GL_STENCIL_TEST)
 				glDisable(GL_CULL_FACE)
 				glEnable(GL_DEPTH_TEST)

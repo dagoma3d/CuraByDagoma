@@ -29,3 +29,4 @@ DmgTemplateCompressed-*.dmg
 /settings.json
 /.vscode
 /CuraEngineRepo
+/build

@@ -30,7 +30,8 @@ if sys.platform.startswith('darwin'):
 		try:
 			myResourceBasePath = NSBundle.mainBundle().resourcePath()
 		except:
-			myResourceBasePath = os.path.join(os.path.dirname(__file__), "../../../../../")
+			#myResourceBasePath = os.path.join(os.path.dirname(__file__), "../../../../../")
+			myResourceBasePath = os.path.dirname(__file__)
 	else:
 		myResourceBasePath = os.path.join(os.path.dirname(__file__), "../../resources")
 

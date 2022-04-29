@@ -39,7 +39,10 @@ def getEngineFilename():
 			return 'C:/Software/Cura_SteamEngine/_bin/Release/Cura_SteamEngine.exe'
 		return os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', 'CuraEngine.exe'))
 	if hasattr(sys, 'frozen'):
-		return os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../..', 'CuraEngine'))
+		if sys.platform.startswith('darwin'):
+			return os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../resources', 'CuraEngine'))
+		else:
+			return os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../..', 'CuraEngine'))
 #	if os.path.isfile('/usr/bin/CuraEngine'):
 #		return '/usr/bin/CuraEngine'
 #	if os.path.isfile('/usr/local/bin/CuraEngine'):
