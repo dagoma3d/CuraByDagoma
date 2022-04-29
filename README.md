@@ -89,13 +89,15 @@ python setup.py install \
 
 Download and use a Python3.x universal installer from [Python website](https://www.python.org/downloads/macos/). Let's say [Python3.9.12](https://www.python.org/ftp/python/3.9.12/python-3.9.12-macos11.pkg).
 
-Create a virtual environement :
+Create a virtual environement and activate it:
 ```
-python -n venv Cura
+python -m venv Cura
+. ./Cura/bin/activate
 ```
 
 Install all dependencies except wxPython:
 ```
+pip install wheel
 pip install -r requirements.txt
 pip install pyobjc
 pip install py2app
