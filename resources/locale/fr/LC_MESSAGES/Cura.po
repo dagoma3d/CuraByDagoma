@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2020-11-05 16:33+0100\n"
+"PO-Revision-Date: 2022-05-02 16:29+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: Cura/gui/app.py:144 Cura/gui/mainWindow.py:566
 msgid "A new version of Cura is available, would you like to download?"
@@ -3697,3 +3697,15 @@ msgstr "http://start.dagoma3d.com/cura-by-dagoma?utm_source=cura"
 
 msgid "warning_url"
 msgstr "https://www.dagoma3d.com/armes-inoffensives?utm_source=cura"
+
+msgid "(or Sigma head)"
+msgstr "(ou tête Sigma)"
+
+msgid "Standard (0.4mm)"
+msgstr "Standard (0.4mm)"
+
+msgid "Precise (0.2mm)"
+msgstr "Précis (0.2mm)"
+
+msgid "Fast (0.6mm)"
+msgstr "Rapide (0.6mm)"

@@ -96,7 +96,7 @@ class OptionsPanel(wx.Panel):
 		wx.Panel.__init__(self, parent, wx.ID_ANY)
 
 		self.disco_addons_printers = ['DiscoEasy200', 'DiscoUltimate']
-		self.multinozzle_printers = []
+		self.multinozzle_printers = ['Sigma']
 		if profile.getPreferenceBool('show_magis_options'):
 			self.multinozzle_printers.append('Magis')
 		self.with_options_printers = self.disco_addons_printers + self.multinozzle_printers
@@ -129,14 +129,16 @@ class OptionsPanel(wx.Panel):
 
 		self.nozzleSizeChoiceLabel = wx.StaticText(self, wx.ID_ANY, _('Nozzle size :') + ' ')
 		if sys.platform == 'darwin': #Change Combobox to an Choice cause in MAC OS X Combobox have some bug
-			self.nozzleSizeChoice = wx.Choice(self, wx.ID_ANY, size = (100, -1), choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')])
+			#self.nozzleSizeChoice = wx.Choice(self, wx.ID_ANY, size = (100, -1), choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')])
+			self.nozzleSizeChoice = wx.Choice(self, wx.ID_ANY, size = (100, -1), choices = [_('0.4 mm'), _('0.8 mm')])
 		else:
-			self.nozzleSizeChoice = wx.ComboBox(self, wx.ID_ANY, size = (100, -1), choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+			#self.nozzleSizeChoice = wx.ComboBox(self, wx.ID_ANY, size = (100, -1), choices = [_('0.4 mm'), _('0.6 mm'), _('0.8 mm')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
+			self.nozzleSizeChoice = wx.ComboBox(self, wx.ID_ANY, size = (100, -1), choices = [_('0.4 mm'), _('0.8 mm')] , style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
 		if self.nozzle_size == 0.6:
-			self.nozzleSizeChoice.SetSelection(1)
-		elif self.nozzle_size == 0.8:
 			self.nozzleSizeChoice.SetSelection(2)
+		elif self.nozzle_size == 0.8:
+			self.nozzleSizeChoice.SetSelection(1)
 		else:
 			self.nozzleSizeChoice.SetSelection(0)
 
@@ -180,9 +182,9 @@ class OptionsPanel(wx.Panel):
 		event.Skip()
 
 	def OnNozzleSizeChanged(self, event):
-		if self.nozzleSizeChoice.GetSelection() == 1:
+		if self.nozzleSizeChoice.GetSelection() == 2:
 			self.nozzle_size = 0.6
-		elif self.nozzleSizeChoice.GetSelection() == 2:
+		elif self.nozzleSizeChoice.GetSelection() == 1:
 			self.nozzle_size = 0.8
 		else:
 			self.nozzle_size = 0.4
