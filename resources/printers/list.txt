@@ -4,4 +4,4 @@ DiscoUltimate
 #Explorer350
 Neva;(Serial number < 6000)
 Magis;(Serial number >= 6000)
-Sigma
+Sigma;(or Sigma head)
