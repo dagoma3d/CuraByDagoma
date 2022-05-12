@@ -20,7 +20,25 @@ case "$1" in
 		SCRIPTS_DIR=darwin
 		OS=Darwin
 		BUILD_TARGET=$1
-		BUILD_ENGINE=${2:-1}
+		BUILD_ENGINE=${3:-1}
+		case "$2" in
+		x86)
+			BUILD_ARCHITECTURE=x86_64
+			;;
+		arm64)
+			BUILD_ARCHITECTURE=arm64
+			;;
+		*)
+			echo "You need to specify a build architecture."
+			echo "Available options:"
+			echo "- x86"
+			echo "- arm64"
+			echo "Command:"
+			echo "$0 {target} {architecture}"
+			exit 0
+			;;
+		esac
+		;;
 		CXX=g++
 		;;
 	windows)
