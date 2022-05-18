@@ -169,9 +169,10 @@ if [ $BUILD_ENGINE != "0" ]; then
 	#git checkout ${CURA_ENGINE_VERSION}
 	#cd ..
 	cd CuraEngine
+	git tag -d ${CURA_ENGINE_VERSION}
 	git fetch --tags
 	git checkout ${CURA_ENGINE_VERSION}
-	git pull
+	#git pull
 	cd ..
 	make -C CuraEngine clean
 	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} ARCH=${BUILD_ARCHITECTURE} CXX="${CXX}"
