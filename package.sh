@@ -169,6 +169,7 @@ if [ $BUILD_ENGINE != "0" ]; then
 	#git checkout ${CURA_ENGINE_VERSION}
 	#cd ..
 	cd CuraEngine
+	git fetch --tags
 	git checkout ${CURA_ENGINE_VERSION}
 	git pull
 	cd ..
