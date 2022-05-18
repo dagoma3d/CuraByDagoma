@@ -241,20 +241,20 @@ if [[ $BUILD_TARGET == darwin ]]; then
 	echo 'detach'
 	hdiutil detach /Volumes/${BUILD_NAME}
 	echo 'convert'
-	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME}.dmg
+	hdiutil convert ${BUILD_NAME}.dmg.sparseimage -format UDZO -imagekey zlib-level=9 -ov -o ../../${BUILD_NAME}_${BUILD_ARCHITECTURE}.dmg
 
 	cd ../..
-	zip ${BUILD_NAME}.dmg.zip ${BUILD_NAME}.dmg
+	zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.dmg.zip ${BUILD_NAME}_${BUILD_ARCHITECTURE}.dmg
 
 	if [ ! -d "packages" ]; then
 		mkdir packages
 	fi
-	mv -f ${BUILD_NAME}.dmg ./packages/
+	mv -f ${BUILD_NAME}_${BUILD_ARCHITECTURE}.dmg ./packages/
 
 	if [ ! -d "dist" ]; then
 		mkdir dist
 	fi
-	mv -f ${BUILD_NAME}.dmg.zip ./dist/
+	mv -f ${BUILD_NAME}_${BUILD_ARCHITECTURE}.dmg.zip ./dist/
 
 	exit
 fi
