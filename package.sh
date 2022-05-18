@@ -21,6 +21,7 @@ case "$1" in
 		OS=Darwin
 		BUILD_TARGET=$1
 		BUILD_ENGINE=${3:-1}
+		CXX=g++
 		case "$2" in
 		x86)
 			BUILD_ARCHITECTURE=x86_64
@@ -38,8 +39,6 @@ case "$1" in
 			exit 0
 			;;
 		esac
-		;;
-		CXX=g++
 		;;
 	windows)
 		SCRIPTS_DIR=windows
