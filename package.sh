@@ -114,7 +114,7 @@ CURA_ENGINE_REPO="https://github.com/dagoma3d/CuraEngine.git"
 
 ## CuraEngine version to build
 ## Four more info, please check https://github.com/daid/LegacyCura/blob/SteamEngine/package.sh
-CURA_ENGINE_VERSION=legacy
+CURA_ENGINE_VERSION=dagoma-2.1.9
 
 # Change working directory to the directory the script is in
 # http://stackoverflow.com/a/246128
@@ -186,8 +186,10 @@ if [ $BUILD_ENGINE != "0" ]; then
 	#git checkout ${CURA_ENGINE_VERSION}
 	#cd ..
 	cd CuraEngine
-	git checkout dagoma
-	git pull
+	git tag -d ${CURA_ENGINE_VERSION}
+	git fetch --tags
+	git checkout ${CURA_ENGINE_VERSION}
+	#git pull
 	cd ..
 	make -C CuraEngine clean
 	make -C CuraEngine VERSION=${CURA_ENGINE_VERSION} OS=${OS} ARCH=${BUILD_ARCHITECTURE} CXX="${CXX}"
