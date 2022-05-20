@@ -6,6 +6,7 @@ These settings can be globally accessed and modified.
 
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
+import logging
 import os
 import traceback
 import math
@@ -21,6 +22,7 @@ import stat
 import types
 import numpy
 import locale
+import chardet
 if sys.version_info[0] < 3:
 	import ConfigParser
 else:
@@ -507,7 +509,9 @@ def loadProfile(filename, allMachines = False):
 	global settingsList
 	profileParser = ConfigParser.ConfigParser()
 	try:
-		profileParser.read(filename, encoding='utf-8')
+		file =  open(filename, 'rb')
+		encoding = (chardet.detect(file.read()))["encoding"]
+		profileParser.read(filename, encoding=encoding)
 	except ConfigParser.ParsingError:
 		return
 	if allMachines:
