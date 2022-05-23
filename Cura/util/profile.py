@@ -1,4 +1,4 @@
-# coding=utf-8
+# coding=ISO-8859-1
 """
 The profile module contains all the settings for Cura.
 These settings can be globally accessed and modified.
@@ -22,7 +22,6 @@ import stat
 import types
 import numpy
 import locale
-import chardet
 if sys.version_info[0] < 3:
 	import ConfigParser
 else:
@@ -509,9 +508,7 @@ def loadProfile(filename, allMachines = False):
 	global settingsList
 	profileParser = ConfigParser.ConfigParser()
 	try:
-		file =  open(filename, 'rb')
-		encoding = (chardet.detect(file.read()))["encoding"]
-		profileParser.read(filename, encoding=encoding)
+		profileParser.read(filename, encoding='ISO-8859-1')
 	except ConfigParser.ParsingError:
 		return
 	if allMachines:

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- coding: ISO-8859-1 -*-
 
 """
 Slice engine communication.
@@ -23,7 +23,6 @@ import socket
 import struct
 import errno
 import io
-import chardet
 
 from Cura.util import profile
 from Cura.util import pluginInfo

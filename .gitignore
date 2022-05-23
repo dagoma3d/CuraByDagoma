@@ -30,3 +30,4 @@ DmgTemplateCompressed-*.dmg
 /.vscode
 /CuraEngineRepo
 /build
+.eggs
