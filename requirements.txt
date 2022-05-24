@@ -3,4 +3,3 @@ setuptools
 numpy
 pyserial
 PyOpenGL
-chardet
