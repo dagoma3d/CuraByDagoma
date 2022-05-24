@@ -1,4 +1,4 @@
-# coding=ISO-8859-1
+# coding=utf-8
 """
 The profile module contains all the settings for Cura.
 These settings can be globally accessed and modified.
@@ -508,7 +508,7 @@ def loadProfile(filename, allMachines = False):
 	global settingsList
 	profileParser = ConfigParser.ConfigParser()
 	try:
-		profileParser.read(filename, encoding='ISO-8859-1')
+		profileParser.read(filename, encoding='utf-8')
 	except ConfigParser.ParsingError:
 		return
 	if allMachines:
@@ -565,7 +565,7 @@ def saveProfile(filename, allMachines = False):
 				profileParser.set('profile', set.getName(), set.getValue())
 
 	try:
-		profileParser.write(open(filename, 'w'))
+		profileParser.write(open(filename, 'w' ,encoding='utf-8'))
 	except:
 		print("Failed to write profile file: %s" % (filename))
 
