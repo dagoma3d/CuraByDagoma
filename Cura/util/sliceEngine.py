@@ -59,7 +59,7 @@ class EngineResult(object):
 	"""
 	def __init__(self):
 		self._engineLog = []
-		self._gcodeData = io.StringIO()
+		self._gcodeData = io.BytesIO()
 		self._polygons = []
 		self._replaceInfo = {}
 		self._success = False
@@ -482,8 +482,8 @@ class Engine(object):
 		line = stderr.readline()
 		while len(line) > 0:
 			line = line.strip()
-			if line.startswith('Progress:'):
-				line = line.split(':')
+			if line.startswith(b'Progress:'):
+				line = line.split(b':')
 				if line[1] == 'process':
 					objectNr += 1
 				elif line[1] in self._progressSteps:
@@ -497,23 +497,23 @@ class Engine(object):
 						self._callback(progressValue)
 					except:
 						pass
-			elif line.startswith('Print time:'):
+			elif line.startswith(b'Print time:'):
 				# A customer made some measures for the Neva and it seems the real print time is about 70% of the calculated one
 				# TODO: Understand why the time discrepancy occurs
 				speed_factor = float(profile.getMachineSetting('machine_speed_factor'))
-				self._result._printTimeSeconds = int(line.split(':')[1].strip()) * speed_factor
-			elif line.startswith('Filament:'):
-				self._result._filamentMM[0] = int(line.split(':')[1].strip())
+				self._result._printTimeSeconds = int(line.split(b':')[1].strip()) * speed_factor
+			elif line.startswith(b'Filament:'):
+				self._result._filamentMM[0] = int(line.split(b':')[1].strip())
 				if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':
 					radius = profile.getProfileSettingFloat('filament_diameter') / 2.0
 					self._result._filamentMM[0] /= (math.pi * radius * radius)
-			elif line.startswith('Filament2:'):
-				self._result._filamentMM[1] = int(line.split(':')[1].strip())
+			elif line.startswith(b'Filament2:'):
+				self._result._filamentMM[1] = int(line.split(b':')[1].strip())
 				if profile.getMachineSetting('gcode_flavor') == 'UltiGCode':
 					radius = profile.getProfileSettingFloat('filament_diameter') / 2.0
 					self._result._filamentMM[1] /= (math.pi * radius * radius)
-			elif line.startswith('Replace:'):
-				self._result._replaceInfo[line.split(':')[1].strip()] = line.split(':')[2].strip()
+			elif line.startswith(b'Replace:'):
+				self._result._replaceInfo[line.split(b':')[1].strip()] = line.split(b':')[2].strip()
 			else:
 				self._result.addLog(line)
 			line = stderr.readline()
@@ -703,4 +703,4 @@ class Engine(object):
 			su.wShowWindow = subprocess.SW_HIDE
 			kwargs['startupinfo'] = su
 			kwargs['creationflags'] = 0x00004000 #BELOW_NORMAL_PRIORITY_CLASS
-		return subprocess.Popen(cmdList, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8', **kwargs)
+		return subprocess.Popen(cmdList, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs)

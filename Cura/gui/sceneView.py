@@ -379,26 +379,26 @@ class SceneView(openglGui.glGuiPanel):
 		filament2_cost = profile.getProfileSetting('filament2_cost')
 
 		block0 = data[0:1024]
-		block0 = block0.replace('#PRINT_DURATION#', print_duration)
-		block0 = block0.replace('#FILAMENT_LENGTH#', filament_length)
-		block0 = block0.replace('#FILAMENT_WEIGHT#', filament_weight)
-		block0 = block0.replace('#FILAMENT_COST#', filament_cost)
-		block0 = block0.replace('#FILAMENT2_LENGTH#', filament2_length)
-		block0 = block0.replace('#FILAMENT2_WEIGHT#', filament2_weight)
-		block0 = block0.replace('#FILAMENT2_COST#', filament2_cost)
+		block0 = block0.replace(b'#PRINT_DURATION#', bytes(print_duration, 'utf-8'))
+		block0 = block0.replace(b'#FILAMENT_LENGTH#', bytes(filament_length, 'utf-8'))
+		block0 = block0.replace(b'#FILAMENT_WEIGHT#', bytes(filament_weight, 'utf-8'))
+		block0 = block0.replace(b'#FILAMENT_COST#', bytes(filament_cost, 'utf-8'))
+		block0 = block0.replace(b'#FILAMENT2_LENGTH#', bytes(filament2_length, 'utf-8'))
+		block0 = block0.replace(b'#FILAMENT2_WEIGHT#', bytes(filament2_weight, 'utf-8'))
+		block0 = block0.replace(b'#FILAMENT2_COST#', bytes(filament2_cost, 'utf-8'))
 		data = block0 + data[1024:]
 
 		try:
 			self.notification.message(_("Save in progress..."))
 			size = float(len(data))
-			fsrc = io.StringIO(data)
+			fsrc = io.BytesIO(data)
 			print('Save in : ', targetFilename) # Dagoma
 			with open(targetFilename, 'wb') as fdst:
 				while 1:
 					buf = fsrc.read(16*1024)
 					if not buf:
 						break
-					fdst.write(buf.encode())
+					fdst.write(buf)
 		except IOError as e:
 			import sys, traceback
 			traceback.print_exc()
