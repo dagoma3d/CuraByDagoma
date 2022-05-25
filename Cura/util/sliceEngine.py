@@ -203,6 +203,8 @@ class Engine(object):
 				thread = threading.Thread(target=self._socketConnectionThread, args=(sock,))
 				thread.daemon = True
 				thread.start()
+			except OSError as e:
+				pass
 			except socket.error as e:
 				if e.errno != errno.EINTR:
 					raise
@@ -697,10 +699,12 @@ class Engine(object):
 
 	def _runEngineProcess(self, cmdList):
 		kwargs = {}
+		encoding = 'utf-8'
 		if platform.system() == "Windows":
 			su = subprocess.STARTUPINFO()
 			su.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 			su.wShowWindow = subprocess.SW_HIDE
 			kwargs['startupinfo'] = su
 			kwargs['creationflags'] = 0x00004000 #BELOW_NORMAL_PRIORITY_CLASS
-		return subprocess.Popen(cmdList, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8', **kwargs)
+			encoding = 'latin1'
+		return subprocess.Popen(cmdList, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding=encoding, **kwargs)

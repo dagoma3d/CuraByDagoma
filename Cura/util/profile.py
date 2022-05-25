@@ -564,7 +564,7 @@ def saveProfile(filename, allMachines = False):
 				profileParser.set('profile', set.getName(), set.getValue())
 
 	try:
-		profileParser.write(open(filename, 'w'))
+		profileParser.write(open(filename, 'w', encoding='utf-8'))
 	except:
 		print("Failed to write profile file: %s" % (filename))
 
