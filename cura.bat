@@ -36,6 +36,7 @@ rem un DOS est créé à chaque fois qu'on double-clique sur un fichier bat
 @REM exit /b
 
 :END
+rem need to run deactivate.bat here ?
 if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" %_OLD_CODEPAGE% > nul
     set _OLD_CODEPAGE=
