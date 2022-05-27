@@ -5,7 +5,7 @@
             "name": "Python : CuraByDagoma",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/cura.py",
+            "module": "Cura.cura",
             "console": "internalConsole",
             "justMyCode": true,
         },
