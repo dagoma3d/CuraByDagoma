@@ -44,7 +44,7 @@ case "$1" in
 		SCRIPTS_DIR=windows
 		OS=Windows_NT
 		BUILD_TARGET=$1
-		BUILD_ENGINE=$3
+		BUILD_ENGINE=${3:-1}
 		case "$2" in
 		32)
 			BUILD_ARCHITECTURE=x86
@@ -118,7 +118,8 @@ CURA_ENGINE_VERSION=dagoma-2.1.9
 # Change working directory to the directory the script is in
 # http://stackoverflow.com/a/246128
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $SCRIPT_DIR
+cd "$SCRIPT_DIR"
+# double quotes to prevent problems caused by spaces in folder names
 
 #For building under MacOS we need gnutar instead of tar
 if [ -z `$(which gnutar 2> /dev/null)` ]; then
@@ -432,6 +433,7 @@ if [[ $BUILD_TARGET == windows ]]; then
 	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libwinpthread-1.dll $BUILD_NAME
 	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libstdc++-6.dll $BUILD_NAME
 	echo "Step add scripts and executables Finished"
+	read -p "execution terminée"
 
 	if [ -f '/c/Program Files (x86)/NSIS/makensis.exe' ]; then
 		rm -rf scripts/windows/dist

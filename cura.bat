@@ -26,18 +26,6 @@ if not defined _OLD_VIRTUAL_PATH set _OLD_VIRTUAL_PATH=%PATH%
 
 set PATH=%VIRTUAL_ENV%\Scripts;%PATH%
 
-start "test" /i /MIN python.exe -m Cura.cura
-@REM start "test" /i /MIN python.exe -m Cura.cura
-rem best solution found for the moment
-rem /b to execute in background, but put cmd.exe on foreground
-rem j'ai essayé aussi de créer un autre fichier .bat qui appelle cura.bat, sans succès
-rem un DOS est créé à chaque fois qu'on double-clique sur un fichier bat
+start "" pythonw.exe -m Cura.cura
 
-@REM exit /b
-
-:END
-rem need to run deactivate.bat here ?
-if defined _OLD_CODEPAGE (
-    "%SystemRoot%\System32\chcp.com" %_OLD_CODEPAGE% > nul
-    set _OLD_CODEPAGE=
-)
+exit
