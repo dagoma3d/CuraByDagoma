@@ -126,7 +126,7 @@ LangString Exec_Cura ${LANG_FRENCH} "Lancer ${BUILD_NAME}"
 
 ; Reserve Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
-ReserveFile '${NSISDIR}\Plugins\InstallOptions.dll'
+ReserveFile '${NSISDIR}\Plugins\x86-unicode\InstallOptions.dll'
 ReserveFile "header.bmp"
 
 Function .onInit
