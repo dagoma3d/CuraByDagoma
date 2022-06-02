@@ -177,7 +177,7 @@ Section "${BUILD_NAME}"
   CreateShortCut "$SMPROGRAMS\${BUILD_NAME}\${BUILD_NAME}.lnk" "$INSTDIR\python\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
   
   ; Create Shortcut on the Desktop
-  CreateShortCut "~\Desktop\${BUILD_NAME}.lnk" "$INSTDIR\python\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
+  CreateShortCut "~\Desktop\${BUILD_NAME}\${BUILD_NAME}.lnk" "$INSTDIR\python\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
 
   ; Give all users write permissions in the install directory, so they can read/write profile and preferences files.
   AccessControl::GrantOnFile "$INSTDIR" "(S-1-5-32-545)" "FullAccess"
