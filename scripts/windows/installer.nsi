@@ -248,6 +248,7 @@ Section "Uninstall"
   SetShellVarContext all
   ; Remove directories used
   RMDir /r "$SMPROGRAMS\${BUILD_NAME}"
+  Delete "$DESKTOP\${BUILD_NAME}.lnk"
   RMDir /r "$INSTDIR"
   ;Try to delete Profile
   RMDir /r "$PROFILE\.curaByDagoma\${BUILD_VERSION}"
