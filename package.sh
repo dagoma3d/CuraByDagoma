@@ -373,42 +373,22 @@ if [[ $BUILD_TARGET == windows ]]; then
 	mkdir -p ${BUILD_NAME}
 	rm -f log.txt
 
-	#For windows extract portable python to include it.
-	extract ejectmedia.zip Win32
-	echo "Step extract Finished"
+	#Add venv
+	cp -r venv ${BUILD_NAME}/venv
+	echo "Step venv Finished"
 
+	#For windows extract ejectmedia python to include it.
+	extract ejectmedia.zip Win32
 	mkdir -p ${BUILD_NAME}/Cura/
 	mv Win32/EjectMedia.exe ${BUILD_NAME}/Cura/
-	echo "Step mv Finished"
-
-	rm -rf \$_OUTDIR
 	rm -rf Win32
-	rm -rf PURELIB
-	rm -rf VideoCapture-0.9-5
-	echo "Step rm Finished"
+	echo "Step ejectmedia Finished"
 
-	#Clean up portable python a bit, to keep the package size down.
-	rm -rf ${BUILD_NAME}/python/PyCharm
-	rm -rf ${BUILD_NAME}/python/PyScripter.*
-	rm -rf ${BUILD_NAME}/python/Doc
-	rm -rf ${BUILD_NAME}/python/locale
-	rm -rf ${BUILD_NAME}/python/tcl
-	rm -rf ${BUILD_NAME}/python/Lib/distutils
-	rm -rf ${BUILD_NAME}/python/Lib/test
-	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-3.0-msw/docs
-	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-3.0-msw/wx/locale
-	rm -rf ${BUILD_NAME}/python/Lib/site-packages/wx-3.0-msw/wx/tools
-	#Remove the gle files because they require MSVCR71.dll, which is not included. We also don't need gle, so it's safe to remove it.
-	rm -rf ${BUILD_NAME}/python/Lib/OpenGL/DLLS/gle*
-	echo "Step clean Finished"
-
-	#add Cura
+	#Add Cura
 	mkdir -p ${BUILD_NAME}/Cura ${BUILD_NAME}/resources ${BUILD_NAME}/plugins
 	cp -a Cura/* ${BUILD_NAME}/Cura
 	cp -a resources/* ${BUILD_NAME}/resources
 	cp -a plugins/* ${BUILD_NAME}/plugins
-	#add venv
-	cp -r venv ${BUILD_NAME}/venv
 	#Add cura version file
 	echo $BUILD_NAME > ${BUILD_NAME}/Cura/version
 	echo "Step add cura Finished"
