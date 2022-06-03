@@ -24,7 +24,7 @@ case "$1" in
 		SCRIPTS_DIR=darwin
 		OS=Darwin
 		BUILD_TARGET=$1
-		BUILD_ENGINE=${3:1}
+		BUILD_ENGINE=${3:-1}
 		CXX=g++
 		case "$2" in
 		x86)
@@ -48,7 +48,7 @@ case "$1" in
 		SCRIPTS_DIR=windows
 		OS=Windows_NT
 		BUILD_TARGET=$1
-		BUILD_ENGINE=${3:1}
+		BUILD_ENGINE=${3:-1}
 		case "$2" in
 		32)
 			BUILD_ARCHITECTURE=x86
@@ -73,7 +73,7 @@ case "$1" in
 		SCRIPTS_DIR=linux
 		OS=Linux
 		LINUX_TARGET_NAME="curabydago"
-		BUILD_ENGINE=${3:1}
+		BUILD_ENGINE=${3:-1}
 		case "$2" in
 		32)
 			BUILD_ARCHITECTURE=i386
