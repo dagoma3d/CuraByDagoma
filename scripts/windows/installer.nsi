@@ -97,6 +97,9 @@ FunctionEnd
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_TEXT $(Exec_Cura)
 !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchLink"
+!define MUI_FINISHPAGE_SHOWREADME ""
+!define MUI_FINISHPAGE_SHOWREADME_TEXT $(Create_Shortcut_Desktop)
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION "CreateShortcutDesktop"
 
 ; Pages
 ;!insertmacro MUI_PAGE_WELCOME
@@ -113,6 +116,8 @@ FunctionEnd
 !insertmacro MUI_LANGUAGE "English"
 
 ; Language strings
+LangString Create_Shortcut_Desktop ${LANG_ENGLISH} "Create a shortcut on Desktop"
+LangString Create_Shortcut_Desktop ${LANG_FRENCH} "Creer un raccourci sur le Bureau"
 LangString Install_Arduino_Drivers ${LANG_ENGLISH} "Install Arduino Drivers"
 LangString Install_Arduino_Drivers ${LANG_FRENCH} "Installer les pilotes Arduino"
 LangString Open_STL_files_with_Cura ${LANG_ENGLISH} "Open STL files with Cura by Dagoma"
@@ -186,6 +191,11 @@ Function LaunchLink
   ; Write start menu entries for all users
   SetShellVarContext all
   Exec '"$WINDIR\explorer.exe" "$SMPROGRAMS\${BUILD_NAME}\${BUILD_NAME}.lnk"'
+FunctionEnd
+
+Function CreateShortcutDesktop
+  SetShellVarContext all
+  CreateShortCut "$DESKTOP\${BUILD_NAME}.lnk" "$INSTDIR\venv\Scripts\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
 FunctionEnd
 
 Section $(Install_Arduino_Drivers)
