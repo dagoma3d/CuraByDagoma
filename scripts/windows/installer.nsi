@@ -193,6 +193,7 @@ Function LaunchLink
   Exec '"$WINDIR\explorer.exe" "$SMPROGRAMS\${BUILD_NAME}\${BUILD_NAME}.lnk"'
 FunctionEnd
 
+; create a shortcut on desktop if desired by user
 Function CreateShortcutDesktop
   SetShellVarContext all
   CreateShortCut "$DESKTOP\${BUILD_NAME}.lnk" "$INSTDIR\venv\Scripts\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
@@ -248,6 +249,7 @@ Section "Uninstall"
   SetShellVarContext all
   ; Remove directories used
   RMDir /r "$SMPROGRAMS\${BUILD_NAME}"
+  ; remove shortcut from desktop
   Delete "$DESKTOP\${BUILD_NAME}.lnk"
   RMDir /r "$INSTDIR"
   ;Try to delete Profile
