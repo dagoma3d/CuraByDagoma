@@ -15,12 +15,16 @@ export BUILD_VERSION=${RELEASE_VERSION}
 ##- darwin
 ##- debian
 ##- archive
+
+# Second parameter : Select the architecture
+# Third parameter (boolean) : must build cura engine ? -> 0 or 1
+
 case "$1" in
 	darwin)
 		SCRIPTS_DIR=darwin
 		OS=Darwin
 		BUILD_TARGET=$1
-		BUILD_ENGINE=${3:-1}
+		BUILD_ENGINE=${3:1}
 		CXX=g++
 		case "$2" in
 		x86)
@@ -44,7 +48,7 @@ case "$1" in
 		SCRIPTS_DIR=windows
 		OS=Windows_NT
 		BUILD_TARGET=$1
-		BUILD_ENGINE=$3
+		BUILD_ENGINE=${3:1}
 		case "$2" in
 		32)
 			BUILD_ARCHITECTURE=x86
@@ -69,7 +73,7 @@ case "$1" in
 		SCRIPTS_DIR=linux
 		OS=Linux
 		LINUX_TARGET_NAME="curabydago"
-		BUILD_ENGINE=${3:-1}
+		BUILD_ENGINE=${3:1}
 		case "$2" in
 		32)
 			BUILD_ARCHITECTURE=i386
@@ -118,7 +122,8 @@ CURA_ENGINE_VERSION=dagoma-2.1.9
 # Change working directory to the directory the script is in
 # http://stackoverflow.com/a/246128
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $SCRIPT_DIR
+cd "$SCRIPT_DIR"
+# double quotes to prevent problems caused by spaces in folder names
 
 #For building under MacOS we need gnutar instead of tar
 if [ -z `$(which gnutar 2> /dev/null)` ]; then
@@ -140,6 +145,7 @@ function checkTool
 }
 
 function downloadURL
+# some antivirus (avast for example) could block the downloading process
 {
 	filename=`basename "$1"`
 	echo "Checking for $filename"
@@ -357,11 +363,7 @@ if [[ $BUILD_TARGET == windows ]]; then
 	#Check if we have 7zip, needed to extract and packup a bunch of packages for windows.
 	checkTool 7z "7zip: http://www.7-zip.org/"
 	checkTool mingw32-make "mingw: http://www.mingw.org/"
-	#Get portable python for windows and extract it. (Linux and Mac need to install python themselfs)
-	downloadURL http://ftp.nluug.nl/languages/python/portablepython/v3.2/PortablePython_${WIN_PORTABLE_PY_VERSION}.exe
-	downloadURL http://sourceforge.net/projects/pyopengl/files/PyOpenGL/3.0.1/PyOpenGL-3.0.1.win32.exe
-	downloadURL http://videocapture.sourceforge.net/VideoCapture-0.9-5.zip
-	downloadURL http://sourceforge.net/projects/comtypes/files/comtypes/0.6.2/comtypes-0.6.2.win32.exe
+
 	downloadURL http://www.uwe-sieber.de/files/ejectmedia.zip
 
 	#############################
@@ -372,25 +374,10 @@ if [[ $BUILD_TARGET == windows ]]; then
 	rm -f log.txt
 
 	#For windows extract portable python to include it.
-	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/App
-	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/Lib/site-packages
-	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/numpy
-	extract PortablePython_${WIN_PORTABLE_PY_VERSION}.exe \$_OUTDIR/serial
-	extract PyOpenGL-3.0.1.win32.exe PURELIB
-	extract VideoCapture-0.9-5.zip VideoCapture-0.9-5/Python27/DLLs/vidcap.pyd
-	extract comtypes-0.6.2.win32.exe
 	extract ejectmedia.zip Win32
 	echo "Step extract Finished"
 
-	mkdir -p ${BUILD_NAME}/python
 	mkdir -p ${BUILD_NAME}/Cura/
-	mv \$_OUTDIR/App/* ${BUILD_NAME}/python
-	mv \$_OUTDIR/Lib/site-packages/wx* ${BUILD_NAME}/python/Lib/site-packages/
-	mv \$_OUTDIR/serial ${BUILD_NAME}/python/Lib
-	mv PURELIB/OpenGL ${BUILD_NAME}/python/Lib
-	mv PURELIB/comtypes ${BUILD_NAME}/python/Lib
-	mv \$_OUTDIR/numpy ${BUILD_NAME}/python/Lib
-	mv VideoCapture-0.9-5/Python27/DLLs/vidcap.pyd ${BUILD_NAME}/python/DLLs
 	mv Win32/EjectMedia.exe ${BUILD_NAME}/Cura/
 	echo "Step mv Finished"
 
@@ -420,6 +407,8 @@ if [[ $BUILD_TARGET == windows ]]; then
 	cp -a Cura/* ${BUILD_NAME}/Cura
 	cp -a resources/* ${BUILD_NAME}/resources
 	cp -a plugins/* ${BUILD_NAME}/plugins
+	#add venv
+	cp -r venv ${BUILD_NAME}/venv
 	#Add cura version file
 	echo $BUILD_NAME > ${BUILD_NAME}/Cura/version
 	echo "Step add cura Finished"
@@ -435,7 +424,7 @@ if [[ $BUILD_TARGET == windows ]]; then
 
 	if [ -f '/c/Program Files (x86)/NSIS/makensis.exe' ]; then
 		rm -rf scripts/windows/dist
-		mv `pwd`/${BUILD_NAME} scripts/windows/dist
+		mv "`pwd`/${BUILD_NAME}" scripts/windows/dist
 		echo ${BUILD_NAME}
 		'/c/Program Files (x86)/NSIS/makensis.exe' -DBUILD_NAME=${BUILD_NAME} -DBUILD_VERSION=${BUILD_VERSION} 'scripts/windows/installer.nsi' >> log.txt
 		if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
