@@ -126,7 +126,7 @@ LangString Exec_Cura ${LANG_FRENCH} "Lancer ${BUILD_NAME}"
 
 ; Reserve Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
-ReserveFile '${NSISDIR}\Plugins\InstallOptions.dll'
+ReserveFile '${NSISDIR}\Plugins\x86-unicode\InstallOptions.dll'
 ReserveFile "header.bmp"
 
 Function .onInit
@@ -174,7 +174,8 @@ Section "${BUILD_NAME}"
 
   CreateDirectory "$SMPROGRAMS\${BUILD_NAME}"
   CreateShortCut "$SMPROGRAMS\${BUILD_NAME}\Uninstall ${BUILD_NAME}.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\${BUILD_NAME}\${BUILD_NAME}.lnk" "$INSTDIR\python\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
+  CreateShortCut "$SMPROGRAMS\${BUILD_NAME}\${BUILD_NAME}.lnk" "$INSTDIR\venv\Scripts\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
+  ; Maybe it would be a good idea to propose a shortcut on the Desktop 
 
   ; Give all users write permissions in the install directory, so they can read/write profile and preferences files.
   AccessControl::GrantOnFile "$INSTDIR" "(S-1-5-32-545)" "FullAccess"
@@ -204,7 +205,7 @@ Section $(Open_STL_files_with_Cura)
 	DeleteRegValue HKCR .stl "Content Type"
 	WriteRegStr HKCR "Cura STL model file\DefaultIcon" "" "$INSTDIR\resources\images\stl.ico,0"
 	WriteRegStr HKCR "Cura STL model file\shell" "" "open"
-	WriteRegStr HKCR "Cura STL model file\shell\open\command" "" '"$INSTDIR\python\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
+	WriteRegStr HKCR "Cura STL model file\shell\open\command" "" '"$INSTDIR\venv\Scripts\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
 SectionEnd
 
 Section $(Open_OBJ_files_with_Cura)
@@ -212,7 +213,7 @@ Section $(Open_OBJ_files_with_Cura)
 	DeleteRegValue HKCR .obj "Content Type"
 	WriteRegStr HKCR "Cura OBJ model file\DefaultIcon" "" "$INSTDIR\resources\images\stl.ico,0"
 	WriteRegStr HKCR "Cura OBJ model file\shell" "" "open"
-	WriteRegStr HKCR "Cura OBJ model file\shell\open\command" "" '"$INSTDIR\python\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
+	WriteRegStr HKCR "Cura OBJ model file\shell\open\command" "" '"$INSTDIR\venv\Scripts\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
 SectionEnd
 
 Section $(Open_AMF_files_with_Cura)
@@ -220,7 +221,7 @@ Section $(Open_AMF_files_with_Cura)
 	DeleteRegValue HKCR .amf "Content Type"
 	WriteRegStr HKCR "Cura AMF model file\DefaultIcon" "" "$INSTDIR\resources\images\stl.ico,0"
 	WriteRegStr HKCR "Cura AMF model file\shell" "" "open"
-	WriteRegStr HKCR "Cura AMF model file\shell\open\command" "" '"$INSTDIR\python\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
+	WriteRegStr HKCR "Cura AMF model file\shell\open\command" "" '"$INSTDIR\venv\Scripts\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
 SectionEnd
 
 ;--------------------------------
