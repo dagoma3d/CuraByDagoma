@@ -39,8 +39,6 @@ class aboutWindow(wx.Frame):
 		self.addComponent('PySerial', _('Serial communication library'), 'Python license', 'http://pyserial.sourceforge.net/')
 		self.addComponent('NumPy', _('Support library for faster math'), 'BSD', 'http://www.numpy.org/', isWindows)
 		if isWindows:
-			self.addComponent('VideoCapture', _('Library for WebCam capture'), 'LGPLv2.1', 'http://videocapture.sourceforge.net/')
-			self.addComponent('comtypes', _('Library to help with windows taskbar features'), 'MIT', 'http://starship.python.net/crew/theller/comtypes/')
 			self.addComponent('EjectMedia', _('Utility to safe-remove SD cards'), 'Freeware', 'http://www.uwe-sieber.de/english.html', False)
 		self.Fit()
 

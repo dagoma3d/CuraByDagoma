@@ -3054,12 +3054,6 @@ msgstr ""
 msgid "Support library for faster math"
 msgstr ""
 
-msgid "Library for WebCam capture"
-msgstr ""
-
-msgid "Library to help with windows taskbar features"
-msgstr ""
-
 msgid "Utility to safe-remove SD cards"
 msgstr ""
 
