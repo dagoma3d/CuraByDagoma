@@ -33,7 +33,7 @@ class aboutWindow(wx.Frame):
 		self.addComponent('LegacyCura', _('Graphical user interface'), 'AGPLv3', 'https://github.com/daid/LegacyCura')
 		self.addComponent('CuraEngine', _('GCode Generator'), 'AGPLv3', 'https://github.com/Ultimaker/CuraEngine')
 		self.addComponent('Clipper', _('Polygon clipping library'), 'Boost', 'http://www.angusj.com/delphi/clipper.php')
-		self.addComponent('Python 2.7', _('Framework'), 'Python', 'http://python.org/')
+		self.addComponent('Python 3.9.12', _('Framework'), 'Python', 'http://python.org/')
 		self.addComponent('wxPython', _('GUI Framework'), 'wxWindows', 'http://www.wxpython.org/')
 		self.addComponent('PyOpenGL', _('3D Rendering Framework'), 'BSD', 'http://pyopengl.sourceforge.net/')
 		self.addComponent('PySerial', _('Serial communication library'), 'Python license', 'http://pyserial.sourceforge.net/')
