@@ -16,6 +16,10 @@ Windows only :
 - [EjectMedia](http://www.uwe-sieber.de/english.html)
 
 ## Packaging
+To create a package, type :
+```
+./package.sh <os> <architecture>
+```
 
 ### Introduction
 The slicer binary is built on the fly. It is a full C++ project. The compilation process is based on standard Makefile.
@@ -160,7 +164,7 @@ $ sudo apt install python3-venv libsdl2-2.0-0
 
 ```
 $ python3 -m venv venv
-$ ./venv/Scripts/activate
+$ ./venv/bin/activate
 ```
 
 - Install dependencies
