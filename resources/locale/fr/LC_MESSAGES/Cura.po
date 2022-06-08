@@ -3404,6 +3404,12 @@ msgstr "Bibliothèque de communication série"
 msgid "Support library for faster math"
 msgstr "Bibliothèque mathématique"
 
+msgid "Library for WebCam capture"
+msgstr "Bibliothèque de capture WebCam"
+
+msgid "Library to help with windows taskbar features"
+msgstr "Bibliothèque d'aide à l'utilisation de la barre de tâches"
+
 msgid "Utility to safe-remove SD cards"
 msgstr "Utilitaire pour retirer la carte SD de façon sécurisée"
 
