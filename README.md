@@ -24,6 +24,24 @@ To create a package, type :
 ### Introduction
 The slicer binary is built on the fly. It is a full C++ project. The compilation process is based on standard Makefile.
 
+## Using a virtual Python environment
+
+Download and use a Python3.x universal installer from [Python website](https://www.python.org/downloads). In this project, we are using [Python3.9.12](https://www.python.org/ftp/python/3.9.12/python-3.9.12-macos11.pkg).
+
+In the project folder, open a terminate and, to create a virtual environment ("venv") with the python version you've just installed, execute :
+```
+python -m venv venv
+```
+If you have several python versions installed on your computer, instead of ```python```, please type the exact path to your python.exe file.
+To activate your venv, type :
+```
+./venv/Scripts/activate
+```
+If necesary, upgrade pip with :
+```
+pip install --upgrade pip
+```
+
 
 #### Python 3.x
 
