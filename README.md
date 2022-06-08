@@ -16,10 +16,15 @@ Windows only :
 - [EjectMedia](http://www.uwe-sieber.de/english.html)
 
 ## Packaging
-To create a package, type :
+To create a package, execute from your project folder :
 ```
 ./package.sh <os> <architecture>
 ```
+For example, on Windows, with a 64bits-architecture, write :
+```
+./package.sh windows 64 1
+```
+```1``` is a default parameter which means that you also want to build CuraEngine. Replace it by ```0```if you've already built it once before.
 
 ### Introduction
 The slicer binary is built on the fly. It is a full C++ project. The compilation process is based on standard Makefile.
