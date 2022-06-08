@@ -51,7 +51,7 @@ To install the necesary python modules, we will use python wheels :
 ```
 pip install -r ./requirements.txt
 ```
-If PyOpenGL and/or PyOpenGL_accelerate doesn't install correctly, please retry after download files you need from [Python website] (https://pypi.org/project/PyOpenGL/#files):
+If PyOpenGL and/or PyOpenGL_accelerate doesn't install correctly, please retry after download files you need from [Python website](https://pypi.org/project/PyOpenGL/#files) :
 - PyOpenGL : PyOpenGL-3.1.6-cp39-cp39-win_amd64.whl
 - PyOpenGL : PyOpenGL_accelerate-3.1.6-cp39-cp39-win_amd64.whl
 
