@@ -116,8 +116,8 @@ FunctionEnd
 !insertmacro MUI_LANGUAGE "English"
 
 ; Language strings
-LangString Create_Shortcut_Desktop ${LANG_ENGLISH} "Create a shortcut on Desktop"
-LangString Create_Shortcut_Desktop ${LANG_FRENCH} "Creer un raccourci sur le Bureau"
+LangString Create_Shortcut_Desktop ${LANG_ENGLISH} "Add a shortcut on Desktop"
+LangString Create_Shortcut_Desktop ${LANG_FRENCH} "Ajouter un raccourci sur le Bureau"
 LangString Install_Arduino_Drivers ${LANG_ENGLISH} "Install Arduino Drivers"
 LangString Install_Arduino_Drivers ${LANG_FRENCH} "Installer les pilotes Arduino"
 LangString Open_STL_files_with_Cura ${LANG_ENGLISH} "Open STL files with Cura by Dagoma"
