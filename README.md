@@ -15,17 +15,6 @@ It is built with the following components:
 Windows only :
 - [EjectMedia](http://www.uwe-sieber.de/english.html)
 
-## Packaging
-To create a package, execute from your project folder :
-```
-./package.sh <os> <architecture>
-```
-For example, on Windows, with a 64bits-architecture, write :
-```
-./package.sh windows 64 1
-```
-```1``` is a default parameter which means that you also want to build CuraEngine. Replace it by ```0```if you've already built it once before.
-
 ### Introduction
 The slicer binary is built on the fly. It is a full C++ project. The compilation process is based on standard Makefile.
 
@@ -33,6 +22,7 @@ The slicer binary is built on the fly. It is a full C++ project. The compilation
 
 Download and use a Python3.x universal installer from [Python website](https://www.python.org/downloads). In this project, we are using [Python3.9.12](https://www.python.org/ftp/python/3.9.12/python-3.9.12-macos11.pkg).
 
+### Windows
 In the project folder, open a terminate and, to create a virtual environment ("venv") with the python version you've just installed, execute :
 ```
 python -m venv venv
@@ -43,6 +33,19 @@ To activate your venv, type :
 ```
 ./venv/Scripts/activate
 ```
+
+### Linux
+- Install required packages
+```
+$ sudo apt install python3-venv libsdl2-2.0-0
+```
+- Set up and activate the virtual environment
+```
+$ python -m venv venv
+$ ./venv/bin/activate
+```
+
+### Installing the python modules
 If necesary, upgrade pip with :
 ```
 pip install --upgrade pip
@@ -61,7 +64,16 @@ pip install pyobjc
 pip install py2app
 ```
 
-You are ready to build.
+## Packaging
+To create a package, execute from your project folder :
+```
+./package.sh <os> <architecture>
+```
+For example, on Windows, with a 64bits-architecture, write :
+```
+./package.sh windows 64 1
+```
+```1``` is a default parameter which means that you also want to build CuraEngine. Replace it by ```0``` if you've already built it once before.
 
 ### Windows
 Here are the needed requirement:
@@ -100,19 +112,7 @@ Using python virtual environment seems to work fine, to be investigated in order
 
 Instruction to set up the right environment :
 
-- Install required packages
 
-```
-$ sudo apt install python3-venv libsdl2-2.0-0
-
-```
-
-- Set up and activate the virtual environment
-
-```
-$ python3 -m venv venv
-$ ./venv/bin/activate
-```
 
 - Install dependencies
 
