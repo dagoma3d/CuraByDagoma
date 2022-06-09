@@ -3,6 +3,7 @@
 
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
+from fileinput import filename
 import hashlib
 import wx
 import numpy
@@ -386,7 +387,7 @@ class SceneView(openglGui.glGuiPanel):
 		block0 = block0.replace('#FILAMENT2_LENGTH#', filament2_length)
 		block0 = block0.replace('#FILAMENT2_WEIGHT#', filament2_weight)
 		block0 = block0.replace('#FILAMENT2_COST#', filament2_cost)
-		data = block0 + data[1024:]
+		#data = block0[:42] + "Nom du fichier : <Nom du fichier> + '\n' + block0[42:] + data[1024:]
 
 		try:
 			self.notification.message(_("Save in progress..."))
