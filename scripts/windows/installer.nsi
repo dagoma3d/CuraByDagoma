@@ -180,7 +180,6 @@ Section "${BUILD_NAME}"
   CreateDirectory "$SMPROGRAMS\${BUILD_NAME}"
   CreateShortCut "$SMPROGRAMS\${BUILD_NAME}\Uninstall ${BUILD_NAME}.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\${BUILD_NAME}\${BUILD_NAME}.lnk" "$INSTDIR\venv\Scripts\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
-  ; Maybe it would be a good idea to propose a shortcut on the Desktop 
 
   ; Give all users write permissions in the install directory, so they can read/write profile and preferences files.
   AccessControl::GrantOnFile "$INSTDIR" "(S-1-5-32-545)" "FullAccess"
