@@ -122,10 +122,13 @@ class SceneView(openglGui.glGuiPanel):
 		self.Bind(wx.EVT_MOUSEWHEEL, self.OnMouseWheel)
 		self.Bind(wx.EVT_LEAVE_WINDOW, self.OnMouseLeave)
 
+		self.sceneFilenames = []
+
 		self.OnViewChange()
 		self.OnToolSelect(0)
 		self.updateToolButtons()
 		self.updateProfileToControls()
+		self.updateSceneFilenames()
 
 	def unpack(self, filename):
 		image = wx.Image(resources.getPathForImage(filename))
@@ -368,9 +371,19 @@ class SceneView(openglGui.glGuiPanel):
 
 		threading.Thread(target=self._saveGCode,args=(filename,)).start()
 
+	def generateFilenamesComment(self):
+		_filenamesComment = ""
+		self.updateSceneFilenames()
+		if len(self.sceneFilenames) > 1:
+			_filenamesComment = "Object Names :\n- " + self.sceneFilenames.join("\n- ")
+		else:
+			_filenamesComment = "Object Name : " + self.sceneFilenames[0]
+		return _filenamesComment
+
 	def _saveGCode(self, targetFilename, ejectDrive = False):
 		data = self._engine.getResult().getGCode()
 
+		filenames_comment = self.generateFilenamesComment()
 		print_duration = profile.getProfileSetting('print_duration')
 		filament_length = profile.getProfileSetting('filament_length')
 		filament_weight = profile.getProfileSetting('filament_weight')
@@ -380,6 +393,7 @@ class SceneView(openglGui.glGuiPanel):
 		filament2_cost = profile.getProfileSetting('filament2_cost')
 
 		block0 = data[0:1024]
+		block0 = block0.replace('#FILENAMES_COMMENT#', filenames_comment)
 		block0 = block0.replace('#PRINT_DURATION#', print_duration)
 		block0 = block0.replace('#FILAMENT_LENGTH#', filament_length)
 		block0 = block0.replace('#FILAMENT_WEIGHT#', filament_weight)
@@ -387,7 +401,7 @@ class SceneView(openglGui.glGuiPanel):
 		block0 = block0.replace('#FILAMENT2_LENGTH#', filament2_length)
 		block0 = block0.replace('#FILAMENT2_WEIGHT#', filament2_weight)
 		block0 = block0.replace('#FILAMENT2_COST#', filament2_cost)
-		#data = block0[:42] + "Nom du fichier : <Nom du fichier> + '\n' + block0[42:] + data[1024:]
+		
 
 		try:
 			self.notification.message(_("Save in progress..."))
@@ -645,17 +659,19 @@ class SceneView(openglGui.glGuiPanel):
 			self._focusObj._meshList.reverse()
 		self.sceneUpdated()
 
-	def updateWindowTitle(self):
-		mainWindow = self.GetParent().GetParent().GetParent()
-		sceneFilenames = []
+	def updateSceneFilenames(self):
+		self.sceneFilenames = []
 		sceneFilename = ""
 		for obj in self._scene.objects():
 			sceneFilename = os.path.basename(obj.getOriginFilename())
-			if not sceneFilename in sceneFilenames:
-				sceneFilenames.append(sceneFilename)
-		
+			if not sceneFilename in self.sceneFilenames:
+				self.sceneFilenames.append(sceneFilename)
+
+	def updateWindowTitle(self):
+		self.updateSceneFilenames()
+		mainWindow = self.GetParent().GetParent().GetParent()
 		windowTitle = mainWindow.windowTitle
-		for sceneFilename in sceneFilenames:
+		for sceneFilename in self.sceneFilenames:
 			windowTitle = windowTitle + ' - ' + sceneFilename
 		mainWindow.SetTitle(windowTitle)
 
