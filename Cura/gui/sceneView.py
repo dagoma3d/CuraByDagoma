@@ -374,7 +374,7 @@ class SceneView(openglGui.glGuiPanel):
 		_filenamesComment = ""
 		self.updateSceneFilenames()
 		if len(self.sceneFilenames) > 1:
-			_filenamesComment = "Object Names :\n- " + "\n;- ".join(self.sceneFilenames)
+			_filenamesComment = "Object Names :\n;- " + "\n;- ".join(self.sceneFilenames)
 		else:
 			_filenamesComment = "Object Name : " + self.sceneFilenames[0]
 		return _filenamesComment
