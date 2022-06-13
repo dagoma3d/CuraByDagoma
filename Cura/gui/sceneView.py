@@ -310,7 +310,7 @@ class SceneView(openglGui.glGuiPanel):
 					drive = drives[0]
 				filename = "dagoma0" + profile.getGCodeExtension() # Dagoma
 				# filename = self._scene._objectList[0].getName() + profile.getGCodeExtension()
-				threading.Thread(target=self._saveGCode,args=(drive[1] + filename, drive[1])).start()
+				threading.Thread(target=self._saveGCode,args=(drive[1] + filename.encode('UTF-8'), drive[1])).start()
 			elif connectionGroup is not None:
 				connections = connectionGroup.getAvailableConnections()
 				if len(connections) < 2:
@@ -427,11 +427,11 @@ class SceneView(openglGui.glGuiPanel):
 		else:
 			displayedtargetFilename = os.path.basename(targetFilename)
 			if ejectDrive:
-				self.notification.message(_("Saved as %s") % (displayedtargetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename.decode()), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
 			elif explorer.hasExplorer():
-				self.notification.message(_("Saved as %s") % (displayedtargetFilename), lambda : explorer.openExplorer(targetFilename), 4, _('Open Folder'))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename.decode()), lambda : explorer.openExplorer(targetFilename), 4, _('Open Folder'))
 			else:
-				self.notification.message(_("Saved as %s") % (displayedtargetFilename))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename.decode()))
 
 	def _doEjectSD(self, drive):
 		if removableStorage.ejectDrive(drive):
