@@ -82,20 +82,20 @@ def _updateCache():
 			import ctypes
 			bitmask = windll.kernel32.GetLogicalDrives()
 			for letter in string.ascii_uppercase:
-				if letter != 'A' and letter != 'B' and bitmask & 1 and windll.kernel32.GetDriveTypeA(letter + ':/') == 2:
+				if letter != 'A' and letter != 'B' and bitmask & 1 and windll.kernel32.GetDriveTypeA((letter + ':/').encode('UTF-8')) == 2:
 					volumeName = ''
 					nameBuffer = ctypes.create_unicode_buffer(1024)
-					if windll.kernel32.GetVolumeInformationW(ctypes.c_wchar_p(letter + ':/'), nameBuffer, ctypes.sizeof(nameBuffer), None, None, None, None, 0) == 0:
+					if windll.kernel32.GetVolumeInformationW(ctypes.c_char_p((letter + ':/').encode('UTF-8')), nameBuffer, ctypes.sizeof(nameBuffer), None, None, None, None, 0) == 0:
 						volumeName = nameBuffer.value
 					if volumeName == '':
 						volumeName = 'NO NAME'
 
 					freeBytes = ctypes.c_longlong(0)
-					if windll.kernel32.GetDiskFreeSpaceExA(letter + ':/', ctypes.byref(freeBytes), None, None) == 0:
+					if windll.kernel32.GetDiskFreeSpaceExA((letter + ':/').encode('UTF-8'), ctypes.byref(freeBytes), None, None) == 0:
 						continue
 					if freeBytes.value < 1:
 						continue
-					drives.append(('%s (%s:)' % (volumeName, letter), letter + ':/', volumeName))
+					drives.append(('%s (%s:)' % (volumeName, letter), (letter + ':/').encode('UTF-8'), volumeName))
 				bitmask >>= 1
 		elif platform.system() == "Darwin":
 			p = subprocess.Popen(['system_profiler', 'SPUSBDataType', '-xml'], stdout=subprocess.PIPE)
