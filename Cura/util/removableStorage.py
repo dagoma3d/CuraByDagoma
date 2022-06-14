@@ -72,8 +72,6 @@ def getPossibleSDcardDrives():
 		_removableCacheUpdateThread = threading.Thread(target=_updateCache)
 		_removableCacheUpdateThread.daemon = True
 		_removableCacheUpdateThread.start()
-		# solution bis:
-		# time.sleep(0.2)
 		while not flag:
 			time.sleep(0.01)
 		flag = False
