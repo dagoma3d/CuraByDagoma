@@ -425,13 +425,13 @@ class SceneView(openglGui.glGuiPanel):
 			traceback.print_exc()
 			self.notification.message(_("Failed to save on the SD card"))
 		else:
-			displayedtargetFilename = os.path.basename(targetFilename)
+			displayedtargetFilename = os.path.basename(targetFilename).decode()
 			if ejectDrive:
-				self.notification.message(_("Saved as %s") % (displayedtargetFilename.decode()), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename), lambda : self._doEjectSD(ejectDrive), 31, _('Eject'))
 			elif explorer.hasExplorer():
-				self.notification.message(_("Saved as %s") % (displayedtargetFilename.decode()), lambda : explorer.openExplorer(targetFilename), 4, _('Open Folder'))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename), lambda : explorer.openExplorer(targetFilename), 4, _('Open Folder'))
 			else:
-				self.notification.message(_("Saved as %s") % (displayedtargetFilename.decode()))
+				self.notification.message(_("Saved as %s") % (displayedtargetFilename))
 
 	def _doEjectSD(self, drive):
 		if removableStorage.ejectDrive(drive):
