@@ -23,6 +23,7 @@ from Cura.util import profile
 
 _removableCacheUpdateThread = None
 _removableCache = []
+flag = False
 
 def _parseStupidPListXML(e):
 	if e.tag == 'plist':
@@ -61,19 +62,25 @@ def _findInTree(t, n):
 	return ret
 
 def getPossibleSDcardDrives():
-	global _removableCache, _removableCacheUpdateThread
+	global _removableCache, _removableCacheUpdateThread, flag
 
 	if profile.getProfileSetting('auto_detect_sd') == 'False':
 		return []
 
 	if _removableCacheUpdateThread is None:
+		flag = False
 		_removableCacheUpdateThread = threading.Thread(target=_updateCache)
 		_removableCacheUpdateThread.daemon = True
 		_removableCacheUpdateThread.start()
+		# solution bis:
+		# time.sleep(0.2)
+		while not flag:
+			time.sleep(0.01)
+		flag = False
 	return _removableCache
 
 def _updateCache():
-	global _removableCache
+	global _removableCache, flag
 
 	while True:
 		drives = []
@@ -134,6 +141,7 @@ def _updateCache():
 							drives.append((os.path.basename(volume), volume + '/', os.path.basename(volume)))
 
 		_removableCache = drives
+		flag = True
 		time.sleep(1)
 
 def ejectDrive(driveName):
