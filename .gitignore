@@ -30,3 +30,4 @@ DmgTemplateCompressed-*.dmg
 /CuraEngineRepo
 /build
 .eggs
+EjectMedia.exe
