@@ -202,7 +202,7 @@ Section $(Install_Arduino_Drivers)
   ; Set output path to the driver directory.
   SetOutPath "$INSTDIR\drivers\"
   File /r "drivers\"
-
+  ExecWait '"$INSTDIR\drivers\CH34x_Install_Windows_v3_4.EXE" /lm'
   ${If} ${RunningX64}
     ExecWait '"$INSTDIR\drivers\CDM21224_Setup.exe" /lm'
   ${Else}
