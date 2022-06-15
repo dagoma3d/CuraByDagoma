@@ -445,15 +445,14 @@ def loadGLTexture(filename):
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 	img = wx.Bitmap(getPathForImage(filename)).ConvertToImage()
 	rgbData = img.GetData()
-	#alphaData = img.GetAlpha()
-	alphaData = None
-	if alphaData is not None:
+	alphaData = img.GetAlpha()
+	if img.HasAlpha():
 		data = bytearray()
 		for i in range(0, len(alphaData)):
-			data += rgbData[i*3:i*3+3] + bytes(alphaData[i])
+			data += rgbData[i*3:i*3+3] + bytes([alphaData[i]])
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.GetWidth(), img.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
 	else:
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.GetWidth(), img.GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, rgbData)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img.GetWidth(), img.GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, rgbData)
 	return tex
 
 def DrawBox(vMin, vMax):
