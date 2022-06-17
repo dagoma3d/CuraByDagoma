@@ -220,6 +220,7 @@ Section $(Install_CH430_Drivers)
   ${Else}
     ExecWait '"$INSTDIR\drivers\CH34x_Install_Windows_v3_4.EXE" /lm'
   ${EndIf}
+SectionEnd
 
 Section $(Open_STL_files_with_Cura)
 	WriteRegStr HKCR .stl "" "Cura STL model file"
