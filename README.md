@@ -58,6 +58,10 @@ If PyOpenGL and/or PyOpenGL_accelerate doesn't install correctly, please retry a
 - PyOpenGL : PyOpenGL-3.1.6-cp39-cp39-win_amd64.whl
 - PyOpenGL : PyOpenGL_accelerate-3.1.6-cp39-cp39-win_amd64.whl
 
+On Windows 32-bits, first download the wheels for PyOpenGL from (https://www.lfd.uci.edu/~gohlke/pythonlibs/#_pyopengl) and install them :
+- PyOpenGL‑3.1.6‑cp39‑cp39‑win32.whl
+- PyOpenGL_accelerate‑3.1.6‑cp310‑cp310‑win32.whl
+
 On MacOS, please install these modules :
 ```
 pip install pyobjc
