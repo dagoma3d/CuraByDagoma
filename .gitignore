@@ -31,3 +31,4 @@ DmgTemplateCompressed-*.dmg
 /build
 .eggs
 EjectMedia.exe
+python-3.9.10.amd64

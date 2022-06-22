@@ -8,24 +8,8 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=%cd%\venv
+set VIRTUAL_ENV=%cd%\python-3.9.10.amd64
 
-if not defined PROMPT set PROMPT=$P$G
-
-if defined _OLD_VIRTUAL_PROMPT set PROMPT=%_OLD_VIRTUAL_PROMPT%
-if defined _OLD_VIRTUAL_PYTHONHOME set PYTHONHOME=%_OLD_VIRTUAL_PYTHONHOME%
-
-set _OLD_VIRTUAL_PROMPT=%PROMPT%
-set PROMPT=(venv) %PROMPT%
-
-if defined PYTHONHOME set _OLD_VIRTUAL_PYTHONHOME=%PYTHONHOME%
-set PYTHONHOME=
-
-if defined _OLD_VIRTUAL_PATH set PATH=%_OLD_VIRTUAL_PATH%
-if not defined _OLD_VIRTUAL_PATH set _OLD_VIRTUAL_PATH=%PATH%
-
-set PATH=%VIRTUAL_ENV%\Scripts;%PATH%
-
-start "" pythonw.exe -m Cura.cura
+start "" %cd%\python-3.9.10.amd64\pythonw.exe -m Cura.cura
 
 exit
