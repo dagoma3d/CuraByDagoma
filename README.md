@@ -18,9 +18,25 @@ Windows only :
 ### Introduction
 The slicer binary is built on the fly. It is a full C++ project. The compilation process is based on standard Makefile.
 
+## Using WinPython for Windows
+
+First download WinPython according to your architecture system. In this project, we are using Python 3.9.10.
+- Windows 64-bits : https://sourceforge.net/projects/winpython/files/WinPython_3.9/3.9.10.0/Winpython64-3.9.10.0dot.exe/download
+- Windows 32-bits : https://sourceforge.net/projects/winpython/files/WinPython_3.9/3.9.10.0/Winpython32-3.9.10.0dot.exe/download
+
+After extracting it, open the ```WinPython Command Prompt.exe``` in the WinPython folder. Download the necessary dependencies using pip :
+```pip install wheel setuptools pyserial wxPython```
+Then download the two following wheels from this [website]([https://pypi.org/project/PyOpenGL/#files](https://www.lfd.uci.edu/~gohlke/pythonlibs/#_pyopengl), according to your OS :
+- Windows 64-bits : ```PyOpenGL-3.1.6-cp39-cp39-win_amd64.whl``` and ```PyOpenGL_accelerate-3.1.6-cp39-cp39-win_amd64.whl```
+- Windows 32-bits : ```PyOpenGL‑3.1.6‑cp39‑cp39‑win32.whl``` and ```PyOpenGL_accelerate‑3.1.6‑cp310‑cp310‑win32.whl```
+
+Finally copy the ```python-3.9.10.amd64``` folder (```python-3.9.10``` for Windows 32-bits) and paste it in your project root. After packaging, this folder will be renamed to ```python```.
+
 ## Using a virtual Python environment
 
-Download and use a Python3.x universal installer from [Python website](https://www.python.org/downloads). In this project, we are using [Python3.9.12](https://www.python.org/ftp/python/3.9.12/python-3.9.12-macos11.pkg).
+Virtual Python environments have been used only during development. In production, for Windows, we use WinPython (see section above).
+
+Download and use a Python3.x universal installer from [Python website](https://www.python.org/downloads). In this project, we are using [Python3.9.10](https://www.python.org/ftp/python/3.9.10/python-3.9.10-macos11.pkg).
 
 ### Windows
 In the project folder, open a terminate and, to create a virtual environment ("venv") with the python version you've just installed, execute :
