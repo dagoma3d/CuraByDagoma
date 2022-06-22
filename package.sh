@@ -373,9 +373,13 @@ if [[ $BUILD_TARGET == windows ]]; then
 	mkdir -p ${BUILD_NAME}
 	rm -f log.txt
 
-	#Add venv
-	cp -r venv ${BUILD_NAME}/venv
-	echo "Step venv Finished"
+	#Add winPython
+	if [ $BUILD_ARCHITECTURE == "x86" ]; then
+		cp -r python-3.9.10 ${BUILD_NAME}/python
+	else
+		cp -r python-3.9.10.amd64 ${BUILD_NAME}/python
+	fi
+	echo "Step winPython Finished"
 
 	#For windows extract ejectmedia python to include it.
 	extract ejectmedia.zip Win32
