@@ -17,7 +17,7 @@ class CuraApp(wx.App):
 	def __init__(self, files):
 		if platform.system() == "Windows" and not 'PYCHARM_HOSTED' in os.environ:
 			basePath = os.path.normpath(os.path.expanduser('~/.curaByDagoma/' + os.environ['CURABYDAGO_VERSION']))
-			super(CuraApp, self).__init__(redirect=True, filename=os.path.join(basePath,'output.txt'))
+			super(CuraApp, self).__init__(redirect=False)
 		else:
 			super(CuraApp, self).__init__(redirect=False)
 
