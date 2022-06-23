@@ -408,7 +408,7 @@ if [[ $BUILD_TARGET == windows ]]; then
 		rm -rf scripts/windows/dist
 		mv "`pwd`/${BUILD_NAME}" scripts/windows/dist
 		echo ${BUILD_NAME}
-		'/c/Program Files (x86)/NSIS/makensis.exe' -DBUILD_NAME=${BUILD_NAME} -DBUILD_VERSION=${BUILD_VERSION} 'scripts/windows/installer.nsi' >> log.txt
+		'/c/Program Files (x86)/NSIS/makensis.exe' -DBUILD_NAME=${BUILD_NAME} -DBUILD_VERSION=${BUILD_VERSION} -DBUILD_ARCHITECTURE=${BUILD_ARCHITECTURE} 'scripts/windows/installer.nsi' >> log.txt
 		if [ $? != 0 ]; then echo "Failed to package NSIS installer"; exit 1; fi
 		mv scripts/windows/${BUILD_NAME}.exe ./
 		if [ $? != 0 ]; then echo "Can't Move Frome scripts/windows/...exe"; fi
