@@ -7,7 +7,11 @@ Name "${BUILD_NAME}"
 OutFile "${BUILD_NAME}.exe"
 
 ; The default installation directory
-InstallDir $PROGRAMFILES\${BUILD_NAME}
+!if ${BUILD_ARCHITECTURE} == 'x64'
+  InstallDir $PROGRAMFILES64\${BUILD_NAME}
+!else
+  InstallDir $PROGRAMFILES32\${BUILD_NAME}
+!endif
 
 ; Registry key to check for directory (so if you install again, it will
 ; overwrite the old one automatically)
