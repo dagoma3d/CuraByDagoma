@@ -1,0 +1,4 @@
+-r requirements.txt
+wxpython
+https://download.lfd.uci.edu/pythonlibs/a4hvik9m/PyOpenGL_accelerate-3.1.6-cp39-cp39-win32.whl
+https://download.lfd.uci.edu/pythonlibs/a4hvik9m/PyOpenGL-3.1.6-cp39-cp39-win32.whl

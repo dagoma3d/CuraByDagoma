@@ -2,6 +2,3 @@ wheel
 setuptools
 numpy
 pyserial
-wxPython
-PyOpenGL
-PyOpenGL_accelerate
