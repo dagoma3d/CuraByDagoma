@@ -106,7 +106,7 @@ def convertImage(filename, height=20.0, width=100.0, blur=0, invert=False, baseH
 		image.Rescale(512, image.GetHeight() * 512 / image.GetWidth(), wx.IMAGE_QUALITY_HIGH)
 	if blur > 0:
 		image = image.Blur(blur)
-	z = numpy.fromstring(image.GetData(), numpy.uint8)
+	z = numpy.fromstring(bytes(image.GetData()), numpy.uint8)
 	z = numpy.array(z[::3], numpy.float32)	#Only get the R values (as we are grayscale), and convert to float values
 	if invert:
 		z = 255 - z
