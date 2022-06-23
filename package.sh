@@ -373,9 +373,9 @@ if [[ $BUILD_TARGET == windows ]]; then
 
 	#Add winPython
 	if [ $BUILD_ARCHITECTURE == "x86" ]; then
-		cp -r python-3.9.10 ${BUILD_NAME}/python
+		cp -r python-3.9.10 ${BUILD_NAME}/python3
 	else
-		cp -r python-3.9.10.amd64 ${BUILD_NAME}/python
+		cp -r python-3.9.10.amd64 ${BUILD_NAME}/python3
 	fi
 	echo "Step winPython Finished"
 

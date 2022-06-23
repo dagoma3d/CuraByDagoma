@@ -1,1 +1,1 @@
-@python\pythonw.exe -m Cura.cura %*
+@python3\pythonw.exe -m Cura.cura %*
