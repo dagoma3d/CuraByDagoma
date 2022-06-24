@@ -4,12 +4,14 @@
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import platform
+from time import time
 import wx
 import os
 import webbrowser
 import sys
 import wx.lib.agw.hyperlink as hl
 from wx.lib import scrolledpanel
+import time
 
 from Cura.gui import configBase
 from Cura.gui import pausePluginPanel
@@ -243,12 +245,21 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel.updateProfileToControls()
 
 	def ReloadSettingPanels(self):
+		# time.sleep(2) --> doesn't work
+		print("pause") # if you put a breakpoint here, the bug is also avoided
 		self.optionsSizer.Detach(self.normalSettingsPanel)
 		self.normalSettingsPanel.Destroy()
 		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
 		self.optionsPane.SetSizerAndFit(self.optionsSizer)
 		self.UpdateProfileToAllControls()
+
+# ------------------------------ FIRST DEFINITION OF normalSettingsPanel (line 141) -----------------
+		# self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
+		# self.optionsSizer = wx.BoxSizer(wx.VERTICAL)
+		# self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
+		# self.optionsPane.SetSizerAndFit(self.optionsSizer)
+# ---------------------------------------------------------------------------------------------------
 
 	def OnPrinterWindow(self, e):
 		configWizard.ConfigWizard(self, False)
