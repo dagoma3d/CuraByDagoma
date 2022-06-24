@@ -3,6 +3,7 @@
 
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
+import time
 import os
 import platform
 import sys
@@ -309,6 +310,7 @@ class ConfigWizard(Wizard):
 			prev_btn.Hide()
 
 	def OnPageFinished(self, e):
+		# time.sleep(5)
 		print("Configuration wizard finished...")
 		disco_addons_printers = self.configurationPage.optionsPanel.disco_addons_printers
 		multinozzle_printers = self.configurationPage.optionsPanel.multinozzle_printers
