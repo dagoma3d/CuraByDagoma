@@ -245,21 +245,21 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel.updateProfileToControls()
 
 	def ReloadSettingPanels(self):
-		# time.sleep(2) --> doesn't work
-		print("pause") # if you put a breakpoint here, the bug is also avoided
 		self.optionsSizer.Detach(self.normalSettingsPanel)
 		self.normalSettingsPanel.Destroy()
 		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
 		self.optionsPane.SetSizerAndFit(self.optionsSizer)
+		self.RefreshWindowSize() # to avoid a graphic bug on the right column
 		self.UpdateProfileToAllControls()
 
-# ------------------------------ FIRST DEFINITION OF normalSettingsPanel (line 141) -----------------
-		# self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
-		# self.optionsSizer = wx.BoxSizer(wx.VERTICAL)
-		# self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
-		# self.optionsPane.SetSizerAndFit(self.optionsSizer)
-# ---------------------------------------------------------------------------------------------------
+	def RefreshWindowSize(self):
+		if self.IsMaximized():
+			self.Maximize(False)
+			self.Maximize(True)
+		else:
+			self.Maximize(True)
+			self.Maximize(False)
 
 	def OnPrinterWindow(self, e):
 		configWizard.ConfigWizard(self, False)
