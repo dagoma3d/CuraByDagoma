@@ -6,7 +6,7 @@
 #############################
 # CONFIGURATION
 #############################
-export RELEASE_VERSION=2.1.9
+export RELEASE_VERSION=2.2.0
 export BUILD_VERSION=${RELEASE_VERSION}
 
 ##Select the build target
@@ -117,7 +117,7 @@ CURA_ENGINE_REPO="https://github.com/dagoma3d/CuraEngine.git"
 
 ## CuraEngine version to build
 ## Four more info, please check https://github.com/daid/LegacyCura/blob/SteamEngine/package.sh
-CURA_ENGINE_VERSION=dagoma-2.1.9
+CURA_ENGINE_VERSION=dagoma-2.2.0
 
 # Change working directory to the directory the script is in
 # http://stackoverflow.com/a/246128
