@@ -115,9 +115,9 @@ export BUILD_NAME="CuraByDagoma"
 ##CuraEngine github repository
 CURA_ENGINE_REPO="https://github.com/dagoma3d/CuraEngine.git"
 
-## CuraEngine version to build
-## Four more info, please check https://github.com/daid/LegacyCura/blob/SteamEngine/package.sh
-CURA_ENGINE_VERSION=dagoma-2.2.0
+## CuraEngine version to build, default branch
+## Four more info, please check https://github.com/dagoma3d/CuraEngine
+CURA_ENGINE_VERSION=dagoma
 
 # Change working directory to the directory the script is in
 # http://stackoverflow.com/a/246128
