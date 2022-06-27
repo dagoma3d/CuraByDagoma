@@ -4,14 +4,12 @@
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
 import platform
-from time import time
 import wx
 import os
 import webbrowser
 import sys
 import wx.lib.agw.hyperlink as hl
 from wx.lib import scrolledpanel
-import time
 
 from Cura.gui import configBase
 from Cura.gui import pausePluginPanel
