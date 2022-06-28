@@ -2839,8 +2839,27 @@ msgstr "Partout (intérieur pièce inclus)"
 msgid "Amélioration de la surface d'adhésion"
 msgstr ""
 
-msgid "Improve the adhesion surface"
-msgstr "Amélioration de la surface d'adhésion"
+msgid "Improving the adhesion surface :"
+msgstr "Amélioration de la surface d'adhésion :"
+
+msgid "Ajouter une jupe"
+msgstr ""
+
+msgid "Adding a skirt"
+msgstr "Ajouter une jupe"
+
+msgid "Ajouter une bordure"
+msgstr ""
+
+msgid "Adding a brim"
+msgstr "Ajouter une bordure"
+
+msgid "Ajouter un radeau"
+msgstr ""
+
+msgid "Adding a raft"
+msgstr "Ajouter un radeau"
+
 
 msgid "Offset in mm : (first layer setting)"
 msgstr "Offset en mm : (réglage de la 1ère couche)"
