@@ -641,10 +641,13 @@ class Engine(object):
 			settings['raftSurfaceLineSpacing'] = int(profile.getProfileSettingFloat('raft_surface_linewidth') * 1000)
 			settings['raftSurfaceLayers'] = int(profile.getProfileSettingFloat('raft_surface_layers'))
 			settings['raftSurfaceSpeed'] = int(profile.getProfileSettingFloat('bottom_layer_speed'))
-		else:
+		elif profile.getProfileSetting('platform_adhesion') == 'Skirt':
 			settings['skirtDistance'] = int(profile.getProfileSettingFloat('skirt_gap') * 1000)
 			settings['skirtLineCount'] = int(profile.getProfileSettingFloat('skirt_line_count'))
 			settings['skirtMinLength'] = int(profile.getProfileSettingFloat('skirt_minimal_length') * 1000)
+		else:
+			settings['skirtDistance'] = 0
+			settings['skirtLineCount'] = 0
 
 		if profile.getProfileSetting('fix_horrible_union_all_type_a') == 'True':
 			settings['fixHorrible'] |= 0x01

@@ -2490,10 +2490,28 @@ msgstr "Everywhere (including holes)"
 msgid "Everywhere (including holes)"
 msgstr ""
 
-msgid "Amélioration de la surface d'adhésion"
-msgstr "Improve the adhesion surface"
+msgid "Amélioration de la surface d'adhésion :"
+msgstr "Improving the adhesion surface :"
 
-msgid "Improve the adhesion surface"
+msgid "Improving the adhesion surface :"
+msgstr ""
+
+msgstr "Ajouter une jupe"
+msgid "Adding a skirt"
+
+msgid "Adding a skirt"
+msgstr ""
+
+msgstr "Ajouter une bordure"
+msgid "Adding a brim"
+
+msgid "Adding a brim"
+msgstr ""
+
+msgstr "Ajouter un radeau"
+msgid "Adding a raft"
+
+msgid "Adding a raft"
 msgstr ""
 
 msgid "Offset in mm : (first layer setting)"

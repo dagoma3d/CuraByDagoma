@@ -358,10 +358,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		def __init__(self, platform_adhesion = 'None'):
 			self.platform_adhesion = platform_adhesion
 
-	class Skirt:
-		def __init__(self, skirt = 'None'):
-			self.skirt = skirt
-
 	class PrintingSurface:
 		def __init__(self):
 			self.name = ''
@@ -438,7 +434,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.RefreshPrintingSurface()
 		self.RefreshOffset()
 		self.RefreshAdhesion()
-		self.RefreshSkirt()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 
@@ -471,9 +466,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_CHECKBOX, self.OnSensorCheckBoxChanged,self.sensorCheckBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
 		self.Bind(wx.EVT_TEXT, self.OnOffsetTextCtrlChanged, self.offsetTextCtrl)
-		self.Bind(wx.EVT_CHECKBOX, self.OnAdhesionCheckBoxChanged, self.adhesionCheckBox)
-		self.Bind(wx.EVT_CHECKBOX, self.OnRaftCheckBoxChanged, self.raftCheckBox)
-		self.Bind(wx.EVT_CHECKBOX, self.OnSkirtCheckBoxChanged, self.skirtCheckBox)
+		self.Bind(wx.EVT_RADIOBOX, self.OnAdhesionRadioBoxChanged, self.adhesionRadioBox)
 		self.Bind(wx.EVT_BUTTON, self.OnPreparePrintButtonClick, self.printButton)
 		self.Bind(wx.EVT_BUTTON, self.OnPauseButtonClick, self.pausePluginButton)
 
@@ -536,6 +529,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		mainSizer.Add(self.fillingRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.precisionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.supportRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		mainSizer.Add(self.adhesionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			mainSizer.Add(self.supportExtruderDualExtrusionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if printerName == "DiscoVery200":
@@ -552,9 +546,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			mainSizer.Add(self.sensorCheckBox)
 		else:
 			self.sensorCheckBox.Hide()
-		mainSizer.Add(self.adhesionCheckBox, flag=wx.BOTTOM, border=5)
-		mainSizer.Add(self.raftCheckBox, flag=wx.BOTTOM, border=5)
-		mainSizer.Add(self.skirtCheckBox, flag=wx.BOTTOM, border=5)
 		mainSizer.Add(self.pausePluginButton, flag=wx.EXPAND)
 		mainSizer.Add(self.pausePluginPanel, flag=wx.EXPAND)
 		mainSizer.Add(self.printButton, flag=wx.EXPAND|wx.TOP, border=5)
@@ -578,14 +569,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.initGCode()
 		self.initFilament()
 		self.initFilling()
+		self.initAdhesion()
 		self.initPrecision()
 		self.initSupport()
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			self.initExtruder()
 			self.initSupportDualExtrusion()
 			self.initWipeTowerVolume()
-		self.initAdhesion()
-		self.initSkirt()
 		self.initPrintingSurface()
 		self.initSensor()
 
@@ -755,6 +745,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					pass
 		self.fillingRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filling density :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
+
 		fill_selection_index = profile.getPreferenceInt('fill_index')
 		if fill_selection_index >= len(fillings):
 			if len(fillings) >= 3:
@@ -772,7 +763,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 				profile.putPreference('fill_index', 1)
 			self.fillingRadioBox.EnableItem(0, False)
 		self.fillingRadioBox.SetSelection(fill_selection_index)
-	
+
+	def initAdhesion(self):
+		choices = [_('None'), _('Adding a skirt'), _('Adding a brim'), _('Adding a raft')]
+		# TODO : French and English for improve adhesion surface...
+		self.adhesionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Improving adhesion surface :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.adhesionRadioBox.SetSelection(0)
+
 	def initExtruder(self):
 		extruders = [
 			{'name': 'Extruder', 'value': 0},
@@ -895,20 +892,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putPreference('wipe_tower_volume_index', 0)
 		self.wipeTowerVolumeRadioBox.SetSelection(wipe_tower_volume_index)
 
-	def initAdhesion(self):
-		self.adhesionCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Improve the adhesion surface"))
-		self.raftCheckBox = wx.CheckBox(self, wx.ID_ANY, "Add a raft")
-		self.adhesions = []
-		self.adhesions.append(self.Adhesion('Brim'))
-		self.adhesions.append(self.Adhesion('Raft'))
-		self.adhesions.append(self.Adhesion('None'))
-
-	def initSkirt(self):
-		# TODO : mettre anglais et français
-		self.skirtCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Skirt"))
-		self.skirts = []
-		self.skirts.append(self.Skirt('Skirt'))
-		self.skirts.append(self.Skirt('None'))
+	# def initAdhesion(self):
+	# 	# TODO : French and English
+	# 	self.adhesionCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Improve the adhesion surface"))
+	# 	self.raftCheckBox = wx.CheckBox(self, wx.ID_ANY, "Add a raft")
+	# 	self.skirtCheckBox = wx.CheckBox(self, wx.ID_ANY, "Add a skirt")
+	# 	self.adhesions = []
+	# 	self.adhesions.append(self.Adhesion('Skirt'))
+	# 	self.adhesions.append(self.Adhesion('Brim'))
+	# 	self.adhesions.append(self.Adhesion('Raft'))
+	# 	self.adhesions.append(self.Adhesion('None'))
 
 	def initSensor(self):
 		self.sensorCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Use the sensor"))
@@ -1468,18 +1461,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('wipe_tower_volume', wipeTowerVolume.wipe_tower_volume)
 
 	def RefreshAdhesion(self):
-		if self.raftCheckBox.GetValue():
-			profile.putProfileSetting('platform_adhesion', self.adhesions[1].platform_adhesion)
-		elif self.adhesionCheckBox.GetValue():
-			profile.putProfileSetting('platform_adhesion', self.adhesions[0].platform_adhesion)
-		else:
-			profile.putProfileSetting('platform_adhesion', self.adhesions[2].platform_adhesion)
-
-	def RefreshSkirt(self):
-		if self.skirtCheckBox.GetValue():
-			profile.putProfileSetting('skirt', self.skirts[0].skirt)
-		else:
-			profile.putProfileSetting('skirt', self.skirts[1].skirt)
+		adhesions = ['Nothing', 'Skirt' ,'Brim', 'Raft']
+		adhesion_index = self.adhesionRadioBox.GetSelection()
+		profile.putProfileSetting('platform_adhesion', adhesions[adhesion_index])
 
 	def IsNumber(self, zeString):
 		try:
@@ -1533,16 +1517,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.RefreshWipeTowerVolume()
 		self.updateSceneAndControls(event)
 
-	def OnAdhesionCheckBoxChanged(self, event):
+	def OnAdhesionRadioBoxChanged(self, event):
 		self.RefreshAdhesion()
-		self.updateSceneAndControls(event)
-
-	def OnRaftCheckBoxChanged(self, event):
-		self.RefreshAdhesion()
-		self.updateSceneAndControls(event)
-
-	def OnSkirtCheckBoxChanged(self, event):
-		self.RefreshSkirt()
 		self.updateSceneAndControls(event)
 
 	def OnPrecisionRadioBoxChanged(self, event):
@@ -1606,7 +1582,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		e.Skip()
 
 	def updateSceneAndControls(self, event):
-		self.updateSceneAndControls(event)
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
 
 	def updateProfileToControls(self):
 		super(normalSettingsPanel, self).updateProfileToControls()
