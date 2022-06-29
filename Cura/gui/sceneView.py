@@ -123,6 +123,8 @@ class SceneView(openglGui.glGuiPanel):
 
 		self.sceneFilenames = []
 
+		self.easterEgg_activated = False
+
 		self.OnViewChange()
 		self.OnToolSelect(0)
 		self.updateToolButtons()
@@ -912,6 +914,15 @@ class SceneView(openglGui.glGuiPanel):
 			for k in self._afterLeakTest:
 				if self._afterLeakTest[k]-self._beforeLeakTest[k]:
 					print(k, self._afterLeakTest[k], self._beforeLeakTest[k], self._afterLeakTest[k] - self._beforeLeakTest[k])
+
+		# Easter egg (the Rock)
+		if keyCode == wx.WXK_F9 and wx.GetKeyState(wx.WXK_SHIFT):
+			if not self.easterEgg_activated:
+				self._platformTexture = openglHelpers.loadGLTexture('rock.png')
+				self.easterEgg_activated = True
+			else:
+				self._platformTexture = openglHelpers.loadGLTexture('checkerboard.png')
+				self.easterEgg_activated = False
 
 	def ShaderUpdate(self, v, f):
 		s = openglHelpers.GLShader(v, f)
