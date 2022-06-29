@@ -620,6 +620,7 @@
 ;Filling: {fill_density_info}
 ;Print speed: {print_speed_info}
 ;Support: {support_info}
+;Adhesion improvement: #ADHESION#
 ;Filament:
 ;- Material: {filament_info}
 ;- Temperature: {print_temperature_info}
