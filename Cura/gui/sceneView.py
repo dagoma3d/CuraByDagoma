@@ -384,6 +384,7 @@ class SceneView(openglGui.glGuiPanel):
 
 		filenames_comment = self.generateFilenamesComment()
 		print_duration = profile.getProfileSetting('print_duration')
+		adhesion = profile.getProfileSetting('platform_adhesion')
 		filament_length = profile.getProfileSetting('filament_length')
 		filament_weight = profile.getProfileSetting('filament_weight')
 		filament_cost = profile.getProfileSetting('filament_cost')
@@ -394,6 +395,7 @@ class SceneView(openglGui.glGuiPanel):
 		block0 = data[0:1024]
 		block0 = block0.replace('#FILENAMES_COMMENT#', filenames_comment)
 		block0 = block0.replace('#PRINT_DURATION#', print_duration)
+		block0 = block0.replace('#ADHESION#', adhesion)
 		block0 = block0.replace('#FILAMENT_LENGTH#', filament_length)
 		block0 = block0.replace('#FILAMENT_WEIGHT#', filament_weight)
 		block0 = block0.replace('#FILAMENT_COST#', filament_cost)
