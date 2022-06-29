@@ -434,6 +434,7 @@ class SceneView(openglGui.glGuiPanel):
 				self.notification.message(_("Saved as %s") % (displayedtargetFilename))
 
 	def _doEjectSD(self, drive):
+		# Doesn't work while debugging if ejectMedia.exe is not in the right path
 		if removableStorage.ejectDrive(drive):
 			self.notification.message(_('You can now remove the SD card.'))
 		else:
