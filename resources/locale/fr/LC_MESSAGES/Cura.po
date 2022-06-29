@@ -2836,10 +2836,10 @@ msgstr ""
 msgid "Everywhere (including holes)"
 msgstr "Partout (intérieur pièce inclus)"
 
-msgid "Amélioration de la surface d'adhésion"
+msgid "Amélioration de la surface d'adhésion :"
 msgstr ""
 
-msgid "Improving the adhesion surface :"
+msgid "Improving adhesion surface :"
 msgstr "Amélioration de la surface d'adhésion :"
 
 msgid "Ajouter une jupe"

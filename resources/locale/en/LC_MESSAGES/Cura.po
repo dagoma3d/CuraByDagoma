@@ -2491,9 +2491,9 @@ msgid "Everywhere (including holes)"
 msgstr ""
 
 msgid "Amélioration de la surface d'adhésion :"
-msgstr "Improving the adhesion surface :"
+msgstr "Improving adhesion surface :"
 
-msgid "Improving the adhesion surface :"
+msgid "Improving adhesion surface :"
 msgstr ""
 
 msgstr "Ajouter une jupe"
