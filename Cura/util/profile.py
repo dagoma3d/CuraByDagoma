@@ -984,7 +984,7 @@ def calculateObjectSizeOffsets():
 	elif getProfileSetting('platform_adhesion') == 'Skirt':
 		if getProfileSettingFloat('skirt_line_count') > 0: # This condition is verified for every printer now
 			size += getProfileSettingFloat('skirt_line_count') * calculateEdgeWidth() + getProfileSettingFloat('skirt_gap')
-	else: # when no adhesion improvment
+	else: # when no adhesion improvement
 		pass
 	return [size, size]
 
