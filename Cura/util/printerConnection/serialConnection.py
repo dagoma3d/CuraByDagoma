@@ -209,7 +209,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 		if platform.system() == "Darwin":
 			if platform.machine() == 'i386':
 				cmdList = ['arch', '-i386'] + cmdList
-		self._process = subprocess.Popen(cmdList, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+		self._process = subprocess.Popen(cmdList, stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding='utf-8')
 		line = self._process.stdout.readline()
 		while len(line) > 0:
 			line = line.strip()
