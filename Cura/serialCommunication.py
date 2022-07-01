@@ -75,7 +75,7 @@ class serialComm(object):
 				sys.stderr.write(str(line))
 
 def startMonitor(portName, baudrate):
-	sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 1)
+	sys.stdout = os.fdopen(sys.stdout.fileno(), 'w')
 	comm = serialComm(portName, baudrate)
 	comm.monitorStdin()
 

@@ -369,7 +369,7 @@ class MachineCom(object):
 
 			#No matter the state, if we see an fatal error, goto the error state and store the error for reference.
 			# Only goto error on known fatal errors.
-			if line.startswith('Error:'):
+			if line.startswith(b'Error:'):
 				#Oh YEAH, consistency.
 				# Marlin reports an MIN/MAX temp error as "Error:x\n: Extruder switched off. MAXTEMP triggered !\n"
 				#	But a bed temp error is reported as "Error: Temperature heated bed switched off. MAXTEMP triggered !!"
@@ -381,7 +381,7 @@ class MachineCom(object):
 					if not self.isError():
 						self._errorValue = line[6:]
 						self._changeState(self.STATE_ERROR)
-			if ' T:' in line or line.startswith('T:'):
+			if b' T:' in line or line.startswith(b'T:'):
 				try:
 					self._temp[self._temperatureRequestExtruder] = float(re.search("T: *([0-9\.]*)", line).group(1))
 				except:
@@ -397,7 +397,7 @@ class MachineCom(object):
 					t = time.time()
 					self._heatupWaitTimeLost = t - self._heatupWaitStartTime
 					self._heatupWaitStartTime = t
-			elif line.strip() != '' and line.strip() != 'ok' and not line.startswith('Resend:') and not line.startswith('Error:checksum mismatch') and not line.startswith('Error:Line Number is not Last Line Number+1') and line != 'echo:Unknown command:""\n' and self.isOperational():
+			elif line.strip() != '' and line.strip() != 'ok' and not line.startswith(b'Resend:') and not line.startswith(b'Error:checksum mismatch') and not line.startswith(b'Error:Line Number is not Last Line Number+1') and line != 'echo:Unknown command:""\n' and self.isOperational():
 				self._callback.mcMessage(line)
 
 			if self._state == self.STATE_DETECT_BAUDRATE or self._state == self.STATE_DETECT_SERIAL:
@@ -408,7 +408,7 @@ class MachineCom(object):
 						self._changeState(self.STATE_ERROR)
 					elif self._baudrateDetectRetry > 0:
 						self._baudrateDetectRetry -= 1
-						self._serial.write('\n')
+						self._serial.write(b'\n')
 						self._log("Baudrate test retry: %d" % (self._baudrateDetectRetry))
 						self._sendCommand("M105")
 						self._testingBaudrate = True
@@ -439,7 +439,7 @@ class MachineCom(object):
 							self._testingBaudrate = True
 						except:
 							self._log("Unexpected error while setting baudrate: %d %s" % (baudrate, getExceptionString()))
-				elif 'T:' in line:
+				elif b'T:' in line:
 					self._baudrateDetectTestOk += 1
 					if self._baudrateDetectTestOk < 10:
 						self._log("Baudrate test ok: %d" % (self._baudrateDetectTestOk))
@@ -524,7 +524,8 @@ class MachineCom(object):
 		if ret == '':
 			#self._log("Recv: TIMEOUT")
 			return ''
-		self._log("Recv: %s" % (str(ret, 'ascii', 'replace').rstrip()))
+		self._log("Recv: %s" % (' '.join(str(ret[i]) for i in range(len(ret))).rstrip()))
+		# self._log("Recv: %s" % (str(ret, 'ascii', 'replace').rstrip()))
 		return ret
 
 	def close(self, isError = False):
