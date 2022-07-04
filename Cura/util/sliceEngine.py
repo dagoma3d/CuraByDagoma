@@ -199,13 +199,16 @@ class Engine(object):
 		print('Listening for engine communications on %d' % (self._serverPortNr))
 		while True:
 			try:
-				if self._serversocket.__getattribute__('_closed') == False:
-					sock, _ = self._serversocket.accept()
-					thread = threading.Thread(target=self._socketConnectionThread, args=(sock,))
-					thread.daemon = True
-					thread.start()
-			# except OSError as e:
-			# 	pass
+				sock, _ = self._serversocket.accept()
+				thread = threading.Thread(target=self._socketConnectionThread, args=(sock,))
+				thread.daemon = True
+				thread.start()
+			except OSError as e:
+				if self._serversocket.__getattribute__('_closed') == True:
+					self._serversocket.close()
+					return
+				else:
+					raise
 			except socket.error as e:
 				if e.errno != errno.EINTR:
 					raise
