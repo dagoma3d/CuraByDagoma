@@ -792,7 +792,7 @@ msgstr "Nom de la machine"
 msgid "Printing on %s"
 msgstr "Impression sur %s"
 
-#: Cura/gui/printWindow.py:324
+#: not used
 msgid ""
 "Your computer is maybe running on battery power.\n"
 "Please check that your computer is connected to AC power or your print might "
@@ -801,6 +801,15 @@ msgstr ""
 "Votre ordinateur fonctionne peut-être sur batterie\n"
 "Veuillez vérifier que votre ordinateur est connecté à une alimentation "
 "secteur ou votre impression risque de s'interrompre."
+
+msgid "Your battery power is low.\nPlease connect your computer to AC power or your print might not finish."
+msgstr "Votre batterie est faible.\nVeuillez connecter votre ordinateur à une alimentation secteur ou votre impression risque de s'interrompre."
+
+msgid "If your print takes a long time, you should connect your computer to AC power or your print might not finish."
+msgstr "Si votre impression dure longtemps, vous devriez connecter votre ordinateur à une alimentation secteur ou votre impression risque de s'interrompre."
+
+msgid "Ready to print"
+msgstr "Prêt à imprimer"
 
 #: Cura/gui/printWindow.py:334
 #, fuzzy

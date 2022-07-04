@@ -8,6 +8,7 @@ import os
 import ctypes
 
 from Cura.util import resources
+from Cura.gui.util.battery import Battery
 
 #TODO: This does not belong here!
 if sys.platform.startswith('win'):
@@ -47,11 +48,22 @@ class printWindowBasic(wx.Frame):
 
 		panel = wx.Panel(self)
 
+		# Checking Battery
+		battery = Battery()
+		if battery.isLow():
+			batteryLabel = _("Your battery power is low.\nPlease connect your computer to AC power or your print might not finish.")
+			batteryTextColor = (190, 0, 0) #red
+		elif not battery.charging:
+			batteryLabel = _("If your print takes a long time, you should connect your computer to AC power or your print might not finish.")
+			batteryTextColor = (190, 120, 0) #orange/yellow
+		else:
+			batteryLabel = _("Ready to print")
+			batteryTextColor = (0, 0, 0) #black
 		self.powerWarningText = wx.StaticText(parent=panel,
 			id=-1,
-			label=_("Your computer is maybe running on battery power.\nPlease check that your computer is connected to AC power or your print might not finish."),
+			label=batteryLabel,
 			style=wx.ALIGN_CENTER)
-		self.powerWarningText.SetForegroundColour((169, 68, 66))
+		self.powerWarningText.SetForegroundColour(batteryTextColor)
 
 		self.statusText = wx.StaticText(panel, -1)
 		statusFont = self.statusText.GetFont()

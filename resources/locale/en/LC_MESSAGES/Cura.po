@@ -734,7 +734,7 @@ msgid ""
 "not finish."
 msgstr ""
 
-#: Cura/gui/printWindow.py:334
+# Not used
 msgid ""
 "InfoLine from printer connection\n"
 "InfoLine from dialog\n"
@@ -742,6 +742,15 @@ msgid ""
 "More lines for layout\n"
 "More lines for layout\n"
 "More lines for layout"
+msgstr ""
+
+msgid "Your battery power is low.\nPlease connect your computer to AC power or your print might not finish."
+msgstr ""
+
+msgid "If your print takes a long time, you should connect your computer to AC power or your print might not finish."
+msgstr ""
+
+msgid "Ready to print"
 msgstr ""
 
 #: Cura/gui/printWindow.py:336
