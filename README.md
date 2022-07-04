@@ -129,7 +129,6 @@ or
 $ sudo apt install ./CuraByDagoma_amd64.deb
 ```
 
-## Ancien Linux (à réorganiser)
 - Get CuraEngine binary file and make it executable
 ```
 (venv)$ wget github.com/dagoma3d/CuraEngine/releases/latest/download/CuraEngine-linux_x86_64 -O CuraEngine
