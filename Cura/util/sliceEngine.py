@@ -203,8 +203,8 @@ class Engine(object):
 				thread = threading.Thread(target=self._socketConnectionThread, args=(sock,))
 				thread.daemon = True
 				thread.start()
-			except OSError as e:
-				if self._serversocket.__getattribute__('_closed') == True:
+			except OSError as e: # to avoid error message when closing app
+				if self._serversocket.__getattribute__('_closed') == True: # check if not attempting to listen a closed socket
 					self._serversocket.close()
 					return
 				else:
