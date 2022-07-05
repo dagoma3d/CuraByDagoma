@@ -15,12 +15,19 @@ class Battery():
             self.charging = bool(batteryWindows.ACLineStatus)
             self.percent = batteryWindows.BatteryLifePercent
 
-        else:
+        elif sys.platform.startswith('darwin'):
             import subprocess
             # execute "pmset -g batt" and extract the power percent and the status of the battery
             infos = subprocess.check_output(["pmset -g batt"]).split(b'\t')[1].split(b'; ').decode()
             self.charging = infos[1] != 'discharging'
             self.percent = int(infos[0][:-1])
+
+        else:
+            import subprocess
+            # execute "acpi" and extract the power percent and the status of the battry
+            infos = subprocess.check_output(["acpi"]).decode().split(',')[0:1]
+            self.charging = infos[0].split()[-1] != 'Discharging'
+            self.percent = int(infos[1][:-1])
 
     def isLow(self):
         # warning if under 33% and not charging
