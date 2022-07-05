@@ -891,6 +891,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.adhesions.append(self.Adhesion('Brim'))
 		self.adhesions.append(self.Adhesion('None'))
 
+	def initFirstTemp(self):
+		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom first layer print temperature"))
+
 	def initSensor(self):
 		self.sensorCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Use the sensor"))
 		self.sensors = []
@@ -1454,6 +1457,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			profile.putProfileSetting('platform_adhesion', self.adhesions[1].platform_adhesion)
 
+	def RefreshFirstTemp(self):
+		if self.firstTempCheckBox.GetValue():
+			profile.putProfileSetting('custom_first_layer_temp', True)
+		else:
+			profile.putProfileSetting('custom_first_layer_temp', False)
+
 	def IsNumber(self, zeString):
 		try:
 			float(zeString)
@@ -1520,6 +1529,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnAdhesionCheckBoxChanged(self, event):
 		self.RefreshAdhesion()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+	
+	def OnFirstTempCheckBoxChanged(self, event):
+		self.RefreshFirstTemp()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
