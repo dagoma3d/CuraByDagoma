@@ -383,6 +383,9 @@ class SceneView(openglGui.glGuiPanel):
 		data = self._engine.getResult().getGCode()
 
 		filenames_comment = self.generateFilenamesComment()
+		custom_first_layer_temp = profile.getProfileSettingBool('custom_first_layer_temp')
+		first_layer_temperature = profile.getProfileSetting('first_layer_temperature')
+		print_temperature = profile.getProfileSetting('print_temperature')
 		print_duration = profile.getProfileSetting('print_duration')
 		filament_length = profile.getProfileSetting('filament_length')
 		filament_weight = profile.getProfileSetting('filament_weight')
@@ -393,6 +396,11 @@ class SceneView(openglGui.glGuiPanel):
 
 		block0 = data[0:1024]
 		block0 = block0.replace('#FILENAMES_COMMENT#', filenames_comment)
+		# If custom first layer wanted, set a particular temperature before ;LAYER:0
+		if custom_first_layer_temp:
+			block0 = block0.replace('#PRINT_TEMPERATURE#', first_layer_temperature)
+		else:
+			block0 = block0.replace('#PRINT_TEMPERATURE#', print_temperature)
 		block0 = block0.replace('#PRINT_DURATION#', print_duration)
 		block0 = block0.replace('#FILAMENT_LENGTH#', filament_length)
 		block0 = block0.replace('#FILAMENT_WEIGHT#', filament_weight)
@@ -401,6 +409,12 @@ class SceneView(openglGui.glGuiPanel):
 		block0 = block0.replace('#FILAMENT2_WEIGHT#', filament2_weight)
 		block0 = block0.replace('#FILAMENT2_COST#', filament2_cost)
 		data = block0 + data[1024:]
+
+		# From the second layer, set the normal print temperature (if custom first layer)
+		if custom_first_layer_temp:
+			idLayer1 = data.find(";LAYER:1")
+			if idLayer1 != 1:
+				data = data[:idLayer1] + f"M104 S{print_temperature}\n" + data[idLayer1:]
 
 		try:
 			self.notification.message(_("Save in progress..."))
