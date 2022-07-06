@@ -1334,6 +1334,7 @@ def getAlterationFileContents(filename, extruderCount = 1):
 def printSlicingInfo():
 	print('********* Slicing parameters *********')
 	print("print_temperature : ", getProfileSetting('print_temperature'))
+	print("first_layer_temperature : ", getProfileSetting('first_layer_temperature'))
 	print("filament_diameter : ", getProfileSetting('filament_diameter'))
 	print("filament_flow : ", getProfileSetting('filament_flow'))
 	print("retraction_speed : ", getProfileSetting('retraction_speed'))

@@ -434,6 +434,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.RefreshPrintingSurface()
 		self.RefreshOffset()
 		self.RefreshAdhesion()
+		self.RefreshFirstTemp()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 
@@ -467,6 +468,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
 		self.Bind(wx.EVT_TEXT, self.OnOffsetTextCtrlChanged, self.offsetTextCtrl)
 		self.Bind(wx.EVT_CHECKBOX, self.OnAdhesionCheckBoxChanged, self.adhesionCheckBox)
+		self.Bind(wx.EVT_CHECKBOX, self.OnFirstTempCheckBoxChanged, self.firstTempCheckBox)
+		self.Bind(wx.EVT_TEXT, self.OnFirstTempSpinCtrlChanged, self.firstTempSpinCtrl)
+		self.Bind(wx.EVT_TEXT_ENTER, self.OnFirstTempSpinCtrlChanged, self.firstTempSpinCtrl)
+		self.Bind(wx.EVT_SPINCTRL, self.OnFirstTempSpinCtrlChanged, self.firstTempSpinCtrl)
 		self.Bind(wx.EVT_BUTTON, self.OnPreparePrintButtonClick, self.printButton)
 		self.Bind(wx.EVT_BUTTON, self.OnPauseButtonClick, self.pausePluginButton)
 
@@ -513,6 +518,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		mainSizer.Add(self.warningStaticText)
 		mainSizer.Add(self.temperatureText)
 		mainSizer.Add(self.temperatureSpinCtrl, flag=wx.EXPAND|wx.BOTTOM, border=2)
+		mainSizer.Add(self.firstTempCheckBox, flag=wx.EXPAND|wx.BOTTOM, border=2)
+		mainSizer.Add(self.firstTempSpinCtrl, flag=wx.EXPAND|wx.BOTTOM, border=2)
 		mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			mainSizer.Add(filament2Sizer)
@@ -521,6 +528,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			mainSizer.Add(self.warning2StaticText)
 			mainSizer.Add(self.temperature2Text)
 			mainSizer.Add(self.temperature2SpinCtrl, flag=wx.EXPAND|wx.BOTTOM, border=2)
+			# TODO : add first layer bicolor here
 			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Fine tune your settings"), URL=helpUrl), flag=wx.EXPAND|wx.BOTTOM, border=2)
 		mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
@@ -576,6 +584,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.initSupportDualExtrusion()
 			self.initWipeTowerVolume()
 		self.initAdhesion()
+		self.initFirstTemp()
 		self.initPrintingSurface()
 		self.initSensor()
 
@@ -892,7 +901,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.adhesions.append(self.Adhesion('None'))
 
 	def initFirstTemp(self):
-		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom first layer print temperature"))
+		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom first layer print temperature (°C) :"))
+		self.firstTempSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('first_layer_temperature'), min=175, max=270, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 
 	def initSensor(self):
 		self.sensorCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Use the sensor"))
@@ -1005,6 +1015,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					profile.putProfileSetting('support_dual_extrusion', 'Both')
 		profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
 		self.temperatureSpinCtrl.SetValue(calculated_print_temperature)
+		self.RefreshFirstTemp()
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1344,6 +1355,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def RefreshTemperatureSpinCtrl(self):
 		#print 'Refresh Spin'
 		profile.putProfileSetting('print_temperature', str(self.temperatureSpinCtrl.GetValue()))
+		self.RefreshFirstTemp()
 
 	def RefreshTemperature2SpinCtrl(self):
 		#print 'Refresh Spin'
@@ -1458,10 +1470,15 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('platform_adhesion', self.adhesions[1].platform_adhesion)
 
 	def RefreshFirstTemp(self):
+		# TODO : add the spinCtrl when True
 		if self.firstTempCheckBox.GetValue():
 			profile.putProfileSetting('custom_first_layer_temp', True)
+			profile.putProfileSetting('first_layer_temperature', self.firstTempSpinCtrl.GetValue())
+			self.firstTempSpinCtrl.Enable()
 		else:
 			profile.putProfileSetting('custom_first_layer_temp', False)
+			self.firstTempSpinCtrl.Disable()
+			self.firstTempSpinCtrl.SetValue(self.temperatureSpinCtrl.GetValue())
 
 	def IsNumber(self, zeString):
 		try:
@@ -1535,6 +1552,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 		event.Skip()
 	
 	def OnFirstTempCheckBoxChanged(self, event):
+		self.RefreshFirstTemp()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def OnFirstTempSpinCtrlChanged(self, event):
 		self.RefreshFirstTemp()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
