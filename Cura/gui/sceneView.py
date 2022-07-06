@@ -386,6 +386,10 @@ class SceneView(openglGui.glGuiPanel):
 		custom_first_layer_temp = profile.getProfileSettingBool('custom_first_layer_temp')
 		first_layer_temperature = profile.getProfileSetting('first_layer_temperature')
 		print_temperature = profile.getProfileSetting('print_temperature')
+		custom_first_layer_temp2 = profile.getProfileSettingBool('custom_first_layer_temp2')
+		first_layer_temperature2 = profile.getProfileSetting('first_layer_temperature2')
+		print_temperature2 = profile.getProfileSetting('print_temperature2')
+		start_extruder = int(profile.getProfileSetting('start_extruder'))
 		print_duration = profile.getProfileSetting('print_duration')
 		filament_length = profile.getProfileSetting('filament_length')
 		filament_weight = profile.getProfileSetting('filament_weight')
@@ -396,11 +400,6 @@ class SceneView(openglGui.glGuiPanel):
 
 		block0 = data[0:1024]
 		block0 = block0.replace('#FILENAMES_COMMENT#', filenames_comment)
-		# If custom first layer wanted, set a particular temperature before ;LAYER:0
-		if custom_first_layer_temp:
-			block0 = block0.replace('#PRINT_TEMPERATURE#', first_layer_temperature)
-		else:
-			block0 = block0.replace('#PRINT_TEMPERATURE#', print_temperature)
 		block0 = block0.replace('#PRINT_DURATION#', print_duration)
 		block0 = block0.replace('#FILAMENT_LENGTH#', filament_length)
 		block0 = block0.replace('#FILAMENT_WEIGHT#', filament_weight)
@@ -410,11 +409,30 @@ class SceneView(openglGui.glGuiPanel):
 		block0 = block0.replace('#FILAMENT2_COST#', filament2_cost)
 		data = block0 + data[1024:]
 
-		# From the second layer, set the normal print temperature (if custom first layer)
-		if custom_first_layer_temp:
-			idLayer1 = data.find(";LAYER:1")
-			if idLayer1 != 1:
-				data = data[:idLayer1] + f"M104 S{print_temperature}\n" + data[idLayer1:]
+		# CUSTOM FIRST LAYER TEMPERATURE
+		if int(profile.getMachineSetting('extruder_amount')) == 1: # unicolor
+			# If custom first layer wanted, set a particular temperature before ;LAYER:0
+			if custom_first_layer_temp:
+				data = data.replace('#PRINT_TEMPERATURE#', first_layer_temperature)
+				# From the second layer, set the normal print temperature (if custom first layer)
+				idLayer1 = data.find(";LAYER:1")
+				if idLayer1 != 1:
+					data = data[:idLayer1] + f"M104 S{print_temperature} ;global temperature\n" + data[idLayer1:]
+			else:
+				data = data.replace('#PRINT_TEMPERATURE#', print_temperature)
+		elif int(profile.getMachineSetting('extruder_amount')) == 2:
+			if start_extruder == 0:
+				tempA = (print_temperature, first_layer_temperature)[custom_first_layer_temp] # first temperature
+				tempB = (print_temperature2, first_layer_temperature2)[custom_first_layer_temp2] # second temperature
+			elif start_extruder == 1:
+				tempA = (print_temperature2, first_layer_temperature2)[custom_first_layer_temp2]
+				tempB = (print_temperature, first_layer_temperature)[custom_first_layer_temp]
+			data = data.replace('#PRINT_TEMPERATURE#', tempA)
+			# replace the general temperature on the first layer (second extruder) by the first layer temperature
+			other_extruder = (1, 0)[start_extruder == 1]
+			idA = data.find('M104', data.find(f'T{other_extruder}'))
+			idB = data.find('\n', idA)
+			data = data[:idA] + f'M104 S{tempB} ;first temperature (second extruder)' + data[idB:]
 
 		try:
 			self.notification.message(_("Save in progress..."))

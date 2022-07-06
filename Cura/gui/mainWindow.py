@@ -422,6 +422,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.RefreshFilament()
 		self.RefreshColor()
 		self.RefreshTemperatureSpinCtrl()
+		self.RefreshFirstTemp()
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			self.RefreshFilament2()
 			self.RefreshColor2()
@@ -429,12 +430,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.RefreshStartExtruder()
 			self.RefreshSupportDualExtrusion()
 			self.RefreshWipeTowerVolume()
+			self.RefreshFirstTemp2()
 		self.RefreshFilling()
 		self.RefreshSensor()
 		self.RefreshPrintingSurface()
 		self.RefreshOffset()
 		self.RefreshAdhesion()
-		self.RefreshFirstTemp()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 
@@ -463,6 +464,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.Bind(wx.EVT_RADIOBOX, self.OnStartExtruderRadioBoxChanged, self.startExtruderRadioBox)
 			self.Bind(wx.EVT_RADIOBOX, self.OnSupportDualExtrusionRadioBoxChanged, self.supportExtruderDualExtrusionRadioBox)
 			self.Bind(wx.EVT_RADIOBOX, self.OnWipeTowerVolumeRadioBoxChanged, self.wipeTowerVolumeRadioBox)
+			self.Bind(wx.EVT_CHECKBOX, self.OnFirstTempCheckBoxChanged2, self.firstTempCheckBox2)
+			self.Bind(wx.EVT_TEXT, self.OnFirstTempSpinCtrlChanged2, self.firstTempSpinCtrl2)
+			self.Bind(wx.EVT_TEXT_ENTER, self.OnFirstTempSpinCtrlChanged2, self.firstTempSpinCtrl2)
+			self.Bind(wx.EVT_SPINCTRL, self.OnFirstTempSpinCtrlChanged2, self.firstTempSpinCtrl2)
 		self.Bind(wx.EVT_RADIOBOX, self.OnFillingRadioBoxChanged, self.fillingRadioBox)
 		self.Bind(wx.EVT_CHECKBOX, self.OnSensorCheckBoxChanged,self.sensorCheckBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
@@ -528,7 +533,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			mainSizer.Add(self.warning2StaticText)
 			mainSizer.Add(self.temperature2Text)
 			mainSizer.Add(self.temperature2SpinCtrl, flag=wx.EXPAND|wx.BOTTOM, border=2)
-			# TODO : add first layer bicolor here
+			mainSizer.Add(self.firstTempCheckBox2, flag=wx.EXPAND|wx.BOTTOM, border=2)
+			mainSizer.Add(self.firstTempSpinCtrl2, flag=wx.EXPAND|wx.BOTTOM, border=2)
 			mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("Fine tune your settings"), URL=helpUrl), flag=wx.EXPAND|wx.BOTTOM, border=2)
 		mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
@@ -576,6 +582,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.initConfiguration()
 		self.initGCode()
 		self.initFilament()
+		self.initFirstTemp()
 		self.initFilling()
 		self.initPrecision()
 		self.initSupport()
@@ -583,8 +590,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.initExtruder()
 			self.initSupportDualExtrusion()
 			self.initWipeTowerVolume()
+			self.initFirstTemp2()
 		self.initAdhesion()
-		self.initFirstTemp()
 		self.initPrintingSurface()
 		self.initSensor()
 
@@ -903,6 +910,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def initFirstTemp(self):
 		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom first layer print temperature (°C) :"))
 		self.firstTempSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('first_layer_temperature'), min=175, max=270, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
+	
+	def initFirstTemp2(self):
+		self.firstTempCheckBox2 = wx.CheckBox(self, wx.ID_ANY, _("Custom first layer print temperature (°C) :"))
+		self.firstTempSpinCtrl2 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('first_layer_temperature2'), min=175, max=270, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 
 	def initSensor(self):
 		self.sensorCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Use the sensor"))
@@ -1016,6 +1027,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('print_temperature', str(calculated_print_temperature))
 		self.temperatureSpinCtrl.SetValue(calculated_print_temperature)
 		self.RefreshFirstTemp()
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.RefreshFirstTemp2()
 		profile.putProfileSetting('filament_diameter', fila.filament_diameter)
 		profile.putProfileSetting('filament_flow', fila.filament_flow)
 		profile.putProfileSetting('retraction_speed', fila.retraction_speed)
@@ -1360,6 +1373,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def RefreshTemperature2SpinCtrl(self):
 		#print 'Refresh Spin'
 		profile.putProfileSetting('print_temperature2', str(self.temperature2SpinCtrl.GetValue()))
+		self.RefreshFirstTemp2()
 	
 	def RefreshStartExtruder(self):
 		profile.putProfileSetting('start_extruder', self.extruders[self.startExtruderRadioBox.GetSelection()].value)
@@ -1470,7 +1484,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('platform_adhesion', self.adhesions[1].platform_adhesion)
 
 	def RefreshFirstTemp(self):
-		# TODO : add the spinCtrl when True
 		if self.firstTempCheckBox.GetValue():
 			profile.putProfileSetting('custom_first_layer_temp', True)
 			profile.putProfileSetting('first_layer_temperature', self.firstTempSpinCtrl.GetValue())
@@ -1479,6 +1492,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('custom_first_layer_temp', False)
 			self.firstTempSpinCtrl.Disable()
 			self.firstTempSpinCtrl.SetValue(self.temperatureSpinCtrl.GetValue())
+
+	def RefreshFirstTemp2(self):
+		if self.firstTempCheckBox2.GetValue():
+			profile.putProfileSetting('custom_first_layer_temp2', True)
+			profile.putProfileSetting('first_layer_temperature2', self.firstTempSpinCtrl2.GetValue())
+			self.firstTempSpinCtrl2.Enable()
+		else:
+			profile.putProfileSetting('custom_first_layer_temp2', False)
+			self.firstTempSpinCtrl2.Disable()
+			self.firstTempSpinCtrl2.SetValue(self.temperature2SpinCtrl.GetValue())
 
 	def IsNumber(self, zeString):
 		try:
@@ -1560,6 +1583,20 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnFirstTempSpinCtrlChanged(self, event):
 		self.RefreshFirstTemp()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+	
+	def OnFirstTempCheckBoxChanged2(self, event):
+		self.RefreshFirstTemp2()
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
+
+	def OnFirstTempSpinCtrlChanged2(self, event):
+		self.RefreshFirstTemp2()
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()

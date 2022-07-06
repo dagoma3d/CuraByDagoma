@@ -644,7 +644,7 @@ G28
 M104 S{initial_print_temperature} ;start the heater
 M107 ;start with the fan off
 G1 X100 Y20 Z0.5 F3000
-M109 S{initial_print_temperature}
+M109 S#PRINT_TEMPERATURE# ;first or global temperature for the first extruder
 T{start_extruder} ;Just ensure we use the first extruder when starting the print
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length

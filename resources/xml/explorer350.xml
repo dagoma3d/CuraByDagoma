@@ -642,7 +642,7 @@ G1 Z10 F{travel_speed} ;lift nozzle
 G1 X176 Y-14 F{travel_speed}
 ;Print temperature definition
 M117 Chauffage
-M109 S{print_temperature} ;set nozzle to print temperature
+M109 S#PRINT_TEMPERATURE# ;set nozzle to print temperature
 M190 S60 ;set bed temperature
 ;Noozle cleaning
 M117 Purge Buse
