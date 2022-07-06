@@ -9,6 +9,7 @@ To be sure the new version is ready to be distributed, please check the followin
 - The version number of the new release is written instead of the former one.
 - The new improvements work with every printer, particularly with the bicolors.
 - The profiles of the filaments and the printers are updated.
+- The website section and the notice are updated.
 
 ## Package and installation
 - Cura Engine is well downloaded and packaged.
