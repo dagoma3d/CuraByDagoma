@@ -1576,6 +1576,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	
 	def OnFirstTempCheckBoxChanged(self, event):
 		self.RefreshFirstTemp()
+		# TODO : The 4 following lines can be replaced by self.updateSceneAndControls(event) when PR merged
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
@@ -1583,6 +1584,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnFirstTempSpinCtrlChanged(self, event):
 		self.RefreshFirstTemp()
+		# TODO : The 4 following lines can be replaced by self.updateSceneAndControls(event) when PR merged
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
 		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
 		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
