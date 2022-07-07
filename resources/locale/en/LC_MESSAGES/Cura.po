@@ -2529,6 +2529,21 @@ msgstr ""
 msgid "Temperature (°C) :"
 msgstr ""
 
+msgid "First layer temperature (C)"
+msgstr ""
+
+msgid "Temperature used for printing the first layer if allowed."
+msgstr ""
+
+msgid "Custom the first layer temperature or not"
+msgstr ""
+
+msgid "Allows to custom the first layer temperature."
+msgstr ""
+
+msgid "Custom first layer print temperature (°C) :"
+msgstr ""
+
 msgid "Open an Object"
 msgstr ""
 
