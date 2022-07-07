@@ -66,6 +66,7 @@ class mainWindow(wx.Frame):
 
 		self.statusBar = self.CreateStatusBar()
 
+		# --------------------------- MENU BAR ---------------------------
 		self.menuBar = wx.MenuBar()
 		self.fileMenu = wx.Menu()
 		i = self.fileMenu.Append(wx.ID_OPEN, _("Open an Object") + "\tCTRL+O", _("Open a 3d object file."))
@@ -125,6 +126,7 @@ class mainWindow(wx.Frame):
 
 		self.SetMenuBar(self.menuBar)
 
+		# ------------------ SPLITTER --------------------
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3DSASH | wx.SP_LIVE_UPDATE)
 		self.splitter.SetMinimumPaneSize(profile.getPreferenceInt('minimum_pane_size'))
 		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
@@ -132,6 +134,8 @@ class mainWindow(wx.Frame):
 
 		self.viewPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
 		#self.optionsPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
+
+		# ----------------- OPTIONS PANE -------------------
 		self.optionsPane = scrolledpanel.ScrolledPanel(self.splitter, style=wx.BORDER_NONE)
 		self.optionsPane.SetupScrolling(True, True)
 
@@ -243,21 +247,14 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel.updateProfileToControls()
 
 	def ReloadSettingPanels(self):
+		self.SetFocus()
 		self.optionsSizer.Detach(self.normalSettingsPanel)
 		self.normalSettingsPanel.Destroy()
 		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
 		self.optionsPane.SetSizerAndFit(self.optionsSizer)
-		self.RefreshWindowSize() # to avoid a graphic bug on the right column
 		self.UpdateProfileToAllControls()
-
-	def RefreshWindowSize(self):
-		if self.IsMaximized():
-			self.Maximize(False)
-			self.Maximize(True)
-		else:
-			self.Maximize(True)
-			self.Maximize(False)
+		self.Layout()
 
 	def OnPrinterWindow(self, e):
 		configWizard.ConfigWizard(self, False)
