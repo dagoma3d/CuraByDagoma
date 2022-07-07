@@ -247,7 +247,6 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel.updateProfileToControls()
 
 	def ReloadSettingPanels(self):
-		self.SetFocus()
 		self.optionsSizer.Detach(self.normalSettingsPanel)
 		self.normalSettingsPanel.Destroy()
 		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
