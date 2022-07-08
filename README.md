@@ -56,6 +56,7 @@ To activate your venv, type :
 ```
 ./venv/Scripts/activate
 ```
+Notice that you must activate your venv before every modification of the venv.
 
 ### Linux
 - Install required packages
@@ -73,22 +74,16 @@ If necesary, upgrade pip with :
 ```
 pip install --upgrade pip
 ```
-To install the necesary python modules, we will use python wheels :
-```
-pip install -r ./requirements.txt
-```
-If PyOpenGL and/or PyOpenGL_accelerate doesn't install correctly, please retry after download files you need from [Python website](https://pypi.org/project/PyOpenGL/#files) :
-- PyOpenGL : PyOpenGL-3.1.6-cp39-cp39-win_amd64.whl
-- PyOpenGL : PyOpenGL_accelerate-3.1.6-cp39-cp39-win_amd64.whl
+To install the necesary python modules, we will use python wheels.
+Please use the requirements file linked to your OS, among the following list : 
+- ```requirements_win_amd64.txt``` for Windows 64-bits
+- ```requirements_win32.txt``` for Windows 32-bits
+- ```requirements_ubuntu.txt``` for Ubuntu
+- ```requirements_macos.txt``` for MacOs
 
-On Windows 32-bits, first download the wheels for PyOpenGL from (https://www.lfd.uci.edu/~gohlke/pythonlibs/#_pyopengl) and install them :
-- PyOpenGL‑3.1.6‑cp39‑cp39‑win32.whl
-- PyOpenGL_accelerate‑3.1.6‑cp310‑cp310‑win32.whl
-
-On MacOS, please install these modules :
+For example, if you are on Windows 64-bits, type :
 ```
-pip install pyobjc
-pip install py2app
+pip install -r ./requirements_win_amd64.txt
 ```
 
 ## Packaging
