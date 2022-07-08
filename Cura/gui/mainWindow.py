@@ -252,8 +252,8 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
 		self.optionsPane.SetSizerAndFit(self.optionsSizer)
+		self.Layout() # refresh layout to avoid an involuntary resizing of the options pane
 		self.UpdateProfileToAllControls()
-		self.Layout()
 
 	def OnPrinterWindow(self, e):
 		configWizard.ConfigWizard(self, False)
