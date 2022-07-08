@@ -71,7 +71,7 @@ def saveScene(filename, objects):
 
 def saveSceneStream(stream, objects):
 	#Write the STL binary header. This can contain any info, except for "SOLID" at the start.
-	stream.write(("CURA BINARY STL EXPORT. " + time.strftime('%a %d %b %Y %H:%M:%S')).ljust(80, '\000'))
+	stream.write((b"CURA BINARY STL EXPORT. " + time.strftime('%a %d %b %Y %H:%M:%S').encode('UTF-8')).ljust(80, b'\000'))
 
 	vertexCount = 0
 	for obj in objects:
