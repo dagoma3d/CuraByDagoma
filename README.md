@@ -33,7 +33,7 @@ After extracting it, open the ```WinPython Command Prompt.exe``` in the WinPytho
 ```
 pip install wheel setuptools pyserial wxPython
 ```
-Then download the two following wheels from this [website]([https://pypi.org/project/PyOpenGL/#files](https://www.lfd.uci.edu/~gohlke/pythonlibs/#_pyopengl), according to your OS :
+Then download the two following wheels from this [website](https://pypi.org/project/PyOpenGL/#files](https://www.lfd.uci.edu/~gohlke/pythonlibs/#_pyopengl), according to your OS :
 - Windows 64-bits : ```PyOpenGL-3.1.6-cp39-cp39-win_amd64.whl``` and ```PyOpenGL_accelerate-3.1.6-cp39-cp39-win_amd64.whl```
 - Windows 32-bits : ```PyOpenGL‑3.1.6‑cp39‑cp39‑win32.whl``` and ```PyOpenGL_accelerate‑3.1.6‑cp310‑cp310‑win32.whl```
 
