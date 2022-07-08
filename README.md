@@ -23,6 +23,8 @@ The slicer binary is built on the fly. It is a full C++ project. The compilation
 
 ## Using WinPython for Windows
 
+WinPython is used for production. In development, we use a python virtual environment (see below).
+
 First download WinPython according to your architecture system. In this project, we are using Python 3.9.10.
 - Windows 64-bits : https://sourceforge.net/projects/winpython/files/WinPython_3.9/3.9.10.0/Winpython64-3.9.10.0dot.exe/download
 - Windows 32-bits : https://sourceforge.net/projects/winpython/files/WinPython_3.9/3.9.10.0/Winpython32-3.9.10.0dot.exe/download
