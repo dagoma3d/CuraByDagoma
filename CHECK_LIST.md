@@ -33,6 +33,10 @@ To be sure the new version is ready to be distributed, please check the followin
 - Every action in the menu bar works well.
 - The two links ```Buy filament``` and ```Fine tune your settings``` are updated.
 
+## Open a file
+- An object is generated layer per layer when opening a G-Code file.
+- The build plate can be saved and reopened.
+
 ## Saving G-Code
 - G-Code can be saved on the computer.
 - G-Start is updated.
