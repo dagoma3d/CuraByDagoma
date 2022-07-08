@@ -74,6 +74,11 @@ If necesary, upgrade pip with :
 ```
 pip install --upgrade pip
 ```
+
+On Windows, please download the two following wheels from this [website](https://www.lfd.uci.edu/~gohlke/pythonlibs/#_pyopengl), according to your OS :
+- Windows 64-bits : ```PyOpenGL-3.1.6-cp39-cp39-win_amd64.whl``` and ```PyOpenGL_accelerate-3.1.6-cp39-cp39-win_amd64.whl```
+- Windows 32-bits : ```PyOpenGL‑3.1.6‑cp39‑cp39‑win32.whl``` and ```PyOpenGL_accelerate‑3.1.6‑cp310‑cp310‑win32.whl```
+
 To install the necesary python modules, we will use python wheels.
 Please use the requirements file linked to your OS, among the following list : 
 - ```requirements_win_amd64.txt``` for Windows 64-bits
