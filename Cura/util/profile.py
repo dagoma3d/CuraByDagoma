@@ -753,7 +753,7 @@ def loadPreferences(filename):
 	global settingsList
 	profileParser = ConfigParser.ConfigParser()
 	try:
-		profileParser.read(filename)
+		profileParser.read(filename, encoding='utf-8')
 	except ConfigParser.ParsingError:
 		return
 
@@ -777,7 +777,7 @@ def loadMachineSettings(filename):
 	#Read a configuration file as global config
 	profileParser = ConfigParser.ConfigParser()
 	try:
-		profileParser.read(filename)
+		profileParser.read(filename, encoding='utf-8')
 	except ConfigParser.ParsingError:
 		return
 
