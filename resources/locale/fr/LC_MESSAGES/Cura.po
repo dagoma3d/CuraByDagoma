@@ -2905,8 +2905,8 @@ msgstr "Personnalise la température de la première couche ou non"
 msgid "Allows to custom the first layer temperature."
 msgstr "Permet de personnaliser la température de la première couche"
 
-msgid "Custom first layer print temperature (°C) :"
-msgstr "Température de la première couche personnalisée (°C) :"
+msgid "Custom 1st layer print temperature (°C) :"
+msgstr "Température de la 1ère couche  (°C) :"
 
 msgid "Open an Object"
 msgstr "Ouvrir un Objet"
