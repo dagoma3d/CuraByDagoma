@@ -66,6 +66,7 @@ class mainWindow(wx.Frame):
 
 		self.statusBar = self.CreateStatusBar()
 
+		# --------------------------- MENU BAR ---------------------------
 		self.menuBar = wx.MenuBar()
 		self.fileMenu = wx.Menu()
 		i = self.fileMenu.Append(wx.ID_OPEN, _("Open an Object") + "\tCTRL+O", _("Open a 3d object file."))
@@ -125,6 +126,7 @@ class mainWindow(wx.Frame):
 
 		self.SetMenuBar(self.menuBar)
 
+		# ------------------ SPLITTER --------------------
 		self.splitter = wx.SplitterWindow(self, style = wx.SP_3DSASH | wx.SP_LIVE_UPDATE)
 		self.splitter.SetMinimumPaneSize(profile.getPreferenceInt('minimum_pane_size'))
 		self.splitter.SetSashGravity(1.0) # Only the SceneView is resized when the windows size is modifed
@@ -132,6 +134,8 @@ class mainWindow(wx.Frame):
 
 		self.viewPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
 		#self.optionsPane = wx.Panel(self.splitter, style=wx.BORDER_NONE)
+
+		# ----------------- OPTIONS PANE -------------------
 		self.optionsPane = scrolledpanel.ScrolledPanel(self.splitter, style=wx.BORDER_NONE)
 		self.optionsPane.SetupScrolling(True, True)
 
@@ -248,6 +252,7 @@ class mainWindow(wx.Frame):
 		self.normalSettingsPanel = normalSettingsPanel(self.optionsPane, self.isLatest, lambda : self.scene.sceneUpdated())
 		self.optionsSizer.Add(self.normalSettingsPanel, 1, wx.EXPAND)
 		self.optionsPane.SetSizerAndFit(self.optionsSizer)
+		self.Layout() # refresh layout to avoid an involuntary resizing of the options pane
 		self.UpdateProfileToAllControls()
 
 	def OnPrinterWindow(self, e):
@@ -472,7 +477,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_CHECKBOX, self.OnSensorCheckBoxChanged,self.sensorCheckBox)
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
 		self.Bind(wx.EVT_TEXT, self.OnOffsetTextCtrlChanged, self.offsetTextCtrl)
-		self.Bind(wx.EVT_CHECKBOX, self.OnAdhesionCheckBoxChanged, self.adhesionCheckBox)
+		self.Bind(wx.EVT_RADIOBOX, self.OnAdhesionRadioBoxChanged, self.adhesionRadioBox)
 		self.Bind(wx.EVT_CHECKBOX, self.OnFirstTempCheckBoxChanged, self.firstTempCheckBox)
 		self.Bind(wx.EVT_TEXT, self.OnFirstTempSpinCtrlChanged, self.firstTempSpinCtrl)
 		self.Bind(wx.EVT_TEXT_ENTER, self.OnFirstTempSpinCtrlChanged, self.firstTempSpinCtrl)
@@ -543,6 +548,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		mainSizer.Add(self.fillingRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.precisionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		mainSizer.Add(self.supportRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
+		mainSizer.Add(self.adhesionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			mainSizer.Add(self.supportExtruderDualExtrusionRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if printerName == "DiscoVery200":
@@ -559,7 +565,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			mainSizer.Add(self.sensorCheckBox)
 		else:
 			self.sensorCheckBox.Hide()
-		mainSizer.Add(self.adhesionCheckBox, flag=wx.BOTTOM, border=5)
 		mainSizer.Add(self.pausePluginButton, flag=wx.EXPAND)
 		mainSizer.Add(self.pausePluginPanel, flag=wx.EXPAND)
 		mainSizer.Add(self.printButton, flag=wx.EXPAND|wx.TOP, border=5)
@@ -584,6 +589,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.initFilament()
 		self.initFirstTemp()
 		self.initFilling()
+		self.initAdhesion()
 		self.initPrecision()
 		self.initSupport()
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
@@ -591,7 +597,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.initSupportDualExtrusion()
 			self.initWipeTowerVolume()
 			self.initFirstTemp2()
-		self.initAdhesion()
 		self.initPrintingSurface()
 		self.initSensor()
 
@@ -761,6 +766,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 					pass
 		self.fillingRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Filling density :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 
+
 		fill_selection_index = profile.getPreferenceInt('fill_index')
 		if fill_selection_index >= len(fillings):
 			if len(fillings) >= 3:
@@ -778,7 +784,13 @@ class normalSettingsPanel(configBase.configPanelBase):
 				profile.putPreference('fill_index', 1)
 			self.fillingRadioBox.EnableItem(0, False)
 		self.fillingRadioBox.SetSelection(fill_selection_index)
-	
+
+	def initAdhesion(self):
+		choices = [_('None'), _('Adding a skirt'), _('Adding a brim'), _('Adding a raft')]
+		# TODO : French and English for improve adhesion surface...
+		self.adhesionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Improving adhesion surface :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+		self.adhesionRadioBox.SetSelection(0)
+
 	def initExtruder(self):
 		extruders = [
 			{'name': 'Extruder', 'value': 0},
@@ -901,11 +913,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putPreference('wipe_tower_volume_index', 0)
 		self.wipeTowerVolumeRadioBox.SetSelection(wipe_tower_volume_index)
 
-	def initAdhesion(self):
-		self.adhesionCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Improve the adhesion surface"))
-		self.adhesions = []
-		self.adhesions.append(self.Adhesion('Brim'))
-		self.adhesions.append(self.Adhesion('None'))
+	# def initAdhesion(self):
+	# 	# TODO : French and English
+	# 	self.adhesionCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Improve the adhesion surface"))
+	# 	self.raftCheckBox = wx.CheckBox(self, wx.ID_ANY, "Add a raft")
+	# 	self.skirtCheckBox = wx.CheckBox(self, wx.ID_ANY, "Add a skirt")
+	# 	self.adhesions = []
+	# 	self.adhesions.append(self.Adhesion('Skirt'))
+	# 	self.adhesions.append(self.Adhesion('Brim'))
+	# 	self.adhesions.append(self.Adhesion('Raft'))
+	# 	self.adhesions.append(self.Adhesion('None'))
 
 	def initFirstTemp(self):
 		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom first layer print temperature (°C) :"))
@@ -1478,10 +1495,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putProfileSetting('wipe_tower_volume', wipeTowerVolume.wipe_tower_volume)
 
 	def RefreshAdhesion(self):
-		if self.adhesionCheckBox.GetValue():
-			profile.putProfileSetting('platform_adhesion', self.adhesions[0].platform_adhesion)
-		else:
-			profile.putProfileSetting('platform_adhesion', self.adhesions[1].platform_adhesion)
+		adhesions = ['Nothing', 'Skirt' ,'Brim', 'Raft']
+		adhesion_index = self.adhesionRadioBox.GetSelection()
+		profile.putProfileSetting('platform_adhesion', adhesions[adhesion_index])
 
 	def RefreshFirstTemp(self):
 		if self.firstTempCheckBox.GetValue():
@@ -1541,145 +1557,83 @@ class normalSettingsPanel(configBase.configPanelBase):
 	
 	def OnStartExtruderRadioBoxChanged(self, event):
 		self.RefreshStartExtruder()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnSupportRadioBoxChanged(self, event):
 		self.RefreshSupport()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnSupportDualExtrusionRadioBoxChanged(self, event):
 		self.RefreshSupportDualExtrusion()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnWipeTowerVolumeRadioBoxChanged(self, event):
 		self.RefreshWipeTowerVolume()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
-	def OnAdhesionCheckBoxChanged(self, event):
+	def OnAdhesionRadioBoxChanged(self, event):
 		self.RefreshAdhesion()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 	
 	def OnFirstTempCheckBoxChanged(self, event):
 		self.RefreshFirstTemp()
-		# TODO : The 4 following lines can be replaced by self.updateSceneAndControls(event) when PR merged
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnFirstTempSpinCtrlChanged(self, event):
 		self.RefreshFirstTemp()
-		# TODO : The 4 following lines can be replaced by self.updateSceneAndControls(event) when PR merged
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 	
 	def OnFirstTempCheckBoxChanged2(self, event):
 		self.RefreshFirstTemp2()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnFirstTempSpinCtrlChanged2(self, event):
 		self.RefreshFirstTemp2()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnPrecisionRadioBoxChanged(self, event):
 		self.RefreshPrecision()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnFillingRadioBoxChanged(self, event):
 		self.RefreshFilling()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnFilamentComboBoxChanged(self, event):
 		self.RefreshFilament()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnFilament2ComboBoxChanged(self, event):
 		self.RefreshFilament2()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnColorComboBoxChanged(self, event):
 		self.RefreshColor()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnColor2ComboBoxChanged(self, event):
 		self.RefreshColor2()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnTemperatureSpinCtrlChanged(self, event):
 		self.RefreshTemperatureSpinCtrl()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnTemperature2SpinCtrlChanged(self, event):
 		self.RefreshTemperature2SpinCtrl()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnPrintingSurfaceRadioBoxChanged(self, event):
 		self.RefreshPrintingSurface()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnOffsetTextCtrlChanged(self, event):
 		self.RefreshOffset()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnSensorCheckBoxChanged(self, event):
 		self.RefreshSensor()
-		profile.saveProfile(profile.getDefaultProfilePath(), True)
-		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
-		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
-		event.Skip()
+		self.updateSceneAndControls(event)
 
 	def OnPreparePrintButtonClick(self, event):
 		profile.printSlicingInfo()
@@ -1696,6 +1650,12 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnSize(self, e):
 		e.Skip()
+
+	def updateSceneAndControls(self, event):
+		profile.saveProfile(profile.getDefaultProfilePath(), True)
+		self.GetParent().GetParent().GetParent().scene.updateProfileToControls()
+		self.GetParent().GetParent().GetParent().scene.sceneUpdated()
+		event.Skip()
 
 	def updateProfileToControls(self):
 		super(normalSettingsPanel, self).updateProfileToControls()

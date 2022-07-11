@@ -358,7 +358,7 @@ class mesh(object):
 	def getTransformedVertexes(self, applyOffsets = False):
 		if applyOffsets:
 			pos = self._obj._position.copy()
-			pos.resize((3))
+			pos.resize(3, refcheck=False)
 			pos[2] = self._obj.getSize()[2] / 2
 			offset = self._obj._drawOffset.copy()
 			offset[2] += self._obj.getSize()[2] / 2

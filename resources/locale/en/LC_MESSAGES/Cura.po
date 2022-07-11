@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2022-05-02 16:29+0100\n"
+"PO-Revision-Date: 2022-07-11 11:47+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2490,10 +2490,19 @@ msgstr "Everywhere (including holes)"
 msgid "Everywhere (including holes)"
 msgstr ""
 
-msgid "Amélioration de la surface d'adhésion"
-msgstr "Improve the adhesion surface"
+msgid "Amélioration de la surface d'adhésion :"
+msgstr "Improving adhesion surface :"
 
-msgid "Improve the adhesion surface"
+msgid "Improving adhesion surface :"
+msgstr ""
+
+msgid "Adding a skirt"
+msgstr ""
+
+msgid "Adding a brim"
+msgstr ""
+
+msgid "Adding a raft"
 msgstr ""
 
 msgid "Offset in mm : (first layer setting)"

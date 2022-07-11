@@ -203,8 +203,12 @@ class Engine(object):
 				thread = threading.Thread(target=self._socketConnectionThread, args=(sock,))
 				thread.daemon = True
 				thread.start()
-			except OSError as e:
-				pass
+			except OSError as e: # to avoid error message when closing app
+				if self._serversocket.__getattribute__('_closed') == True: # check if not attempting to listen a closed socket
+					self._serversocket.close()
+					return
+				else:
+					raise
 			except socket.error as e:
 				if e.errno != errno.EINTR:
 					raise
@@ -641,10 +645,13 @@ class Engine(object):
 			settings['raftSurfaceLineSpacing'] = int(profile.getProfileSettingFloat('raft_surface_linewidth') * 1000)
 			settings['raftSurfaceLayers'] = int(profile.getProfileSettingFloat('raft_surface_layers'))
 			settings['raftSurfaceSpeed'] = int(profile.getProfileSettingFloat('bottom_layer_speed'))
-		else:
+		elif profile.getProfileSetting('platform_adhesion') == 'Skirt':
 			settings['skirtDistance'] = int(profile.getProfileSettingFloat('skirt_gap') * 1000)
 			settings['skirtLineCount'] = int(profile.getProfileSettingFloat('skirt_line_count'))
 			settings['skirtMinLength'] = int(profile.getProfileSettingFloat('skirt_minimal_length') * 1000)
+		else:
+			settings['skirtDistance'] = 0
+			settings['skirtLineCount'] = 0
 
 		if profile.getProfileSetting('fix_horrible_union_all_type_a') == 'True':
 			settings['fixHorrible'] |= 0x01

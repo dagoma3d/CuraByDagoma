@@ -562,7 +562,7 @@
 		<retraction_combing>All</retraction_combing>
 		<retraction_minimal_extrusion>0.02</retraction_minimal_extrusion>
 		<retraction_hop>0</retraction_hop>
-		<skirt_line_count>0</skirt_line_count>
+		<skirt_line_count>2</skirt_line_count>
 		<skirt_gap>3</skirt_gap>
 		<skirt_minimal_length>150</skirt_minimal_length>
 		<fan_full_height>0.8</fan_full_height>
@@ -609,6 +609,7 @@
 ;Filling: {fill_density_info}
 ;Print speed: {print_speed_info}
 ;Support: {support_info}
+;Adhesion improvement: #ADHESION#
 ;Filament:
 ;- Material: {filament_info}
 ;- Temperature: {print_temperature_info}
