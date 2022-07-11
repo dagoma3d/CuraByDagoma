@@ -925,11 +925,11 @@ class normalSettingsPanel(configBase.configPanelBase):
 	# 	self.adhesions.append(self.Adhesion('None'))
 
 	def initFirstTemp(self):
-		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom first layer print temperature (°C) :"))
+		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom 1st layer print temperature (°C) :"))
 		self.firstTempSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('first_layer_temperature'), min=175, max=270, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 	
 	def initFirstTemp2(self):
-		self.firstTempCheckBox2 = wx.CheckBox(self, wx.ID_ANY, _("Custom first layer print temperature (°C) :"))
+		self.firstTempCheckBox2 = wx.CheckBox(self, wx.ID_ANY, _("Custom 1st layer print temperature (°C) :"))
 		self.firstTempSpinCtrl2 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('first_layer_temperature2'), min=175, max=270, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 
 	def initSensor(self):
