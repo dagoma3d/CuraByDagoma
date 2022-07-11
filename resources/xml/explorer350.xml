@@ -630,7 +630,7 @@ G28 X ;home X
 M117 Prechauffage
 M140 S60 ;target bed temperature
 M109 S180 ;set nozzle to 180
-M104 S{print_temperature} ;target buse temperature
+M104 S#PRINT_TEMPERATURE# ;target buse temperature
 M190 S60 ;target plateau temperature
 ;Homing
 M117 Origine Machine

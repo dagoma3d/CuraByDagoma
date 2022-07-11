@@ -641,7 +641,7 @@ M109 R90 ;wait for cool down
 G28
 ;Sensor activation
 ;{sensor}
-M104 S{print_temperature} ;start the heater
+M104 S#PRINT_TEMPERATURE# ;start the heater
 M107 ;start with the fan off
 G1 X100 Y20 Z0.5 F3000
 M109 S#PRINT_TEMPERATURE#
