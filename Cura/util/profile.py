@@ -178,6 +178,10 @@ setting('solid_layer_thickness',     0.6, float, 'basic',    _('Fill')).setRange
 setting('fill_density',               20, float, 'basic',    _('Fill')).setRange(0, 100).setLabel(_("Fill Density (%)"), _("This controls how densely filled the insides of your print will be. For a solid part use 100%, for an empty part use 0%. A value around 20% is usually enough.\nThis won't affect the outside of the print and only adjusts how strong the part becomes."))
 setting('nozzle_size',               0.4, float, 'machine', _('Machine')).setRange(0.1,10).setLabel(_("Nozzle size (mm)"), _("The nozzle size is very important, this is used to calculate the line width of the infill, and used to calculate the amount of outside wall lines and thickness for the wall thickness you entered in the print settings."))
 setting('print_speed',                50, float, 'basic',    _('Speed and Temperature')).setRange(1).setLabel(_("Print speed (mm/s)"), _("Speed at which printing happens. A well adjusted Ultimaker can reach 150mm/s, but for good quality prints you want to print slower. Printing speed depends on a lot of factors. So you will be experimenting with optimal settings for this."))
+setting('custom_first_layer_temp', False, bool,  'advanced', _('Speed and Temperature')).setLabel(_("Custom the first layer temperature or not"), _("Allows to custom the first layer temperature."))
+setting('first_layer_temperature',   225, int,   'advanced', _('Speed and Temperature')).setRange(0,340).setLabel(_("First layer temperature (C)"), _("Temperature used for printing the first layer if allowed."))
+setting('custom_first_layer_temp2', False, bool,  'advanced', _('Speed and Temperature')).setLabel(_("Custom the first layer temperature or not (second filament)"), _("Allows to custom the first layer temperature for the second filament."))
+setting('first_layer_temperature2',   225, int,   'advanced', _('Speed and Temperature')).setRange(0,340).setLabel(_("First layer temperature (C) for the second filament"), _("Temperature used for printing the first layer if allowed for the second filament."))
 setting('print_temperature',         220, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("Printing temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
 setting('print_temperature2',        220, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("2nd nozzle temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
 setting('print_temperature3',          0, int,   'basic',    _('Speed and Temperature')).setRange(0,340).setLabel(_("3th nozzle temperature (C)"), _("Temperature used for printing. Set at 0 to pre-heat yourself.\nFor PLA a value of 210C is usually used.\nFor ABS a value of 230C or higher is required."))
@@ -672,6 +676,13 @@ def getProfileSettingFloat(name):
 		return float(eval(setting, {}, {}))
 	except:
 		return 0.0
+
+def getProfileSettingBool(name):
+	try:
+		setting = getProfileSetting(name)
+		return bool(eval(setting))
+	except:
+		return False
 
 def putProfileSetting(name, value):
 	""" Store a certain value in a profile setting. """
@@ -1327,6 +1338,7 @@ def getAlterationFileContents(filename, extruderCount = 1):
 def printSlicingInfo():
 	print('********* Slicing parameters *********')
 	print("print_temperature : ", getProfileSetting('print_temperature'))
+	print("first_layer_temperature : ", getProfileSetting('first_layer_temperature'))
 	print("filament_diameter : ", getProfileSetting('filament_diameter'))
 	print("filament_flow : ", getProfileSetting('filament_flow'))
 	print("retraction_speed : ", getProfileSetting('retraction_speed'))

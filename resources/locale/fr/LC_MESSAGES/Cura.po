@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2022-05-02 16:29+0100\n"
+"PO-Revision-Date: 2022-07-11 11:47+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "Language-Team: LL@li.org\n"
 "MIME-Version: 1.0\n"
@@ -2860,7 +2860,6 @@ msgstr ""
 msgid "Adding a raft"
 msgstr "Ajouter un radeau"
 
-
 msgid "Offset in mm : (first layer setting)"
 msgstr "Offset en mm : (réglage de la 1ère couche)"
 
@@ -2893,6 +2892,21 @@ msgstr "Tête standard"
 
 msgid "Temperature (°C) :"
 msgstr "Température (°C) :"
+
+msgid "First layer temperature (C)"
+msgstr "Température de la première couche (C)"
+
+msgid "Temperature used for printing the first layer if allowed."
+msgstr "Température utilisée pour imprimer la première couche si souhaité"
+
+msgid "Custom the first layer temperature or not"
+msgstr "Personnalise la température de la première couche ou non"
+
+msgid "Allows to custom the first layer temperature."
+msgstr "Permet de personnaliser la température de la première couche"
+
+msgid "Custom first layer print temperature (°C) :"
+msgstr "Température de la première couche personnalisée (°C) :"
 
 msgid "Open an Object"
 msgstr "Ouvrir un Objet"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2022-05-02 16:29+0100\n"
+"PO-Revision-Date: 2022-07-11 11:47+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2496,20 +2496,11 @@ msgstr "Improving adhesion surface :"
 msgid "Improving adhesion surface :"
 msgstr ""
 
-msgstr "Ajouter une jupe"
-msgid "Adding a skirt"
-
 msgid "Adding a skirt"
 msgstr ""
 
-msgstr "Ajouter une bordure"
-msgid "Adding a brim"
-
 msgid "Adding a brim"
 msgstr ""
-
-msgstr "Ajouter un radeau"
-msgid "Adding a raft"
 
 msgid "Adding a raft"
 msgstr ""
@@ -2545,6 +2536,21 @@ msgid "Standard printhead"
 msgstr ""
 
 msgid "Temperature (°C) :"
+msgstr ""
+
+msgid "First layer temperature (C)"
+msgstr ""
+
+msgid "Temperature used for printing the first layer if allowed."
+msgstr ""
+
+msgid "Custom the first layer temperature or not"
+msgstr ""
+
+msgid "Allows to custom the first layer temperature."
+msgstr ""
+
+msgid "Custom first layer print temperature (°C) :"
 msgstr ""
 
 msgid "Open an Object"

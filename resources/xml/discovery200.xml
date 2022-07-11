@@ -641,7 +641,7 @@ G90		;absolute positioning
 G28 X
 M106 S255
 M109 S180			; wait Hotend temperature
-M104 S{print_temperature}	; set Hotend temperature
+M104 S#PRINT_TEMPERATURE#	; set Hotend temperature
 ;M190 S60 			; wait Bed temperature
 G28 X
 G28 Y

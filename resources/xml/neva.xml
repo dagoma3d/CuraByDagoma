@@ -635,7 +635,7 @@ G28
 M107
 M109 R100
 G29
-M109 S{print_temperature} U-55 X55 V-85 Y-85 W0.26 Z0.26 ;Temperature for the first layer only
+M109 S#PRINT_TEMPERATURE# U-55 X55 V-85 Y-85 W0.26 Z0.26 ;Temperature for the first layer only
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
 G1 F200 E6 ;extrude 10mm of feed stock
