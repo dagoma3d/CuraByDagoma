@@ -419,7 +419,7 @@ class SceneView(openglGui.glGuiPanel):
 				# From the second layer, set the normal print temperature (if custom first layer)
 				idLayer1 = data.find(";LAYER:1")
 				if idLayer1 != 1:
-					data = data[:idLayer1] + f"M104 S{print_temperature} ;global temperature\n" + data[idLayer1:]
+					data = data[:idLayer1] + "M104 S" + str(print_temperature) + " ;global temperature\n" + data[idLayer1:]
 			else:
 				data = data.replace('#PRINT_TEMPERATURE#', print_temperature)
 		elif int(profile.getMachineSetting('extruder_amount')) == 2:
