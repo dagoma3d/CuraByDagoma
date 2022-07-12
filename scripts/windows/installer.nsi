@@ -74,8 +74,8 @@ LangString Create_Shortcut_Desktop ${LANG_ENGLISH} "Add a shortcut on Desktop"
 LangString Create_Shortcut_Desktop ${LANG_FRENCH} "Ajouter un raccourci sur le Bureau"
 LangString Install_FTDI_Drivers ${LANG_ENGLISH} "Install FTDI Drivers"
 LangString Install_FTDI_Drivers ${LANG_FRENCH} "Installer les pilotes FTDI"
-LangString Install_CH430_Drivers ${LANG_ENGLISH} "Install CH430 Drivers"
-LangString Install_CH430_Drivers ${LANG_FRENCH} "Installer les pilotes CH430"
+LangString Install_CH340_Drivers ${LANG_ENGLISH} "Install CH340 Drivers"
+LangString Install_CH340_Drivers ${LANG_FRENCH} "Installer les pilotes CH340"
 LangString Open_STL_files_with_Cura ${LANG_ENGLISH} "Open STL files with Cura by Dagoma"
 LangString Open_STL_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers STL avec Cura by Dagoma"
 LangString Open_OBJ_files_with_Cura ${LANG_ENGLISH} "Open OBJ files with Cura by Dagoma"
@@ -166,7 +166,7 @@ Section $(Install_FTDI_Drivers)
   ${EndIf}
 SectionEnd
 
-Section $(Install_CH430_Drivers)
+Section $(Install_CH340_Drivers)
   SetOutPath "$INSTDIR\drivers\"
   File /r "drivers\"
   ${If} ${RunningX64}
