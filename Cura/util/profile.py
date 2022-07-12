@@ -752,10 +752,16 @@ def loadPreferences(filename):
 	"""
 	global settingsList
 	profileParser = ConfigParser.ConfigParser()
-	try:
-		profileParser.read(filename, encoding='utf-8')
-	except ConfigParser.ParsingError:
-		return
+	if sys.platform.startswith("darwin"):
+		try:
+			profileParser.read(filename, encoding='utf-8')
+		except ConfigParser.ParsingError:
+			return
+	else: # need to test for Linux
+		try:
+			profileParser.read(filename)
+		except ConfigParser.ParsingError:
+			return
 
 	for set in settingsList:
 		if set.isPreference():
