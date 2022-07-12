@@ -101,6 +101,7 @@ class toolInfo(object):
 class toolRotate(object):
 	def __init__(self, parent):
 		self.parent = parent
+		self.angle_variation = 10
 		self.rotateRingDist = 1.5
 		self.rotateRingDistMin = 1.3
 		self.rotateRingDistMax = 1.7
@@ -164,7 +165,7 @@ class toolRotate(object):
 		if wx.GetKeyState(wx.WXK_SHIFT):
 			diff = round(diff / 1) * 1
 		else:
-			diff = round(diff / 15) * 15
+			diff = round(diff / self.angle_variation) * self.angle_variation
 		if diff > 180:
 			diff -= 360
 		if diff < -180:
@@ -290,11 +291,11 @@ class toolScale(object):
 		s = self._nodeSize()
 		if self._pointDist(numpy.array([0,0,0],numpy.float32), p0, p1) < s * 2:
 			return 1
-		if self._pointDist(numpy.array([s*15,0,0],numpy.float32), p0, p1) < s * 2:
+		if self._pointDist(numpy.array([s*self.angle_variation,0,0],numpy.float32), p0, p1) < s * 2:
 			return 2
-		if self._pointDist(numpy.array([0,s*15,0],numpy.float32), p0, p1) < s * 2:
+		if self._pointDist(numpy.array([0,s*self.angle_variation,0],numpy.float32), p0, p1) < s * 2:
 			return 3
-		if self._pointDist(numpy.array([0,0,s*15],numpy.float32), p0, p1) < s * 2:
+		if self._pointDist(numpy.array([0,0,s*self.angle_variation],numpy.float32), p0, p1) < s * 2:
 			return 4
 		return None
 
@@ -334,7 +335,7 @@ class toolScale(object):
 			endPoint = [0,1,0]
 		elif self.node == 4:
 			endPoint = [0,0,1]
-		scale = self._lineLineCrossingDistOnLine(p0, p1, numpy.array([0,0,0], numpy.float32), numpy.array(endPoint, numpy.float32)) / 15.0 / s
+		scale = self._lineLineCrossingDistOnLine(p0, p1, numpy.array([0,0,0], numpy.float32), numpy.array(endPoint, numpy.float32)) / self.angle_variation / s
 		if not wx.GetKeyState(wx.WXK_SHIFT):
 			objMatrix = self.parent.getObjectMatrix()
 			scaleX = numpy.linalg.norm(objMatrix[::,0].getA().flatten())
@@ -368,9 +369,9 @@ class toolScale(object):
 
 	def OnDraw(self):
 		s = self._nodeSize()
-		sx = s*15
-		sy = s*15
-		sz = s*15
+		sx = s*self.angle_variation
+		sy = s*self.angle_variation
+		sz = s*self.angle_variation
 		if self.node == 2 and self.scale is not None:
 			sx *= self.scale
 		if self.node == 3 and self.scale is not None:
