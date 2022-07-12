@@ -526,6 +526,7 @@ class glButton(glGuiControl):
 					tooltip_translate_y = - 18 * (len(split_tooltip) - 2) - 4
 				else:
 					tooltip_translate_y = -4
+				tooltip_translate_y -= 12 # margin
 				glTranslatef(tooltip_translate_x, tooltip_translate_y, 0)
 				#glTranslatef(0.6*bs*scale, 0, 0)
 			else:
