@@ -253,7 +253,6 @@ class glGuiPanel(glcanvas.GLCanvas):
 	def _drawGui(self):
 		if self._glButtonsTexture is None:
 			self._glButtonsTexture = openglHelpers.loadGLTexture('glButtons.png')
-			#self._glRobotTexture = openglHelpers.loadGLTexture('UltimakerRobot.png')
 
 		glDisable(GL_DEPTH_TEST)
 		glEnable(GL_BLEND)
