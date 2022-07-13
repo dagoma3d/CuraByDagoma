@@ -150,7 +150,8 @@ FunctionEnd
 
 ; create a shortcut on desktop if desired by user
 Function CreateShortcutDesktop
-  SetShellVarContext all
+  ; SetShellVarContext all
+  SetOutPath "$INSTDIR"
   CreateShortCut "$DESKTOP\${BUILD_NAME}.lnk" "$INSTDIR\python3\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
 FunctionEnd
 
