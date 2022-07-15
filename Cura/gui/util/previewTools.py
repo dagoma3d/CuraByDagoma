@@ -101,6 +101,8 @@ class toolInfo(object):
 class toolRotate(object):
 	def __init__(self, parent):
 		self.parent = parent
+		self.angle_diff = 15
+		self.small_angle_diff = 1
 		self.rotateRingDist = 1.5
 		self.rotateRingDistMin = 1.3
 		self.rotateRingDistMax = 1.7
@@ -162,13 +164,14 @@ class toolRotate(object):
 			angle = math.atan2(cursorX0[2], cursorX0[1]) * 180 / math.pi
 		diff = angle - self.dragStartAngle
 		if wx.GetKeyState(wx.WXK_SHIFT):
-			diff = round(diff / 1) * 1
+			diff = round(diff / self.small_angle_diff) * self.small_angle_diff
 		else:
-			diff = round(diff / 15) * 15
+			diff = round(diff / self.angle_diff) * self.angle_diff
 		if diff > 180:
 			diff -= 360
 		if diff < -180:
 			diff += 360
+		# generate rotation matrix, which will be applied with the function 'applyMatrix' in sceneView.py
 		rad = diff / 180.0 * math.pi
 		self.dragEndAngle = self.dragStartAngle + diff
 		if self.dragPlane == 'XY':
