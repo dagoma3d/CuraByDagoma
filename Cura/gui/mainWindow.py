@@ -913,17 +913,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putPreference('wipe_tower_volume_index', 0)
 		self.wipeTowerVolumeRadioBox.SetSelection(wipe_tower_volume_index)
 
-	# def initAdhesion(self):
-	# 	# TODO : French and English
-	# 	self.adhesionCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Improve the adhesion surface"))
-	# 	self.raftCheckBox = wx.CheckBox(self, wx.ID_ANY, "Add a raft")
-	# 	self.skirtCheckBox = wx.CheckBox(self, wx.ID_ANY, "Add a skirt")
-	# 	self.adhesions = []
-	# 	self.adhesions.append(self.Adhesion('Skirt'))
-	# 	self.adhesions.append(self.Adhesion('Brim'))
-	# 	self.adhesions.append(self.Adhesion('Raft'))
-	# 	self.adhesions.append(self.Adhesion('None'))
-
 	def initFirstTemp(self):
 		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom 1st layer print temperature (°C) :"))
 		self.firstTempSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('first_layer_temperature'), min=175, max=270, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
