@@ -280,8 +280,8 @@ class toolRotate(object):
 class toolTranslate(object):
 	def __init__(self, parent):
 		self.parent = parent
-		self.pointDiff = 15
-		self.smallPointDiff = 1
+		self.pointDiff = 5.0
+		self.smallPointDiff = 1.0
 		self.dragAxis = None
 		self.arrowLength = self.parent.getObjectLengthArrow()
 		self.dragStartPoint = None
@@ -353,7 +353,7 @@ class toolTranslate(object):
 		if wx.GetKeyState(wx.WXK_SHIFT):
 			diff = round(diff / self.smallPointDiff) * self.smallPointDiff # smoother
 		else:
-			diff = (diff / self.pointDiff) * self.pointDiff
+			diff = round(diff / self.pointDiff) * self.pointDiff
 		self.dragEndPoint = self.dragStartPoint + diff
 		if self.dragAxis == 'X':
 			self.parent._selectedObj.setPosition(self.parent._selectedObj.getPosition() + (diff, 0)) # add a third coord in the future
@@ -377,10 +377,10 @@ class toolTranslate(object):
 		# glScalef(self.rotateRingDist * radius, self.rotateRingDist * radius, self.rotateRingDist * radius)
 		
 		if self.dragAxis == 'X':
-			glLineWidth(3)
+			glLineWidth(4)
 			glColor4ub(255,64,64,255)
 		else:
-			glLineWidth(1)
+			glLineWidth(2)
 			glColor4ub(128,0,0,255)
 		glBegin(GL_LINES)
 		glVertex3f(0,0,0)
@@ -388,10 +388,10 @@ class toolTranslate(object):
 		glEnd()
 
 		if self.dragAxis == 'Y':
-			glLineWidth(3)
+			glLineWidth(4)
 			glColor4ub(64,255,64,255)
 		else:
-			glLineWidth(1)
+			glLineWidth(2)
 			glColor4ub(0,128,0,255)
 		glBegin(GL_LINES)
 		glVertex3f(0,0,0)
