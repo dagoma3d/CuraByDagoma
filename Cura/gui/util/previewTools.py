@@ -283,30 +283,43 @@ class toolTranslate(object):
 		self.pointDiff = 15
 		self.smallPointDiff = 1
 		self.dragAxis = None
-		self.arrowLength = 30
+		self.arrowLength = self.parent.getObjectLengthArrow()
 		self.dragStartPoint = None
 		self.dragEndPoint = None
-		self.translateArrowDistMargin = 1.5 # maybe to change later depending on the zoom
+		self.translateArrowDistMargin = self.parent._zoom / 30
 
 	def OnMouseMove(self, p0, p1):
 		if self.dragStartPoint is None: # if we haven't started to translate yet
-			self.dragAxis = self.GetHoveredAxis(p0, p1)
+			self.dragAxis, _ = self.GetHoveredAxis(p0, p1)
 		if self.dragAxis is not None:
 			self.parent.SetCursor(wx.Cursor(wx.CURSOR_SIZING))
+			pass
 		else:
 			self.parent.SetCursor(wx.Cursor(wx.CURSOR_DEFAULT))
+			pass
 
-	def _ProjectToAxes(self, p0, p1):
+	def _ProjectToPlanes(self, p0, p1):
 		cursorX0 = p0 - (p1 - p0) * (p0[0] / (p1[0] - p0[0])) # coords of the raycast from the mouse when X = 0
 		cursorY0 = p0 - (p1 - p0) * (p0[1] / (p1[1] - p0[1]))
 		cursorZ0 = p0 - (p1 - p0) * (p0[2] / (p1[2] - p0[2]))
 		return cursorX0, cursorY0, cursorZ0
 
+	def projectToAxis(self, p0, p1, axis):
+		# If in the future, the Z-axis translate is used, the following operations will be false
+		# (we can for example take in account the Z-coord of the object)
+		_, _, cursorZ0 = self._ProjectToPlanes(p0, p1)
+		point = None
+		if axis == 'X':
+			point = cursorZ0[0]
+		if axis == 'Y':
+			point = cursorZ0[1]
+		return point
+
 	def GetHoveredAxis(self, p0, p1):
 		# return an axis (if hovered) and the distance from the center on this axis
 		axis = None
 		point = None
-		cursorX0, cursorY0, cursorZ0 = self._ProjectToAxes(p0, p1)
+		cursorX0, cursorY0, cursorZ0 = self._ProjectToPlanes(p0, p1)
 		# points axis X when it exists one point of the raycast like (x, ~0, ~0) whith 0 <= x <= arrowLength
 		if self.nearZero(cursorZ0[1]) and self.maybeWithinArrow(cursorZ0[0]):
 			axis = 'X'
@@ -314,9 +327,9 @@ class toolTranslate(object):
 		if self.nearZero(cursorX0[2]) and self.maybeWithinArrow(cursorX0[1]):
 			axis = 'Y'
 			point = cursorX0[1]
-		if self.nearZero(cursorY0[0]) and self.maybeWithinArrow(cursorY0[2]):
-			axis = 'Z'
-			point = cursorY0[2]
+		# if self.nearZero(cursorY0[0]) and self.maybeWithinArrow(cursorY0[2]):
+		# 	axis = 'Z'
+		# 	point = cursorY0[2]
 		return axis, point
 
 	def nearZero(self, x):
@@ -326,7 +339,7 @@ class toolTranslate(object):
 		return not(self.nearZero(x)) and 0 <= x <= self.arrowLength + self.translateArrowDistMargin
 
 	def OnDragStart(self, p0, p1):
-		self.arrowLength = 30 # to change
+		self.arrowLength = self.parent.getObjectLengthArrow()
 		self.dragAxis, self.dragStartPoint = self.GetHoveredAxis(p0, p1)
 		if self.dragAxis is not None:
 			self.dragEndPoint = self.dragStartPoint
@@ -335,21 +348,19 @@ class toolTranslate(object):
 
 	def OnDrag(self, p0, p1):
 		_, dragPoint = self.GetHoveredAxis(p0, p1)
-		# need to project on axis
-		diff = dragPoint - self.dragStartPoint
+		projection = self.projectToAxis(p0, p1, self.dragAxis)
+		diff = projection - self.dragStartPoint
 		if wx.GetKeyState(wx.WXK_SHIFT):
 			diff = round(diff / self.smallPointDiff) * self.smallPointDiff # smoother
 		else:
 			diff = (diff / self.pointDiff) * self.pointDiff
 		self.dragEndPoint = self.dragStartPoint + diff
 		if self.dragAxis == 'X':
-			# self._selectedObj.setPosition(self._selectedObj.getPosition() + (diff, 0, 0))
-			pass
+			self.parent._selectedObj.setPosition(self.parent._selectedObj.getPosition() + (diff, 0)) # add a third coord in the future
 		elif self.dragAxis == 'Y':
-			# self._selectedObj.setPosition(self._selectedObj.getPosition() + (0, diff, 0))
-			pass
+			self.parent._selectedObj.setPosition(self.parent._selectedObj.getPosition() + (0, diff))
 		else:
-			# self._selectedObj.setPosition(self._selectedObj.getPosition() + (0, 0, diff))
+			# self.parent._selectedObj.setPosition(self.parent._selectedObj.getPosition() + (0, 0)) # TODO : see Issue #98
 			pass
 
 	def OnDragEnd(self):
@@ -362,7 +373,7 @@ class toolTranslate(object):
 		glDisable(GL_BLEND)
 		glDisable(GL_DEPTH_TEST)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-		self.arrowLength = 30 #to change
+		self.arrowLength = self.parent.getObjectLengthArrow()
 		# glScalef(self.rotateRingDist * radius, self.rotateRingDist * radius, self.rotateRingDist * radius)
 		
 		if self.dragAxis == 'X':
@@ -372,11 +383,9 @@ class toolTranslate(object):
 			glLineWidth(1)
 			glColor4ub(128,0,0,255)
 		glBegin(GL_LINES)
-		# glPushMatrix()
 		glVertex3f(0,0,0)
 		glVertex3f(self.arrowLength,0,0)
 		glEnd()
-		# glPopMatrix()
 
 		if self.dragAxis == 'Y':
 			glLineWidth(3)
@@ -385,24 +394,20 @@ class toolTranslate(object):
 			glLineWidth(1)
 			glColor4ub(0,128,0,255)
 		glBegin(GL_LINES)
-		# glPushMatrix()
 		glVertex3f(0,0,0)
 		glVertex3f(0,self.arrowLength,0)
 		glEnd()
-		# glPopMatrix()
 
-		if self.dragAxis == 'Z':
-			glLineWidth(3)
-			glColor4ub(255,255,0,255)
-		else:
-			glLineWidth(1)
-			glColor4ub(128,128,0,255)
-		glBegin(GL_LINES)
-		# glPushMatrix()
-		glVertex3f(0,0,0)
-		glVertex3f(0,0,self.arrowLength)
-		glEnd()
-		# glPopMatrix()
+		# if self.dragAxis == 'Z':
+		# 	glLineWidth(3)
+		# 	glColor4ub(255,255,0,255)
+		# else:
+		# 	glLineWidth(1)
+		# 	glColor4ub(128,128,0,255)
+		# glBegin(GL_LINES)
+		# glVertex3f(0,0,0)
+		# glVertex3f(0,0,self.arrowLength)
+		# glEnd()
 
 class toolScale(object):
 	def __init__(self, parent):
