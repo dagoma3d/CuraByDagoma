@@ -668,10 +668,19 @@ msgid "Modify the object's size slowly (drag the mouse from the end of an axis)"
 msgstr "Modifie lentement la taille de l'objet (faire glisser la souris en partant du bout d'un axe)"
 
 msgid "Stretch the object (drag the mouse from the end of an axis)"
-msgstr "Étire l'objet (faire glisser la souris)"
+msgstr "Étire l'objet (faire glisser la souris en partant du bout d'un axe)"
 
 msgid "Stretch the object slowly (drag the mouse from the end of an axis)"
-msgstr "Étire l'objet lentement (faire glisser la souris)"
+msgstr "Étire l'objet lentement (faire glisser la souris en partant du bout d'un axe)"
+
+msgid "Translate Tool"
+msgstr "Outil Déplacer"
+
+msgid "Translate the object following an axis (drag the mouse from the end of an axis)"
+msgstr "Translation de l'objet suivant un axe (faire glisser la souris en partant du bout d'un axe)"
+
+msgid "Translate slowly the object following an axis (drag the mouse from the end of an axis)"
+msgstr "Translation lente de l'objet suivant un axe (faire glisser la souris en partant du bout d'un axe)"
 
 msgid "Display all the shortcuts."
 msgstr "Afficher tous les raccourcis."
