@@ -617,6 +617,15 @@ msgstr ""
 msgid "Stretch the object slowly (drag the mouse from the end of an axis)"
 msgstr ""
 
+msgid "Translate Tool"
+msgstr ""
+
+msgid "Translate the object following an axis (drag the mouse from the end of an axis)"
+msgstr ""
+
+msgid "Translate slowly the object following an axis (drag the mouse from the end of an axis)"
+msgstr ""
+
 msgid "Display all the shortcuts."
 msgstr ""
 

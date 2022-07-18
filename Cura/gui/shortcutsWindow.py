@@ -36,6 +36,10 @@ class shortcutsWindow(wx.Frame):
 		self.addComponent('Shift + ' + _('Left click'), _("Modify the object's size slowly (drag the mouse from the end of an axis)"))
 		self.addComponent('Ctrl + ' + _('Left click'), _("Stretch the object (drag the mouse from the end of an axis)"))
 		self.addComponent('Ctrl + ' + 'Shift + ' + _('Left click'), _("Stretch the object slowly (drag the mouse from the end of an axis)"))
+		self.addSection(_("Translate Tool"))
+		self.addComponent(_('Left click'), _("Translate the object following an axis (drag the mouse from the end of an axis)"))
+		self.addComponent('Shift + ' + _('Left click'), _("Translate slowly the object following an axis (drag the mouse from the end of an axis)"))
+
 
 		self.Fit()
 
