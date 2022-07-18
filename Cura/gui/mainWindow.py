@@ -16,6 +16,7 @@ from Cura.gui import pausePluginPanel
 from Cura.gui import configWizard
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
+from Cura.gui import shortcutsWindow
 from Cura.gui import warningWindow
 from Cura.gui.util import dropTarget
 from Cura.gui.tools import pidDebugger
@@ -122,6 +123,8 @@ class mainWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda e: webbrowser.open(helpUrl), i)
 		i = self.helpMenu.Append(wx.ID_ABOUT, _("About"), _("Display all components used to build this application."))
 		self.Bind(wx.EVT_MENU, self.OnAbout, i)
+		i = self.helpMenu.Append(wx.ID_ANY, _("Shortcuts"), _("Display all the shortcuts."))
+		self.Bind(wx.EVT_MENU, self.OnShortcuts, i)
 		self.menuBar.Append(self.helpMenu, _("Help"))
 
 		self.SetMenuBar(self.menuBar)
@@ -268,6 +271,14 @@ class mainWindow(wx.Frame):
 		aboutBox = aboutWindow.aboutWindow(self)
 		aboutBox.Centre()
 		aboutBox.Show()
+		if sys.platform.startswith('darwin'):
+			from Cura.gui.util import macosFramesWorkaround as mfw
+			wx.CallAfter(mfw.StupidMacOSWorkaround)
+
+	def OnShortcuts(self, e):
+		shortcutsBox = shortcutsWindow.shortcutsWindow(self)
+		shortcutsBox.Centre()
+		shortcutsBox.Show()
 		if sys.platform.startswith('darwin'):
 			from Cura.gui.util import macosFramesWorkaround as mfw
 			wx.CallAfter(mfw.StupidMacOSWorkaround)
