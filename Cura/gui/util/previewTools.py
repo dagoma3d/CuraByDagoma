@@ -277,6 +277,185 @@ class toolRotate(object):
 		glEnd()
 		glEnable(GL_DEPTH_TEST)
 
+class toolTranslate(object):
+	def __init__(self, parent):
+		self.parent = parent
+		self.rotateRingDist = 1.5
+		self.rotateRingDistMin = 1.3
+		self.rotateRingDistMax = 1.7
+		self.dragPlane = None
+		self.dragStartAngle = None
+		self.dragEndAngle = None
+
+	def _ProjectToPlanes(self, p0, p1):
+		cursorX0 = p0 - (p1 - p0) * (p0[0] / (p1[0] - p0[0]))
+		cursorY0 = p0 - (p1 - p0) * (p0[1] / (p1[1] - p0[1]))
+		cursorZ0 = p0 - (p1 - p0) * (p0[2] / (p1[2] - p0[2]))
+		cursorYZ = math.sqrt((cursorX0[1] * cursorX0[1]) + (cursorX0[2] * cursorX0[2]))
+		cursorXZ = math.sqrt((cursorY0[0] * cursorY0[0]) + (cursorY0[2] * cursorY0[2]))
+		cursorXY = math.sqrt((cursorZ0[0] * cursorZ0[0]) + (cursorZ0[1] * cursorZ0[1]))
+		return cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY
+
+	def OnMouseMove(self, p0, p1):
+		radius = self.parent.getObjectBoundaryCircle()
+		cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY = self._ProjectToPlanes(p0, p1)
+		oldDragPlane = self.dragPlane
+		if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorYZ <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
+			#self.parent.SetCursor(wx.StockCursor(wx.CURSOR_SIZING))
+			if self.dragStartAngle is None:
+				if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax:
+					self.dragPlane = 'XY'
+				elif radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
+					self.dragPlane = 'XZ'
+				else:
+					self.dragPlane = 'YZ'
+		else:
+			if self.dragStartAngle is None:
+				self.dragPlane = ''
+			#self.parent.SetCursor(wx.StockCursor(wx.CURSOR_DEFAULT))
+
+	def OnDragStart(self, p0, p1):
+		radius = self.parent.getObjectBoundaryCircle()
+		cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY = self._ProjectToPlanes(p0, p1)
+		if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorYZ <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
+			if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax:
+				self.dragPlane = 'XY'
+				self.dragStartAngle = math.atan2(cursorZ0[1], cursorZ0[0]) * 180 / math.pi
+			elif radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
+				self.dragPlane = 'XZ'
+				self.dragStartAngle = math.atan2(cursorY0[2], cursorY0[0]) * 180 / math.pi
+			else:
+				self.dragPlane = 'YZ'
+				self.dragStartAngle = math.atan2(cursorX0[2], cursorX0[1]) * 180 / math.pi
+			self.dragEndAngle = self.dragStartAngle
+			return True
+		return False
+
+	def OnDrag(self, p0, p1):
+		cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY = self._ProjectToPlanes(p0, p1)
+		if self.dragPlane == 'XY':
+			angle = math.atan2(cursorZ0[1], cursorZ0[0]) * 180 / math.pi
+		elif self.dragPlane == 'XZ':
+			angle = math.atan2(cursorY0[2], cursorY0[0]) * 180 / math.pi
+		else:
+			angle = math.atan2(cursorX0[2], cursorX0[1]) * 180 / math.pi
+		diff = angle - self.dragStartAngle
+		if wx.GetKeyState(wx.WXK_SHIFT):
+			diff = round(diff / 1) * 1
+		else:
+			diff = round(diff / 15) * 15
+		if diff > 180:
+			diff -= 360
+		if diff < -180:
+			diff += 360
+		rad = diff / 180.0 * math.pi
+		self.dragEndAngle = self.dragStartAngle + diff
+		if self.dragPlane == 'XY':
+			self.parent.tempMatrix = numpy.matrix([[math.cos(rad), math.sin(rad), 0], [-math.sin(rad), math.cos(rad), 0], [0,0,1]], numpy.float64)
+		elif self.dragPlane == 'XZ':
+			self.parent.tempMatrix = numpy.matrix([[math.cos(rad), 0, math.sin(rad)], [0,1,0], [-math.sin(rad), 0, math.cos(rad)]], numpy.float64)
+		else:
+			self.parent.tempMatrix = numpy.matrix([[1,0,0], [0, math.cos(rad), math.sin(rad)], [0, -math.sin(rad), math.cos(rad)]], numpy.float64)
+
+	def OnDragEnd(self):
+		self.dragStartAngle = None
+
+	def OnDraw(self):
+		glDisable(GL_LIGHTING)
+		glDisable(GL_BLEND)
+		glDisable(GL_DEPTH_TEST)
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+		radius = self.parent.getObjectBoundaryCircle()
+		glScalef(self.rotateRingDist * radius, self.rotateRingDist * radius, self.rotateRingDist * radius)
+		if self.dragPlane == 'XY':
+			glLineWidth(3)
+			glColor4ub(255,64,64,255)
+			if self.dragStartAngle is not None:
+				glPushMatrix()
+				glRotate(self.dragStartAngle, 0,0,1)
+				glBegin(GL_LINES)
+				glVertex3f(0,0,0)
+				glVertex3f(1,0,0)
+				glEnd()
+				glPopMatrix()
+				glPushMatrix()
+				glRotate(self.dragEndAngle, 0,0,1)
+				glBegin(GL_LINES)
+				glVertex3f(0,0,0)
+				glVertex3f(1,0,0)
+				glEnd()
+				glTranslatef(1.1,0,0)
+				glColor4ub(0,0,0,255)
+				openglHelpers.glDrawStringCenter("%d" % (abs(self.dragEndAngle - self.dragStartAngle) + 0.5))
+				glColor4ub(255,64,64,255)
+				glPopMatrix()
+		else:
+			glLineWidth(1)
+			glColor4ub(128,0,0,255)
+		glBegin(GL_LINE_LOOP)
+		for i in range(0, 64):
+			glVertex3f(math.cos(i/32.0*math.pi), math.sin(i/32.0*math.pi),0)
+		glEnd()
+		if self.dragPlane == 'YZ':
+			glColor4ub(64,255,64,255)
+			glLineWidth(3)
+			if self.dragStartAngle is not None:
+				glPushMatrix()
+				glRotate(self.dragStartAngle, 1,0,0)
+				glBegin(GL_LINES)
+				glVertex3f(0,0,0)
+				glVertex3f(0,1,0)
+				glEnd()
+				glPopMatrix()
+				glPushMatrix()
+				glRotate(self.dragEndAngle, 1,0,0)
+				glBegin(GL_LINES)
+				glVertex3f(0,0,0)
+				glVertex3f(0,1,0)
+				glEnd()
+				glTranslatef(0,1.1,0)
+				glColor4ub(0,0,0,255)
+				openglHelpers.glDrawStringCenter("%d" % (abs(self.dragEndAngle - self.dragStartAngle)))
+				glColor4ub(64,255,64,255)
+				glPopMatrix()
+		else:
+			glColor4ub(0,128,0,255)
+			glLineWidth(1)
+		glBegin(GL_LINE_LOOP)
+		for i in range(0, 64):
+			glVertex3f(0, math.cos(i/32.0*math.pi), math.sin(i/32.0*math.pi))
+		glEnd()
+		if self.dragPlane == 'XZ':
+			glLineWidth(3)
+			glColor4ub(255,255,0,255)
+			if self.dragStartAngle is not None:
+				glPushMatrix()
+				glRotate(self.dragStartAngle, 0,-1,0)
+				glBegin(GL_LINES)
+				glVertex3f(0,0,0)
+				glVertex3f(1,0,0)
+				glEnd()
+				glPopMatrix()
+				glPushMatrix()
+				glRotate(self.dragEndAngle, 0,-1,0)
+				glBegin(GL_LINES)
+				glVertex3f(0,0,0)
+				glVertex3f(1,0,0)
+				glEnd()
+				glTranslatef(1.1,0,0)
+				glColor4ub(0,0,0,255)
+				openglHelpers.glDrawStringCenter("%d" % (round(abs(self.dragEndAngle - self.dragStartAngle))))
+				glColor4ub(255,255,0,255)
+				glPopMatrix()
+		else:
+			glColor4ub(128,128,0,255)
+			glLineWidth(1)
+		glBegin(GL_LINE_LOOP)
+		for i in range(0, 64):
+			glVertex3f(math.cos(i/32.0*math.pi), 0, math.sin(i/32.0*math.pi))
+		glEnd()
+		glEnable(GL_DEPTH_TEST)
+
 class toolScale(object):
 	def __init__(self, parent):
 		self.parent = parent
