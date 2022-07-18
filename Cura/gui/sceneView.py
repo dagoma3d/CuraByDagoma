@@ -1052,7 +1052,7 @@ class SceneView(openglGui.glGuiPanel):
 					self._zoom = 1
 				if self._zoom > numpy.max(self._machineSize) * 3:
 					self._zoom = numpy.max(self._machineSize) * 3
-			elif e.LeftIsDown() and self._selectedObj is not None and self._selectedObj == self._mouseClickFocus:
+			elif e.LeftIsDown() and self._selectedObj is not None and self._selectedObj == self._mouseClickFocus and not(self.translateToolButton.getSelected()):
 				self._mouseState = 'dragObject'
 				z = max(0, self._mouseClick3DPos[2])
 				p0, p1 = self.getMouseRay(self._mouseX, self._mouseY)

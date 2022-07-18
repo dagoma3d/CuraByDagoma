@@ -109,7 +109,7 @@ class toolRotate(object):
 		self.dragEndAngle = None
 
 	def _ProjectToPlanes(self, p0, p1):
-		cursorX0 = p0 - (p1 - p0) * (p0[0] / (p1[0] - p0[0]))
+		cursorX0 = p0 - (p1 - p0) * (p0[0] / (p1[0] - p0[0])) # coords when X = 0 (of the raycast from the mouse)
 		cursorY0 = p0 - (p1 - p0) * (p0[1] / (p1[1] - p0[1]))
 		cursorZ0 = p0 - (p1 - p0) * (p0[2] / (p1[2] - p0[2]))
 		cursorYZ = math.sqrt((cursorX0[1] * cursorX0[1]) + (cursorX0[2] * cursorX0[2]))
@@ -122,7 +122,7 @@ class toolRotate(object):
 		cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY = self._ProjectToPlanes(p0, p1)
 		oldDragPlane = self.dragPlane
 		if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorYZ <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
-			#self.parent.SetCursor(wx.StockCursor(wx.CURSOR_SIZING))
+			self.parent.SetCursor(wx.Cursor(wx.CURSOR_SIZING))
 			if self.dragStartAngle is None:
 				if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax:
 					self.dragPlane = 'XY'
@@ -133,7 +133,7 @@ class toolRotate(object):
 		else:
 			if self.dragStartAngle is None:
 				self.dragPlane = ''
-			#self.parent.SetCursor(wx.StockCursor(wx.CURSOR_DEFAULT))
+			self.parent.SetCursor(wx.Cursor(wx.CURSOR_DEFAULT))
 
 	def OnDragStart(self, p0, p1):
 		radius = self.parent.getObjectBoundaryCircle()
@@ -280,82 +280,89 @@ class toolRotate(object):
 class toolTranslate(object):
 	def __init__(self, parent):
 		self.parent = parent
+		self.pointDiff = 15
+		self.smallPointDiff = 1
 		self.dragAxis = None
+		self.arrowLength = 30
+		self.dragStartPoint = None
+		self.dragEndPoint = None
+		self.translateArrowDistMargin = 1.5 # maybe to change later depending on the zoom
 
 	def OnMouseMove(self, p0, p1):
-		# radius = self.parent.getObjectBoundaryCircle()
-		# cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY = self._ProjectToPlanes(p0, p1)
-		# oldDragPlane = self.dragPlane
-		# if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorYZ <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
-		# 	#self.parent.SetCursor(wx.StockCursor(wx.CURSOR_SIZING))
-		# 	if self.dragStartAngle is None:
-		# 		if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax:
-		# 			self.dragPlane = 'XY'
-		# 		elif radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
-		# 			self.dragPlane = 'XZ'
-		# 		else:
-		# 			self.dragPlane = 'YZ'
-		# else:
-		# 	if self.dragStartAngle is None:
-		# 		self.dragPlane = ''
-			#self.parent.SetCursor(wx.StockCursor(wx.CURSOR_DEFAULT))
-		pass
+		if self.dragStartPoint is None: # if we haven't started to translate yet
+			self.dragAxis = self.GetHoveredAxis(p0, p1)
+		if self.dragAxis is not None:
+			self.parent.SetCursor(wx.Cursor(wx.CURSOR_SIZING))
+		else:
+			self.parent.SetCursor(wx.Cursor(wx.CURSOR_DEFAULT))
+
+	def _ProjectToAxes(self, p0, p1):
+		cursorX0 = p0 - (p1 - p0) * (p0[0] / (p1[0] - p0[0])) # coords of the raycast from the mouse when X = 0
+		cursorY0 = p0 - (p1 - p0) * (p0[1] / (p1[1] - p0[1]))
+		cursorZ0 = p0 - (p1 - p0) * (p0[2] / (p1[2] - p0[2]))
+		return cursorX0, cursorY0, cursorZ0
+
+	def GetHoveredAxis(self, p0, p1):
+		# return an axis (if hovered) and the distance from the center on this axis
+		axis = None
+		point = None
+		cursorX0, cursorY0, cursorZ0 = self._ProjectToAxes(p0, p1)
+		# points axis X when it exists one point of the raycast like (x, ~0, ~0) whith 0 <= x <= arrowLength
+		if self.nearZero(cursorZ0[1]) and self.maybeWithinArrow(cursorZ0[0]):
+			axis = 'X'
+			point = cursorZ0[0]
+		if self.nearZero(cursorX0[2]) and self.maybeWithinArrow(cursorX0[1]):
+			axis = 'Y'
+			point = cursorX0[1]
+		if self.nearZero(cursorY0[0]) and self.maybeWithinArrow(cursorY0[2]):
+			axis = 'Z'
+			point = cursorY0[2]
+		return axis, point
+
+	def nearZero(self, x):
+		return abs(x) <= self.translateArrowDistMargin
+
+	def maybeWithinArrow(self, x):
+		return not(self.nearZero(x)) and 0 <= x <= self.arrowLength + self.translateArrowDistMargin
 
 	def OnDragStart(self, p0, p1):
-		# radius = self.parent.getObjectBoundaryCircle()
-		# cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY = self._ProjectToPlanes(p0, p1)
-		# if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorYZ <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
-		# 	if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax:
-		# 		self.dragPlane = 'XY'
-		# 		self.dragStartAngle = math.atan2(cursorZ0[1], cursorZ0[0]) * 180 / math.pi
-		# 	elif radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
-		# 		self.dragPlane = 'XZ'
-		# 		self.dragStartAngle = math.atan2(cursorY0[2], cursorY0[0]) * 180 / math.pi
-		# 	else:
-		# 		self.dragPlane = 'YZ'
-		# 		self.dragStartAngle = math.atan2(cursorX0[2], cursorX0[1]) * 180 / math.pi
-		# 	self.dragEndAngle = self.dragStartAngle
-		# 	return True
-		# return False
-		pass
+		self.arrowLength = 30 # to change
+		self.dragAxis, self.dragStartPoint = self.GetHoveredAxis(p0, p1)
+		if self.dragAxis is not None:
+			self.dragEndPoint = self.dragStartPoint
+			return True
+		return False
 
 	def OnDrag(self, p0, p1):
-		# cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY = self._ProjectToPlanes(p0, p1)
-		# if self.dragPlane == 'XY':
-		# 	angle = math.atan2(cursorZ0[1], cursorZ0[0]) * 180 / math.pi
-		# elif self.dragPlane == 'XZ':
-		# 	angle = math.atan2(cursorY0[2], cursorY0[0]) * 180 / math.pi
-		# else:
-		# 	angle = math.atan2(cursorX0[2], cursorX0[1]) * 180 / math.pi
-		# diff = angle - self.dragStartAngle
-		# if wx.GetKeyState(wx.WXK_SHIFT):
-		# 	diff = round(diff / 1) * 1
-		# else:
-		# 	diff = round(diff / 15) * 15
-		# if diff > 180:
-		# 	diff -= 360
-		# if diff < -180:
-		# 	diff += 360
-		# rad = diff / 180.0 * math.pi
-		# self.dragEndAngle = self.dragStartAngle + diff
-		# if self.dragPlane == 'XY':
-		# 	self.parent.tempMatrix = numpy.matrix([[math.cos(rad), math.sin(rad), 0], [-math.sin(rad), math.cos(rad), 0], [0,0,1]], numpy.float64)
-		# elif self.dragPlane == 'XZ':
-		# 	self.parent.tempMatrix = numpy.matrix([[math.cos(rad), 0, math.sin(rad)], [0,1,0], [-math.sin(rad), 0, math.cos(rad)]], numpy.float64)
-		# else:
-		# 	self.parent.tempMatrix = numpy.matrix([[1,0,0], [0, math.cos(rad), math.sin(rad)], [0, -math.sin(rad), math.cos(rad)]], numpy.float64)
-		pass
+		_, dragPoint = self.GetHoveredAxis(p0, p1)
+		# need to project on axis
+		diff = dragPoint - self.dragStartPoint
+		if wx.GetKeyState(wx.WXK_SHIFT):
+			diff = round(diff / self.smallPointDiff) * self.smallPointDiff # smoother
+		else:
+			diff = (diff / self.pointDiff) * self.pointDiff
+		self.dragEndPoint = self.dragStartPoint + diff
+		if self.dragAxis == 'X':
+			# self._selectedObj.setPosition(self._selectedObj.getPosition() + (diff, 0, 0))
+			pass
+		elif self.dragAxis == 'Y':
+			# self._selectedObj.setPosition(self._selectedObj.getPosition() + (0, diff, 0))
+			pass
+		else:
+			# self._selectedObj.setPosition(self._selectedObj.getPosition() + (0, 0, diff))
+			pass
 
 	def OnDragEnd(self):
-		# self.dragStartAngle = None
-		pass
+		self.dragStartPoint = None
 
 	def OnDraw(self):
+		# draw 3 axes and highlight one of them if selected
+
 		glDisable(GL_LIGHTING)
 		glDisable(GL_BLEND)
 		glDisable(GL_DEPTH_TEST)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-		length = 10 #to change
+		self.arrowLength = 30 #to change
 		# glScalef(self.rotateRingDist * radius, self.rotateRingDist * radius, self.rotateRingDist * radius)
 		
 		if self.dragAxis == 'X':
@@ -367,7 +374,7 @@ class toolTranslate(object):
 		glBegin(GL_LINES)
 		# glPushMatrix()
 		glVertex3f(0,0,0)
-		glVertex3f(length,0,0)
+		glVertex3f(self.arrowLength,0,0)
 		glEnd()
 		# glPopMatrix()
 
@@ -380,7 +387,7 @@ class toolTranslate(object):
 		glBegin(GL_LINES)
 		# glPushMatrix()
 		glVertex3f(0,0,0)
-		glVertex3f(0,length,0)
+		glVertex3f(0,self.arrowLength,0)
 		glEnd()
 		# glPopMatrix()
 
@@ -393,7 +400,7 @@ class toolTranslate(object):
 		glBegin(GL_LINES)
 		# glPushMatrix()
 		glVertex3f(0,0,0)
-		glVertex3f(0,0,length)
+		glVertex3f(0,0,self.arrowLength)
 		glEnd()
 		# glPopMatrix()
 
