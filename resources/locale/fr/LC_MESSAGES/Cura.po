@@ -623,12 +623,61 @@ msgstr "A propos de Cura..."
 msgid "About"
 msgstr "A propos"
 
-msgid "Contact us"
-msgstr "Nous contacter"
 
 #: Cura/gui/mainWindow.py:192
 msgid "Help"
 msgstr "Aide"
+
+msgid "Contact us"
+msgstr "Nous contacter"
+
+msgid "Shortcuts"
+msgstr "Raccourcis"
+
+msgid "Moving Camera"
+msgstr "Mouvements de la caméra"
+
+msgid "Right click"
+msgstr "Clic droit"
+
+msgid "Rotate the camera (drag the mouse)"
+msgstr "Rotation de la caméra (faire glisser la souris)"
+
+msgid "Translate the camera (drag the mouse)"
+msgstr "Translation de la caméra (faire glisser la souris)"
+
+msgid "Rotate Tool"
+msgstr "Outil Tourner"
+
+msgid "Left click"
+msgstr "Clic gauche"
+
+msgid "Rotate the object (drag the mouse along a circle)"
+msgstr "Rotation de l'objet (faire glisser la souris)"
+
+msgid "Rotate the object slowly (drag the mouse along a circle)"
+msgstr "Rotation lente de l'objet (faire glisser la souris)"
+
+msgid "Scale Tool"
+msgstr "Outil Redimensionner"
+
+msgid "Modify the object's size (drag the mouse from the end of an axis)"
+msgstr "Modifie la taille de l'objet (faire glisser la souris en partant du bout d'un axe)"
+
+msgid "Modify the object's size slowly (drag the mouse from the end of an axis)"
+msgstr "Modifie lentement la taille de l'objet (faire glisser la souris en partant du bout d'un axe)"
+
+msgid "Stretch the object (drag the mouse from the end of an axis)"
+msgstr "Étire l'objet (faire glisser la souris)"
+
+msgid "Stretch the object slowly (drag the mouse from the end of an axis)"
+msgstr "Étire l'objet lentement (faire glisser la souris)"
+
+msgid "Display all the shortcuts."
+msgstr "Afficher tous les raccourcis."
+
+msgid "Here is a list of shortcuts to help moving camera through the scene and applying transformations with the tools."
+msgstr "Ceci est une liste des raccouris aidant à faire bouger la caméra à travers la scène et à appliquer des transformations grâce aux outils."
 
 #: Cura/gui/mainWindow.py:343
 msgid ""
