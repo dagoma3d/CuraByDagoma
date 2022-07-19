@@ -409,6 +409,21 @@ class toolTranslate(object):
 		# glVertex3f(0,0,self.arrowLength)
 		# glEnd()
 
+		### draw pyramids (to make arrows) ###
+		# for axis, center in ('X', (self.arrowLength, 0, 0)), ('Y', (0, self.arrowLength, 0)), ('Z', (0, 0, self.arrowLength)):
+		for axis, center, color, color_selected in ('X', (self.arrowLength, 0, 0), (128,0,0,255), (255,64,64,255)), ('Y', (0, self.arrowLength, 0), (0,128,0,255), (64,255,64,255)): # for each axis
+			if axis == self.dragAxis: # if current axis is selected
+				glLineWidth(4)
+				glColor4ub(*color_selected)
+			else:
+				glLineWidth(2)
+				glColor4ub(*color)
+			glPushMatrix()
+			glTranslatef(*center)
+			openglHelpers.DrawPyramid(axis)
+			glPopMatrix()
+
+
 class toolScale(object):
 	def __init__(self, parent):
 		self.parent = parent

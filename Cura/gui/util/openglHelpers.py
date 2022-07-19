@@ -481,3 +481,31 @@ def DrawBox(vMin, vMax):
 	glVertex3f(vMin[0], vMax[1], vMin[2])
 	glVertex3f(vMin[0], vMax[1], vMax[2])
 	glEnd()
+
+def DrawPyramid(orientation, length=1, height=2):
+	# orientation must be 'X', 'Y', or 'Z'
+	halh_length = length / 2
+
+	# find the coord of the base (square) vertices depending on the orientation
+	if orientation == 'X':
+		vertex = (height, 0, 0)
+		vertices = [(0, halh_length, halh_length), (0, -halh_length, halh_length), (0, -halh_length, -halh_length), (0, halh_length, -halh_length)]
+	elif orientation == 'Y':
+		vertex = (0, height, 0)
+		vertices = [(halh_length, 0, halh_length), (-halh_length, 0, halh_length), (-halh_length, 0, -halh_length), (halh_length, 0, -halh_length)]
+	else:
+		vertex = (height, 0, 0)
+		vertices = [(0, halh_length, halh_length), (-halh_length, halh_length, 0), (-halh_length, -halh_length, 0), (halh_length, -halh_length, 0)]
+
+	# draw the base
+	glBegin(GL_LINE_LOOP)
+	for vert in vertices:
+		glVertex3f(vert[0], vert[1], vert[2])
+	glEnd()
+	
+	# draw the edges
+	glBegin(GL_LINES)
+	for vert in vertices:
+		glVertex3f(vert[0], vert[1], vert[2])
+		glVertex3f(vertex[0], vertex[1], vertex[2])
+	glEnd()
