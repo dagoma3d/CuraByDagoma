@@ -450,6 +450,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.RefreshSensor()
 		self.RefreshPrintingSurface()
 		self.RefreshOffset()
+		self.RefreshUsePlate()
 		self.RefreshAdhesion()
 
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
@@ -608,6 +609,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.initWipeTowerVolume()
 			self.initFirstTemp2()
 		self.initPrintingSurface()
+		self.initUsePlate()
 		self.initSensor()
 
 	def initPrinter(self):
@@ -927,6 +929,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.firstTempCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Custom 1st layer print temperature (°C) :"))
 		self.firstTempSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('first_layer_temperature'), min=175, max=270, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
 	
+	def initUsePlate(self):
+		self.usePlateCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Use a flex magnetic build plate"))
+
 	def initFirstTemp2(self):
 		self.firstTempCheckBox2 = wx.CheckBox(self, wx.ID_ANY, _("Custom 1st layer print temperature (°C) :"))
 		self.firstTempSpinCtrl2 = wx.SpinCtrl(self, wx.ID_ANY, profile.getProfileSetting('first_layer_temperature2'), min=175, max=270, style=wx.SP_ARROW_KEYS | wx.TE_AUTO_URL)
@@ -1495,6 +1500,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 		profile.putPreference('wipe_tower_volume_index', wipe_tower_volume_index)
 		wipeTowerVolume = self.wipe_tower_volumes[wipe_tower_volume_index]
 		profile.putProfileSetting('wipe_tower_volume', wipeTowerVolume.wipe_tower_volume)
+
+	def RefreshUsePlate():
+		pass
+			
 
 	def RefreshAdhesion(self):
 		adhesions = ['Nothing', 'Skirt' ,'Brim', 'Raft']
