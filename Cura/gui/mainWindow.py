@@ -489,6 +489,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_RADIOBOX, self.OnPrintingSurfaceRadioBoxChanged, self.printingSurfaceRadioBox)
 		self.Bind(wx.EVT_TEXT, self.OnOffsetTextCtrlChanged, self.offsetTextCtrl)
 		self.Bind(wx.EVT_RADIOBOX, self.OnAdhesionRadioBoxChanged, self.adhesionRadioBox)
+		self.Bind(wx.EVT_CHECKBOX, self.OnUsePlateCheckBoxChanged, self.usePlateCheckBox)
 		self.Bind(wx.EVT_CHECKBOX, self.OnFirstTempCheckBoxChanged, self.firstTempCheckBox)
 		self.Bind(wx.EVT_TEXT, self.OnFirstTempSpinCtrlChanged, self.firstTempSpinCtrl)
 		self.Bind(wx.EVT_TEXT_ENTER, self.OnFirstTempSpinCtrlChanged, self.firstTempSpinCtrl)
@@ -574,8 +575,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 			mainSizer.Add(self.wipeTowerVolumeRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 		if not printerName in ["Neva", "Magis", "Sigma"]:
 			mainSizer.Add(self.sensorCheckBox)
+			self.usePlateCheckBox.Hide()
 		else:
 			self.sensorCheckBox.Hide()
+			mainSizer.Add(self.usePlateCheckBox)
 		mainSizer.Add(self.pausePluginButton, flag=wx.EXPAND)
 		mainSizer.Add(self.pausePluginPanel, flag=wx.EXPAND)
 		mainSizer.Add(self.printButton, flag=wx.EXPAND|wx.TOP, border=5)
@@ -799,7 +802,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def initAdhesion(self):
 		choices = [_('None'), _('Adding a skirt'), _('Adding a brim'), _('Adding a raft')]
-		# TODO : French and English for improve adhesion surface...
 		self.adhesionRadioBox = wx.RadioBox(self, wx.ID_ANY, _("Improving adhesion surface :"), choices = choices, majorDimension=0, style=wx.RA_SPECIFY_ROWS)
 		self.adhesionRadioBox.SetSelection(0)
 
@@ -931,6 +933,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	
 	def initUsePlate(self):
 		self.usePlateCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Use a flex magnetic build plate"))
+		self.usePlateCheckBox.SetValue(True)
 
 	def initFirstTemp2(self):
 		self.firstTempCheckBox2 = wx.CheckBox(self, wx.ID_ANY, _("Custom 1st layer print temperature (°C) :"))
@@ -1504,6 +1507,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def RefreshUsePlate(self):
 		if self.usePlateCheckBox.GetValue():
 			profile.putProfileSetting('bottom_thickness', 0.30)
+		else:
+			profile.putProfileSetting('bottom_thickness', 0.26)
 
 	def RefreshAdhesion(self):
 		adhesions = ['Nothing', 'Skirt' ,'Brim', 'Raft']
@@ -1580,6 +1585,10 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def OnWipeTowerVolumeRadioBoxChanged(self, event):
 		self.RefreshWipeTowerVolume()
+		self.updateSceneAndControls(event)
+
+	def OnUsePlateCheckBoxChanged(self, event):
+		self.RefreshUsePlate()
 		self.updateSceneAndControls(event)
 
 	def OnAdhesionRadioBoxChanged(self, event):

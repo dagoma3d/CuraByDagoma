@@ -628,7 +628,7 @@ G4 S20 ;On attends 20 secondes avant de continuer
 G0 X0 Y0 ; On rentre la tête
 M109 R100 ; On refroidit jusqu'à la température de palpage
 G29
-M109 S#PRINT_TEMPERATURE# U-55 X55 V-85 Y-85 W0.26 Z0.26 ;first or global print temperature
+M109 S#PRINT_TEMPERATURE# U-55 X55 V-85 Y-85 W{bottom_thickness} Z{bottom_thickness} ;first or global print temperature
 M82 ;set extruder to absolute mode
 G92 E0 ;zero the extruded length
 G1 F200 E6 ;extrude 10mm of feed stock
