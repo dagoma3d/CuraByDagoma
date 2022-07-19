@@ -327,8 +327,8 @@ class MachineCom(object):
 			self._changeState(self.STATE_OPEN_SERIAL)
 			try:
 				if self._baudrate == 0:
-					self._log("Connecting to: %s with baudrate: 115200 (fallback)" % (self._port))
-					self._serial = serial.Serial(str(self._port), 115200, timeout=3, writeTimeout=10000)
+					self._log("Connecting to: %s with baudrate: 250000 (fallback)" % (self._port))
+					self._serial = serial.Serial(str(self._port), 250000, timeout=3, writeTimeout=10000)
 				else:
 					self._log("Connecting to: %s with baudrate: %s (configured)" % (self._port, self._baudrate))
 					self._serial = serial.Serial(str(self._port), self._baudrate, timeout=5, writeTimeout=10000)
@@ -369,46 +369,46 @@ class MachineCom(object):
 
 			#No matter the state, if we see an fatal error, goto the error state and store the error for reference.
 			# Only goto error on known fatal errors.
-			if line.startswith('Error:'):
+			if line.startswith(b'Error:'):
 				#Oh YEAH, consistency.
 				# Marlin reports an MIN/MAX temp error as "Error:x\n: Extruder switched off. MAXTEMP triggered !\n"
 				#	But a bed temp error is reported as "Error: Temperature heated bed switched off. MAXTEMP triggered !!"
 				#	So we can have an extra newline in the most common case. Awesome work people.
-				if re.match('Error:[0-9]\n', line):
+				if re.match(b'Error:[0-9]\n', line):
 					line = line.rstrip() + self._readline()
 				#Skip the communication errors, as those get corrected.
-				if 'Extruder switched off' in line or 'Temperature heated bed switched off' in line or 'Something is wrong, please turn off the printer.' in line:
+				if b'Extruder switched off' in line or b'Temperature heated bed switched off' in line or b'Something is wrong, please turn off the printer.' in line:
 					if not self.isError():
 						self._errorValue = line[6:]
 						self._changeState(self.STATE_ERROR)
-			if ' T:' in line or line.startswith('T:'):
+			if b' T:' in line or line.startswith(b'T:'):
 				try:
-					self._temp[self._temperatureRequestExtruder] = float(re.search("T: *([0-9\.]*)", line).group(1))
+					self._temp[self._temperatureRequestExtruder] = float(re.search(b"T: *([0-9\.]*)", line).group(1))
 				except:
 					pass
-				if 'B:' in line:
+				if b'B:' in line:
 					try:
-						self._bedTemp = float(re.search("B: *([0-9\.]*)", line).group(1))
+						self._bedTemp = float(re.search(b"B: *([0-9\.]*)", line).group(1))
 					except:
 						pass
 				self._callback.mcTempUpdate(self._temp, self._bedTemp, self._targetTemp, self._bedTargetTemp)
 				#If we are waiting for an M109 or M190 then measure the time we lost during heatup, so we can remove that time from our printing time estimate.
-				if not 'ok' in line and self._heatupWaitStartTime != 0:
+				if not b'ok' in line and self._heatupWaitStartTime != 0:
 					t = time.time()
 					self._heatupWaitTimeLost = t - self._heatupWaitStartTime
 					self._heatupWaitStartTime = t
-			elif line.strip() != '' and line.strip() != 'ok' and not line.startswith('Resend:') and not line.startswith('Error:checksum mismatch') and not line.startswith('Error:Line Number is not Last Line Number+1') and line != 'echo:Unknown command:""\n' and self.isOperational():
+			elif line.strip() != b'' and line.strip() != b'ok' and not line.startswith(b'Resend:') and not line.startswith(b'Error:checksum mismatch') and not line.startswith(b'Error:Line Number is not Last Line Number+1') and line != b'echo:Unknown command:""\n' and self.isOperational():
 				self._callback.mcMessage(line)
 
 			if self._state == self.STATE_DETECT_BAUDRATE or self._state == self.STATE_DETECT_SERIAL:
-				if line == '' or time.time() > timeout:
+				if line == b'' or time.time() > timeout:
 					if len(self._baudrateDetectList) < 1:
 						self.close()
 						self._errorValue = "No more baudrates to test, and no suitable baudrate found."
 						self._changeState(self.STATE_ERROR)
 					elif self._baudrateDetectRetry > 0:
 						self._baudrateDetectRetry -= 1
-						self._serial.write('\n')
+						self._serial.write(b'\n')
 						self._log("Baudrate test retry: %d" % (self._baudrateDetectRetry))
 						self._sendCommand("M105")
 						self._testingBaudrate = True
@@ -434,12 +434,12 @@ class MachineCom(object):
 							self._baudrateDetectRetry = 5
 							self._baudrateDetectTestOk = 0
 							timeout = time.time() + 5
-							self._serial.write('\n')
+							self._serial.write(b'\n')
 							self._sendCommand("M105")
 							self._testingBaudrate = True
 						except:
 							self._log("Unexpected error while setting baudrate: %d %s" % (baudrate, getExceptionString()))
-				elif 'T:' in line:
+				elif b'T:' in line:
 					self._baudrateDetectTestOk += 1
 					if self._baudrateDetectTestOk < 10:
 						self._log("Baudrate test ok: %d" % (self._baudrateDetectTestOk))
@@ -447,20 +447,23 @@ class MachineCom(object):
 					else:
 						self._sendCommand("M999")
 						self._serial.timeout = 2
-						profile.putMachineSetting('serial_baud_auto', self._serial.baudrate)
+						try:
+							profile.putMachineSetting('serial_baud_auto', self._serial.baudrate)
+						except KeyError as e:
+							self._log("Cannot store the baudrate in preferences: %d %s" % (baudrate, getExceptionString()))
 						self._changeState(self.STATE_OPERATIONAL)
 				else:
 					self._testingBaudrate = False
 			elif self._state == self.STATE_CONNECTING:
-				if line == '' or 'wait' in line:        # 'wait' needed for Repetier (kind of watchdog)
+				if line == b'' or b'wait' in line:        # 'wait' needed for Repetier (kind of watchdog)
 					self._sendCommand("M105")
-				elif 'ok' in line:
+				elif b'ok' in line:
 					self._changeState(self.STATE_OPERATIONAL)
 				if time.time() > timeout:
 					self.close()
 			elif self._state == self.STATE_OPERATIONAL:
 				#Request the temperature on comm timeout (every 2 seconds) when we are not printing.
-				if line == '':
+				if line == b'':
 					if self._extruderCount > 0:
 						self._temperatureRequestExtruder = (self._temperatureRequestExtruder + 1) % self._extruderCount
 						self.sendCommand("M105 T%d" % (self._temperatureRequestExtruder))
@@ -476,20 +479,20 @@ class MachineCom(object):
 					else:
 						self.sendCommand("M105")
 					tempRequestTimeout = time.time() + 5
-				if line == '' and time.time() > timeout:
+				if line == b'' and time.time() > timeout:
 					self._log("Communication timeout during printing, forcing a line")
-					line = 'ok'
-				if 'ok' in line:
+					line = b'ok'
+				if b'ok' in line:
 					timeout = time.time() + 5
 					if not self._commandQueue.empty():
 						self._sendCommand(self._commandQueue.get())
 					else:
 						self._sendNext()
-				elif "resend" in line.lower() or "rs" in line:
+				elif b"resend" in line.lower() or b"rs" in line:
 					try:
 						self._gcodePosition = int(line.replace("N:"," ").replace("N"," ").replace(":"," ").split()[-1])
 					except:
-						if "rs" in line:
+						if b"rs" in line:
 							self._gcodePosition = int(line.split()[1])
 		self._log("Connection closed, closing down monitor")
 
@@ -524,7 +527,8 @@ class MachineCom(object):
 		if ret == '':
 			#self._log("Recv: TIMEOUT")
 			return ''
-		self._log("Recv: %s" % (str(ret, 'ascii', 'replace').rstrip()))
+		message = str(ret, 'ascii', 'replace').rstrip()
+		self._log("Recv: %s" % message)
 		return ret
 
 	def close(self, isError = False):
@@ -559,12 +563,12 @@ class MachineCom(object):
 				pass
 		self._log('Send: %s' % (cmd))
 		try:
-			self._serial.write(cmd + '\n')
+			self._serial.write(cmd.encode() + b'\n')
 		except serial.SerialTimeoutException:
 			self._log("Serial timeout while writing to serial port, trying again.")
 			try:
 				time.sleep(0.5)
-				self._serial.write(cmd + '\n')
+				self._serial.write(cmd.encode() + b'\n')
 			except:
 				self._log("Unexpected error while writing serial port: %s" % (getExceptionString()))
 				self._errorValue = getExceptionString()

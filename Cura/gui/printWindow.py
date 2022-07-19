@@ -308,7 +308,7 @@ class LogWindow(wx.Frame):
 		super(LogWindow, self).__init__(parent, title=_("Log"))
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
-		self.textBox = wx.TextCtrl(self, -1, str(logText, errors='ignore'), style=wx.TE_MULTILINE | wx.TE_DONTWRAP | wx.TE_READONLY)
+		self.textBox = wx.TextCtrl(self, -1, logText, style=wx.TE_MULTILINE | wx.TE_DONTWRAP | wx.TE_READONLY)
 		self.SetSize((500, 400))
 		self.Centre()
 		self.Show(True)

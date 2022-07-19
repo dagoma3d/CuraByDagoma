@@ -213,28 +213,28 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 		line = self._process.stdout.readline()
 		while len(line) > 0:
 			line = line.strip()
-			line = line.split(':', 1)
-			if line[0] == '':
+			line = line.split(b':', 1)
+			if line[0] == b'':
 				pass
-			elif line[0] == 'log':
+			elif line[0] == b'log':
 				self.log.append(line[1])
 				if len(self.log) > 30:
 					self.log.pop(0)
-			elif line[0] == 'temp':
-				line = line[1].split(':')
+			elif line[0] == b'temp':
+				line = line[1].split(b':')
 				self._temperature = json.loads(line[0])
 				self._targetTemperature = json.loads(line[1])
 				self._bedTemperature = float(line[2])
 				self._targetBedTemperature = float(line[3])
 				self._doCallback()
-			elif line[0] == 'message':
+			elif line[0] == b'message':
 				self._doCallback(line[1])
-			elif line[0] == 'state':
-				line = line[1].split(':', 1)
+			elif line[0] == b'state':
+				line = line[1].split(b':', 1)
 				self._commState = int(line[0])
 				self._commStateString = line[1]
 				self._doCallback()
-			elif line[0] == 'progress':
+			elif line[0] == b'progress':
 				self._printProgress = int(line[1])
 				self._doCallback()
 			else:
