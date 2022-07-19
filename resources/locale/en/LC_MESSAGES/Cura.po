@@ -772,6 +772,9 @@ msgstr ""
 msgid "Rotate"
 msgstr ""
 
+msgid "Translate"
+msgstr ""
+
 #: Cura/gui/sceneView.py:70
 msgid "Scale"
 msgstr ""

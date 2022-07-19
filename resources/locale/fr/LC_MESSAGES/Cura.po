@@ -844,6 +844,9 @@ msgstr "Charger"
 msgid "Rotate"
 msgstr "Tourner"
 
+msgid "Translate"
+msgstr "Déplacer"
+
 #: Cura/gui/sceneView.py:70
 msgid "Scale"
 msgstr "Redimensionner"
