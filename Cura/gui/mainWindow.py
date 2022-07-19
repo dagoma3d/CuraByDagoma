@@ -1501,9 +1501,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 		wipeTowerVolume = self.wipe_tower_volumes[wipe_tower_volume_index]
 		profile.putProfileSetting('wipe_tower_volume', wipeTowerVolume.wipe_tower_volume)
 
-	def RefreshUsePlate():
-		pass
-			
+	def RefreshUsePlate(self):
+		if self.usePlateCheckBox.GetValue():
+			profile.putProfileSetting('bottom_thickness', 0.30)
 
 	def RefreshAdhesion(self):
 		adhesions = ['Nothing', 'Skirt' ,'Brim', 'Raft']
