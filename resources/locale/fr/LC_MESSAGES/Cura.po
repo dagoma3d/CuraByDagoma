@@ -688,6 +688,39 @@ msgstr "Afficher tous les raccourcis."
 msgid "Here is a list of shortcuts to help moving camera through the scene and applying transformations with the tools."
 msgstr "Ceci est une liste des raccouris aidant à faire bouger la caméra à travers la scène et à appliquer des transformations grâce aux outils."
 
+msgid "Report a bug"
+msgstr "Signaler un bug"
+
+msgid "Help to report a bug."
+msgstr "Aide pour rapport un bug."
+
+msgid "How to report a problem ?"
+msgstr "Comment rapporter un problème ?"
+
+msgid "If you have noticed a problem, please first ensure you are using the latest version of Cura By Dagoma."
+msgstr "Si vous avez remarqué un problème, veillez d'abord à vous assurer que vous utilisez la dernière version de Cura By Dagoma."
+
+msgid "To report the problem to the IT staff, please follow this link to create an Issue on GitHub :"
+msgstr "Pour signaler le problème à l'équipe IT, veuillez suivre ce lien et créer une Issue sur GitHub :"
+
+msgid "If you don't feel confident with the GitHub platform, you can also create a support ticket from the dagoma's website :"
+msgstr "Si vous ne vous sentez pas à l'aise avec la plateforme GitHub, vous pouvez également créer un ticket d'assistance depuis le site de dagoma :"
+
+msgid "Before explaining the problem, please write the version of your OS."
+msgstr "Avant d'expliquer votre problème, veuillez préciser la version de votre système d'exploitation."
+
+msgid "If the problem happens after loading a certain STL file, please attach it to your message."
+msgstr "Si le problème se produit après le chargement d'un certain fichier STL, veuillez le joindre à votre message."
+
+msgid "If it's possible, attach the last (or the previous) STL you have loaded too."
+msgstr "Si possibe, mettez en pièce-jointe le dernier (ou le dernier) fichier STL que vous avez chargé également."
+
+msgid "Then, please attach the 3 files named : 'current_profile.ini', 'mru_filelist.ini', 'preferences.ini'.\n- On Windows, you can find them in ~/.curaByDagoma/2.2.0/.\n- On MacOs, you can find them in ~/Library/Application Support/CuraByDagoma/2.2.0/.\n- On Linux, you can find them in ~/.curaByDagoma/2.2.0/."
+msgstr "Ensuite, veuillez joindre les 3 fichiers nommés : 'current_profile.ini', 'mru_filelist.ini', 'preferences.ini'.\n- Sur Windows, vous pouvez les trouver dans ~/.curaByDagoma/2.2.0/.\n- Sur MacOs, vous pouvez les trouver dans ~/Library/Application Support/CuraByDagoma/2.2.0/.\n- Sur Linux, vous pouvez les trouver dans ~/.curaByDagoma/2.2.0/."
+
+msgid "After sending your message, please check regularly in case someone has answered you. We will try to solve your problem as soon as possible."
+msgstr "Après avoir envoyé votre message, veuillez vérifier régulièrement si quelqu'un vous a répondu. Nous essaierons de résoudre votre problème dans les plus brefs délais."
+
 #: Cura/gui/mainWindow.py:343
 msgid ""
 "For \"One at a time\" printing, you need to have entered the correct head "
