@@ -1285,6 +1285,9 @@ class normalSettingsPanel(configBase.configPanelBase):
 			profile.putProfileSetting('filament_physical_density', fila.filament_physical_density)
 			profile.putProfileSetting('filament_cost_kg', fila.filament_cost_kg)
 			profile.putPreference('model_colour', fila.model_colour)
+		self.RefreshFirstTemp()
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.RefreshFirstTemp2()
 
 	def RefreshColor2(self):
 		#print 'Refresh color'
