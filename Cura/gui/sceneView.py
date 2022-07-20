@@ -589,8 +589,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def OnTranslateReset(self, button):
 		self._selectedObj.setPosition(numpy.array([0.0, 0.0]))
-		#check collision !
-		# pass
+		self._scene.pushFree(self._selectedObj)
 
 	def OnMirror(self, axis):
 		if self._selectedObj is None:
