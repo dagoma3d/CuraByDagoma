@@ -787,6 +787,9 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
+msgid "Center"
+msgstr ""
+
 #: Cura/gui/sceneView.py:74
 msgid "Lay flat"
 msgstr ""

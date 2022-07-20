@@ -867,6 +867,9 @@ msgstr "Mettre à plat"
 msgid "To max"
 msgstr "Au maximum"
 
+msgid "Center"
+msgstr "Centrer"
+
 #: Cura/gui/sceneView.py:79
 msgid "Mirror X"
 msgstr "Symétrie en X"
