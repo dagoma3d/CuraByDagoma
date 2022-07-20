@@ -365,7 +365,7 @@ class toolScale(object):
 
 	def OnDragEnd(self):
 		self.scale = None
-		self.parent.updateModelSettingsToControls()
+		self.parent.updateModelSettingsToControls() # update scale text input in the scene
 
 	def OnDraw(self):
 		s = self._nodeSize()
