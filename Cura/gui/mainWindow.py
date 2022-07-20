@@ -17,6 +17,7 @@ from Cura.gui import configWizard
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
 from Cura.gui import shortcutsWindow
+from Cura.gui import bugReportWindow
 from Cura.gui import warningWindow
 from Cura.gui.util import dropTarget
 from Cura.gui.tools import pidDebugger
