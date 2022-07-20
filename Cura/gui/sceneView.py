@@ -84,6 +84,8 @@ class SceneView(openglGui.glGuiPanel):
 		self.resetScaleButton    = openglGui.glButton(self, 13, _("Reset"), (1,-2), self.OnScaleReset)
 		self.scaleMaxButton      = openglGui.glButton(self, 17, _("To max"), (1,-3), self.OnScaleMax)
 
+		self.resetTranslateButton = openglGui.glButton(self, 20, _("Center"), (2, -2), self.OnTranslateReset)
+
 		self.mirrorXButton       = openglGui.glButton(self, 14, _("Mirror X"), (3,-2), lambda button: self.OnMirror(0))
 		self.mirrorYButton       = openglGui.glButton(self, 18, _("Mirror Y"), (3,-3), lambda button: self.OnMirror(1))
 		self.mirrorZButton       = openglGui.glButton(self, 22, _("Mirror Z"), (3,-4), lambda button: self.OnMirror(2))
@@ -496,6 +498,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.layFlatButton.setHidden(not self.rotateToolButton.getSelected())
 		self.resetScaleButton.setHidden(not self.scaleToolButton.getSelected())
 		self.scaleMaxButton.setHidden(not self.scaleToolButton.getSelected())
+		self.resetTranslateButton.setHidden(not self.translateToolButton.getSelected())
 		self.scaleForm.setHidden(not self.scaleToolButton.getSelected())
 		self.mirrorXButton.setHidden(not self.mirrorToolButton.getSelected())
 		self.mirrorYButton.setHidden(not self.mirrorToolButton.getSelected())
@@ -583,6 +586,11 @@ class SceneView(openglGui.glGuiPanel):
 		self._selectObject(self._selectedObj)
 		self.updateProfileToControls()
 		self.sceneUpdated()
+
+	def OnTranslateReset(self, button):
+		self._selectedObj.setPosition(numpy.array([0.0, 0.0]))
+		#check collision !
+		# pass
 
 	def OnMirror(self, axis):
 		if self._selectedObj is None:
