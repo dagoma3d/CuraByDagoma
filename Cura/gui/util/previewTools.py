@@ -365,6 +365,7 @@ class toolScale(object):
 
 	def OnDragEnd(self):
 		self.scale = None
+		self.parent.updateModelSettingsToControls()
 
 	def OnDraw(self):
 		s = self._nodeSize()
