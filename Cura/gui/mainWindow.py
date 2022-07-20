@@ -126,6 +126,8 @@ class mainWindow(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.OnAbout, i)
 		i = self.helpMenu.Append(wx.ID_ANY, _("Shortcuts"), _("Display all the shortcuts."))
 		self.Bind(wx.EVT_MENU, self.OnShortcuts, i)
+		i = self.helpMenu.Append(wx.ID_ANY, _("Report a bug"), _("Help to report a bug."))
+		self.Bind(wx.EVT_MENU, self.OnBugReport, i)
 		self.menuBar.Append(self.helpMenu, _("Help"))
 
 		self.SetMenuBar(self.menuBar)
@@ -283,6 +285,11 @@ class mainWindow(wx.Frame):
 		if sys.platform.startswith('darwin'):
 			from Cura.gui.util import macosFramesWorkaround as mfw
 			wx.CallAfter(mfw.StupidMacOSWorkaround)
+
+	def OnBugReport(self, e):
+		bugReportBox = bugReportWindow.bugReportWindow(self)
+		bugReportBox.Centre()
+		bugReportBox.Show()
 
 	def OnClose(self, e):
 		profile.saveProfile(profile.getDefaultProfilePath(), True)
