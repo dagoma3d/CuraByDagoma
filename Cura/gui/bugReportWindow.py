@@ -26,10 +26,12 @@ class bugReportWindow(wx.Frame):
 		s.Add(title, flag=wx.ALIGN_CENTRE|wx.BOTTOM|wx.TOP|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("If you have noticed a problem, please first ensure you are using the latest version of Cura By Dagoma.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticLine(p), flag=wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		s.Add(wx.StaticText(p, -1, _("To report the problem to the staff, please follow the following link to create an Issue on GitHub : ")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		s.Add(wx.StaticText(p, -1, _("To report the problem to the IT staff, please follow this link to create an Issue on GitHub :")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		url_github_issues = "https://github.com/dagoma3d/CuraByDagoma/issues"
 		s.Add(hl.HyperLinkCtrl(p, wx.ID_ANY, url_github_issues, URL=url_github_issues), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		s.Add(wx.StaticText(p, -1, _("If you don't feel confident with the GitHub platform, you can also create a support ticket from the dagoma's website")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		s.Add(wx.StaticText(p, -1, _("If you don't feel confident with the GitHub platform, you can also create a support ticket from the dagoma's website :")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		url_dagoma_tickets = "https://www.dagoma3d.com/creation-de-ticket"
+		s.Add(hl.HyperLinkCtrl(p, wx.ID_ANY, url_dagoma_tickets, URL=url_dagoma_tickets), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticLine(p), flag=wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("Before explaining the problem, please write the version of your OS.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("If the problem happens after loading a certain STL file, please attach it to your message.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
