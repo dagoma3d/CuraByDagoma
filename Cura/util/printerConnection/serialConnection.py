@@ -89,22 +89,22 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 	def startPrint(self):
 		if self.isPrinting() or len(self._gcodeData) < 1 or self._process is None:
 			return
-		self._process.stdin.write('STOP\n')
+		self._process.stdin.write(b'STOP\n')
 		for line in self._gcodeData:
-			self._process.stdin.write('G:%s\n' % (line))
-		self._process.stdin.write('START\n')
+			self._process.stdin.write(('G:%s\n' % (line)).encode())
+		self._process.stdin.write(b'START\n')
 		self._printProgress = 0
 
 	#Abort the previously loaded print file
 	def cancelPrint(self):
 		if not self.isPrinting()or self._process is None:
 			return
-		self._process.stdin.write('STOP\n')
+		self._process.stdin.write(b'STOP\n')
 		endgcode = profile.getAlterationFileContents('end.gcode', 1).splitlines()
 		for line in endgcode:
 			if not line.startswith(";"):
-				self._process.stdin.write('G:%s\n' % (line.replace("\{travel_speed\}", "6000")))
-		self._process.stdin.write('CANCEL\n')
+				self._process.stdin.write(('G:%s\n' % (line.replace("\{travel_speed\}", "6000"))).encode())
+		self._process.stdin.write(b'CANCEL\n')
 		self._printProgress = 0
 
 	def isPrinting(self):
@@ -123,7 +123,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 	# Get the connection status string. This is displayed to the user and can be used to communicate
 	#  various information to the user.
 	def getStatusString(self):
-		return "%s" % (self._commStateString)
+		return self._commStateString.decode()
 
 	#Returns true if we need to establish an active connection. True for serial connections.
 	def hasActiveConnection(self):
@@ -168,18 +168,18 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 
 	#Pause or unpause the printing depending on the value, if supported.
 	def pause(self, value):
-		self._process.stdin.write('STOP\n')
+		self._process.stdin.write(b'STOP\n')
 		if not value:
 			for i, line in enumerate(self._gcodeData):
 				if i > self._printProgress:
-					self._process.stdin.write('G:%s\n' % (line))
-			self._process.stdin.write('RESUME\n')
+					self._process.stdin.write(('G:%s\n' % (line)).encode())
+			self._process.stdin.write(b'RESUME\n')
 		else:
 			if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
-				self._process.stdin.write('G:M600 U-55 X55 Y-92 Z60\n')
+				self._process.stdin.write(b'G:M600 U-55 X55 Y-92 Z60\n')
 			else:
-				self._process.stdin.write('G:M600 L0 PA\n')
-			self._process.stdin.write('PAUSE\n')
+				self._process.stdin.write(b'G:M600 L0 PA\n')
+			self._process.stdin.write(b'PAUSE\n')
 
 	#Are we able to send a direct command with sendCommand at this moment in time.
 	def isAbleToSendDirectCommand(self):
@@ -189,7 +189,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 	def sendCommand(self, command):
 		if self._process is None:
 			return
-		self._process.stdin.write('C:%s\n' % (command))
+		self._process.stdin.write(('C:%s\n' % (command)).encode())
 
 	#Returns true if we got some kind of error. The getErrorLog returns all the information to diagnose the problem.
 	def isInErrorState(self):
@@ -197,7 +197,7 @@ class serialConnection(printerConnectionBase.printerConnectionBase):
 
 	#Returns the error log in case there was an error.
 	def getErrorLog(self):
-		return '\n'.join(self.log)
+		return b'\n'.join(self.log)
 
 	def _serialCommunicationThread(self):
 		if platform.system() == "Darwin" and hasattr(sys, 'frozen'):

@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python : fichier actif",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python : CuraByDagoma",
             "type": "python",
             "request": "launch",
@@ -16,7 +24,10 @@
             "module": "Cura.serialCommunication",
             "console": "internalConsole",
             "justMyCode": true,
-            "args": ["/dev/ttyUSB0", "AUTO"]
+            "args": [
+                "/dev/ttyUSB0",
+                "AUTO"
+            ]
         },
     ]
 }

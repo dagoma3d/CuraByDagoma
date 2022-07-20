@@ -31,24 +31,30 @@ class serialComm(object):
 		self._comm = machineCom.MachineCom(portName, baudrate, callbackObject=self)
 
 	def mcLog(self, message):
-		sys.stdout.write('log:%s\n' % (message))
+		result = ('log:%s\n' % (message)).encode()
+		sys.stdout.write(result)
 
 	def mcTempUpdate(self, temp, bedTemp, targetTemp, bedTargetTemp):
-		sys.stdout.write('temp:%s:%s:%f:%f\n' % (json.dumps(temp), json.dumps(targetTemp), bedTemp, bedTargetTemp))
+		result = ('temp:%s:%s:%f:%f\n' % (json.dumps(temp), json.dumps(targetTemp), bedTemp, bedTargetTemp)).encode()
+		sys.stdout.write(result)
 
 	def mcStateChange(self, state):
 		if self._comm is None:
 			return
-		sys.stdout.write('state:%d:%s\n' % (state, self._comm.getStateString()))
+		result = ('state:%d:%s\n' % (state, self._comm.getStateString())).encode()
+		sys.stdout.write(result)
 
 	def mcMessage(self, message):
-		sys.stdout.write('message:%s\n' % (message))
+		result = ('message:%s\n' % (message)).encode()
+		sys.stdout.write(result)
 
 	def mcProgress(self, lineNr):
-		sys.stdout.write('progress:%d\n' % (lineNr))
+		result = ('progress:%d\n' % (lineNr)).encode()
+		sys.stdout.write(result)
 
 	def mcZChange(self, newZ):
-		sys.stdout.write('changeZ:%d\n' % (newZ))
+		result = ('changeZ:%d\n' % (newZ)).encode()
+		sys.stdout.write(result)
 
 	def monitorStdin(self):
 		while not self._comm.isClosed():
@@ -75,7 +81,7 @@ class serialComm(object):
 				sys.stderr.write(str(line))
 
 def startMonitor(portName, baudrate):
-	sys.stdout = os.fdopen(sys.stdout.fileno(), 'w')
+	sys.stdout = os.fdopen(sys.stdout.fileno(), 'wb', 0)
 	comm = serialComm(portName, baudrate)
 	comm.monitorStdin()
 
