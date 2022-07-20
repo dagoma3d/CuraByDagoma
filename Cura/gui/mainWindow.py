@@ -1506,7 +1506,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 	def RefreshUsePlate(self):
 		if self.usePlateCheckBox.GetValue():
-			profile.putProfileSetting('bottom_thickness', 0.32) # value to change depending on the thickness, the FSR captors and the flexibility of the magnetic plate
+			profile.putProfileSetting('bottom_thickness', 0.30) # value to change depending on the thickness, the FSR captors and the flexibility of the magnetic plate
 		else:
 			profile.putProfileSetting('bottom_thickness', 0.26)
 
