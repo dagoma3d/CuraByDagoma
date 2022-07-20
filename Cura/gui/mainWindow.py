@@ -266,17 +266,11 @@ class mainWindow(wx.Frame):
 		#printerBox = configWizard.ConfigWizard(self)
 		#printerBox.Centre()
 		#printerBox.Show()
-		if sys.platform.startswith('darwin'):
-			from Cura.gui.util import macosFramesWorkaround as mfw
-			wx.CallAfter(mfw.StupidMacOSWorkaround)
 
 	def OnAbout(self, e):
 		aboutBox = aboutWindow.aboutWindow(self)
 		aboutBox.Centre()
 		aboutBox.Show()
-		if sys.platform.startswith('darwin'):
-			from Cura.gui.util import macosFramesWorkaround as mfw
-			wx.CallAfter(mfw.StupidMacOSWorkaround)
 
 	def OnShortcuts(self, e):
 		shortcutsBox = shortcutsWindow.shortcutsWindow(self)

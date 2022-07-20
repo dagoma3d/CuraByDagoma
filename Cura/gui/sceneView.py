@@ -345,9 +345,6 @@ class SceneView(openglGui.glGuiPanel):
 		connection.window.Centre()
 		connection.window.Show()
 		connection.window.Raise()
-		if sys.platform.startswith('darwin'):
-			from Cura.gui.util import macosFramesWorkaround as mfw
-			wx.CallAfter(mfw.StupidMacOSWorkaround)
 		if not connection.loadGCodeData(io.StringIO(self._engine.getResult().getGCode())):
 			if connection.isPrinting():
 				self.notification.message(_("Cannot start print, because other print still running."))

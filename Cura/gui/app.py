@@ -121,10 +121,6 @@ class CuraApp(wx.App):
 
 		setFullScreenCapable(self.mainWindow)
 
-		if sys.platform.startswith('darwin'):
-			from Cura.gui.util import macosFramesWorkaround as mfw
-			wx.CallAfter(mfw.StupidMacOSWorkaround)
-
 if platform.system() == "Darwin": #Mac magic. Dragons live here. THis sets full screen options.
 	try:
 		import ctypes, objc
