@@ -1431,7 +1431,7 @@ class SceneView(openglGui.glGuiPanel):
 			if m.vbo is None:
 				m.vbo = openglHelpers.GLVBO(GL_TRIANGLES, m.vertexes, m.normal)
 			if brightness != 0:
-				glColor4fv([idx * brightness for idx in self._objColors[n]])
+				glColor4fv([idx * brightness for idx in self._objColors[n]]) # change the object's color
 				n = (n + 1) % len(self._objColors)
 			m.vbo.render()
 		glPopMatrix()
@@ -1513,7 +1513,7 @@ class SceneView(openglGui.glGuiPanel):
 					self._platformMesh[machine]._drawOffset = numpy.array([-301,381,117], numpy.float32)#303,383,117;306 386 115 (X, Y, Z ) #X inverse : -100 va vers la droite, +Y vers le devant, Z+ vers le bas
 				else:
 					self._platformMesh[machine]._drawOffset = numpy.array([0,0,2.5], numpy.float32)
-			glColor4f(1,1,1,0.5)
+			glColor4f(1,1,1,0.5) # change the printer's color
 			self._objectShader.bind()
 			self._renderObject(self._platformMesh[machine], False, False)
 			if int(profile.getMachineSetting('extruder_amount')) == 2:
