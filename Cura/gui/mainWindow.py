@@ -101,9 +101,6 @@ class mainWindow(wx.Frame):
 				warningBox = warningWindow.warningWindow(self, _('You have to restart the application to load the correct language.'))
 				warningBox.Centre()
 				warningBox.Show()
-				if sys.platform.startswith('darwin'):
-					from Cura.gui.util import macosFramesWorkaround as mfw
-					wx.CallAfter(mfw.StupidMacOSWorkaround)
 			self.Bind(wx.EVT_MENU, OnLanguageSelect, i)
 		self.settingsMenu.AppendSubMenu(self.languagesMenu, _("Language"))
 		i = self.settingsMenu.Append(wx.ID_ANY, _("Printer"), _("Choose the printer you want to use."))
