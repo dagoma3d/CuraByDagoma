@@ -114,7 +114,12 @@ class SceneView(openglGui.glGuiPanel):
 
 		self.translateForm = openglGui.glFrame(self, (3, -2))
 		openglGui.glGuiLayoutGrid(self.translateForm)
-		openglGui.glLabel(self.translateForm, _())
+		openglGui.glLabel(self.translateForm, _("Translate X"), (0,0))
+		self.translateXctrl = openglGui.glNumberCtrl(self.translateForm, '0.0', (1,0), lambda value: self.OnTranslateEntry(value, 0))
+		openglGui.glLabel(self.translateForm, _("Translate Y"), (0,1))
+		self.translateYctrl = openglGui.glNumberCtrl(self.translateForm, '0.0', (1,1), lambda value: self.OnTranslateEntry(value, 1))
+		# openglGui.glLabel(self.translateForm, _("Translate Z"), (0,2))
+		# self.translateZctrl = openglGui.glNumberCtrl(self.translateForm, '0.0', (1,2), lambda value: self.OnTranslateEntry(value, 2))
 
 		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Layers")], (-1,0), self.OnViewChange)
 		self.viewSelection = openglGui.glComboButton(self, _(" "), [7,23], [_("Normal"), _("Layers")], (-1,0), self.OnViewChange)
@@ -502,8 +507,9 @@ class SceneView(openglGui.glGuiPanel):
 		self.layFlatButton.setHidden(not self.rotateToolButton.getSelected())
 		self.resetScaleButton.setHidden(not self.scaleToolButton.getSelected())
 		self.scaleMaxButton.setHidden(not self.scaleToolButton.getSelected())
-		self.resetTranslateButton.setHidden(not self.translateToolButton.getSelected())
 		self.scaleForm.setHidden(not self.scaleToolButton.getSelected())
+		self.resetTranslateButton.setHidden(not self.translateToolButton.getSelected())
+		self.translateForm.setHidden(not self.translateToolButton.getSelected())
 		self.mirrorXButton.setHidden(not self.mirrorToolButton.getSelected())
 		self.mirrorYButton.setHidden(not self.mirrorToolButton.getSelected())
 		self.mirrorZButton.setHidden(not self.mirrorToolButton.getSelected())
@@ -622,6 +628,20 @@ class SceneView(openglGui.glGuiPanel):
 		except:
 			return
 		self._selectedObj.setSize(value, axis, self.scaleUniform.getValue())
+		self.updateProfileToControls()
+		self._scene.pushFree(self._selectedObj)
+		self._selectObject(self._selectedObj)
+		self.sceneUpdated()
+
+	def OnTranslateEntry(self, value, axis):
+		if self._selectedObj is None:
+			return
+		try:
+			x, y = float(self.translateXctrl._value), float(self.translateYctrl._value)
+		except:
+			return
+		newPosition = numpy.array([x, y])
+		self._selectedObj.setPosition(newPosition)
 		self.updateProfileToControls()
 		self._scene.pushFree(self._selectedObj)
 		self._selectObject(self._selectedObj)
@@ -889,6 +909,10 @@ class SceneView(openglGui.glGuiPanel):
 			self.scaleXmmctrl.setValue(round(size[0], 2))
 			self.scaleYmmctrl.setValue(round(size[1], 2))
 			self.scaleZmmctrl.setValue(round(size[2], 2))
+
+			position = self._selectedObj.getPosition()
+			self.translateXctrl.setValue(round(position[0], 2))
+			self.translateYctrl.setValue(round(position[1], 2))
 
 	def OnKeyChar(self, keyCode):
 		if self._engineResultView.OnKeyChar(keyCode):

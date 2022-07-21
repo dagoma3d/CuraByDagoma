@@ -365,6 +365,7 @@ class toolTranslate(object):
 
 	def OnDragEnd(self):
 		self.dragStartPoint = None
+		self.parent.updateProfileToControls()
 
 	def OnDraw(self):
 		# draw 3 axes and highlight one of them if selected
