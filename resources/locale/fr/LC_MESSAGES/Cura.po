@@ -847,6 +847,15 @@ msgstr "Tourner"
 msgid "Translate"
 msgstr "Déplacer"
 
+msgid "Translate X"
+msgstr "Translation X"
+
+msgid "Translate Y"
+msgstr "Translation Y"
+
+msgid "Translate Z"
+msgstr "Translation Z"
+
 #: Cura/gui/sceneView.py:70
 msgid "Scale"
 msgstr "Redimensionner"
