@@ -926,7 +926,7 @@ class glNumberCtrl(glGuiControl):
 				self.focusPrevious()
 			else:
 				self.focusNext()
-		if (ord('0') <= c <= ord('9') or c == ord('.')) and len(self._value) < self._maxLen:
+		if (ord('0') <= c <= ord('9') or c == ord('.') or (c == ord('-') and self._selectPos == 0)) and len(self._value) < self._maxLen:
 			self._value = self._value[0:self._selectPos] + chr(c) + self._value[self._selectPos:]
 			self._selectPos += 1
 			self._callback(self._value)
