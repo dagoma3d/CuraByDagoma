@@ -4,8 +4,7 @@ Under each step, there is a permalink to a line code. It shows the place to writ
 If your setting is affected by bicolor printing, you can use this line to 
 
 ## Profile Setting (profile.py) ##
-If your setting isn't implemented yet, your can create it or modify it : 
-https://github.com/dagoma3d/CuraByDagoma/blob/73e31b1edd6957cfcdd55cfaed104c2c188952d9/Cura/util/profile.py#L183
+If your profile setting isn't implemented yet, your can create it or modify it : https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/util/profile.py#L191
 
 ## User Interface (mainWindow.py) ##
 1) Create a function ```init...``` to declare your widget and set a default value https://github.com/dagoma3d/CuraByDagoma/blob/73e31b1edd6957cfcdd55cfaed104c2c188952d9/Cura/gui/mainWindow.py#L788
@@ -16,5 +15,21 @@ https://github.com/dagoma3d/CuraByDagoma/blob/73e31b1edd6957cfcdd55cfaed104c2c18
 6) Then bind this function with the widget. The name of the event depends on the type of widget https://github.com/dagoma3d/CuraByDagoma/blob/69a6f6374ebe84a4e66aec7989d70b82e1c53b5b/Cura/gui/mainWindow.py#L480
 
 The following steps depends on what you want to do with your setting, and what is already implemented.
+The next sections shows different possibilities.
 
-## Applying the setting ##
+## Applying the setting (profile.py) ##
+If necesary, you can modify the ```settings``` dictionary depending on the value of your profile setting https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/util/sliceEngine.py#L626
+
+## G-Start (XML) ##
+If you must use your new setting in the G-start (or the G-end), you can simply write it between curly braces ```{...}```. It will be automatically replaced in the final G-code https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/resources/xml/sigma.xml#L640
+If you want to write something more complex based on your new setting, like a complete sentence or the result of a calculation, you can write something between hash signs ```#...#``` and replace it in post-process (see section below) https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/resources/xml/sigma.xml#L604
+
+## Post-process (sceneView.py) ##
+To have a clearer code, you can capture the profileSetting in a variable before using it https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/gui/sceneView.py#L386
+If you must replace something in the G-start, use the ```replace``` function on ```block0``` https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/gui/sceneView.py#L403
+If you must modifiy or add something directly in the G-code, you can use the ```find``` function and write or rewrite a line with your new setting
+https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/gui/sceneView.py#L420
+https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/gui/sceneView.py#L422
+
+## Debug log (profile.py) ##
+If necesary, you can add a message to help debugging in ```printSlicingInfo``` https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/util/profile.py#L1346
