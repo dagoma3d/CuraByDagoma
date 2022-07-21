@@ -713,7 +713,7 @@ msgid "If the problem happens after loading a certain STL file, please attach it
 msgstr "Si le problème se produit après le chargement d'un certain fichier STL, veuillez le joindre à votre message."
 
 msgid "If it's possible, attach the last (or the previous) STL you have loaded too."
-msgstr "Si possibe, mettez en pièce-jointe le dernier (ou le dernier) fichier STL que vous avez chargé également."
+msgstr "Si possibe, mettez en pièce-jointe le dernier (ou le précédent) fichier STL que vous avez chargé également."
 
 msgid "Then, please attach the 3 files named : 'current_profile.ini', 'mru_filelist.ini', 'preferences.ini'.\n- On Windows, you can find them in ~/.curaByDagoma/2.2.0/.\n- On MacOs, you can find them in ~/Library/Application Support/CuraByDagoma/2.2.0/.\n- On Linux, you can find them in ~/.curaByDagoma/2.2.0/."
 msgstr "Ensuite, veuillez joindre les 3 fichiers nommés : 'current_profile.ini', 'mru_filelist.ini', 'preferences.ini'.\n- Sur Windows, vous pouvez les trouver dans ~/.curaByDagoma/2.2.0/.\n- Sur MacOs, vous pouvez les trouver dans ~/Library/Application Support/CuraByDagoma/2.2.0/.\n- Sur Linux, vous pouvez les trouver dans ~/.curaByDagoma/2.2.0/."
