@@ -182,9 +182,6 @@ class SceneView(openglGui.glGuiPanel):
 			forbiddenBox = forbiddenWindow.forbiddenWindow(mainWindow, checksum['nbForbiddenFiles'])
 			forbiddenBox.Centre()
 			forbiddenBox.Show()
-			if sys.platform.startswith('darwin'):
-				from Cura.gui.util import macosFramesWorkaround as mfw
-				wx.CallAfter(mfw.StupidMacOSWorkaround)
 		if len(filenames) == 0:
 			return
 		self.viewSelection.setHidden(False)
