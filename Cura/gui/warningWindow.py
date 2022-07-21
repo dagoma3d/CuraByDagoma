@@ -16,8 +16,8 @@ class warningWindow(wx.Frame):
 		self.panel = wx.Panel(self, wx.ID_ANY)
 
 		self.warningMessage = wx.StaticText(self.panel, wx.ID_ANY, warningMessage)
-		self.restartNowBtn = wx.Button(self.panel, wx.ID_ANY, _('Restart now'))
-		self.restartLaterBtn = wx.Button(self.panel, wx.ID_ANY, _('Restart later'))
+		# self.restartNowBtn = wx.Button(self.panel, wx.ID_ANY, _('Restart now'))
+		# self.restartLaterBtn = wx.Button(self.panel, wx.ID_ANY, _('Restart later'))
 
 		topSizer = wx.BoxSizer(wx.VERTICAL)
 		warningSizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -25,8 +25,14 @@ class warningWindow(wx.Frame):
 
 		warningSizer.Add(self.warningMessage, 0, flag=wx.ALL, border=5)
 
-		restartSizer.Add(self.restartNowBtn, 0, flag=wx.ALL, border=5)
-		restartSizer.Add(self.restartLaterBtn, 0, flag=wx.ALL, border=5)
+		# restartSizer.Add(self.restartNowBtn, 0, flag=wx.ALL, border=5)
+		# restartSizer.Add(self.restartLaterBtn, 0, flag=wx.ALL, border=5)
+
+		# --- Hide the restart button for the moment --- #
+		self.okButton = wx.Button(self.panel, wx.ID_ANY, _('OK'))
+		restartSizer.Add(self.okButton, 0, flag=wx.ALL, border=5)
+		self.Bind(wx.EVT_BUTTON, self.OnClose, self.okButton)
+		# ---------------------------------------------- #
 
 		topSizer.Add(warningSizer, 0, wx.CENTER)
 		topSizer.Add(restartSizer, 0, wx.CENTER)
@@ -35,8 +41,8 @@ class warningWindow(wx.Frame):
 		self.panel.SetSizer(topSizer)
 		topSizer.Fit(self)
 
-		self.Bind(wx.EVT_BUTTON, self.OnRestart, self.restartNowBtn)
-		self.Bind(wx.EVT_BUTTON, self.OnClose, self.restartLaterBtn)
+		# self.Bind(wx.EVT_BUTTON, self.OnRestart, self.restartNowBtn)
+		# self.Bind(wx.EVT_BUTTON, self.OnClose, self.restartLaterBtn)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 
 	def OnClose(self, e):
