@@ -1,7 +1,10 @@
 # How to add a new setting in Cura By Dagoma #
 If you want to see complete examples, see pull requests #71 (radio-box), #80 (text-input, bicolor, post-process), or #108 (check-box).
 Under each step, there is a permalink to a line code. It shows the place to write the new line code.
-If your setting is affected by bicolor printing, you can use this line to 
+
+If your setting is affected by bicolor printing, you can use this line to execute specific actions for bicolor printers : ```if int(profile.getMachineSetting('extruder_amount')) == 2```.
+
+If necesary, don't forget to delete the files ```current_profile.ini```, ```mru_filelist.ini``` and ```preferences.ini``` to reset the settings of the app.
 
 ## Profile Setting (profile.py) ##
 If your profile setting isn't implemented yet, your can create it or modify it : https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/util/profile.py#L191
