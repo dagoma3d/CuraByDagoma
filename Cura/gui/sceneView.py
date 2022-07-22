@@ -172,10 +172,8 @@ class SceneView(openglGui.glGuiPanel):
 			self._engine._result.setGCode(f.read())
 		self._engine._result.setFinished(True)
 		self._engineResultView.setResult(self._engine._result)
-		# self.printButton.setBottomText('')
 		self.viewSelection.setValue(1)
 		self.printButton.setDisabled(False)
-		# self.printForm.setHidden(False) don't know if necesary now
 		# self.youMagineButton.setDisabled(True) Dagoma
 		self.OnViewChange()
 
@@ -629,7 +627,6 @@ class SceneView(openglGui.glGuiPanel):
 		self._engineResultView.setResult(None)
 		self.viewSelection.setValue(0)
 		self.viewSelection.setHidden(True)
-		# self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
 		normalSettingsPanel.printButton.Disable()
@@ -785,18 +782,11 @@ class SceneView(openglGui.glGuiPanel):
 					info.append(str(cost))
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_cost', '')
-				# if e < int(profile.getMachineSetting('extruder_amount')) and profile.mergeDone:
-				# 	text += '\n'
-			# split_text = text.split('\n')
-			# if split_text[-1] == '':
-			# 	del split_text[-1]
-			# text = '\n'.join(split_text)
+
 			profile.saveProfile(profile.getDefaultProfilePath(), True)
-			# self.printButton.setBottomText(text)
 			self.fillPrintForm(info)
 			self.printForm.setHidden(False)
 		else:
-			# self.printButton.setBottomText('')
 			self.printForm.setHidden(True)
 		self.QueueRefresh()
 
@@ -843,7 +833,6 @@ class SceneView(openglGui.glGuiPanel):
 		if len(self._scene.objects()) == 0:
 			self._engineResultView.setResult(None)
 			self.viewSelection.setHidden(True)
-			# self.printButton.setBottomText('')
 			self.printForm.setHidden(True)
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 			normalSettingsPanel.pausePluginButton.Disable()
@@ -1144,7 +1133,6 @@ class SceneView(openglGui.glGuiPanel):
 
 	def OnPaint(self,e):
 		self.printButton._imageID = None
-		# self.printButton._tooltip = _(" ")
 
 		if self._animView is not None:
 			self._viewTarget = self._animView.getPosition()
