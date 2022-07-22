@@ -108,12 +108,15 @@ class SceneView(openglGui.glGuiPanel):
 		openglGui.glLabel(self.scaleForm, _("Uniform scale"), (0,8))
 		self.scaleUniform = openglGui.glCheckbox(self.scaleForm, True, (1,8), None)
 
-		self.printForm = openglGui.glFrame(self, (-1.8, -1.1))
+		self.printForm = openglGui.glFrame(self, (-3, -1.1))
 		openglGui.glGuiLayoutGrid(self.printForm)
 		openglGui.glLabel(self.printForm, _("Duration : "), (0, 0))
 		openglGui.glLabel(self.printForm, _("Weight : "), (0, 1))
 		openglGui.glLabel(self.printForm, _("Length : "), (0, 2))
 		openglGui.glLabel(self.printForm, _("Cost : "), (0, 3))
+		self.printLabels = []
+		for i in range(4):
+			self.printLabels.append(openglGui.glLabel(self.printForm, '__________', (1, i)))
 		self.printForm.setHidden(True)
 
 		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Layers")], (-1,0), self.OnViewChange)
@@ -172,7 +175,7 @@ class SceneView(openglGui.glGuiPanel):
 		# self.printButton.setBottomText('')
 		self.viewSelection.setValue(1)
 		self.printButton.setDisabled(False)
-		self.printForm.setHidden(False)
+		# self.printForm.setHidden(False) don't know if necesary now
 		# self.youMagineButton.setDisabled(True) Dagoma
 		self.OnViewChange()
 
@@ -737,6 +740,7 @@ class SceneView(openglGui.glGuiPanel):
 		mainWindow = self.GetParent().GetParent().GetParent()
 		if not sys.platform.startswith('darwin'): # Disable the print button here makes hyperlinks disappear... to investigate
 			mainWindow.normalSettingsPanel.printButton.Disable()
+		self.printForm.setHidden(True)
 		mainWindow.fileMenu.FindItemByPosition(2).Enable(False)
 		result = self._engine.getResult()
 		finished = result is not None and result.isFinished()
@@ -744,6 +748,7 @@ class SceneView(openglGui.glGuiPanel):
 			if self.printButton.getProgressBar() is not None and progressValue >= 0.0 and abs(self.printButton.getProgressBar() - progressValue) < 0.01:
 				return
 		self.printButton.setDisabled(not finished)
+		self.printForm.setHidden(not finished)
 		if progressValue >= 0.0:
 			self.printButton.setProgressBar(progressValue)
 		else:
@@ -755,41 +760,50 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setProgressBar(None)
 			print_duration = result.getPrintTime()
 			profile.putProfileSetting('print_duration', print_duration)
-			text = '%s\n' % (print_duration)
+			info = [str(print_duration)]
 			for e in range(0, int(profile.getMachineSetting('extruder_amount'))):
 				filament_index = str(e + 1) if e > 0 else ''
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
 					profile.putProfileSetting('filament' + filament_index + '_weight', grams)
+					text = ""
 					if int(profile.getMachineSetting('extruder_amount')) > 1:
-						text += 'Filament %s: ' % ((e ^ int(profile.getProfileSetting('start_extruder'))) + 1)
+						text = 'Filament %s: ' % ((e ^ int(profile.getProfileSetting('start_extruder'))) + 1)
 					text += '%s' % grams
+					info.append(text)
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_weight', '')
 				meters = result.getFilamentMeters(e)
 				if meters is not None:
 					profile.putProfileSetting('filament' + filament_index + '_length', meters)
-					text += ' - %s' % (meters)
+					info.append(str(meters))
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_length', '')
 				cost = result.getFilamentCost(e)
 				if cost is not None:
 					profile.putProfileSetting('filament' + filament_index + '_cost', cost)
-					text += ' - %s' % (cost)
+					info.append(str(cost))
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_cost', '')
-				if e < int(profile.getMachineSetting('extruder_amount')) and profile.mergeDone:
-					text += '\n'
-			split_text = text.split('\n')
-			if split_text[-1] == '':
-				del split_text[-1]
-			text = '\n'.join(split_text)
+				# if e < int(profile.getMachineSetting('extruder_amount')) and profile.mergeDone:
+				# 	text += '\n'
+			# split_text = text.split('\n')
+			# if split_text[-1] == '':
+			# 	del split_text[-1]
+			# text = '\n'.join(split_text)
 			profile.saveProfile(profile.getDefaultProfilePath(), True)
-			self.printButton.setBottomText(text)
+			# self.printButton.setBottomText(text)
+			self.fillPrintForm(info)
+			self.printForm.setHidden(False)
 		else:
-			self.printButton.setBottomText('')
+			# self.printButton.setBottomText('')
+			self.printForm.setHidden(True)
 		self.QueueRefresh()
 
+	def fillPrintForm(self, info):
+		for i, text in enumerate(info):
+			self.printLabels[i]._label = text
+			
 	def loadScene(self, fileList):
 		for filename in fileList:
 			try:
@@ -829,7 +843,8 @@ class SceneView(openglGui.glGuiPanel):
 		if len(self._scene.objects()) == 0:
 			self._engineResultView.setResult(None)
 			self.viewSelection.setHidden(True)
-			self.printButton.setBottomText('')
+			# self.printButton.setBottomText('')
+			self.printForm.setHidden(True)
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 			normalSettingsPanel.pausePluginButton.Disable()
 			normalSettingsPanel.printButton.Disable()
@@ -1129,7 +1144,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def OnPaint(self,e):
 		self.printButton._imageID = None
-		self.printButton._tooltip = _(" ")
+		# self.printButton._tooltip = _(" ")
 
 		if self._animView is not None:
 			self._viewTarget = self._animView.getPosition()
