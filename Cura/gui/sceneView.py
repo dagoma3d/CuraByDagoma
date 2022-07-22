@@ -108,14 +108,14 @@ class SceneView(openglGui.glGuiPanel):
 		openglGui.glLabel(self.scaleForm, _("Uniform scale"), (0,8))
 		self.scaleUniform = openglGui.glCheckbox(self.scaleForm, True, (1,8), None)
 
+		printFormTitles = ["Duration", "Weight", "Length", "Cost"]
+		printFormTitlesBicolor = ["Duration", "Weight (F1)", "Weight (F2)", "Length", "Cost"]
 		self.printForm = openglGui.glFrame(self, (-3, -1.1))
 		openglGui.glGuiLayoutGrid(self.printForm)
-		openglGui.glLabel(self.printForm, _("Duration : "), (0, 0))
-		openglGui.glLabel(self.printForm, _("Weight : "), (0, 1))
-		openglGui.glLabel(self.printForm, _("Length : "), (0, 2))
-		openglGui.glLabel(self.printForm, _("Cost : "), (0, 3))
+		titles = printFormTitles if int(profile.getMachineSetting('extruder_amount')) == 1 else printFormTitlesBicolor
 		self.printLabels = []
-		for i in range(4):
+		for i, title in enumerate(titles):
+			openglGui.glLabel(self.printForm, _(title + " : "), (0, i))
 			self.printLabels.append(openglGui.glLabel(self.printForm, '__________', (1, i)))
 		self.printForm.setHidden(True)
 
