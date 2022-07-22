@@ -68,9 +68,9 @@ class SceneView(openglGui.glGuiPanel):
 		self.tempMatrix = None
 
 		self.openFileButton      = openglGui.glButton(self, 4, _(" "), (0,0), self.showLoadModel)
-		self.printButton         = openglGui.glButton(self, None, _(" "), (-1,-1), self.OnPrintButton)
-		self.printButton.setDisabled(True)
-		self.printButton.setHidden(True)
+		# self.printButton         = openglGui.glButton(self, None, _(" "), (-1,-1), self.OnPrintButton)
+		# self.printButton.setDisabled(True)
+		# self.printButton.setHidden(True)
 
 		group = []
 		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotate"), (0,-1), group, self.OnToolSelect)
@@ -107,6 +107,14 @@ class SceneView(openglGui.glGuiPanel):
 		self.scaleZmmctrl = openglGui.glNumberCtrl(self.scaleForm, '0.0', (1,6), lambda value: self.OnScaleEntryMM(value, 2))
 		openglGui.glLabel(self.scaleForm, _("Uniform scale"), (0,8))
 		self.scaleUniform = openglGui.glCheckbox(self.scaleForm, True, (1,8), None)
+
+		self.printForm = openglGui.glFrame(self, (-1.8, -1.1))
+		openglGui.glGuiLayoutGrid(self.printForm)
+		openglGui.glLabel(self.printForm, _("Duration : "), (0, 0))
+		openglGui.glLabel(self.printForm, _("Weight : "), (0, 1))
+		openglGui.glLabel(self.printForm, _("Length : "), (0, 2))
+		openglGui.glLabel(self.printForm, _("Cost : "), (0, 3))
+		self.printForm.setHidden(True)
 
 		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Layers")], (-1,0), self.OnViewChange)
 		self.viewSelection = openglGui.glComboButton(self, _(" "), [7,23], [_("Normal"), _("Layers")], (-1,0), self.OnViewChange)
@@ -161,9 +169,10 @@ class SceneView(openglGui.glGuiPanel):
 			self._engine._result.setGCode(f.read())
 		self._engine._result.setFinished(True)
 		self._engineResultView.setResult(self._engine._result)
-		self.printButton.setBottomText('')
+		# self.printButton.setBottomText('')
 		self.viewSelection.setValue(1)
-		self.printButton.setDisabled(False)
+		# self.printButton.setDisabled(False)
+		self.printForm.setHidden(False)
 		# self.youMagineButton.setDisabled(True) Dagoma
 		self.OnViewChange()
 
@@ -189,7 +198,7 @@ class SceneView(openglGui.glGuiPanel):
 			return
 		self.viewSelection.setHidden(False)
 		mainWindow.normalSettingsPanel.pausePluginButton.Enable()
-		mainWindow.normalSettingsPanel.printButton.Enable()
+		# mainWindow.normalSettingsPanel.printButton.Enable()
 		# only one GCODE file can be active
 		# so if single gcode file, process this
 		# otherwise ignore all gcode files
