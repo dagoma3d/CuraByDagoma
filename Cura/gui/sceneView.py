@@ -68,9 +68,9 @@ class SceneView(openglGui.glGuiPanel):
 		self.tempMatrix = None
 
 		self.openFileButton      = openglGui.glButton(self, 4, _(" "), (0,0), self.showLoadModel)
-		# self.printButton         = openglGui.glButton(self, None, _(" "), (-1,-1), self.OnPrintButton)
-		# self.printButton.setDisabled(True)
-		# self.printButton.setHidden(True)
+		self.printButton         = openglGui.glButton(self, None, _(" "), (-1,-1), self.OnPrintButton)
+		self.printButton.setDisabled(True)
+		self.printButton.setHidden(True)
 
 		group = []
 		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotate"), (0,-1), group, self.OnToolSelect)
@@ -171,7 +171,7 @@ class SceneView(openglGui.glGuiPanel):
 		self._engineResultView.setResult(self._engine._result)
 		# self.printButton.setBottomText('')
 		self.viewSelection.setValue(1)
-		# self.printButton.setDisabled(False)
+		self.printButton.setDisabled(False)
 		self.printForm.setHidden(False)
 		# self.youMagineButton.setDisabled(True) Dagoma
 		self.OnViewChange()
@@ -198,7 +198,7 @@ class SceneView(openglGui.glGuiPanel):
 			return
 		self.viewSelection.setHidden(False)
 		mainWindow.normalSettingsPanel.pausePluginButton.Enable()
-		# mainWindow.normalSettingsPanel.printButton.Enable()
+		mainWindow.normalSettingsPanel.printButton.Enable()
 		# only one GCODE file can be active
 		# so if single gcode file, process this
 		# otherwise ignore all gcode files
@@ -626,10 +626,11 @@ class SceneView(openglGui.glGuiPanel):
 		self._engineResultView.setResult(None)
 		self.viewSelection.setValue(0)
 		self.viewSelection.setHidden(True)
-		self.printButton.setBottomText('')
+		# self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
 		normalSettingsPanel.printButton.Disable()
+		self.printForm.setHidden(True)
 
 	def OnMultiply(self, e):
 		if self._focusObj is None:
