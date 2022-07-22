@@ -600,6 +600,7 @@ class SceneView(openglGui.glGuiPanel):
 	def OnTranslateReset(self, button):
 		self._selectedObj.setPosition(numpy.array([0.0, 0.0]))
 		self._scene.pushFree(self._selectedObj)
+		self.updateModelSettingsToControls()
 
 	def OnMirror(self, axis):
 		if self._selectedObj is None:
@@ -706,6 +707,7 @@ class SceneView(openglGui.glGuiPanel):
 		newViewPos = numpy.array([self._focusObj.getPosition()[0], self._focusObj.getPosition()[1], self._focusObj.getSize()[2] / 2])
 		self._animView = openglGui.animation(self, self._viewTarget.copy(), newViewPos, 0.5)
 		self.sceneUpdated()
+		self.updateModelSettingsToControls()
 
 	def _splitCallback(self, progress):
 		print(progress)
