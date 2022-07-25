@@ -108,15 +108,8 @@ class SceneView(openglGui.glGuiPanel):
 		openglGui.glLabel(self.scaleForm, _("Uniform scale"), (0,8))
 		self.scaleUniform = openglGui.glCheckbox(self.scaleForm, True, (1,8), None)
 
-		printFormTitles = ["Duration", "Weight", "Length", "Cost"]
-		printFormTitlesBicolor = ["Duration", "Weight (F1)", "Weight (F2)", "Length", "Cost"]
-		self.printForm = openglGui.glFrame(self, (-3, -1.1))
-		openglGui.glGuiLayoutGrid(self.printForm)
-		titles = printFormTitles if int(profile.getMachineSetting('extruder_amount')) == 1 else printFormTitlesBicolor
-		self.printLabels = []
-		for i, title in enumerate(titles):
-			openglGui.glLabel(self.printForm, _(title + " : "), (0, i))
-			self.printLabels.append(openglGui.glLabel(self.printForm, '__________', (1, i)))
+		self.printFormTitles = ["Duration", "Weight", "Length", "Cost"]
+		self.initPrintForm()
 		self.printForm.setHidden(True)
 
 		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Layers")], (-1,0), self.OnViewChange)
@@ -139,6 +132,36 @@ class SceneView(openglGui.glGuiPanel):
 		self.updateToolButtons()
 		self.updateProfileToControls()
 		self.updateSceneFilenames()
+
+	def initPrintForm(self):
+		self.printLabels = [] # labels to fill after slicing
+		if int(profile.getMachineSetting('extruder_amount')) == 1:
+			self.initPrintFormUnicolor(self.printFormTitles)
+		else:
+			self.initPrintFormBicolor(self.printFormTitles)
+		self.printForm.setHidden(True)
+
+	def initPrintFormUnicolor(self, titles): # fill the print form from the 'titles' parameters (unicolor)
+		self.printForm = openglGui.glFrame(self, (-3.5, -1))
+		openglGui.glGuiLayoutGrid(self.printForm)
+		for i, title in enumerate(titles):
+			openglGui.glLabel(self.printForm, _(title + " : "), (0, i))
+			self.printLabels.append(openglGui.glLabel(self.printForm, '___', (1, i))) # empty when initializing
+
+	def initPrintFormBicolor(self, titles):
+		self.printForm = openglGui.glFrame(self, (-6.2, -1))
+		openglGui.glGuiLayoutGrid(self.printForm)
+		openglGui.glLabel(self.printForm, _(titles[0] + " : "), (1, 0)) # 'duration' is the same for both filaments
+		self.printLabels.append(openglGui.glLabel(self.printForm, '___', (2, 0)))
+		for id_filament in (0,1):
+			openglGui.glLabel(self.printForm, _("- Filament " + str(id_filament + 1) + " -"), (0 if id_filament == 0 else 2, 1))
+			for i, title in enumerate(titles[1:]):
+				openglGui.glLabel(self.printForm, _(title + " : "), (0 if id_filament == 0 else 2, i+2))
+				self.printLabels.append(openglGui.glLabel(self.printForm, '___', (1 + (0 if id_filament == 0 else 2), i+2)))
+
+	def resetPrintForm(self): # unicolor and bicolor
+		for i in range(len(self.printLabels)):
+			self.printLabels[i]._label = "___"
 
 	def unpack(self, filename):
 		image = wx.Image(resources.getPathForImage(filename))
@@ -763,11 +786,9 @@ class SceneView(openglGui.glGuiPanel):
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
 					profile.putProfileSetting('filament' + filament_index + '_weight', grams)
-					text = ""
 					if int(profile.getMachineSetting('extruder_amount')) > 1:
-						text = 'Filament %s: ' % ((e ^ int(profile.getProfileSetting('start_extruder'))) + 1)
-					text += '%s' % grams
-					info.append(text)
+						pass
+					info.append(grams)
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_weight', '')
 				meters = result.getFilamentMeters(e)
@@ -785,12 +806,14 @@ class SceneView(openglGui.glGuiPanel):
 
 			profile.saveProfile(profile.getDefaultProfilePath(), True)
 			self.fillPrintForm(info)
+			self.printForm.updateLayout()
 			self.printForm.setHidden(False)
 		else:
 			self.printForm.setHidden(True)
 		self.QueueRefresh()
 
 	def fillPrintForm(self, info):
+		self.resetPrintForm()
 		for i, text in enumerate(info):
 			self.printLabels[i]._label = text
 			
