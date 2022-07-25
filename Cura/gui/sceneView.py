@@ -142,7 +142,8 @@ class SceneView(openglGui.glGuiPanel):
 		self.printForm.setHidden(True)
 
 	def initPrintFormUnicolor(self, titles): # fill the print form from the 'titles' parameters (unicolor)
-		self.printForm = openglGui.glFrame(self, (-3.5, -1))
+		self.printForm = openglGui.glFrame(self, (-1, -1))
+		print(self.printForm._pos, self.Size[0])
 		openglGui.glGuiLayoutGrid(self.printForm)
 		for i, title in enumerate(titles):
 			openglGui.glLabel(self.printForm, _(title + " : "), (0, i))
@@ -806,8 +807,13 @@ class SceneView(openglGui.glGuiPanel):
 
 			profile.saveProfile(profile.getDefaultProfilePath(), True)
 			self.fillPrintForm(info)
+			pos_x = -2.3 - (1600 - self.Size[0]) * 0.0013
+			self.printForm.__setattr__('_pos', (pos_x, self.printForm._pos[1]))
 			self.printForm.updateLayout()
+			# self._deleteObject(self.printForm)
+			mainWindow = self.GetParent().GetParent().GetParent()
 			self.printForm.setHidden(False)
+			mainWindow.Layout()
 		else:
 			self.printForm.setHidden(True)
 		self.QueueRefresh()
