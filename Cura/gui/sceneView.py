@@ -73,25 +73,25 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton.setHidden(True)
 
 		group = []
-		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotate"), (0,-1), group, self.OnToolSelect)
-		self.scaleToolButton  = openglGui.glRadioButton(self, 9, _("Scale"), (1,-1), group, self.OnToolSelect)
-		self.mirrorToolButton  = openglGui.glRadioButton(self, 10, _("Mirror"), (2,-1), group, self.OnToolSelect)
+		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotate"), (0,2), group, self.OnToolSelect)
+		self.scaleToolButton  = openglGui.glRadioButton(self, 9, _("Scale"), (0,3), group, self.OnToolSelect)
+		self.mirrorToolButton  = openglGui.glRadioButton(self, 10, _("Mirror"), (0,4), group, self.OnToolSelect)
 
-		self.resetRotationButton = openglGui.glButton(self, 12, _("Reset"), (0,-2), self.OnRotateReset)
-		self.layFlatButton       = openglGui.glButton(self, 16, _("Lay flat"), (0,-3), self.OnLayFlat)
+		self.resetRotationButton = openglGui.glButton(self, 12, _("Reset"), (1,2), self.OnRotateReset)
+		self.layFlatButton       = openglGui.glButton(self, 16, _("Lay flat"), (2,2), self.OnLayFlat)
 
-		self.resetScaleButton    = openglGui.glButton(self, 13, _("Reset"), (1,-2), self.OnScaleReset)
-		self.scaleMaxButton      = openglGui.glButton(self, 17, _("To max"), (1,-3), self.OnScaleMax)
+		self.resetScaleButton    = openglGui.glButton(self, 13, _("Reset"), (1,3.5), self.OnScaleReset)
+		self.scaleMaxButton      = openglGui.glButton(self, 17, _("To max"), (2,3.5), self.OnScaleMax)
 
-		self.mirrorXButton       = openglGui.glButton(self, 14, _("Mirror X"), (2,-2), lambda button: self.OnMirror(0))
-		self.mirrorYButton       = openglGui.glButton(self, 18, _("Mirror Y"), (2,-3), lambda button: self.OnMirror(1))
-		self.mirrorZButton       = openglGui.glButton(self, 22, _("Mirror Z"), (2,-4), lambda button: self.OnMirror(2))
+		self.mirrorXButton       = openglGui.glButton(self, 14, _("Mirror X"), (1,4), lambda button: self.OnMirror(0))
+		self.mirrorYButton       = openglGui.glButton(self, 18, _("Mirror Y"), (2,4), lambda button: self.OnMirror(1))
+		self.mirrorZButton       = openglGui.glButton(self, 22, _("Mirror Z"), (3,4), lambda button: self.OnMirror(2))
 
 		self.rotateToolButton.setExpandArrow(True)
 		self.scaleToolButton.setExpandArrow(True)
 		self.mirrorToolButton.setExpandArrow(True)
 
-		self.scaleForm = openglGui.glFrame(self, (2, -2))
+		self.scaleForm = openglGui.glFrame(self, (1.1, 2.5))
 		openglGui.glGuiLayoutGrid(self.scaleForm)
 		openglGui.glLabel(self.scaleForm, _("Scale X"), (0,0))
 		self.scaleXctrl = openglGui.glNumberCtrl(self.scaleForm, '1.0', (1,0), lambda value: self.OnScaleEntry(value, 0))
@@ -142,7 +142,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.printForm.setHidden(True)
 
 	def initPrintFormUnicolor(self, titles): # fill the print form from the 'titles' parameters (unicolor)
-		self.printForm = openglGui.glFrame(self, (-3, -1))
+		self.printForm = openglGui.glFrame(self, (0, -1))
 		# print(self.printForm._pos, self.Size[0])
 		openglGui.glGuiLayoutGrid(self.printForm)
 		for i, title in enumerate(titles):
@@ -150,7 +150,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.printLabels.append(openglGui.glLabel(self.printForm, '___', (1, i))) # empty when initializing
 
 	def initPrintFormBicolor(self, titles):
-		self.printForm = openglGui.glFrame(self, (-5.5, -1))
+		self.printForm = openglGui.glFrame(self, (0, -1))
 		openglGui.glGuiLayoutGrid(self.printForm)
 		openglGui.glLabel(self.printForm, _(titles[0] + " : "), (1, 0)) # 'duration' is the same for both filaments
 		self.printLabels.append(openglGui.glLabel(self.printForm, '___', (2, 0)))

@@ -476,9 +476,9 @@ class glButton(glGuiControl):
 			pass
 		if self._showExpandArrow:
 			if self._selected:
-				openglHelpers.glDrawTexturedQuad(pos[0]+bs*scale/2-bs*scale/4*1.2, pos[1]-bs*scale/2*1.2, bs*scale/4, bs*scale/4, 1)
+				openglHelpers.glDrawTexturedQuad(pos[0]+bs*scale/2-bs*scale/4*0.5, pos[1]-bs*scale/2*0.8, bs*scale/4, bs*scale/4, 1)
 			else:
-				openglHelpers.glDrawTexturedQuad(pos[0]+bs*scale/2-bs*scale/4*1.2, pos[1]-bs*scale/2*1.2, bs*scale/4, bs*scale/4, 1, 2)
+				openglHelpers.glDrawTexturedQuad(pos[0]+bs*scale/2-bs*scale/4*0.55, pos[1]-bs*scale/2*0.8, bs*scale/4, bs*scale/4, 1, 1)
 		glPushMatrix()
 		glTranslatef(pos[0], pos[1], 0)
 		glDisable(GL_TEXTURE_2D)
