@@ -142,15 +142,15 @@ class SceneView(openglGui.glGuiPanel):
 		self.printForm.setHidden(True)
 
 	def initPrintFormUnicolor(self, titles): # fill the print form from the 'titles' parameters (unicolor)
-		self.printForm = openglGui.glFrame(self, (-1, -1))
-		print(self.printForm._pos, self.Size[0])
+		self.printForm = openglGui.glFrame(self, (-3, -1))
+		# print(self.printForm._pos, self.Size[0])
 		openglGui.glGuiLayoutGrid(self.printForm)
 		for i, title in enumerate(titles):
 			openglGui.glLabel(self.printForm, _(title + " : "), (0, i))
 			self.printLabels.append(openglGui.glLabel(self.printForm, '___', (1, i))) # empty when initializing
 
 	def initPrintFormBicolor(self, titles):
-		self.printForm = openglGui.glFrame(self, (-6.2, -1))
+		self.printForm = openglGui.glFrame(self, (-5.5, -1))
 		openglGui.glGuiLayoutGrid(self.printForm)
 		openglGui.glLabel(self.printForm, _(titles[0] + " : "), (1, 0)) # 'duration' is the same for both filaments
 		self.printLabels.append(openglGui.glLabel(self.printForm, '___', (2, 0)))
@@ -807,13 +807,13 @@ class SceneView(openglGui.glGuiPanel):
 
 			profile.saveProfile(profile.getDefaultProfilePath(), True)
 			self.fillPrintForm(info)
-			pos_x = -2.3 - (1600 - self.Size[0]) * 0.0013
-			self.printForm.__setattr__('_pos', (pos_x, self.printForm._pos[1]))
+			# pos_x = -2.3 - (1600 - self.Size[0]) * 0.0013
+			# self.printForm.__setattr__('_pos', (pos_x, self.printForm._pos[1]))
 			self.printForm.updateLayout()
 			# self._deleteObject(self.printForm)
-			mainWindow = self.GetParent().GetParent().GetParent()
+			# mainWindow = self.GetParent().GetParent().GetParent()
 			self.printForm.setHidden(False)
-			mainWindow.Layout()
+			# mainWindow.Layout()
 		else:
 			self.printForm.setHidden(True)
 		self.QueueRefresh()
