@@ -265,7 +265,6 @@ class mainWindow(wx.Frame):
 			wx.CallAfter(mfw.StupidMacOSWorkaround)
 
 	def OnAbout(self, e):
-		print(self.scene.Size[0])
 		aboutBox = aboutWindow.aboutWindow(self)
 		aboutBox.Centre()
 		aboutBox.Show()
