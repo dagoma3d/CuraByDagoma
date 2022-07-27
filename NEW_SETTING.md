@@ -8,6 +8,7 @@ If necesary, don't forget to delete the files ```current_profile.ini```, ```mru_
 
 ## Profile Setting (profile.py) ##
 If your profile setting isn't implemented yet, your can create it or modify it : https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/util/profile.py#L191
+If your setting value only depends on the printer, you can add it to the XML files. If your profile setting has the same name, it will be automatically updated. https://github.com/dagoma3d/CuraByDagoma/blob/0df98ce91c8eaf90b1a58e76bb4df625328a8206/resources/xml/sigma.xml#L537
 
 ## User Interface (mainWindow.py) ##
 1) Create a function ```init...``` to declare your widget and set a default value https://github.com/dagoma3d/CuraByDagoma/blob/73e31b1edd6957cfcdd55cfaed104c2c188952d9/Cura/gui/mainWindow.py#L788
