@@ -1559,19 +1559,11 @@ class SceneView(openglGui.glGuiPanel):
 		# --------------------------------
 		glBegin(GL_QUADS)
 		glColor4ub(255, 0, 0, 255)
-		for n in range(0, len(polys[0])):
-
-			glVertex3f(polys[0][n][0], polys[0][n][1], 300)
-			glVertex3f(polys[0][n][0], polys[0][n][1], 210)
-			glVertex3f(polys[0][n-1][0], polys[0][n-1][1], 210)
-			glVertex3f(polys[0][n-1][0], polys[0][n-1][1], 300)
-		
-		h = 0
-		glVertex3f(200, 200, h)
-		glVertex3f(-200, 200, h)
-		glVertex3f(-200, -200, h)
-		glVertex3f(200, -200, h)
-		
+		z = -profile.getMachineSettingFloat('plate_height')
+		glVertex3f(200, 200, z)
+		glVertex3f(-200, 200, z)
+		glVertex3f(-200, -200, z)
+		glVertex3f(200, -200, z)
 		glEnd()
 		# --------------------------------
 

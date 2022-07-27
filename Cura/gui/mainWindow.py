@@ -265,6 +265,7 @@ class mainWindow(wx.Frame):
 			wx.CallAfter(mfw.StupidMacOSWorkaround)
 
 	def OnAbout(self, e):
+		print(profile.getMachineSetting('plate_height'))
 		aboutBox = aboutWindow.aboutWindow(self)
 		aboutBox.Centre()
 		aboutBox.Show()
