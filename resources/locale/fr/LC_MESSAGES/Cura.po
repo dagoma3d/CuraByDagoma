@@ -928,6 +928,21 @@ msgstr "Rayons X"
 msgid "Layers"
 msgstr "Couches"
 
+msgid "Duration"
+msgstr "Durée"
+
+msgid "Weight"
+msgstr "Poids"
+
+msgid "Length"
+msgstr "Longueur"
+
+msgid "Cost"
+msgstr "Prix"
+
+msgid "- Filament "
+msgstr "- Filament "
+
 #: Cura/gui/sceneView.py:106
 msgid "Share on YouMagine"
 msgstr "Partager sur YouMagine"

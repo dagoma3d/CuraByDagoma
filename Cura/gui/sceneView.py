@@ -108,7 +108,7 @@ class SceneView(openglGui.glGuiPanel):
 		openglGui.glLabel(self.scaleForm, _("Uniform scale"), (0,8))
 		self.scaleUniform = openglGui.glCheckbox(self.scaleForm, True, (1,8), None)
 
-		self.printFormTitles = ["Duration", "Weight", "Length", "Cost"]
+		self.printFormTitles = [_("Duration"), _("Weight"), _("Length"), _("Cost")]
 		self.initPrintForm()
 		self.printForm.setHidden(True)
 
@@ -145,18 +145,18 @@ class SceneView(openglGui.glGuiPanel):
 		self.printForm = openglGui.glFrame(self, (0, -1))
 		openglGui.glGuiLayoutGrid(self.printForm)
 		for i, title in enumerate(titles):
-			openglGui.glLabel(self.printForm, _(title + " : "), (0, i))
+			openglGui.glLabel(self.printForm, _(title) + " : ", (0, i))
 			self.printLabels.append(openglGui.glLabel(self.printForm, '___', (1, i))) # empty when initializing
 
 	def initPrintFormBicolor(self, titles):
 		self.printForm = openglGui.glFrame(self, (0, -1))
 		openglGui.glGuiLayoutGrid(self.printForm)
-		openglGui.glLabel(self.printForm, _(titles[0] + " : "), (1, 0)) # 'duration' is the same for both filaments
+		openglGui.glLabel(self.printForm, _(titles[0]) + " : ", (1, 0)) # 'duration' is the same for both filaments
 		self.printLabels.append(openglGui.glLabel(self.printForm, '___', (2, 0)))
 		for id_filament in (0,1):
-			openglGui.glLabel(self.printForm, _("- Filament " + str(id_filament + 1) + " -"), (0 if id_filament == 0 else 2, 1))
+			openglGui.glLabel(self.printForm, _("- Filament ") + str(id_filament + 1) + " -", (0 if id_filament == 0 else 2, 1))
 			for i, title in enumerate(titles[1:]):
-				openglGui.glLabel(self.printForm, _(title + " : "), (0 if id_filament == 0 else 2, i+2))
+				openglGui.glLabel(self.printForm, _(title) + " : ", (0 if id_filament == 0 else 2, i+2))
 				self.printLabels.append(openglGui.glLabel(self.printForm, '___', (1 + (0 if id_filament == 0 else 2), i+2)))
 
 	def resetPrintForm(self): # unicolor and bicolor
