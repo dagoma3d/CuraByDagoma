@@ -22,7 +22,7 @@ The following steps depends on what you want to do with your setting, and what i
 The next sections shows different possibilities.
 
 ## Applying the setting (profile.py) ##
-If necesary, you can modify the ```settings``` dictionary depending on the value of your profile setting https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/util/sliceEngine.py#L626
+If necesary, you can modify the ```settings``` dictionary depending on the value of your profile setting, using ```profile.getProfileSetting```, ```profile.getMachineSetting``` or ```profile.getPreference``` depending on your settings's category. https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/Cura/util/sliceEngine.py#L626
 
 ## G-Start (XML) ##
 If you must use your new setting in the G-start (or the G-end), you can simply write it between curly braces ```{...}```. It will be automatically replaced in the final G-code https://github.com/dagoma3d/CuraByDagoma/blob/2c47737f64207b099294e5cfb3180767d56ed8e4/resources/xml/sigma.xml#L640
