@@ -575,7 +575,8 @@ class SceneView(openglGui.glGuiPanel):
 			if profile.getMachineSetting('machine_shape') == 'Square':
 				self._selectedObj.scaleUpTo(self._machineSize - numpy.array(profile.calculateObjectSizeOffsets() + [0.0], numpy.float32) * 2 - numpy.array([3,3,3], numpy.float32))
 			else:
-				self._selectedObj.scaleUpTo(numpy.array([self._machineSize[0] * numpy.sqrt(2)/2, self._machineSize[1] * numpy.sqrt(2)/2, self._machineSize[2]], numpy.float32) - numpy.array(profile.calculateObjectSizeOffsets() + [0.0], numpy.float32) * 2) # considering the bounding box of the object
+				ratio_size_circle = numpy.array(self.getObjectSize() / (2 * self.getObjectBoundaryCircle()))
+				self._selectedObj.scaleUpTo(self._machineSize * ratio_size_circle - numpy.array(profile.calculateObjectSizeOffsets() + [0.0], numpy.float32) * 2 - numpy.array([1, 1, 1], numpy.float32))
 		self._scene.pushFree(self._selectedObj)
 		self._selectObject(self._selectedObj)
 		self.updateProfileToControls()
