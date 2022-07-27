@@ -1104,14 +1104,14 @@ class SceneView(openglGui.glGuiPanel):
 		glDisable(GL_BLEND)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-		glClearColor(0.8, 0.8, 0.8, 1.0)
+		glClearColor(255, 255, 255, 1.0)
 		glClearStencil(0)
 		glClearDepth(1.0)
 
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()
 		aspect = float(size.GetWidth()) / float(size.GetHeight())
-		gluPerspective(45.0, aspect, 1.0, numpy.max(self._machineSize) * 4)
+		gluPerspective(45.0, aspect, 1.0, numpy.max(self._machineSize) * 8)
 
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
@@ -1560,7 +1560,7 @@ class SceneView(openglGui.glGuiPanel):
 		# ------------ GROUND ----------------
 		glBegin(GL_QUADS)
 		# glColor4ub(28, 47, 61, 255)
-		glColor4ub(255, 255, 255, 255)
+		glColor4ub(255, 255, 255, 30)
 		z = -profile.getMachineSettingFloat('plate_height')
 		glVertex3f(1000, 1000, z)
 		glVertex3f(-1000, 1000, z)
@@ -1568,11 +1568,11 @@ class SceneView(openglGui.glGuiPanel):
 		glVertex3f(1000, -1000, z)
 		glEnd()
 		# ----------- WALL ------------------
-		for opacity in range(10, 60, 2):
+		for opacity in range(1, 30, 1):
 			glBegin(GL_QUADS)
 			glColor4ub(128, 128, 128, opacity)
-			dec = (opacity / 40)
-			dist = 3
+			dec = (opacity / 10)
+			dist = 5
 			for n in range(0, len(polys[0])):
 				glVertex3f(polys[0][n][0] * (dist+dec), polys[0][n][1] * (dist+dec), 2 * height)
 				glVertex3f(polys[0][n][0] * (dist+dec), polys[0][n][1] * (dist+dec), z)
