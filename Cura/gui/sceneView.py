@@ -1556,18 +1556,30 @@ class SceneView(openglGui.glGuiPanel):
 			glVertex3f(polys[0][n-1][0], polys[0][n-1][1], height)
 		glEnd()
 
-		# --------------------------------
+		# glDepthMask(GL_TRUE)
+		# ------------ GROUND ----------------
 		glBegin(GL_QUADS)
-		glColor4ub(255, 0, 0, 255)
+		# glColor4ub(28, 47, 61, 255)
+		glColor4ub(255, 255, 255, 255)
 		z = -profile.getMachineSettingFloat('plate_height')
-		glVertex3f(200, 200, z)
-		glVertex3f(-200, 200, z)
-		glVertex3f(-200, -200, z)
-		glVertex3f(200, -200, z)
+		glVertex3f(1000, 1000, z)
+		glVertex3f(-1000, 1000, z)
+		glVertex3f(-1000, -1000, z)
+		glVertex3f(1000, -1000, z)
 		glEnd()
-		# --------------------------------
-
-		glBegin(GL_QUADS)
+		# ----------- WALL ------------------
+		for opacity in range(10, 60, 2):
+			glBegin(GL_QUADS)
+			glColor4ub(128, 128, 128, opacity)
+			dec = (opacity / 40)
+			dist = 3
+			for n in range(0, len(polys[0])):
+				glVertex3f(polys[0][n][0] * (dist+dec), polys[0][n][1] * (dist+dec), 2 * height)
+				glVertex3f(polys[0][n][0] * (dist+dec), polys[0][n][1] * (dist+dec), z)
+				glVertex3f(polys[0][n-1][0] * (dist+dec), polys[0][n-1][1] * (dist+dec), z)
+				glVertex3f(polys[0][n-1][0] * (dist+dec), polys[0][n-1][1] * (dist+dec), 2 * height)
+			glEnd()
+		# glDepthMask(GL_FALSE)
 
 		#Draw top of build volume.
 		glColor4ub(5, 171, 231, 128)
