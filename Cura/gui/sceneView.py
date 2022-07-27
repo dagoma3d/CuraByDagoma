@@ -1111,7 +1111,7 @@ class SceneView(openglGui.glGuiPanel):
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()
 		aspect = float(size.GetWidth()) / float(size.GetHeight())
-		gluPerspective(45.0, aspect, 1.0, numpy.max(self._machineSize) * 8)
+		gluPerspective(45.0, aspect, 1.0, numpy.max(self._machineSize) * 6.5)
 
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
@@ -1568,11 +1568,11 @@ class SceneView(openglGui.glGuiPanel):
 		glVertex3f(1000, -1000, z)
 		glEnd()
 		# ----------- WALL ------------------
-		for opacity in range(1, 30, 1):
+		for opacity in range(1, 20, 1):
 			glBegin(GL_QUADS)
 			glColor4ub(128, 128, 128, opacity)
 			dec = (opacity / 10)
-			dist = 5
+			dist = 4
 			for n in range(0, len(polys[0])):
 				glVertex3f(polys[0][n][0] * (dist+dec), polys[0][n][1] * (dist+dec), 2 * height)
 				glVertex3f(polys[0][n][0] * (dist+dec), polys[0][n][1] * (dist+dec), z)
