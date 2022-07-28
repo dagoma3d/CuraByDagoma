@@ -832,6 +832,12 @@ msgstr ""
 msgid "Uniform scale"
 msgstr ""
 
+msgid "Delete object"
+msgstr ""
+
+msgid "Clear plate"
+msgstr ""
+
 #: Cura/gui/sceneView.py:104
 msgid "View mode"
 msgstr ""

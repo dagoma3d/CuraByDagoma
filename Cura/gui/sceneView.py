@@ -15,6 +15,7 @@ import sys
 import io
 
 import OpenGL
+
 OpenGL.ERROR_CHECKING = False
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -62,6 +63,8 @@ class SceneView(openglGui.glGuiPanel):
 		self._printerConnectionManager = printerConnectionManager.PrinterConnectionManager()
 		self._switchColors = False
 
+		self.hasGCodeFileOpen = False
+
 		self._viewport = None
 		self._modelMatrix = None
 		self._projMatrix = None
@@ -71,6 +74,9 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton         = openglGui.glButton(self, None, _(" "), (-1,-1), self.OnPrintButton)
 		self.printButton.setDisabled(True)
 		self.printButton.setHidden(True)
+		self.clearButton 				 = openglGui.glButton(self, 25, _("Clear plate"), (-1,0), self.OnDeleteGCodeFile) # here only for g-code visualization
+		self.clearButton.setDisabled(True)
+		self.clearButton.setHidden(True)
 
 		group = []
 		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotate"), (0,-1), group, self.OnToolSelect)
@@ -154,7 +160,10 @@ class SceneView(openglGui.glGuiPanel):
 		return {'nbForbiddenFiles': len(fnames) - len(filenames), 'filenames': filenames}
 
 	def loadGCodeFile(self, filename):
-		self.OnDeleteAll(None)
+		if self.hasGCodeFileOpen:
+			self.deleteGCodeFile()
+		else:
+			self.deleteAll()
 		#Cheat the engine results to load a GCode file into it.
 		self._engine._result = sliceEngine.EngineResult()
 		with open(filename, "r") as f:
@@ -164,6 +173,13 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton.setBottomText('')
 		self.viewSelection.setValue(1)
 		self.printButton.setDisabled(False)
+		self.hasGCodeFileOpen = True
+		mainWindow = self.GetParent().GetParent().GetParent()
+		mainWindow.preparePrintButton.Enable(False)
+		mainWindow.savePlateButton.Enable(False)
+		mainWindow.normalSettingsPanel.pausePluginPanel.Disable()
+		self.clearButton.setDisabled(False)
+		self.clearButton.setHidden(False)
 		# self.youMagineButton.setDisabled(True) Dagoma
 		self.OnViewChange()
 
@@ -272,6 +288,10 @@ class SceneView(openglGui.glGuiPanel):
 			if len(filenames) < 1:
 				return False
 			profile.putPreference('lastFile', filenames[0])
+
+			if self.hasGCodeFileOpen:
+				self.deleteGCodeFile()
+
 			self.loadFiles(filenames)
 
 	def showSaveModel(self):
@@ -611,6 +631,9 @@ class SceneView(openglGui.glGuiPanel):
 		self.sceneUpdated()
 
 	def OnDeleteAll(self, e):
+		self.deleteAll()
+
+	def deleteAll(self):
 		while len(self._scene.objects()) > 0:
 			self._deleteObject(self._scene.objects()[0])
 		self._animView = openglGui.animation(self, self._viewTarget.copy(), numpy.array([0,0,0], numpy.float32), 0.5)
@@ -621,6 +644,20 @@ class SceneView(openglGui.glGuiPanel):
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
 		normalSettingsPanel.printButton.Disable()
+
+	def OnDeleteGCodeFile(self, e):
+		self.deleteGCodeFile()
+
+	def deleteGCodeFile(self):
+		self.deleteAll()
+		self.hasGCodeFileOpen = False
+		self.clearButton.setBottomText('')
+		self.clearButton.setDisabled(True)
+		self.clearButton.setHidden(True)
+		mainWindow = self.GetParent().GetParent().GetParent()
+		mainWindow.preparePrintButton.Enable()
+		mainWindow.savePlateButton.Enable()
+		mainWindow.normalSettingsPanel.pausePluginPanel.Enable()
 
 	def OnMultiply(self, e):
 		if self._focusObj is None:
@@ -999,6 +1036,8 @@ class SceneView(openglGui.glGuiPanel):
 				if len(self._scene.objects()) > 0:
 					self.Bind(wx.EVT_MENU, self.OnDeleteAll, menu.Append(-1, _("Delete all objects")))
 					self.Bind(wx.EVT_MENU, self.reloadScene, menu.Append(-1, _("Reload all objects")))
+				if self.hasGCodeFileOpen:
+					self.Bind(wx.EVT_MENU, self.OnDeleteGCodeFile, menu.Append(-1, _("Delete object")))
 				if menu.MenuItemCount > 0:
 					self.PopupMenu(menu)
 				menu.Destroy()

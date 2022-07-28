@@ -904,6 +904,12 @@ msgstr "Taille axe Z (mm)"
 msgid "Uniform scale"
 msgstr "Echelle uniforme"
 
+msgid "Delete object"
+msgstr "Supprimer l'objet"
+
+msgid "Clear plate"
+msgstr "Effacer"
+
 #: Cura/gui/sceneView.py:104
 msgid "View mode"
 msgstr "Mode de visualisation"
