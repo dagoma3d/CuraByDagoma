@@ -109,7 +109,7 @@ class toolRotate(object):
 		self.dragEndAngle = None
 
 	def _ProjectToPlanes(self, p0, p1):
-		cursorX0 = p0 - (p1 - p0) * (p0[0] / (p1[0] - p0[0]))
+		cursorX0 = p0 - (p1 - p0) * (p0[0] / (p1[0] - p0[0])) # coords when X = 0 (of the raycast from the mouse)
 		cursorY0 = p0 - (p1 - p0) * (p0[1] / (p1[1] - p0[1]))
 		cursorZ0 = p0 - (p1 - p0) * (p0[2] / (p1[2] - p0[2]))
 		cursorYZ = math.sqrt((cursorX0[1] * cursorX0[1]) + (cursorX0[2] * cursorX0[2]))
@@ -122,7 +122,7 @@ class toolRotate(object):
 		cursorX0, cursorY0, cursorZ0, cursorYZ, cursorXZ, cursorXY = self._ProjectToPlanes(p0, p1)
 		oldDragPlane = self.dragPlane
 		if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorYZ <= radius * self.rotateRingDistMax or radius * self.rotateRingDistMin <= cursorXZ <= radius * self.rotateRingDistMax:
-			#self.parent.SetCursor(wx.StockCursor(wx.CURSOR_SIZING))
+			self.parent.SetCursor(wx.Cursor(wx.CURSOR_SIZING))
 			if self.dragStartAngle is None:
 				if radius * self.rotateRingDistMin <= cursorXY <= radius * self.rotateRingDistMax:
 					self.dragPlane = 'XY'
@@ -133,7 +133,7 @@ class toolRotate(object):
 		else:
 			if self.dragStartAngle is None:
 				self.dragPlane = ''
-			#self.parent.SetCursor(wx.StockCursor(wx.CURSOR_DEFAULT))
+			self.parent.SetCursor(wx.Cursor(wx.CURSOR_DEFAULT))
 
 	def OnDragStart(self, p0, p1):
 		radius = self.parent.getObjectBoundaryCircle()
@@ -276,6 +276,154 @@ class toolRotate(object):
 			glVertex3f(math.cos(i/32.0*math.pi), 0, math.sin(i/32.0*math.pi))
 		glEnd()
 		glEnable(GL_DEPTH_TEST)
+
+class toolTranslate(object):
+	def __init__(self, parent):
+		self.parent = parent
+		self.pointDiff = 5.0
+		self.smallPointDiff = 1.0
+		self.dragAxis = None
+		self.arrowLength = self.parent.getObjectLengthArrow()
+		self.dragStartPoint = None
+		self.dragEndPoint = None
+		self.translateArrowDistMargin = self.parent._zoom / 30
+
+	def OnMouseMove(self, p0, p1):
+		if self.dragStartPoint is None: # if we haven't started to translate yet
+			self.dragAxis, _ = self.GetHoveredAxis(p0, p1)
+		if self.dragAxis is not None:
+			self.parent.SetCursor(wx.Cursor(wx.CURSOR_SIZING))
+			pass
+		else:
+			self.parent.SetCursor(wx.Cursor(wx.CURSOR_DEFAULT))
+			pass
+
+	def _ProjectToPlanes(self, p0, p1):
+		cursorX0 = p0 - (p1 - p0) * (p0[0] / (p1[0] - p0[0])) # coords of the raycast from the mouse when X = 0
+		cursorY0 = p0 - (p1 - p0) * (p0[1] / (p1[1] - p0[1]))
+		cursorZ0 = p0 - (p1 - p0) * (p0[2] / (p1[2] - p0[2]))
+		return cursorX0, cursorY0, cursorZ0
+
+	def projectToAxis(self, p0, p1, axis):
+		# If in the future, the Z-axis translate is used, the following operations will be false
+		# (we can for example take in account the Z-coord of the object)
+		_, _, cursorZ0 = self._ProjectToPlanes(p0, p1)
+		point = None
+		if axis == 'X':
+			point = cursorZ0[0]
+		if axis == 'Y':
+			point = cursorZ0[1]
+		return point
+
+	def GetHoveredAxis(self, p0, p1):
+		# return an axis (if hovered) and the distance from the center on this axis
+		axis = None
+		point = None
+		cursorX0, cursorY0, cursorZ0 = self._ProjectToPlanes(p0, p1)
+		# points axis X when it exists one point of the raycast like (x, ~0, ~0) whith 0 <= x <= arrowLength
+		if self.nearZero(cursorZ0[1]) and self.maybeWithinArrow(cursorZ0[0]):
+			axis = 'X'
+			point = cursorZ0[0]
+		if self.nearZero(cursorX0[2]) and self.maybeWithinArrow(cursorX0[1]):
+			axis = 'Y'
+			point = cursorX0[1]
+		# if self.nearZero(cursorY0[0]) and self.maybeWithinArrow(cursorY0[2]):
+		# 	axis = 'Z'
+		# 	point = cursorY0[2]
+		return axis, point
+
+	def nearZero(self, x):
+		return abs(x) <= self.translateArrowDistMargin
+
+	def maybeWithinArrow(self, x):
+		return not(self.nearZero(x)) and 0 <= x <= self.arrowLength + self.translateArrowDistMargin
+
+	def OnDragStart(self, p0, p1):
+		self.arrowLength = self.parent.getObjectLengthArrow()
+		self.dragAxis, self.dragStartPoint = self.GetHoveredAxis(p0, p1)
+		if self.dragAxis is not None:
+			self.dragEndPoint = self.dragStartPoint
+			return True
+		return False
+
+	def OnDrag(self, p0, p1):
+		_, dragPoint = self.GetHoveredAxis(p0, p1)
+		projection = self.projectToAxis(p0, p1, self.dragAxis)
+		diff = projection - self.dragStartPoint
+		if wx.GetKeyState(wx.WXK_SHIFT):
+			diff = round(diff / self.smallPointDiff) * self.smallPointDiff # smoother
+		else:
+			diff = round(diff / self.pointDiff) * self.pointDiff
+		self.dragEndPoint = self.dragStartPoint + diff
+		if self.dragAxis == 'X':
+			self.parent._selectedObj.setPosition(self.parent._selectedObj.getPosition() + (diff, 0)) # add a third coord in the future
+		elif self.dragAxis == 'Y':
+			self.parent._selectedObj.setPosition(self.parent._selectedObj.getPosition() + (0, diff))
+		else:
+			# self.parent._selectedObj.setPosition(self.parent._selectedObj.getPosition() + (0, 0)) # TODO : see Issue #98
+			pass
+
+	def OnDragEnd(self):
+		self.dragStartPoint = None
+		self.parent.updateProfileToControls()
+
+	def OnDraw(self):
+		# draw 3 axes and highlight one of them if selected
+
+		glDisable(GL_LIGHTING)
+		glDisable(GL_BLEND)
+		glDisable(GL_DEPTH_TEST)
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+		self.arrowLength = self.parent.getObjectLengthArrow()
+		# glScalef(self.rotateRingDist * radius, self.rotateRingDist * radius, self.rotateRingDist * radius)
+		
+		if self.dragAxis == 'X':
+			glLineWidth(4)
+			glColor4ub(255,64,64,255)
+		else:
+			glLineWidth(2)
+			glColor4ub(128,0,0,255)
+		glBegin(GL_LINES)
+		glVertex3f(0,0,0)
+		glVertex3f(self.arrowLength,0,0)
+		glEnd()
+
+		if self.dragAxis == 'Y':
+			glLineWidth(4)
+			glColor4ub(64,255,64,255)
+		else:
+			glLineWidth(2)
+			glColor4ub(0,128,0,255)
+		glBegin(GL_LINES)
+		glVertex3f(0,0,0)
+		glVertex3f(0,self.arrowLength,0)
+		glEnd()
+
+		# if self.dragAxis == 'Z':
+		# 	glLineWidth(3)
+		# 	glColor4ub(255,255,0,255)
+		# else:
+		# 	glLineWidth(1)
+		# 	glColor4ub(128,128,0,255)
+		# glBegin(GL_LINES)
+		# glVertex3f(0,0,0)
+		# glVertex3f(0,0,self.arrowLength)
+		# glEnd()
+
+		### draw pyramids (to make arrows) ###
+		# for axis, center in ('X', (self.arrowLength, 0, 0)), ('Y', (0, self.arrowLength, 0)), ('Z', (0, 0, self.arrowLength)):
+		for axis, center, color, color_selected in ('X', (self.arrowLength, 0, 0), (128,0,0,255), (255,64,64,255)), ('Y', (0, self.arrowLength, 0), (0,128,0,255), (64,255,64,255)): # for each axis
+			if axis == self.dragAxis: # if current axis is selected
+				glLineWidth(4)
+				glColor4ub(*color_selected)
+			else:
+				glLineWidth(2)
+				glColor4ub(*color)
+			glPushMatrix()
+			glTranslatef(*center)
+			openglHelpers.DrawPyramid(axis)
+			glPopMatrix()
+
 
 class toolScale(object):
 	def __init__(self, parent):

@@ -844,6 +844,18 @@ msgstr "Charger"
 msgid "Rotate"
 msgstr "Tourner"
 
+msgid "Translate"
+msgstr "Déplacer"
+
+msgid "Translate X"
+msgstr "Translation X"
+
+msgid "Translate Y"
+msgstr "Translation Y"
+
+msgid "Translate Z"
+msgstr "Translation Z"
+
 #: Cura/gui/sceneView.py:70
 msgid "Scale"
 msgstr "Redimensionner"
@@ -863,6 +875,9 @@ msgstr "Mettre à plat"
 #: Cura/gui/sceneView.py:77
 msgid "To max"
 msgstr "Au maximum"
+
+msgid "Center"
+msgstr "Centrer"
 
 #: Cura/gui/sceneView.py:79
 msgid "Mirror X"

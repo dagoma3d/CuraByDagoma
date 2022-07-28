@@ -140,6 +140,8 @@ class printableObject(object):
 		return self._drawOffset
 	def getBoundaryCircle(self):
 		return self._boundaryCircleSize
+	def getLengthArrow(self):
+		return self._boundaryCircleSize * 1.3
 
 	def setPrintAreaExtends(self, poly):
 		self._printAreaExtend = poly
