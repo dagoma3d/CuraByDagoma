@@ -15,6 +15,7 @@ import sys
 import io
 
 import OpenGL
+
 OpenGL.ERROR_CHECKING = False
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -61,6 +62,8 @@ class SceneView(openglGui.glGuiPanel):
 		self._isSimpleMode = True
 		self._printerConnectionManager = printerConnectionManager.PrinterConnectionManager()
 		self._switchColors = False
+
+		self.hasGCodeFileOpen = False
 
 		self._viewport = None
 		self._modelMatrix = None
@@ -164,6 +167,11 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton.setBottomText('')
 		self.viewSelection.setValue(1)
 		self.printButton.setDisabled(False)
+		self.hasGCodeFileOpen = True
+		mainWindow = self.GetParent().GetParent().GetParent()
+		mainWindow.preparePrintButton.Enable(False)
+		mainWindow.savePlateButton.Enable(False)
+		mainWindow.normalSettingsPanel.pausePluginPanel.Disable()
 		# self.youMagineButton.setDisabled(True) Dagoma
 		self.OnViewChange()
 

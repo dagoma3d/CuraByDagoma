@@ -69,12 +69,12 @@ class mainWindow(wx.Frame):
 		# --------------------------- MENU BAR ---------------------------
 		self.menuBar = wx.MenuBar()
 		self.fileMenu = wx.Menu()
-		i = self.fileMenu.Append(wx.ID_OPEN, _("Open an Object") + "\tCTRL+O", _("Open a 3d object file."))
-		self.Bind(wx.EVT_MENU, lambda e: self.scene.showLoadModel(), i)
-		i = self.fileMenu.Append(wx.ID_SAVEAS, _("Save the build plate") + "\tCTRL+S", _("Save the current build plate as a stl file."))
-		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveModel(), i)
-		i = self.fileMenu.Append(wx.ID_SAVE, _("Prepare the Print") + "\tCTRL+P", _("Save the generated gcode on a sd card or on your computer."))
-		self.Bind(wx.EVT_MENU, self.OnPreparePrint, i)
+		self.openFileButton = self.fileMenu.Append(wx.ID_OPEN, _("Open an Object") + "\tCTRL+O", _("Open a 3d object file."))
+		self.Bind(wx.EVT_MENU, lambda e: self.scene.showLoadModel(), self.openFileButton)
+		self.savePlateButton = self.fileMenu.Append(wx.ID_SAVEAS, _("Save the build plate") + "\tCTRL+S", _("Save the current build plate as a stl file."))
+		self.Bind(wx.EVT_MENU, lambda e: self.scene.showSaveModel(), self.savePlateButton)
+		self.preparePrintButton = self.fileMenu.Append(wx.ID_SAVE, _("Prepare the Print") + "\tCTRL+P", _("Save the generated gcode on a sd card or on your computer."))
+		self.Bind(wx.EVT_MENU, self.OnPreparePrint, self.preparePrintButton)
 
 		# Model MRU list
 		modelHistoryMenu = wx.Menu()
