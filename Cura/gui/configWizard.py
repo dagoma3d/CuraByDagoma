@@ -310,6 +310,8 @@ class ConfigWizard(Wizard):
 
 	def OnPageFinished(self, e):
 		print("Configuration wizard finished...")
+		self.parent.scene.printForm.setHidden(True)
+
 		disco_addons_printers = self.configurationPage.optionsPanel.disco_addons_printers
 		multinozzle_printers = self.configurationPage.optionsPanel.multinozzle_printers
 		name = self.configurationPage.printersPanel.name
@@ -330,3 +332,6 @@ class ConfigWizard(Wizard):
 
 		if self.parent is not None:
 			self.parent.ReloadSettingPanels()
+			del self.parent.scene.printForm
+			self.parent.scene.initPrintForm()
+			self.parent.scene.printForm.updateLayout()

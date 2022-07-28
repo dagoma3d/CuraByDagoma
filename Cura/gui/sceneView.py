@@ -73,25 +73,25 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton.setHidden(True)
 
 		group = []
-		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotate"), (0,-1), group, self.OnToolSelect)
-		self.scaleToolButton  = openglGui.glRadioButton(self, 9, _("Scale"), (1,-1), group, self.OnToolSelect)
-		self.mirrorToolButton  = openglGui.glRadioButton(self, 10, _("Mirror"), (2,-1), group, self.OnToolSelect)
+		self.rotateToolButton = openglGui.glRadioButton(self, 8, _("Rotate"), (0,2), group, self.OnToolSelect)
+		self.scaleToolButton  = openglGui.glRadioButton(self, 9, _("Scale"), (0,3), group, self.OnToolSelect)
+		self.mirrorToolButton  = openglGui.glRadioButton(self, 10, _("Mirror"), (0,4), group, self.OnToolSelect)
 
-		self.resetRotationButton = openglGui.glButton(self, 12, _("Reset"), (0,-2), self.OnRotateReset)
-		self.layFlatButton       = openglGui.glButton(self, 16, _("Lay flat"), (0,-3), self.OnLayFlat)
+		self.resetRotationButton = openglGui.glButton(self, 12, _("Reset"), (1,2), self.OnRotateReset)
+		self.layFlatButton       = openglGui.glButton(self, 16, _("Lay flat"), (2,2), self.OnLayFlat)
 
-		self.resetScaleButton    = openglGui.glButton(self, 13, _("Reset"), (1,-2), self.OnScaleReset)
-		self.scaleMaxButton      = openglGui.glButton(self, 17, _("To max"), (1,-3), self.OnScaleMax)
+		self.resetScaleButton    = openglGui.glButton(self, 13, _("Reset"), (1,3.5), self.OnScaleReset)
+		self.scaleMaxButton      = openglGui.glButton(self, 17, _("To max"), (2,3.5), self.OnScaleMax)
 
-		self.mirrorXButton       = openglGui.glButton(self, 14, _("Mirror X"), (2,-2), lambda button: self.OnMirror(0))
-		self.mirrorYButton       = openglGui.glButton(self, 18, _("Mirror Y"), (2,-3), lambda button: self.OnMirror(1))
-		self.mirrorZButton       = openglGui.glButton(self, 22, _("Mirror Z"), (2,-4), lambda button: self.OnMirror(2))
+		self.mirrorXButton       = openglGui.glButton(self, 14, _("Mirror X"), (1,4), lambda button: self.OnMirror(0))
+		self.mirrorYButton       = openglGui.glButton(self, 18, _("Mirror Y"), (2,4), lambda button: self.OnMirror(1))
+		self.mirrorZButton       = openglGui.glButton(self, 22, _("Mirror Z"), (3,4), lambda button: self.OnMirror(2))
 
 		self.rotateToolButton.setExpandArrow(True)
 		self.scaleToolButton.setExpandArrow(True)
 		self.mirrorToolButton.setExpandArrow(True)
 
-		self.scaleForm = openglGui.glFrame(self, (2, -2))
+		self.scaleForm = openglGui.glFrame(self, (1.1, 2.5))
 		openglGui.glGuiLayoutGrid(self.scaleForm)
 		openglGui.glLabel(self.scaleForm, _("Scale X"), (0,0))
 		self.scaleXctrl = openglGui.glNumberCtrl(self.scaleForm, '1.0', (1,0), lambda value: self.OnScaleEntry(value, 0))
@@ -107,6 +107,10 @@ class SceneView(openglGui.glGuiPanel):
 		self.scaleZmmctrl = openglGui.glNumberCtrl(self.scaleForm, '0.0', (1,6), lambda value: self.OnScaleEntryMM(value, 2))
 		openglGui.glLabel(self.scaleForm, _("Uniform scale"), (0,8))
 		self.scaleUniform = openglGui.glCheckbox(self.scaleForm, True, (1,8), None)
+
+		self.printFormTitles = [_("Duration"), _("Weight"), _("Length"), _("Cost")]
+		self.initPrintForm()
+		self.printForm.setHidden(True)
 
 		# self.viewSelection = openglGui.glComboButton(self, _(" "), [7,19,11,15,23], [_("Normal"), _("Surplomb"), _("Transparent"), _("Rayon-X"), _("Layers")], (-1,0), self.OnViewChange)
 		self.viewSelection = openglGui.glComboButton(self, _(" "), [7,23], [_("Normal"), _("Layers")], (-1,0), self.OnViewChange)
@@ -128,6 +132,36 @@ class SceneView(openglGui.glGuiPanel):
 		self.updateToolButtons()
 		self.updateProfileToControls()
 		self.updateSceneFilenames()
+
+	def initPrintForm(self):
+		self.printLabels = [] # labels to fill after slicing
+		if int(profile.getMachineSetting('extruder_amount')) == 1:
+			self.initPrintFormUnicolor(self.printFormTitles)
+		else:
+			self.initPrintFormBicolor(self.printFormTitles)
+		self.printForm.setHidden(True)
+
+	def initPrintFormUnicolor(self, titles): # fill the print form from the 'titles' parameters (unicolor)
+		self.printForm = openglGui.glFrame(self, (0, -1))
+		openglGui.glGuiLayoutGrid(self.printForm)
+		for i, title in enumerate(titles):
+			openglGui.glLabel(self.printForm, _(title) + " : ", (0, i))
+			self.printLabels.append(openglGui.glLabel(self.printForm, '___', (1, i))) # empty when initializing
+
+	def initPrintFormBicolor(self, titles):
+		self.printForm = openglGui.glFrame(self, (0, -1))
+		openglGui.glGuiLayoutGrid(self.printForm)
+		openglGui.glLabel(self.printForm, _(titles[0]) + " : ", (1, 0)) # 'duration' is the same for both filaments
+		self.printLabels.append(openglGui.glLabel(self.printForm, '___', (2, 0)))
+		for id_filament in (0,1):
+			openglGui.glLabel(self.printForm, _("- Filament ") + str(id_filament + 1) + " -", (0 if id_filament == 0 else 2, 1))
+			for i, title in enumerate(titles[1:]):
+				openglGui.glLabel(self.printForm, _(title) + " : ", (0 if id_filament == 0 else 2, i+2))
+				self.printLabels.append(openglGui.glLabel(self.printForm, '___', (1 + (0 if id_filament == 0 else 2), i+2)))
+
+	def resetPrintForm(self): # unicolor and bicolor
+		for i in range(len(self.printLabels)):
+			self.printLabels[i]._label = "___"
 
 	def unpack(self, filename):
 		image = wx.Image(resources.getPathForImage(filename))
@@ -161,7 +195,6 @@ class SceneView(openglGui.glGuiPanel):
 			self._engine._result.setGCode(f.read())
 		self._engine._result.setFinished(True)
 		self._engineResultView.setResult(self._engine._result)
-		self.printButton.setBottomText('')
 		self.viewSelection.setValue(1)
 		self.printButton.setDisabled(False)
 		# self.youMagineButton.setDisabled(True) Dagoma
@@ -617,10 +650,10 @@ class SceneView(openglGui.glGuiPanel):
 		self._engineResultView.setResult(None)
 		self.viewSelection.setValue(0)
 		self.viewSelection.setHidden(True)
-		self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
 		normalSettingsPanel.printButton.Disable()
+		self.printForm.setHidden(True)
 
 	def OnMultiply(self, e):
 		if self._focusObj is None:
@@ -727,6 +760,7 @@ class SceneView(openglGui.glGuiPanel):
 		mainWindow = self.GetParent().GetParent().GetParent()
 		if not sys.platform.startswith('darwin'): # Disable the print button here makes hyperlinks disappear... to investigate
 			mainWindow.normalSettingsPanel.printButton.Disable()
+		self.printForm.setHidden(True)
 		mainWindow.fileMenu.FindItemByPosition(2).Enable(False)
 		result = self._engine.getResult()
 		finished = result is not None and result.isFinished()
@@ -734,6 +768,7 @@ class SceneView(openglGui.glGuiPanel):
 			if self.printButton.getProgressBar() is not None and progressValue >= 0.0 and abs(self.printButton.getProgressBar() - progressValue) < 0.01:
 				return
 		self.printButton.setDisabled(not finished)
+		self.printForm.setHidden(not finished)
 		if progressValue >= 0.0:
 			self.printButton.setProgressBar(progressValue)
 		else:
@@ -745,41 +780,43 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setProgressBar(None)
 			print_duration = result.getPrintTime()
 			profile.putProfileSetting('print_duration', print_duration)
-			text = '%s\n' % (print_duration)
+			info = [str(print_duration)]
 			for e in range(0, int(profile.getMachineSetting('extruder_amount'))):
 				filament_index = str(e + 1) if e > 0 else ''
 				grams = result.getFilamentGrams(e)
 				if grams is not None:
 					profile.putProfileSetting('filament' + filament_index + '_weight', grams)
 					if int(profile.getMachineSetting('extruder_amount')) > 1:
-						text += 'Filament %s: ' % ((e ^ int(profile.getProfileSetting('start_extruder'))) + 1)
-					text += '%s' % grams
+						pass
+					info.append(grams)
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_weight', '')
 				meters = result.getFilamentMeters(e)
 				if meters is not None:
 					profile.putProfileSetting('filament' + filament_index + '_length', meters)
-					text += ' - %s' % (meters)
+					info.append(str(meters))
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_length', '')
 				cost = result.getFilamentCost(e)
 				if cost is not None:
 					profile.putProfileSetting('filament' + filament_index + '_cost', cost)
-					text += ' - %s' % (cost)
+					info.append(str(cost))
 				else:
 					profile.putProfileSetting('filament' + filament_index + '_cost', '')
-				if e < int(profile.getMachineSetting('extruder_amount')) and profile.mergeDone:
-					text += '\n'
-			split_text = text.split('\n')
-			if split_text[-1] == '':
-				del split_text[-1]
-			text = '\n'.join(split_text)
+
 			profile.saveProfile(profile.getDefaultProfilePath(), True)
-			self.printButton.setBottomText(text)
+			self.fillPrintForm(info)
+			self.printForm.updateLayout()
+			self.printForm.setHidden(False)
 		else:
-			self.printButton.setBottomText('')
+			self.printForm.setHidden(True)
 		self.QueueRefresh()
 
+	def fillPrintForm(self, info):
+		self.resetPrintForm()
+		for i, text in enumerate(info):
+			self.printLabels[i]._label = text
+			
 	def loadScene(self, fileList):
 		for filename in fileList:
 			try:
@@ -819,7 +856,7 @@ class SceneView(openglGui.glGuiPanel):
 		if len(self._scene.objects()) == 0:
 			self._engineResultView.setResult(None)
 			self.viewSelection.setHidden(True)
-			self.printButton.setBottomText('')
+			self.printForm.setHidden(True)
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 			normalSettingsPanel.pausePluginButton.Disable()
 			normalSettingsPanel.printButton.Disable()
@@ -1119,7 +1156,6 @@ class SceneView(openglGui.glGuiPanel):
 
 	def OnPaint(self,e):
 		self.printButton._imageID = None
-		self.printButton._tooltip = _(" ")
 
 		if self._animView is not None:
 			self._viewTarget = self._animView.getPosition()

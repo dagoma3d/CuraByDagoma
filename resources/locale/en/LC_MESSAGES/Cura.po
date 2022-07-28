@@ -856,6 +856,21 @@ msgstr ""
 msgid "Layers"
 msgstr ""
 
+msgid "Duration"
+msgstr ""
+
+msgid "Weight"
+msgstr ""
+
+msgid "Length"
+msgstr ""
+
+msgid "Cost"
+msgstr ""
+
+msgid "- Filament "
+msgstr ""
+
 #: Cura/gui/sceneView.py:106
 msgid "Share on YouMagine"
 msgstr ""
