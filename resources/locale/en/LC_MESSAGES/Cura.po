@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Cura\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-28 17:57+0200\n"
-"PO-Revision-Date: 2022-07-11 11:47+0100\n"
+"PO-Revision-Date: 2022-08-22 11:15+0100\n"
 "Last-Translator: s.farceur <s.farceur@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -572,9 +572,6 @@ msgstr ""
 msgid "Contact us"
 msgstr ""
 
-msgid "Help"
-msgstr ""
-
 msgid "Shortcuts"
 msgstr ""
 
@@ -608,7 +605,8 @@ msgstr ""
 msgid "Modify the object's size (drag the mouse from the end of an axis)"
 msgstr ""
 
-msgid "Modify the object's size slowly (drag the mouse from the end of an axis)"
+msgid ""
+"Modify the object's size slowly (drag the mouse from the end of an axis)"
 msgstr ""
 
 msgid "Stretch the object (drag the mouse from the end of an axis)"
@@ -620,16 +618,22 @@ msgstr ""
 msgid "Translate Tool"
 msgstr ""
 
-msgid "Translate the object following an axis (drag the mouse from the end of an axis)"
+msgid ""
+"Translate the object following an axis (drag the mouse from the end of an "
+"axis)"
 msgstr ""
 
-msgid "Translate slowly the object following an axis (drag the mouse from the end of an axis)"
+msgid ""
+"Translate slowly the object following an axis (drag the mouse from the end "
+"of an axis)"
 msgstr ""
 
 msgid "Display all the shortcuts."
 msgstr ""
 
-msgid "Here is a list of shortcuts to help moving camera through the scene and applying transformations with the tools."
+msgid ""
+"Here is a list of shortcuts to help moving camera through the scene and "
+"applying transformations with the tools."
 msgstr ""
 
 #: Cura/gui/mainWindow.py:192
