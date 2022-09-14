@@ -268,7 +268,7 @@ class SceneView(openglGui.glGuiPanel):
 			dlg.Destroy()
 			if len(filenames) < 1:
 				return False
-			profile.putPreference('lastFile', filenames[0])
+			profile.putPreference('lastFile', filenames[0].replace('%', '%%'))
 			self.loadFiles(filenames)
 
 	def showSaveModel(self):
@@ -291,7 +291,7 @@ class SceneView(openglGui.glGuiPanel):
 
 	def OnPrintButton(self, button):
 		if button == 1:
-			connectionGroup = self._printerConnectionManager.getAvailableGroup()
+			connectionGroup = None #self._printerConnectionManager.getAvailableGroup()
 			#if len(removableStorage.getPossibleSDcardDrives()) > 0 and (connectionGroup is None or connectionGroup.getPriority() < 0):
 			# Don't check connection group so that we ensure sd card save is the tested first usecase.
 			if len(removableStorage.getPossibleSDcardDrives()) > 0:
