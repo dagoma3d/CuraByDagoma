@@ -347,7 +347,7 @@
 			<filament_cost_kg>33.8</filament_cost_kg>
 			<model_colour>#42F59B</model_colour>
 		</Filament>
-		<Filament name="PLA PolyFlex">
+		<Filament name="PolyFlex">
 			<print_temperature>230</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>115</filament_flow>

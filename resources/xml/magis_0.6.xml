@@ -365,7 +365,7 @@
 				<model_colour>#808080</model_colour>
 			</Color>
 		</Filament>
-		<Filament name="PLA PolyFlex">
+		<Filament name="PolyFlex">
 			<print_temperature>230</print_temperature>
 			<filament_diameter>1.75</filament_diameter>
 			<filament_flow>115</filament_flow>
