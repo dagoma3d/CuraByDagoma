@@ -801,7 +801,7 @@ def savePreferences(filename):
 
 	for set in settingsList:
 		if set.isPreference():
-			parser.set('preference', set.getName(), set.getValue())
+			parser.set('preference', set.getName(), set.getValue().replace('%', '%%'))
 
 	n = 0
 	while getMachineSetting('machine_name', n) != '':

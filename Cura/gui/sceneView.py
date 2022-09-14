@@ -268,7 +268,7 @@ class SceneView(openglGui.glGuiPanel):
 			dlg.Destroy()
 			if len(filenames) < 1:
 				return False
-			profile.putPreference('lastFile', filenames[0].replace('%', '%%'))
+			profile.putPreference('lastFile', filenames[0])
 			self.loadFiles(filenames)
 
 	def showSaveModel(self):
