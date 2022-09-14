@@ -36,7 +36,7 @@ class bugReportWindow(wx.Frame):
 		s.Add(wx.StaticText(p, -1, _("Before explaining the problem, please write the version of your OS.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("If the problem happens after loading a certain STL file, please attach it to your message.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("If it's possible, attach the last (or the previous) STL you have loaded too.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		s.Add(wx.StaticText(p, -1, _("Then, please attach the 3 files named : 'current_profile.ini', 'mru_filelist.ini', 'preferences.ini'.\n- On Windows, you can find them in ~/.curaByDagoma/2.2.0/.\n- On MacOs, you can find them in ~/Library/Application Support/CuraByDagoma/2.2.0/.\n- On Linux, you can find them in ~/.curaByDagoma/2.2.0/.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		s.Add(wx.StaticText(p, -1, _("Then, please attach the 3 files named : 'current_profile.ini', 'mru_filelist.ini', 'preferences.ini'.\n- On Windows, you can find them in ~/.curaByDagoma/2.2.1/.\n- On MacOs, you can find them in ~/Library/Application Support/CuraByDagoma/2.2.1/.\n- On Linux, you can find them in ~/.curaByDagoma/2.2.1/.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticLine(p), flag=wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("After sending your message, please check regularly in case someone has answered you. We will try to solve your problem as soon as possible.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 
