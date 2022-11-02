@@ -72,16 +72,16 @@ SetCompressor /SOLID lzma
 ; Language strings
 LangString Create_Shortcut_Desktop ${LANG_ENGLISH} "Add a shortcut on Desktop"
 LangString Create_Shortcut_Desktop ${LANG_FRENCH} "Ajouter un raccourci sur le Bureau"
-LangString Install_FTDI_Drivers ${LANG_ENGLISH} "Install FTDI Drivers"
-LangString Install_FTDI_Drivers ${LANG_FRENCH} "Installer les pilotes FTDI"
-LangString Install_CH340_Drivers ${LANG_ENGLISH} "Install CH340 Drivers"
-LangString Install_CH340_Drivers ${LANG_FRENCH} "Installer les pilotes CH340"
+;LangString Install_FTDI_Drivers ${LANG_ENGLISH} "Install FTDI Drivers"
+;LangString Install_FTDI_Drivers ${LANG_FRENCH} "Installer les pilotes FTDI"
+;LangString Install_CH340_Drivers ${LANG_ENGLISH} "Install CH340 Drivers"
+;LangString Install_CH340_Drivers ${LANG_FRENCH} "Installer les pilotes CH340"
 LangString Open_STL_files_with_Cura ${LANG_ENGLISH} "Open STL files with Cura by Dagoma"
 LangString Open_STL_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers STL avec Cura by Dagoma"
-LangString Open_OBJ_files_with_Cura ${LANG_ENGLISH} "Open OBJ files with Cura by Dagoma"
-LangString Open_OBJ_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers OBJ avec Cura by Dagoma"
-LangString Open_AMF_files_with_Cura ${LANG_ENGLISH} "Open AMF files with Cura by Dagoma"
-LangString Open_AMF_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers AMF avec Cura by Dagoma"
+;LangString Open_OBJ_files_with_Cura ${LANG_ENGLISH} "Open OBJ files with Cura by Dagoma"
+;LangString Open_OBJ_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers OBJ avec Cura by Dagoma"
+;LangString Open_AMF_files_with_Cura ${LANG_ENGLISH} "Open AMF files with Cura by Dagoma"
+;LangString Open_AMF_files_with_Cura ${LANG_FRENCH} "Ouvrir les fichiers AMF avec Cura by Dagoma"
 LangString Exec_Cura ${LANG_ENGLISH} "Start ${BUILD_NAME}"
 LangString Exec_Cura ${LANG_FRENCH} "Lancer ${BUILD_NAME}"
 
@@ -155,27 +155,27 @@ Function CreateShortcutDesktop
   CreateShortCut "$DESKTOP\${BUILD_NAME}.lnk" "$INSTDIR\python3\pythonw.exe" '-m "Cura.cura"' "$INSTDIR\resources\images\cura.ico" 0
 FunctionEnd
 
-Section $(Install_FTDI_Drivers)
-  ; Set output path to the driver directory.
-  SetOutPath "$INSTDIR\drivers\"
-  File /r "drivers\"
-
-  ${If} ${RunningX64}
-    ExecWait '"$INSTDIR\drivers\CDM21224_Setup.exe" /lm'
-  ${Else}
-    ExecWait '"$INSTDIR\drivers\CDM21224_Setup.exe" /lm'
-  ${EndIf}
-SectionEnd
-
-Section $(Install_CH340_Drivers)
-  SetOutPath "$INSTDIR\drivers\"
-  File /r "drivers\"
-  ${If} ${RunningX64}
-    ExecWait '"$INSTDIR\drivers\CH34x_Install_Windows_v3_4.EXE" /lm'
-  ${Else}
-    ExecWait '"$INSTDIR\drivers\CH34x_Install_Windows_v3_4.EXE" /lm'
-  ${EndIf}
-SectionEnd
+;Section $(Install_FTDI_Drivers)
+;  ; Set output path to the driver directory.
+;  SetOutPath "$INSTDIR\drivers\"
+;  File /r "drivers\"
+;
+;  ${If} ${RunningX64}
+;    ExecWait '"$INSTDIR\drivers\CDM21224_Setup.exe" /lm'
+;  ${Else}
+;    ExecWait '"$INSTDIR\drivers\CDM21224_Setup.exe" /lm'
+;  ${EndIf}
+;SectionEnd
+;
+;Section $(Install_CH340_Drivers)
+;  SetOutPath "$INSTDIR\drivers\"
+;  File /r "drivers\"
+;  ${If} ${RunningX64}
+;    ExecWait '"$INSTDIR\drivers\CH34x_Install_Windows_v3_4.EXE" /lm'
+;  ${Else}
+;    ExecWait '"$INSTDIR\drivers\CH34x_Install_Windows_v3_4.EXE" /lm'
+;  ${EndIf}
+;SectionEnd
 
 Section $(Open_STL_files_with_Cura)
 	WriteRegStr HKCR .stl "" "Cura STL model file"
@@ -185,21 +185,21 @@ Section $(Open_STL_files_with_Cura)
 	WriteRegStr HKCR "Cura STL model file\shell\open\command" "" '"$INSTDIR\python3\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
 SectionEnd
 
-Section $(Open_OBJ_files_with_Cura)
-	WriteRegStr HKCR .obj "" "Cura OBJ model file"
-	DeleteRegValue HKCR .obj "Content Type"
-	WriteRegStr HKCR "Cura OBJ model file\DefaultIcon" "" "$INSTDIR\resources\images\stl.ico,0"
-	WriteRegStr HKCR "Cura OBJ model file\shell" "" "open"
-	WriteRegStr HKCR "Cura OBJ model file\shell\open\command" "" '"$INSTDIR\python3\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
-SectionEnd
-
-Section $(Open_AMF_files_with_Cura)
-	WriteRegStr HKCR .amf "" "Cura AMF model file"
-	DeleteRegValue HKCR .amf "Content Type"
-	WriteRegStr HKCR "Cura AMF model file\DefaultIcon" "" "$INSTDIR\resources\images\stl.ico,0"
-	WriteRegStr HKCR "Cura AMF model file\shell" "" "open"
-	WriteRegStr HKCR "Cura AMF model file\shell\open\command" "" '"$INSTDIR\python3\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
-SectionEnd
+;Section $(Open_OBJ_files_with_Cura)
+;	WriteRegStr HKCR .obj "" "Cura OBJ model file"
+;	DeleteRegValue HKCR .obj "Content Type"
+;	WriteRegStr HKCR "Cura OBJ model file\DefaultIcon" "" "$INSTDIR\resources\images\stl.ico,0"
+;	WriteRegStr HKCR "Cura OBJ model file\shell" "" "open"
+;	WriteRegStr HKCR "Cura OBJ model file\shell\open\command" "" '"$INSTDIR\python3\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
+;SectionEnd
+;
+;Section $(Open_AMF_files_with_Cura)
+;	WriteRegStr HKCR .amf "" "Cura AMF model file"
+;	DeleteRegValue HKCR .amf "Content Type"
+;	WriteRegStr HKCR "Cura AMF model file\DefaultIcon" "" "$INSTDIR\resources\images\stl.ico,0"
+;	WriteRegStr HKCR "Cura AMF model file\shell" "" "open"
+;	WriteRegStr HKCR "Cura AMF model file\shell\open\command" "" '"$INSTDIR\python3\pythonw.exe" -c "import os; os.chdir(\"$INSTDIR\"); import Cura.cura; Cura.cura.main()" "%1"'
+;SectionEnd
 
 ;--------------------------------
 
