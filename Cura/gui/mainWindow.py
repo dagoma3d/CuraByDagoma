@@ -579,6 +579,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		else:
 			self.sensorCheckBox.Hide()
 			mainSizer.Add(self.usePlateCheckBox)
+			self.usePlateCheckBox.SetValue(False)
 		mainSizer.Add(self.pausePluginButton, flag=wx.EXPAND)
 		mainSizer.Add(self.pausePluginPanel, flag=wx.EXPAND)
 		mainSizer.Add(self.printButton, flag=wx.EXPAND|wx.TOP, border=5)
@@ -933,7 +934,6 @@ class normalSettingsPanel(configBase.configPanelBase):
 	
 	def initUsePlate(self):
 		self.usePlateCheckBox = wx.CheckBox(self, wx.ID_ANY, _("Use a flex magnetic build plate"))
-		self.usePlateCheckBox.SetValue(True)
 
 	def initFirstTemp2(self):
 		self.firstTempCheckBox2 = wx.CheckBox(self, wx.ID_ANY, _("Custom 1st layer print temperature (°C) :"))
