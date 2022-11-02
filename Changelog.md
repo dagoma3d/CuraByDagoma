@@ -4,19 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.2.1] - 2022-09-14
+## [2.2.1] - 2022-11-02
 - Fix save build plate feature
 - Disable USB printing as it doesn't work as expected for now due to python migration
 - Special characters in filenames are now correctly handled
 - Rename PolyFlex label
 - Fix minor graphical bugs
 - Custom first layer temperature
-- Add raft and skirt buttons
+- Add raft and skirt choices
 - Add shorcut list in help menu
 - Add bug report process in help menu
 - Replace default example stl
 - Fix desktop shortcut
-
+- Fix Windows desktop shortcut launch path
+- Change the first layer thickness according to build plate type (for delta printers only)
+- Remove drivers installation from the windows installer. If needed, should be installed separately (https://github.com/dagoma3d/CuraByDagoma/tree/master/scripts/windows/drivers)
 
 ## [2.2.0] - 2022-06-27
 - Migrate from Python 2.7 to Python 3.9
