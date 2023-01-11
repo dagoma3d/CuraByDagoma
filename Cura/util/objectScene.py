@@ -7,6 +7,7 @@ The objectScene handles the printing order of these objects, and if they collide
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 import random
 import numpy
+from functools import cmp_to_key
 
 from Cura.util import profile
 from Cura.util import polygon
@@ -57,7 +58,7 @@ class _objectOrderFinder(object):
 					self.order = None
 					return
 
-		initialList.sort(self._objIdxCmp)
+		initialList.sort(key=cmp_to_key(self._objIdxCmp))
 
 		n = 0
 		self._todo = [_objectOrder([], initialList)]
