@@ -426,7 +426,7 @@ class SceneView(openglGui.glGuiPanel):
 			data = data.replace('#PRINT_TEMPERATURE#', tempA)
 			# replace the general temperature on the first layer (second extruder) by the first layer temperature
 			other_extruder = (1, 0)[start_extruder == 1]
-			idA = data.find('M104', data.find(f'T{other_extruder}'))
+			idA = data.find('M104', data.find(f'T{other_extruder}'), data.find('M107'))
 			if idA > 0: #Temperature order for a specific tool found
 				idB = data.find('\n', idA)
 				data = data[:idA] + f'M104 S{tempB} ;first temperature (second extruder)' + data[idB:]
