@@ -59,6 +59,11 @@ class CuraApp(wx.App):
 			from Cura.gui import splashScreen
 			self.splash = splashScreen.splashScreen(self.afterSplashCallback)
 
+	def InitLocale(self):
+		if sys.platform.startswith('win') and sys.version_info > (3,8):
+			import locale
+			locale.setlocale(locale.LC_ALL, "C")
+
 	def MacOpenFile(self, path):
 		try:
 			self.mainWindow.OnDropFiles([path])
