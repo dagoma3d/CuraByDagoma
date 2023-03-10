@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.2.3] - 2023-03-10
+- Stop searching temperature command in gcode end sequence
+- Apply locale workaround when system locale is not equal to region locale
+
 ## [2.2.2] - 2022-11-24
 Fix temperature order added to the end of the generated gcode when a single object is sliced from a dual extrusion printer
 
