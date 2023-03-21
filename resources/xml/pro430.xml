@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- XML for Project Sigma - 29/03/2022 -->
+<Dagoma>
+	<!-- Filament definitions -->
+	<Filaments>
+		<Filament name="PLA Chromatik">
+			<print_temperature>198</print_temperature>
+			<filament_diameter>1.74</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>60</retraction_speed>
+			<retraction_amount>3.8</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>33.20</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Silver">
+				<model_colour>#C0C0C0</model_colour>
+			</Color>
+			<Color name="Pearl white">
+				<model_colour>#eeebd9</model_colour>
+			</Color>
+			<Color name="Pearl blue">
+				<model_colour>#4FA1C2</model_colour>
+			</Color>
+			<Color name="Baby blue">
+				<model_colour>#89cff0</model_colour>
+			</Color>
+			<Color name="Bronze">
+				<model_colour>#cd7f32</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
+			<Color name="Fluor yellow">
+				<model_colour>#ccff00</model_colour>
+			</Color>
+			<Color name="Purple">
+				<model_colour>#800080</model_colour>
+			</Color>
+			<Color name="Brown">
+				<model_colour>#964B00</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+				<print_temperature>203</print_temperature>
+				<filament_flow>100</filament_flow>
+				<retraction_speed>60</retraction_speed>
+				<retraction_amount>4</retraction_amount>
+			</Color>
+			<Color name="Gold">
+				<model_colour>#FFD700</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Fluor orange">
+				<model_colour>#FE3917</model_colour>
+			</Color>
+			<Color name="Peach">
+				<model_colour>#FFDAB9</model_colour>
+			</Color>
+			<Color name="Baby green">
+				<model_colour>#B2F187</model_colour>
+			</Color>
+			<Color name="Glow green">
+				<model_colour>#51ff0d</model_colour>
+			</Color>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#ff0000</model_colour>
+			</Color>
+			<Color name="Fluor green">
+				<model_colour>#B4FE00</model_colour>
+			</Color>
+			<Color name="Dark green">
+				<model_colour>#006400</model_colour>
+			</Color>
+			<Color name="Silver glitter">
+				<print_temperature>203</print_temperature>
+				<model_colour>#C0C0C0</model_colour>
+			</Color>
+			<Color name="Azure">
+				<print_temperature>203</print_temperature>
+				<model_colour>#007FFF</model_colour>
+			</Color>
+			<Color name="Ocean blue">
+				<print_temperature>203</print_temperature>
+				<model_colour>#0077be</model_colour>
+			</Color>
+			<Color name="Apple green">
+				<print_temperature>203</print_temperature>
+				<model_colour>#8DB600</model_colour>
+			</Color>
+			<Color name="Pink tea">
+				<print_temperature>203</print_temperature>
+				<model_colour>#f4c2c2</model_colour>
+			</Color>
+			<Color name="Desert">
+				<print_temperature>203</print_temperature>
+				<model_colour>#EDC9AF</model_colour>
+			</Color>
+			<Color name="Lime green">
+				<print_temperature>203</print_temperature>
+				<model_colour>#32CD32</model_colour>
+			</Color>
+			<Color name="Lemon yellow">
+				<print_temperature>203</print_temperature>
+				<model_colour>#fff44f</model_colour>
+			</Color>
+			<Color name="Sun yellow">
+				<print_temperature>203</print_temperature>
+				<model_colour>#FDB813</model_colour>
+			</Color>
+			<Color name="Camouflage">
+				<print_temperature>203</print_temperature>
+				<model_colour>#78866b</model_colour>
+			</Color>
+			<Color name="Magenta">
+				<print_temperature>203</print_temperature>
+				<model_colour>#FF00FF</model_colour>
+			</Color>
+			<Color name="Chocolate brown">
+				<print_temperature>203</print_temperature>
+				<model_colour>#8B4513</model_colour>
+			</Color>
+			<Color name="Baby pink">
+				<print_temperature>203</print_temperature>
+				<model_colour>#F4C2C2</model_colour>
+			</Color>
+			<Color name="Rubin red">
+				<print_temperature>203</print_temperature>
+				<model_colour>#CA005D</model_colour>
+			</Color>
+			<Color name="Ivory">
+				<print_temperature>203</print_temperature>
+				<model_colour>#FFFFF0</model_colour>
+			</Color>
+			<Color name="Plum">
+				<print_temperature>203</print_temperature>
+				<model_colour>#EE82EE</model_colour>
+			</Color>
+			<Color name="Natural">
+				<print_temperature>203</print_temperature>
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Solid green">
+				<print_temperature>203</print_temperature>
+				<model_colour>#00FF00</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#ffffff</model_colour>
+				<print_temperature>205</print_temperature>
+				<filament_flow>95</filament_flow>
+				<retraction_speed>60</retraction_speed>
+				<retraction_amount>4.5</retraction_amount>
+			</Color>
+			<Color name="Glass">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Water green">
+				<model_colour>#ffffff</model_colour>
+			</Color>
+			<Color name="Sky blue">
+				<model_colour>#57b9ff</model_colour>
+			</Color>
+			<Color name="Fushia pink">
+				<model_colour>#FF00FF</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA Glitter Chromatik">
+			<print_temperature>200</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>60</retraction_speed>
+			<retraction_amount>4</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>39.8</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Blue">
+				<model_colour>#4FA1C2</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#ff0000</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#006400</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#C0C0C0</model_colour>
+			</Color>
+			<Color name="Violet">
+				<model_colour>#a31c4df</model_colour>
+			</Color>
+			<Color name="Autumn orange">
+				<model_colour>#b85911</model_colour>
+			</Color>
+			<Color name="Cactus green">
+				<model_colour>#106e20</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA Mate Chromatik">
+			<print_temperature>205</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>105</filament_flow>
+			<retraction_speed>60</retraction_speed>
+			<retraction_amount>4.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>39.98</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Slate grey">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="Shalk white">
+				<model_colour>#eeebd9</model_colour>
+			</Color>
+			<Color name="Clay green">
+				<model_colour>#006400</model_colour>
+			</Color>
+			<Color name="Duck blue">
+				<model_colour>#147a6e</model_colour>
+			</Color>
+			<Color name="Camel">
+				<model_colour>#ab6316</model_colour>
+			</Color>
+			<Color name="Brick red">
+				<model_colour>#8a2b11</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA Marble Chromatik">
+			<print_temperature>190</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>60</retraction_speed>
+			<retraction_amount>5.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<model_colour>#EFEFEF</model_colour>
+			<layer_height>0.2</layer_height>
+			<solid_layer_thickness>1.2</solid_layer_thickness>
+			<wall_thickness>1</wall_thickness>
+			<print_speed>40</print_speed>
+			<travel_speed>60</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>40</infill_speed>
+			<inset0_speed>35</inset0_speed>
+			<insetx_speed>40</insetx_speed>
+			<solidarea_speed>40</solidarea_speed>
+		</Filament>
+		<Filament name="PLA Filo3D">
+			<print_temperature>187</print_temperature>
+			<filament_diameter>1.70</filament_diameter>
+			<filament_flow>96</filament_flow>
+			<retraction_speed>65</retraction_speed>
+			<retraction_amount>4</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>33.8</filament_cost_kg>
+			<model_colour>#42F59B </model_colour>
+		</Filament>
+		<Filament name="PLA Pantone">
+			<print_temperature>205</print_temperature>
+			<filament_diameter>1.74</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>40</retraction_speed>
+			<retraction_amount>3.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>29.90</filament_cost_kg>
+			<model_colour>#FFF9E8</model_colour>
+			<Color name="Black">
+				<model_colour>#212424</model_colour>
+				<print_temperature>205</print_temperature>
+				<filament_flow>95</filament_flow>
+				<retraction_amount>5</retraction_amount>
+			</Color>
+		</Filament>
+		<Filament name="PLA PolyPlus/Polylite">
+			<print_temperature>210</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>65</retraction_speed>
+			<retraction_amount>3.4</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Natural">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Translucent blue">
+				<model_colour>#0000FF</model_colour>
+			</Color>
+			<Color name="Translucent red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Translucent orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Translucent yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Blue">
+				<model_colour>#0000ff</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA PolyMax">
+			<print_temperature>210</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>65</retraction_speed>
+			<retraction_amount>3.4</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>59.86</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Blue">
+				<model_colour>#0000FF</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF000</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA OWA Armor">
+			<print_temperature>200</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>3.3</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Green">
+				<model_colour>#00FF00</model_colour>
+			</Color>
+			<Color name="Light blue">
+				<model_colour>#ADD8E6</model_colour>
+			</Color>
+			<Color name="Dark blue">
+				<model_colour>#000064</model_colour>
+			</Color>
+			<Color name="Pink">
+				<model_colour>#FFC0CB</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PolyFlex">
+			<print_temperature>230</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>115</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>8</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>66.53</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+			<layer_height>0.15</layer_height>
+			<solid_layer_thickness>1.05</solid_layer_thickness>
+			<wall_thickness>1.2</wall_thickness>
+			<print_speed>35</print_speed>
+			<travel_speed>50</travel_speed>
+			<bottom_layer_speed>15</bottom_layer_speed>
+			<infill_speed>40</infill_speed>
+			<inset0_speed>25</inset0_speed>
+			<insetx_speed>35</insetx_speed>
+			<solidarea_speed>35</solidarea_speed>
+			<Color name="Yellow">
+				<model_colour>#FFFF00</model_colour>
+			</Color>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="Orange">
+				<model_colour>#FFA500</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="PLA PolyWood">
+			<print_temperature>200</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>45</retraction_speed>
+			<retraction_amount>6</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46.53</filament_cost_kg>
+			<model_colour>#855E42</model_colour>
+			<layer_height>0.15</layer_height>
+			<solid_layer_thickness>1.05</solid_layer_thickness>
+			<wall_thickness>1.2</wall_thickness>
+			<print_speed>50</print_speed>
+			<travel_speed>60</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>50</infill_speed>
+			<inset0_speed>40</inset0_speed>
+			<insetx_speed>45</insetx_speed>
+			<solidarea_speed>50</solidarea_speed>
+		</Filament>
+		<Filament name="PETG Polylite">
+			<print_temperature>225</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>50</retraction_speed>
+			<retraction_amount>4.5</retraction_amount>
+			<cool_min_feedrate>10</cool_min_feedrate>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>30</filament_cost_kg>
+			<model_colour>#FFA500</model_colour>
+			<Color name="Black">
+				<model_colour>#191919</model_colour>
+			</Color>
+			<Color name="White">
+				<model_colour>#FFFFFF</model_colour>
+			</Color>
+			<Color name="Red">
+				<model_colour>#FF0000</model_colour>
+			</Color>
+			<Color name="Grey">
+				<model_colour>#808080</model_colour>
+			</Color>
+			<Color name="Natural">
+				<model_colour>#cccccc</model_colour>
+			</Color>
+		</Filament>
+		<Filament name="Other PLA type">
+			<print_temperature>195</print_temperature>
+			<filament_diameter>1.75</filament_diameter>
+			<filament_flow>100</filament_flow>
+			<retraction_speed>75</retraction_speed>
+			<retraction_amount>6.5</retraction_amount>
+			<filament_physical_density>1270</filament_physical_density>
+			<filament_cost_kg>46</filament_cost_kg>
+			<model_colour>#FF9B00</model_colour>
+		</Filament>
+	</Filaments>
+
+	<!-- Filling definitions -->
+	<Fillings>
+		<Filling name="Vase">
+			<spiralize>True</spiralize>
+		</Filling>
+		<Filling name="Hollow (0%)">
+			<fill_density>0</fill_density>
+		</Filling>
+		<Filling name="Filling (17%)">
+			<fill_density>17</fill_density>
+		</Filling>
+		<Filling name="Reinforced (33%)">
+			<fill_density>33</fill_density>
+		</Filling>
+	</Fillings>
+
+	<!-- Quality definitions -->
+	<Precisions>
+		<Precision name="Fast (0.2mm)">
+			<layer_height>0.2</layer_height>
+			<solid_layer_thickness>1</solid_layer_thickness>
+			<wall_thickness>0.8</wall_thickness>
+			<print_speed>40</print_speed>
+			<temp_preci>10</temp_preci>
+			<travel_speed>150</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>40</infill_speed>
+			<inset0_speed>30</inset0_speed>
+			<insetx_speed>40</insetx_speed>
+			<solidarea_speed>40</solidarea_speed>
+		</Precision>
+		<Precision name="Standard (0.15mm)">
+			<layer_height>0.15</layer_height>
+			<solid_layer_thickness>1</solid_layer_thickness>
+			<wall_thickness>0.8</wall_thickness>
+			<print_speed>35</print_speed>
+			<temp_preci>5</temp_preci>
+			<travel_speed>150</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>35</infill_speed>
+			<inset0_speed>25</inset0_speed>
+			<insetx_speed>35</insetx_speed>
+			<solidarea_speed>35</solidarea_speed>
+		</Precision>
+		<Precision name="Thin (0.1mm)">
+			<layer_height>0.1</layer_height>
+			<solid_layer_thickness>1</solid_layer_thickness>
+			<wall_thickness>0.8</wall_thickness>
+			<print_speed>25</print_speed>
+			<temp_preci>0</temp_preci>
+			<travel_speed>150</travel_speed>
+			<bottom_layer_speed>17</bottom_layer_speed>
+			<infill_speed>30</infill_speed>
+			<inset0_speed>20</inset0_speed>
+			<insetx_speed>30</insetx_speed>
+			<solidarea_speed>30</solidarea_speed>
+		</Precision>
+	</Precisions>
+
+	<!-- Printer definition -->
+	<Printer>
+		<machine_name>Pro430</machine_name>
+		<machine_type>RepRap</machine_type>
+		<machine_width>430</machine_width>
+		<machine_depth>320</machine_depth>
+		<machine_height>350</machine_height>
+		<extruder_amount>1</extruder_amount>
+		<has_heated_bed>True</has_heated_bed>
+		<machine_center_is_zero>False</machine_center_is_zero>
+		<machine_shape>Square</machine_shape>
+		<machine_speed_factor>1</machine_speed_factor>
+		<nozzle_size>0.4</nozzle_size>
+		<extruder_head_size_min_x>22.5</extruder_head_size_min_x>
+		<extruder_head_size_min_y>22.5</extruder_head_size_min_y>
+		<extruder_head_size_max_x>22.5</extruder_head_size_max_x>
+		<extruder_head_size_max_y>22.5</extruder_head_size_max_y>
+		<extruder_head_size_height>200</extruder_head_size_height>
+		<retraction_enable>True</retraction_enable>
+		<oneAtATime>False</oneAtATime>
+	</Printer>
+
+	<!-- Global configuration -->
+	<Configuration>
+		<bottom_thickness>0.26</bottom_thickness>
+		<layer0_width_factor>100</layer0_width_factor>
+		<object_sink>0</object_sink>
+		<fan_enabled>True</fan_enabled>
+		<retraction_min_travel>1.5</retraction_min_travel>
+		<retraction_combing>All</retraction_combing>
+		<retraction_minimal_extrusion>0.02</retraction_minimal_extrusion>
+		<retraction_hop>0</retraction_hop>
+		<skirt_line_count>2</skirt_line_count>
+		<skirt_gap>3</skirt_gap>
+		<skirt_minimal_length>150</skirt_minimal_length>
+		<fan_full_height>0.8</fan_full_height>
+		<fan_speed_max>100</fan_speed_max>
+		<fan_speed>70</fan_speed>
+		<cool_min_layer_time>20</cool_min_layer_time>
+		<cool_min_feedrate>5</cool_min_feedrate>
+		<cool_head_lift>False</cool_head_lift>
+		<solid_top>True</solid_top>
+		<solid_bottom>True</solid_bottom>
+		<fill_overlap>25</fill_overlap>
+		<support_type>Lines</support_type>
+		<support_angle>50</support_angle>
+		<support_fill_rate>15</support_fill_rate>
+		<support_xy_distance>0.7</support_xy_distance>
+		<support_z_distance>0.2</support_z_distance>
+		<simple_mode>False</simple_mode>
+		<brim_line_count>10</brim_line_count>
+		<raft_margin>5</raft_margin>
+		<raft_line_spacing>3</raft_line_spacing>
+		<raft_base_thickness>0.3</raft_base_thickness>
+		<raft_base_linewidth>1</raft_base_linewidth>
+		<raft_interface_thickness>0.27</raft_interface_thickness>
+		<raft_interface_linewidth>0.4</raft_interface_linewidth>
+		<raft_airgap>0.22</raft_airgap>
+		<raft_surface_layers>2</raft_surface_layers>
+		<fix_horrible_union_all_type_a>True</fix_horrible_union_all_type_a>
+		<fix_horrible_union_all_type_b>False</fix_horrible_union_all_type_b>
+		<fix_horrible_use_open_bits>False</fix_horrible_use_open_bits>
+		<fix_horrible_extensive_stitching>False</fix_horrible_extensive_stitching>
+		<auto_detect_sd>True</auto_detect_sd>
+	</Configuration>
+
+	<!-- Gcodes start and end -->
+	<GCODE>
+		<Gstart>
+;Gcode generated by Cura by Dagoma {app_version}
+;Printer: {machine_name}
+;#FILENAMES_COMMENT#
+;Date: {date}
+;Time: {time}
+;Print duration: #PRINT_DURATION#
+;Layer height: {layer_height_info}
+;Filling: {fill_density_info}
+;Print speed: {print_speed_info}
+;Support: {support_info}
+;Adhesion improvement: #ADHESION#
+;Filament:
+;- Material: {filament_info}
+;- Temperature: {print_temperature_info}
+;- Flow: {flow_info}
+;- Retraction amount: {retraction_amount_info}
+;- Retraction speed: {retraction_speed_info}
+;- Length: #FILAMENT_LENGTH#
+;- Weight: #FILAMENT_WEIGHT#
+;- Cost: #FILAMENT_COST#
+
+G21 ;Set units to millimeters
+G90 ;Set all axes to absolute
+M104 S120 ; Launch hotend heating up to 120°C
+M190 S60 ;Preheat hotbed
+M106 S255; Activating layers fans for checkup and minimise filament on t
+G28 ;Go to origin on all axes
+G29 ; Bed Leveling
+M107 ; Turn off Layers Fans
+G0 X215 Y1 Z0.4 ;Move XYZ axis before purge
+M109 S{print_temperature} ;Wait for initial print temp
+M83 ;Set E to relative positioning
+G1 E{retraction_amount} F200 ;Purge
+G0 Z3 ;Move Z axis before print start
+M82 ;Set E to absolute positioning
+G92 E0 ;Set E position
+G1 F{travel_speed} ;Set the feedrate to {travel_speed}mm/s
+		</Gstart>
+
+		<Gend>
+;End Gcode for {machine_name}
+M104 S0 ;Set hotend temperature for cooldown
+M140 S0 ;Set hotbed temperature for cooldown
+G91 ;Set all axes to relative
+G0 Z+3 ;Move Z axis after print end
+G1 E-{retraction_amount} F5000 ;Retract filament to stop oozing
+G28 X Y ;Home the X and Y axes
+M18 ;Disable steppers motors
+		</Gend>
+	</GCODE>
+</Dagoma>

@@ -5,3 +5,4 @@ DiscoUltimate
 Neva;(Serial number < 6000)
 Magis;(Serial number >= 6000)
 Sigma;(or Sigma head)
+Pro430

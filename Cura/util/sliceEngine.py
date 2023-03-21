@@ -250,7 +250,7 @@ class Engine(object):
 						if len(recvData) < 1:
 							return
 						data += recvData
-					polygon2d = numpy.array(numpy.frombuffer(data, numpy.int64), numpy.float32) / 1000.0
+					polygon2d = numpy.array(numpy.frombuffer(data, int), numpy.float32) / 1000.0
 					polygon2d = polygon2d.reshape((int(len(polygon2d) / 2), 2))
 					polygon = numpy.empty((len(polygon2d), 3), numpy.float32)
 					polygon[:,:-1] = polygon2d
