@@ -97,6 +97,6 @@ with open(filename, "w") as f:
 				if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
 					f.write('M600 U-55 X55 Y-92 Z60' + os.linesep)
 				else:
-					f.write('M600 L0 PA' + os.linesep)
+					f.write('M600 L0 PA R'+profile.getProfileSetting('print_temperature')+ os.linesep)
 
 		f.write(line.rstrip() + os.linesep)
