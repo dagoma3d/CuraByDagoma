@@ -94,7 +94,7 @@ class printableObject(object):
 		self._transformedMax = numpy.array([-999999999999,-999999999999,-999999999999], numpy.float64)
 		self._boundaryCircleSize = 0
 
-		hull = numpy.zeros((0, 2), numpy.int)
+		hull = numpy.zeros((0, 2), int)
 		for m in self._meshList:
 			transformedVertexes = m.getTransformedVertexes()
 			hull = polygon.convexHull(numpy.concatenate((numpy.rint(transformedVertexes[:,0:2]).astype(int), hull), 0))
