@@ -4,6 +4,7 @@ import os, sys
 
 sys.path.insert(1, os.path.dirname(__file__))
 os.environ['GDK_BACKEND'] = 'x11'
+os.environ['PYOPENGL_PLAFORM'] = 'x11'
 
 try:
 	import OpenGL
