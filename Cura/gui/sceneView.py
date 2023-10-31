@@ -186,6 +186,8 @@ class SceneView(openglGui.glGuiPanel):
 			return
 		self.viewSelection.setHidden(False)
 		mainWindow.normalSettingsPanel.pausePluginButton.Enable()
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			mainWindow.normalSettingsPanel.extruderSwitchPluginButton.Enable()
 		mainWindow.normalSettingsPanel.printButton.Enable()
 		# only one GCODE file can be active
 		# so if single gcode file, process this
@@ -246,6 +248,8 @@ class SceneView(openglGui.glGuiPanel):
 		self.loadScene(fileList)
 		self.viewSelection.setHidden(False)
 		self.GetParent().GetParent().GetParent().normalSettingsPanel.pausePluginButton.Enable()
+		if int(profile.getMachineSetting('extruder_amount')) == 2:
+			self.GetParent().GetParent().GetParent().normalSettingsPanel.extruderSwitchPluginButton.Enable()
 
 	def showLoadModel(self, button = 1):
 		if button == 1:
@@ -513,6 +517,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.viewMode = 'gcode'
 			self.tool = previewTools.toolNone(self)
 			normalSettingsPanel.pausePluginPanel.Show()
+			normalSettingsPanel.extruderSwitchPluginPanel.Show()
 		# elif self.viewSelection.getValue() == 1:
 		# 	self.viewMode = 'overhang'
 		# elif self.viewSelection.getValue() == 2:
@@ -523,6 +528,8 @@ class SceneView(openglGui.glGuiPanel):
 			self.viewMode = 'normal'
 			if len(normalSettingsPanel.pausePluginPanel.panelList) == 0:
 				normalSettingsPanel.pausePluginPanel.Hide()
+			if len(normalSettingsPanel.extruderSwitchPluginPanel.panelList) == 0:
+				normalSettingsPanel.extruderSwitchPluginPanel.Hide()
 		normalSettingsPanel.Layout()
 		self._engineResultView.setEnabled(self.viewMode == 'gcode')
 		self.QueueRefresh()
@@ -619,6 +626,7 @@ class SceneView(openglGui.glGuiPanel):
 		self.printButton.setBottomText('')
 		normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 		normalSettingsPanel.pausePluginButton.Disable()
+		normalSettingsPanel.extruderSwitchPluginButton.Disable()
 		normalSettingsPanel.printButton.Disable()
 
 	def OnMultiply(self, e):
@@ -821,6 +829,7 @@ class SceneView(openglGui.glGuiPanel):
 			self.printButton.setBottomText('')
 			normalSettingsPanel = self.GetParent().GetParent().GetParent().normalSettingsPanel
 			normalSettingsPanel.pausePluginButton.Disable()
+			normalSettingsPanel.extruderSwitchPluginButton.Disable()
 			normalSettingsPanel.printButton.Disable()
 		import gc
 		gc.collect()
