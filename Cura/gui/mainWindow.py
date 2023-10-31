@@ -13,6 +13,7 @@ from wx.lib import scrolledpanel
 
 from Cura.gui import configBase
 from Cura.gui import pausePluginPanel
+from Cura.gui import extruderSwitchPluginPanel
 from Cura.gui import configWizard
 from Cura.gui import sceneView
 from Cura.gui import aboutWindow
@@ -246,6 +247,8 @@ class mainWindow(wx.Frame):
 		self.scene.sceneUpdated()
 		if len(self.scene._scene.objects()) > 0:
 			self.normalSettingsPanel.pausePluginButton.Enable()
+			if int(profile.getMachineSetting('extruder_amount')) == 2:
+				self.normalSettingsPanel.extruderSwitchPluginButton.Enable()
 		self.scene.updateProfileToControls()
 		self.normalSettingsPanel.updateProfileToControls()
 
@@ -425,10 +428,17 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.offsetTextCtrl = wx.TextCtrl(self, -1, profile.getProfileSetting('offset_input'))
 
 		# Pause plugin
-		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s)")))
+		self.pausePluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s) (pause)")))
 		pausePluginButtonToolTip = wx.ToolTip(_("If you don't have any pause button on your printer...\nJust push the X endstop to resume your print!"))
 		self.pausePluginButton.SetToolTip(pausePluginButtonToolTip)
 		self.pausePluginPanel = pausePluginPanel.pausePluginPanel(self, callback)
+
+		# Extruder switch plugin
+		self.extruderSwitchPluginButton = wx.Button(self, wx.ID_ANY, _(("Color change(s) (auto)")))
+		extruderSwitchPluginButtonToolTip = wx.ToolTip(_("Switch automatically extruder during printing\nRequires a double extruder option installed"))
+		self.extruderSwitchPluginButton.SetToolTip(extruderSwitchPluginButtonToolTip)
+		self.extruderSwitchPluginPanel = extruderSwitchPluginPanel.extruderSwitchPluginPanel(self, callback)
+
 		self.__setProperties()
 		self.__doLayout()
 
@@ -496,6 +506,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 		self.Bind(wx.EVT_SPINCTRL, self.OnFirstTempSpinCtrlChanged, self.firstTempSpinCtrl)
 		self.Bind(wx.EVT_BUTTON, self.OnPreparePrintButtonClick, self.printButton)
 		self.Bind(wx.EVT_BUTTON, self.OnPauseButtonClick, self.pausePluginButton)
+		self.Bind(wx.EVT_BUTTON, self.OnExtruderSwitchButtonClick, self.extruderSwitchPluginButton)
 
 	def __setProperties(self):
 		self.temperatureSpinCtrl.Enable(False)
@@ -508,6 +519,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def __doLayout(self):
 		printerName = profile.getMachineSetting('machine_name')
 		self.pausePluginButton.Disable()
+		self.extruderSwitchPluginButton.Disable()
 		self.printButton.Disable()
 
 		buyUrl = _("buy_url") + "&utm_campaign=achat_filament_" + profile.getMachineSetting('machine_name').lower()
@@ -585,6 +597,8 @@ class normalSettingsPanel(configBase.configPanelBase):
 				self.usePlateCheckBox.SetValue(False)
 		mainSizer.Add(self.pausePluginButton, flag=wx.EXPAND)
 		mainSizer.Add(self.pausePluginPanel, flag=wx.EXPAND)
+		mainSizer.Add(self.extruderSwitchPluginButton, flag=wx.EXPAND)
+		mainSizer.Add(self.extruderSwitchPluginPanel, flag=wx.EXPAND)
 		mainSizer.Add(self.printButton, flag=wx.EXPAND|wx.TOP, border=5)
 
 		self.SetSizerAndFit(mainSizer)
@@ -1487,6 +1501,22 @@ class normalSettingsPanel(configBase.configPanelBase):
 			heightValue = heightWidget.GetValue().split(' mm')[0]
 			layerWidget.SetValue(str(int(float(heightValue) / float(preci.layer_height))))
 
+		for panel in self.extruderSwitchPluginPanel.panelList:
+			panelChildren = panel.GetSizer().GetChildren()
+			height_value = None
+			layerWidget = None
+			heightWidget = None
+			for panelChild in panelChildren:
+				panelWidget = panelChild.GetWindow()
+				# The only enabled textctrl by line is the one containing the layer info
+				if isinstance(panelWidget, wx.TextCtrl) and panelWidget.IsEnabled():
+					layerWidget = panelWidget
+				# The only disabled textctrl by line is the one containing the height info
+				if isinstance(panelWidget, wx.TextCtrl) and not panelWidget.IsEnabled():
+					heightWidget = panelWidget
+			heightValue = heightWidget.GetValue().split(' mm')[0]
+			layerWidget.SetValue(str(int(float(heightValue) / float(preci.layer_height))))
+
 	def RefreshSupport(self):
 		supp = self.supports[self.supportRadioBox.GetSelection()]
 		try:
@@ -1671,6 +1701,14 @@ class normalSettingsPanel(configBase.configPanelBase):
 			scene_viewSelection.setValue(0)
 		event.Skip()
 
+	def OnExtruderSwitchButtonClick(self, event):
+		scene_viewSelection = self.GetParent().GetParent().GetParent().scene.viewSelection
+		if scene_viewSelection.getValue() == 0:
+			scene_viewSelection.setValue(1)
+		else:
+			scene_viewSelection.setValue(0)
+		event.Skip()
+
 	def OnSize(self, e):
 		e.Skip()
 
@@ -1683,3 +1721,4 @@ class normalSettingsPanel(configBase.configPanelBase):
 	def updateProfileToControls(self):
 		super(normalSettingsPanel, self).updateProfileToControls()
 		self.pausePluginPanel.updateProfileToControls()
+		self.extruderSwitchPluginPanel.updateProfileToControls()
