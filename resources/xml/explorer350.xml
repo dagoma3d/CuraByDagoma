@@ -539,6 +539,7 @@
 		<machine_depth>355</machine_depth>
 		<machine_height>355</machine_height>
 		<extruder_amount>1</extruder_amount>
+		<plate_height>95.5</plate_height>
 		<has_heated_bed>true</has_heated_bed>
 		<machine_center_is_zero>False</machine_center_is_zero>
 		<machine_shape>Square</machine_shape>
