@@ -1440,7 +1440,7 @@ class SceneView(openglGui.glGuiPanel):
 		glEnable(GL_BLEND)
 
 		size = [profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')]
-
+		
 		machine = profile.getMachineSetting('machine_name')
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			machine += '_dual'
@@ -1504,6 +1504,10 @@ class SceneView(openglGui.glGuiPanel):
 					self._platformMesh[machine].processMatrix()
 					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
 					self._platformMesh[machine]._drawOffset = numpy.array([-153.02630615,103.5,643], numpy.float32)
+					#print self._platformMesh[machine]._drawOffset
+				elif machine == 'SigmaPro500z':
+					#print 'self._platformMesh[machine]._matrix', self._platformMesh[machine]._matrix
+					self._platformMesh[machine]._drawOffset = numpy.array([0,0,15.5], numpy.float32)
 					#print self._platformMesh[machine]._drawOffset
 				elif machine == 'Explorer350':
 					self._platformMesh[machine]._matrix = numpy.matrix([[-1,-1.23259516e-32,-1.22464680e-16],[-1.22464680e-16,1.38777878e-16,1],[0,1,-1.38777878e-16]], numpy.float64)
