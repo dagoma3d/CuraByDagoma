@@ -2,3 +2,5 @@
 wxpython
 py2app
 pyobjc
+PyOpenGL
+PyOpenGL_accelerate
