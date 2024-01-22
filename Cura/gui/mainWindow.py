@@ -573,13 +573,16 @@ class normalSettingsPanel(configBase.configPanelBase):
 			self.offsetTextCtrl.Hide()
 		if int(profile.getMachineSetting('extruder_amount')) == 2:
 			mainSizer.Add(self.wipeTowerVolumeRadioBox, flag=wx.EXPAND|wx.BOTTOM, border=5)
-		if not printerName in ["Neva", "Magis", "Sigma"]:
+		if not printerName in ["Neva", "Magis", "Sigma", "SigmaPro500z"]:
 			mainSizer.Add(self.sensorCheckBox)
 			self.usePlateCheckBox.Hide()
 		else:
 			self.sensorCheckBox.Hide()
 			mainSizer.Add(self.usePlateCheckBox)
-			self.usePlateCheckBox.SetValue(False)
+			if printerName == "SigmaPro500z":
+				self.usePlateCheckBox.SetValue(True)
+			else:
+				self.usePlateCheckBox.SetValue(False)
 		mainSizer.Add(self.pausePluginButton, flag=wx.EXPAND)
 		mainSizer.Add(self.pausePluginPanel, flag=wx.EXPAND)
 		mainSizer.Add(self.printButton, flag=wx.EXPAND|wx.TOP, border=5)
