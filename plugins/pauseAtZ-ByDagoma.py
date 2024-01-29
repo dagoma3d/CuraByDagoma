@@ -7,7 +7,6 @@
 
 __copyright__ = "Copyright (C) 2016 Dagoma.Fr - Released under terms of the AGPLv3 License"
 import re
-import os
 from Cura.util import profile
 
 def getPrintZValue(lineBlock):
