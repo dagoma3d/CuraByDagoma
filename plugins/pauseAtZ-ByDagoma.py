@@ -80,7 +80,7 @@ with open(filename, "w") as f:
 						if layerZ >= pauseLevel_i:
 							pauseState = 2
 
-			f.write(line.rstrip() + os.linesep)
+			f.write(line)
 			continue
 
 		x = getValue(line, 'X', x)
@@ -92,11 +92,11 @@ with open(filename, "w") as f:
 				z = layerZ
 
 				pauseState = 0
-				f.write(';TYPE:CUSTOM' + os.linesep)
+				f.write(';TYPE:CUSTOM\n')
 				#Retract
 				if profile.getMachineSetting('machine_name') in ['Neva', 'Magis']:
-					f.write('M600 U-55 X55 Y-92 Z60' + os.linesep)
+					f.write('M600 U-55 X55 Y-92 Z60\n')
 				else:
-					f.write('M600 L0 PA R'+profile.getProfileSetting('print_temperature')+ os.linesep)
+					f.write('M600 L0 PA R' + profile.getProfileSetting('print_temperature') + '\n')
 
-		f.write(line.rstrip() + os.linesep)
+		f.write(line)
