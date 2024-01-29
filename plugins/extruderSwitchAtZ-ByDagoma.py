@@ -86,15 +86,15 @@ with open(filename, "w") as f:
 			if g == 1 or g == 0: # We will do the extruder switch just before printing content. We need to switch from the previous XY position. Not the current.
 				newExtruder = "T1" if currentExtruder == "T0" else "T0"
 				pauseState = 0
-				f.write(';TYPE:CUSTOM' + os.linesep)
-				f.write('G92 E0 ;Set current extruder position to 0' + os.linesep)
+				f.write(';TYPE:CUSTOM\n')
+				f.write('G92 E0 ;Set current extruder position to 0\n')
 				# FIXME: This should make sure we free the correct extruder
-				f.write('G1 E-60 F3000 ;Free the nozzle from filament of extruder ' + currentExtruder + os.linesep)
-				f.write(newExtruder + ' ;Switch extruder' + os.linesep)
-				f.write('G92 E0 ;Set current extruder position to 0' + os.linesep)
+				f.write('G1 E-60 F3000 ;Free the nozzle from filament of extruder ' + currentExtruder + '\n')
+				f.write(newExtruder + ' ;Switch extruder\n')
+				f.write('G92 E0 ;Set current extruder position to 0\n')
 				# FIXME: This should make sure we free the correct extruder
-				f.write('G1 E60 F3000 ;Engage the filement of extruder ' + newExtruder + ' in the nozzle' + os.linesep)
-				f.write('G92 ' + lastG1 + ' ;Set the extruder position to the last known position' + os.linesep)
+				f.write('G1 E60 F3000 ;Engage the filement of extruder ' + newExtruder + ' in the nozzle\n')
+				f.write('G92 ' + lastG1 + ' ;Set the extruder position to the last known position\n')
 				currentExtruder = newExtruder
 
 		f.write(line.rstrip() + os.linesep)
