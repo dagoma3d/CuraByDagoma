@@ -97,4 +97,4 @@ with open(filename, "w") as f:
 				f.write('G92 ' + lastG1 + ' ;Set the extruder position to the last known position\n')
 				currentExtruder = newExtruder
 
-		f.write(line.rstrip() + os.linesep)
+		f.write(line)
