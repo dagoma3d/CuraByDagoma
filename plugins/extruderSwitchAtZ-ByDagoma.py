@@ -78,7 +78,7 @@ with open(filename, "w") as f:
 						if lastLayerIndex == extruderSwitchLevelLayer_i:
 							pauseState = 2
 
-			f.write(line.rstrip() + os.linesep)
+			f.write(line)
 			continue
 
 		if pauseState == 2:
