@@ -1,5 +1,6 @@
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 
+import os
 import wx
 import wx.lib.agw.hyperlink as hl
 from Cura.util import resources
@@ -8,6 +9,7 @@ class bugReportWindow(wx.Frame):
 	def __init__(self, parent):
 		super(bugReportWindow, self).__init__(parent, title=_("Report a bug"), style = wx.DEFAULT_DIALOG_STYLE|wx.FRAME_FLOAT_ON_PARENT)
 
+		version = os.environ['CURABYDAGO_RELEASE_VERSION']
 		frameicon = wx.Icon(resources.getPathForImage('cura.ico'), wx.BITMAP_TYPE_ICO)
 		self.SetIcon(frameicon)
 
@@ -36,7 +38,7 @@ class bugReportWindow(wx.Frame):
 		s.Add(wx.StaticText(p, -1, _("Before explaining the problem, please write the version of your OS.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("If the problem happens after loading a certain STL file, please attach it to your message.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("If it's possible, attach the last (or the previous) STL you have loaded too.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
-		s.Add(wx.StaticText(p, -1, _("Then, please attach the 3 files named : 'current_profile.ini', 'mru_filelist.ini', 'preferences.ini'.\n- On Windows, you can find them in ~/.curaByDagoma/2.2.4/.\n- On MacOs, you can find them in ~/Library/Application Support/CuraByDagoma/2.2.4/.\n- On Linux, you can find them in ~/.curaByDagoma/2.2.4/.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
+		s.Add(wx.StaticText(p, -1, _("Then, please attach the 3 files named : 'current_profile.ini', 'mru_filelist.ini', 'preferences.ini'.\n- On Windows, you can find them in ~/.curaByDagoma/%s/.\n- On MacOs, you can find them in ~/Library/Application Support/CuraByDagoma/%s/.\n- On Linux, you can find them in ~/.curaByDagoma/%s/.") % (version, version, version)), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticLine(p), flag=wx.EXPAND|wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 		s.Add(wx.StaticText(p, -1, _("After sending your message, please check regularly in case someone has answered you. We will try to solve your problem as soon as possible.")), flag=wx.BOTTOM|wx.LEFT|wx.RIGHT, border=5)
 
