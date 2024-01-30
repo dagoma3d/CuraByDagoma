@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.2.4] - 2024-01-30
+- Introduces Sigma Pro 500z
+- Add the ability to automatically change color at user defined layers (#137)
+
 ## [2.2.3] - 2023-03-10
 - Stop searching temperature command in gcode end sequence
 - Apply locale workaround when system locale is not equal to region locale
