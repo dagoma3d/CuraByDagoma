@@ -6,7 +6,7 @@ __copyright__ = "Copyright (C) 2019 Dagoma - Released under terms of the AGPLv3 
 import os
 from urllib.request import urlopen
 import json
-from distutils.version import StrictVersion
+from pkg_resources import parse_version
 
 def isLatest():
 	try:
@@ -14,6 +14,6 @@ def isLatest():
 		response = urlopen(release_url)
 		official_version = json.loads(response.read())['tag_name']
 		#print("official_version: ", official_version)
-		return StrictVersion(os.environ['CURABYDAGO_RELEASE_VERSION']) >= StrictVersion(official_version)
+		return parse_version(os.environ['CURABYDAGO_RELEASE_VERSION']) >= parse_version(official_version)
 	except:
 		return True # if we can't check the version, we assume it's the latest
