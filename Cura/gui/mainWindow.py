@@ -542,7 +542,7 @@ class normalSettingsPanel(configBase.configPanelBase):
 
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		if not self.isLatest:
-			mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("New version available!"), URL="https://dist.dagoma3d.com/CuraByDagoma"), flag=wx.EXPAND|wx.BOTTOM, border=2)
+			mainSizer.Add(hl.HyperLinkCtrl(self, wx.ID_ANY, _("New version available!"), URL="https://github.com/dagoma3d/CuraByDagoma/releases/latest"), flag=wx.EXPAND|wx.BOTTOM, border=2)
 		else:
 			mainSizer.Add(wx.StaticText(self, wx.ID_ANY, _("Up to date software")), flag=wx.EXPAND|wx.BOTTOM, border=2)
 		mainSizer.Add(wx.StaticLine(self, -1), flag=wx.EXPAND|wx.BOTTOM, border=5)
