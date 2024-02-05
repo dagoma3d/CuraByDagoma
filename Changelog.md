@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.2.5] - 2024-02-04
+- Review gettext usage
+- Get latest release tag from GitHub (not dist anymore)
+
 ## [2.2.4] - 2024-01-30
 - Introduces Sigma Pro 500z
 - Add the ability to automatically change color at user defined layers (#137)
