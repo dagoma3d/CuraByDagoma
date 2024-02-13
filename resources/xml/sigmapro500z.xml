@@ -677,8 +677,8 @@ M104 S0
 M107 ;stop fan
 M140 S0 ;heated bed heater off (if you have it)
 G91 ;relative positioning
-G1 E-100 F6000 ;retract the filament a bit before lifting the nozzle, to release some of the pressure
-G1 Z+3 F500  ;move Z up a bit 
+G1 E-55 F4600 ;retract the filament a bit before lifting the nozzle, to release some of the pressure
+G1 Z+3 F500 ;move Z up a bit 
 G0 Z15 ;Withdraw
 G90 ; Absolute positioning
 		</Gend>
