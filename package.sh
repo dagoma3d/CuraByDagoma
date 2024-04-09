@@ -6,7 +6,7 @@
 #############################
 # CONFIGURATION
 #############################
-export RELEASE_VERSION=2.2.5
+export RELEASE_VERSION=2.2.6
 export BUILD_VERSION=${RELEASE_VERSION}
 
 ##Select the build target

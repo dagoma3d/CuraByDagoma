@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.2.6] - 2024-04-09
+- Fix Sigma Pro 500z final retraction
+
 ## [2.2.5] - 2024-02-04
 - Review gettext usage
 - Get latest release tag from GitHub (not dist anymore)

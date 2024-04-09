@@ -13,7 +13,7 @@ from optparse import OptionParser
 import sys
 import os
 
-os.environ['CURABYDAGO_RELEASE_VERSION'] = '2.2.5'
+os.environ['CURABYDAGO_RELEASE_VERSION'] = '2.2.6'
 os.environ['CURABYDAGO_BUILD_VERSION'] = ''
 os.environ['CURABYDAGO_VERSION'] = os.environ['CURABYDAGO_RELEASE_VERSION'] + os.environ['CURABYDAGO_BUILD_VERSION']
 
