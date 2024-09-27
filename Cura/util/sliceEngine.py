@@ -37,7 +37,7 @@ def getEngineFilename():
 	if platform.system() == 'Windows':
 		if version.isDevVersion() and os.path.exists('C:/Software/Cura_SteamEngine/_bin/Release/Cura_SteamEngine.exe'):
 			return 'C:/Software/Cura_SteamEngine/_bin/Release/Cura_SteamEngine.exe'
-		return os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', 'CuraEngine.exe'))
+		return os.path.abspath(os.path.join(os.path.dirname(__file__), '../../CuraEngine', 'CuraEngine.exe'))
 	if hasattr(sys, 'frozen'):
 		if sys.platform.startswith('darwin'):
 			return os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../resources', 'CuraEngine'))

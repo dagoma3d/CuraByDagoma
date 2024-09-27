@@ -397,7 +397,8 @@ if [[ $BUILD_TARGET == windows ]]; then
 
 	#package the result
 	cp -a scripts/${BUILD_TARGET}/*.bat $BUILD_NAME/
-	cp CuraEngine/build/CuraEngine.exe $BUILD_NAME
+	mkdir -p ${BUILD_NAME}/CuraEngine
+	cp CuraEngine/build/CuraEngine.exe $BUILD_NAME/CuraEngine
 	# The following lines are used if CuraEngine is not compiled as static executable.
 	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libgcc_s_sjlj-1.dll $BUILD_NAME
 	#cp C:\mingw64\i686-7.2.0-release-posix-sjlj-rt_v5-rev0\mingw32\bin\libwinpthread-1.dll $BUILD_NAME
